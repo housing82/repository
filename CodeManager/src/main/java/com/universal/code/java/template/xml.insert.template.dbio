@@ -1,0 +1,3 @@
+<insert id="#{rvMethodName}" parameterType="#{rvInputType}">
+#{rvSql}
+</insert>

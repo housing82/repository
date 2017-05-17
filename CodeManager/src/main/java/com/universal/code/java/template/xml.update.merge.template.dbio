@@ -1,0 +1,3 @@
+<update id="#{rvMethodName}" parameterType="#{rvInputType}">
+#{rvSql}
+</update>

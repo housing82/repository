@@ -1,0 +1,16 @@
+/**
+ * Generated Code Skeleton #{rvDate} 
+ */
+package #{rvPackage};
+
+import bxm.container.annotation.BxmDataAccess;
+import bxm.common.annotaion.BxmCategory;
+import org.apache.ibatis.annotations.Param;
+
+@SuppressWarnings({ "all" })
+@BxmDataAccess(mapper = "#{rvMapper}", datasource = "#{rvDatasource}")
+@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+public interface #{rvClassName}
+{
+#{rvBody}
+}

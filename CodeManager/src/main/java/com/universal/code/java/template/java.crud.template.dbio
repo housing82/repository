@@ -1,0 +1,6 @@
+	/**
+	 * #{rvMethodDescription}
+	 * @TestValues 	#{rvTestValues}
+	 */
+	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+	#{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable});

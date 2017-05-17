@@ -1,0 +1,3 @@
+<select id="#{rvMethodName}" parameterType="#{rvInputType}" resultType="#{rvOutputType}">
+#{rvSql}
+</select>

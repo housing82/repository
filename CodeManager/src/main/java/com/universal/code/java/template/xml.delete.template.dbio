@@ -1,0 +1,3 @@
+<delete id="#{rvMethodName}" parameterType="#{rvInputType}">
+#{rvSql}
+</delete>

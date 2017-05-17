@@ -1,0 +1,8 @@
+	/**
+	 * #{rvMethodDescription}
+	 * @TestValues 	#{rvTestValues}
+	 */
+	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+	java.util.List<#{rvOutputType}> #{rvMethodName}(
+			@Param("#{rvInputVariable}") #{rvInputType} #{rvInputVariable}, @Param("pageNum") int pageNum,
+			@Param("pageCount") int pageCount);
