@@ -620,22 +620,40 @@ public class DBIOGenerateUtil {
 
 	public String selectList(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables){
 		
-		/*
-				SELECT * FROM 
-			    ( SELECT ROWNUM AS ROW__NUM, A.* FROM 
-			        (
-		
-			 #### Original SQL [[ ################# 
-		*/
-		
-		/* #### Original SQL ]] ################# */
-		
-		/*
-		    ) A 
-		WHERE ROWNUM <= ((:pageNum*:pageCount)+1) 
-		) 
-		WHERE ROW__NUM > (:pageNum-1)*:pageCount 
-		*/
+	
+//		SELECT * FROM 
+//		    ( SELECT ROWNUM AS ROW__NUM, A.* FROM 
+//		        (
+//		
+//		/* #### Original SQL [[ ################# */
+//		SELECT
+//						 HD_CODE_ACNT.DEPT_CODE AS deptCode	/* 현장코드, VARCHAR2(12) */
+//						,HD_CODE_ACNT.JCODE AS jcode	/* 내부코드, VARCHAR2(2) */
+//						,HD_CODE_ACNT.JACNTCODE AS jacntcode	/* 계정코드, VARCHAR2(10) */
+//						,HD_CODE_ACNT.JACNTNAME AS jacntname	/* 계정명칭, VARCHAR2(40) */
+//						,HD_CODE_ACNT.DETAILCODE AS detailcode	/* 수지계정, VARCHAR2(10) */
+//						,HD_CODE_ACNT.INPUT_DUTY_ID AS inputDutyId	/* 입력담당, VARCHAR2(12) */
+//						,HD_CODE_ACNT.INPUT_DATE AS inputDate	/* 입력일시, VARCHAR2(14) */
+//						,HD_CODE_ACNT.CHG_DUTY_ID AS chgDutyId	/* 변경담당, VARCHAR2(12) */
+//						,HD_CODE_ACNT.CHG_DATE AS chgDate	/* 변경일시, VARCHAR2(14) */
+//					FROM
+//						HD_CODE_ACNT	/* HD_분양_전표_계정 */
+//					WHERE 1=1
+//						<if test="dHdCodeAcnt01IO.deptCode != null and dHdCodeAcnt01IO.deptCode != &quot;&quot;">
+//						AND HD_CODE_ACNT.DEPT_CODE = :dHdCodeAcnt01IO___deptCode	/* 현장코드, VARCHAR2(12) */
+//						</if>
+//						<if test="dHdCodeAcnt01IO.jcode != null and dHdCodeAcnt01IO.jcode != &quot;&quot;">
+//						AND HD_CODE_ACNT.JCODE = :dHdCodeAcnt01IO___jcode	/* 내부코드, VARCHAR2(2) */
+//						</if>
+//					ORDER BY
+//						HD_CODE_ACNT.INPUT_DATE DESC
+//		/* #### Original SQL ]] ################# */
+//		
+//		        ) A 
+//		    WHERE ROWNUM <= ((:pageNum*:pageCount)+1) 
+//		    ) 
+//		WHERE ROW__NUM > (:pageNum-1)*:pageCount 
+
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("	SELECT * FROM (" +"\n");
