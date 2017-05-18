@@ -57,7 +57,8 @@ public class GenerateRun {
 		ommGen.setDatabaseConfig(props);
 		ommGen.setCreateFile(true);
 		
-		ommGen.execute(null);
+		// create db table omm 
+		ommGen.execute(null, null);
 	}
 	
 }

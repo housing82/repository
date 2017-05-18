@@ -48,7 +48,7 @@ public class BxmOmmGenerateUtil {
 		generateHelper = new GenerateHelper();
 	}
 	
-	public void execute(String inTables) {
+	public void execute(String inTables, List<String> fixedOmmTags) {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
 		logger.debug("★ SourceRoot: {}", getSourceRoot());
 		logger.debug("★ JavaPackage: {}", getJavaPackage());
@@ -136,21 +136,19 @@ public class BxmOmmGenerateUtil {
 					strbd.append(SystemUtil.LINE_SEPARATOR);
 				}
 				
+				if(fixedOmmTags != null) {
+					for(String ommTag : fixedOmmTags) {
+						strbd.append("	");
+						strbd.append(ommTag);
+						strbd.append(SystemUtil.LINE_SEPARATOR);
+					}
+				}
+				
+				
+				
 				strbd.append("}");
 				
 				// 테이블별 OMM 생성
-				/** OMM파일 코드 EX)
-				 * 
-					OMM kait.sm.sms.onl.dao.dto.DTSMS0100106In
-					
-					<description="DTSMS0100106In">
-					{
-						String compCd<length=4  description="회사코드(COMPCD)"  >;
-						String userId<length=20  description="사원번호"  >;
-					}
-				 */
-				
-				
 				logger.debug(strbd.toString());
 				
 				if(isCreateFile())

@@ -293,7 +293,14 @@ public class BxmDBIOGenerateUtil {
 				for(Entry<String, String> entry : methodMap.entrySet()) {
 					
 					//마이바티스 인터페이스 (자바)
+					// DAO 메소드 : DAO동사 + 약어명 + “01” ~ “99”
 					dsMethodName = entry.getKey().concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
+					
+					/******
+					 * 일련번호 붙어야함.
+					 */
+					
+					
 					dsMethodDescription = dsDescription.concat(" ").concat(entry.getValue());
 					dsLogicalName = dsMethodDescription; 
 					dsOutputType = getJavaPackage().concat(".dto.").concat(fileName).concat("IO");
