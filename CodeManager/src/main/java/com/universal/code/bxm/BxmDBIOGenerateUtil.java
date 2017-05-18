@@ -128,7 +128,7 @@ public class BxmDBIOGenerateUtil {
 	
 	
 	
-	public void execute() {
+	public void execute(String javaPrefix) {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
 		logger.debug("★ SourceRoot: {}", getSourceRoot());
 		logger.debug("★ JavaPackage: {}", getJavaPackage());
@@ -238,7 +238,7 @@ public class BxmDBIOGenerateUtil {
 				currentTableName = table.getTableName();
 
 				// dbio 파일명 명명규칙: ‘D’ + 테이블명 + 일련번호(2자리) -> DAO동사 + 약어명 + “01” ~ “99”
-				fileName = "D".concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
+				fileName = javaPrefix.concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
 				fileName = fileName.concat(generateHelper.getJavaSeq(fileName));
 				
 				// currentTableName테이블의 컬럼목록
@@ -463,7 +463,7 @@ public class BxmDBIOGenerateUtil {
 		logger.debug("[END] execute");
 	}
 	
-	public String insert(List<VtSchemaDTO> tableInfo){
+	private String insert(List<VtSchemaDTO> tableInfo){
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO "+tableInfo.get(0).getTable_name()+"(	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
@@ -494,7 +494,7 @@ public class BxmDBIOGenerateUtil {
 		return sql.toString().trim();
 	}
 	
-	public String update(List<VtSchemaDTO> tableInfo){
+	private String update(List<VtSchemaDTO> tableInfo){
 		
 		List<String> conditionCols = new ArrayList<String>();
 		
@@ -554,7 +554,7 @@ public class BxmDBIOGenerateUtil {
               INSERT (first_name, last_name, email, ...... ) 
                          VALUES ('John', 'Petrucci', 'dream@johnpetrucci.com', ...... );
 */
-	public String merge(List<VtSchemaDTO> tableInfo) {
+	private String merge(List<VtSchemaDTO> tableInfo) {
 		StringBuilder sql = new StringBuilder();
 		boolean checkCondition = false;
 		int i = 0;
@@ -633,7 +633,7 @@ public class BxmDBIOGenerateUtil {
 	}
 	
 
-	public String delete(List<VtSchemaDTO> tableInfo){
+	private String delete(List<VtSchemaDTO> tableInfo){
 		
 
 		StringBuilder sql = new StringBuilder();
@@ -661,7 +661,7 @@ public class BxmDBIOGenerateUtil {
 	
 	
 	//single table & single row select
-	public String select(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables){
+	private String select(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables){
 	
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT" ).append(SystemUtil.LINE_SEPARATOR);
@@ -732,7 +732,7 @@ public class BxmDBIOGenerateUtil {
 		return sql.toString().trim();
 	}
 	
-	public String where(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias, String whiteSpace) {
+	private String where(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias, String whiteSpace) {
 		
 		StringBuilder sql = new StringBuilder();
 		
@@ -854,7 +854,7 @@ public class BxmDBIOGenerateUtil {
 	}
 	
 
-	public String selectCount(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias){
+	private String selectCount(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias){
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT " ).append(SystemUtil.LINE_SEPARATOR);
@@ -888,7 +888,7 @@ public class BxmDBIOGenerateUtil {
 	}
 	
 
-	public String selectList(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias){
+	private String selectList(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias){
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT * FROM (" ).append(SystemUtil.LINE_SEPARATOR);
@@ -1050,7 +1050,7 @@ public class BxmDBIOGenerateUtil {
 	}
 
 	
-	public String getTableComments(List<TableDTO> tableList, String tableName){
+	private String getTableComments(List<TableDTO> tableList, String tableName){
 		String out = null;
 		for(TableDTO table : tableList){
 			if(table.getTableName().equals(tableName)) {
@@ -1083,7 +1083,7 @@ public class BxmDBIOGenerateUtil {
 	 * @param parent : 레벨 ( 0 : 전부다 , 1 : 1개만(현재테이블로부터 위로 1개) ) 
 	 * @return
 	 */
-	public List<ForeignInfoDTO> findFKTables(String currentTable, List<ForeignInfoDTO> forgeintables, List<ForeignInfoDTO> out, int parent){
+	private List<ForeignInfoDTO> findFKTables(String currentTable, List<ForeignInfoDTO> forgeintables, List<ForeignInfoDTO> out, int parent){
 		
 		for(ForeignInfoDTO fks : forgeintables) {
 			if(fks.getTable_name().equals(currentTable)) {
@@ -1100,7 +1100,7 @@ public class BxmDBIOGenerateUtil {
 	}
 	
 	// 조인 from 테이블 목록 중복 필터 목록 
-	public List<String> getFKTable(List<ForeignInfoDTO> foreginTables){
+	private List<String> getFKTable(List<ForeignInfoDTO> foreginTables){
 		List<String> out = new ArrayList<String>();
 		
 
@@ -1117,7 +1117,7 @@ public class BxmDBIOGenerateUtil {
 		return out;
 	}
 	
-	public List<ForeignInfoDTO> getFKTableJoinWhereSentence(List<ForeignInfoDTO> foreginTables){
+	private List<ForeignInfoDTO> getFKTableJoinWhereSentence(List<ForeignInfoDTO> foreginTables){
 		List<ForeignInfoDTO> out = new ArrayList<ForeignInfoDTO>();
 		
 		for(ForeignInfoDTO ForeignInfoDTO : foreginTables) {
@@ -1247,7 +1247,7 @@ public class BxmDBIOGenerateUtil {
 	
 	
 
-	public List<ForeignInfoDTO> getForgeinColumn(Connection conn){
+	private List<ForeignInfoDTO> getForgeinColumn(Connection conn){
 		List<ForeignInfoDTO> fKTableList = new ArrayList<ForeignInfoDTO>();
 		ForeignInfoDTO dataDto = null;
 

@@ -48,7 +48,7 @@ public class BxmDBIOmmGenerateUtil {
 		generateHelper = new GenerateHelper();
 	}
 	
-	public void execute(String inTables, List<String> fixedOmmTags) {
+	public void execute(String javaPrefix, String javaPostfix, String inTables, List<String> fixedOmmTags) {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
 		logger.debug("★ SourceRoot: {}", getSourceRoot());
 		logger.debug("★ JavaPackage: {}", getJavaPackage());
@@ -87,8 +87,8 @@ public class BxmDBIOmmGenerateUtil {
 					Default 생성 DTO명(Table당 생성)
 					- Default DTO의 순번은 ‘00’으로 함
 				*/
-				fileName = "D".concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(table.getTableName())));
-				fileName = fileName.concat(generateHelper.getJavaSeq(fileName)).concat("IO");
+				fileName = javaPrefix.concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(table.getTableName())));
+				fileName = fileName.concat(generateHelper.getJavaSeq(fileName.concat(javaPostfix))).concat(javaPostfix);
 				
 				description = StringUtil.NVL(table.getTableComments(), table.getTableName());
 				if(!description.equals(table.getTableName())) {

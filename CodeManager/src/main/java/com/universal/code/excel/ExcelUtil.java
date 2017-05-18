@@ -129,11 +129,15 @@ public class ExcelUtil {
 	}
 	
 	public Map<String, List<ExcelDTO>> readExcel(String filePath) {
-		ExcelDTO excelDTO = new ExcelDTO();
-		excelDTO.setFilePath(filePath);
-		return readExcel(excelDTO);
+		return readExcel(filePath, false);
 	}
 
+	public Map<String, List<ExcelDTO>> readExcel(String filePath, boolean logging) {
+		ExcelDTO excelDTO = new ExcelDTO();
+		excelDTO.setFilePath(filePath);
+		return readExcel(excelDTO, logging);
+	}
+	
 	public Map<String, List<ExcelDTO>> readExcel(ExcelDTO excelDTO) {
 		return readExcel(excelDTO, false);
 	}

@@ -161,6 +161,6 @@ public interface IOperateCode extends IServiceCode {
 	public final static byte 	BYTE_ZERO_VALUE = 0;
 	public final static char 	CHAR_DEF_VALUE = ' ';
 	public final static BigDecimal 	BIGDECIMAL_ZERO_VALUE = BigDecimal.ZERO;	
-	 
+	
 	
 }

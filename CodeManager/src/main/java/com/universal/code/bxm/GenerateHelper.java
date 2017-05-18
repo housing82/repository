@@ -1,12 +1,14 @@
 package com.universal.code.bxm;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.universal.code.constants.JavaReservedWordConstants;
+import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.StringUtil;
 
@@ -22,14 +24,27 @@ public class GenerateHelper {
 	
 	private static Map<String, Map<String, Integer>> javaMethodDataMap;
 	
+	private static Map<String, Map<String, List<ExcelDTO>>> excelDataMap;
+	
 	static {
 		INSTANCE = new GenerateHelper();
 		javaDataMap = new HashMap<String, Integer>();
 		javaMethodDataMap = new HashMap<String, Map<String, Integer>>();
+		excelDataMap = new HashMap<String, Map<String, List<ExcelDTO>>>();
 	}
 	
 	public GenerateHelper() {
 		stringUtil = new StringUtil();
+	}
+	
+	public static void setExcelData(String excelPath, Map<String, List<ExcelDTO>> sheetData) {
+		
+		GenerateHelper.excelDataMap.put(excelPath, sheetData);
+	}
+	
+	public static Map<String, List<ExcelDTO>> getExcelData(String excelPath) {
+		
+		return GenerateHelper.excelDataMap.get(excelPath);
 	}
 	
 	//동일한이름의 자바가 생성이되었다면 자바 마지막의 순번을 채번함
@@ -39,7 +54,7 @@ public class GenerateHelper {
 		if(className.toLowerCase().endsWith(".java")) {
 			className = className.substring(0, className.length() - ".java".length()).trim();
 		}
-		Integer javaSeq = javaDataMap.get(className);
+		Integer javaSeq = GenerateHelper.javaDataMap.get(className);
 		if(javaSeq != null) {
 			//이미존재할경우 순번 을 증가하여 리턴
 			javaSeq = javaSeq + 1;
@@ -48,10 +63,10 @@ public class GenerateHelper {
 			//존재하지않을경우 01 리턴
 			javaSeq = 1;
 		}
-		javaDataMap.put(className, javaSeq);
+		GenerateHelper.javaDataMap.put(className, javaSeq);
 		//신규 자바의 메소드맵 초기화
 		Map<String, Integer> methodMap = new HashMap<String, Integer>();
-		javaMethodDataMap.put(className, methodMap);
+		GenerateHelper.javaMethodDataMap.put(className, methodMap);
 		
 		out = stringUtil.leftPad(javaSeq.toString(), 2, "0");
 		return out;
@@ -62,11 +77,11 @@ public class GenerateHelper {
 		String out = null;
 		String className = javaName.trim();
 		String classMethod = methodName.trim();
-		if(javaDataMap.get(className) == null) {
+		if(GenerateHelper.javaDataMap.get(className) == null) {
 			throw new ApplicationException("아직생성되지 않은 클래스입니다.");
 		}
 		
-		Map<String, Integer> methodMap = javaMethodDataMap.get(className);
+		Map<String, Integer> methodMap = GenerateHelper.javaMethodDataMap.get(className);
 		//메소드 정보조회
 		Integer methodSeq = methodMap.get(classMethod);
 
@@ -81,7 +96,7 @@ public class GenerateHelper {
 
 		methodMap.put(classMethod, methodSeq);
 		
-		javaMethodDataMap.put(className, methodMap);
+		GenerateHelper.javaMethodDataMap.put(className, methodMap);
 		
 		out = stringUtil.leftPad(methodSeq.toString(), 2, "0");
 		return out;
