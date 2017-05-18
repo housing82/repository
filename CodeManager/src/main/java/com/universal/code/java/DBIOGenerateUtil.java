@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,6 +99,7 @@ public class DBIOGenerateUtil {
 	static {
 		methodMap.put("insert", "등록");
 		methodMap.put("select", "단건조회");
+		methodMap.put("selectCount", "전채건수조회");
 		methodMap.put("selectList", "목록조회");
 		methodMap.put("update", "수정");
 		methodMap.put("merge", "병합");
@@ -303,6 +303,8 @@ public class DBIOGenerateUtil {
 					if(entry.getKey().equals("selectList" )) {
 						// selectList
 						methodCode = javaSelectListTemplateDbio;
+						
+						dsInputVariable = "in";
 					}
 					else {
 						// crud & merge
@@ -314,6 +316,10 @@ public class DBIOGenerateUtil {
 						 	|| entry.getKey().equals("delete")
 						 ) {
 							dsOutputType = "int";
+						}
+						
+						if(entry.getKey().equals("selectCount")) {
+							dsOutputType = "java.lang.Integer";
 						}
 					}
 					
@@ -359,10 +365,15 @@ public class DBIOGenerateUtil {
 						
 						dsSql = select(tableList, columnList, foreignColumnList); // <-- SQL
 					}
+					else if(entry.getKey().equals("selectCount")) {
+						sqlCode = xmlSelectTemplateDbio;
+						
+						dsSql = selectCount(tableList, columnList, foreignColumnList, dsInputVariable); // <-- SQL
+					}					
 					else if(entry.getKey().equals("selectList")) {
 						sqlCode = xmlSelectListTemplateDbio;
 						
-						dsSql = selectList(tableList, columnList, foreignColumnList); // <-- SQL
+						dsSql = selectList(tableList, columnList, foreignColumnList, dsInputVariable); // <-- SQL
 					}
 					else if(entry.getKey().equals("update")) {
 						sqlCode = xmlUpdateMergeTemplateDbio;
@@ -413,7 +424,7 @@ public class DBIOGenerateUtil {
 							new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage().replace(".", "/")).toString()
 							, fileName.concat(".java")
 							, javaFinal
-							, IOperateCode.DEFAULT_ENCODING_UTF8
+							, IOperateCode.DEFAULT_ENCODING
 							, false
 							, true); 
 					
@@ -421,7 +432,7 @@ public class DBIOGenerateUtil {
 							new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage().replace(".", "/")).toString()
 							, fileName.concat(".dbio")
 							, xmlFinal
-							, IOperateCode.DEFAULT_ENCODING_UTF8
+							, IOperateCode.DEFAULT_ENCODING
 							, false
 							, true); 					
 				}
@@ -450,54 +461,54 @@ public class DBIOGenerateUtil {
 	public String insert(List<VtSchemaDTO> tableInfo){
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("	INSERT INTO "+tableInfo.get(0).getTable_name()+"(	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" +"\n");
+		sql.append("	INSERT INTO "+tableInfo.get(0).getTable_name()+"(	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
 		int i = 0;
 		for(VtSchemaDTO schema : tableInfo){   
-			sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" +"\n");
+			sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			i++;
 		}
-		sql.append("	) VALUES (" + "\n");
+		sql.append("	) VALUES (" ).append(SystemUtil.LINE_SEPARATOR);
 		
 		i = 0;
 		for(VtSchemaDTO schema : tableInfo){
-			//TO_DATE("#{"+schema.getColumn_name()+"}", 'yyyy-MM-dd hh24:mi:ss')
+			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
 			if(schema.getData_type().equals("DATE")) {
-				sql.append("		" + (i > 0 ? ",":" ") + "TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + ", 'yyyy-MM-dd hh24:mi:ss')" +"\n");					
+				sql.append("		" + (i > 0 ? ",":" ") + "TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" ).append(SystemUtil.LINE_SEPARATOR);					
 			}
 			else {
-				sql.append("		" + (i > 0 ? ",":" ") + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) +"\n");
+				sql.append("		" + (i > 0 ? ",":" ") + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null)).append(SystemUtil.LINE_SEPARATOR);
 			}
 			
 			i++;
 		}
 		
-		sql.append("	)\n");
+		sql.append("	)");
 		
 		logger.debug("\n" + sql.toString());
 
-		return sql.toString();
+		return sql.toString().trim();
 	}
 	
 	public String update(List<VtSchemaDTO> tableInfo){
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("	UPDATE "+tableInfo.get(0).getTable_name()+" SET	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" +"\n");
+		sql.append("	UPDATE "+tableInfo.get(0).getTable_name()+" SET	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
 
 		int i = 0;
 		for(VtSchemaDTO schema : tableInfo){
 
-			//TO_DATE("#{"+schema.getColumn_name()+"}", 'yyyy-MM-dd hh24:mi:ss')
+			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
 			if(schema.getData_type().equals("DATE")) {
-				sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + ", 'yyyy-MM-dd hh24:mi:ss')" + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" +"\n");					
+				sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);					
 			}
 			else {
-				sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" +"\n");
+				sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			}
 			
 			i++;
 		}
 		
-		sql.append("	WHERE 1=1" +"\n");
+		sql.append("	WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
 		
 	
 		for(VtSchemaDTO schema : tableInfo){
@@ -507,13 +518,13 @@ public class DBIOGenerateUtil {
 				|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
 				|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
 			)) {
-				sql.append("		AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
+				sql.append("		AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
 			}
 		}
 
 		logger.debug("\n" + sql.toString());
 		
-		return sql.toString();
+		return sql.toString().trim();
 	}
 	
 	
@@ -522,8 +533,8 @@ public class DBIOGenerateUtil {
 		
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("	DELETE FROM "+tableInfo.get(0).getTable_name() + " /* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" +"\n");
-		sql.append("	WHERE 1=1" +"\n");
+		sql.append("	DELETE FROM "+tableInfo.get(0).getTable_name() + " /* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
 		
 		
 		for(VtSchemaDTO schema : tableInfo){
@@ -533,29 +544,31 @@ public class DBIOGenerateUtil {
 					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
 					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
 			)) {
-				sql.append("		AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
+				sql.append("		AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
 			}
 		}
 		
 		logger.debug("\n" + sql.toString());
 		
-		return sql.toString();
+		return sql.toString().trim();
 	}
+	
+	
 	
 	
 	//single table & single row select
 	public String select(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables){
 	
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT" +"\n");
+		sql.append("SELECT" ).append(SystemUtil.LINE_SEPARATOR);
 		int i = 0;
 		for(VtSchemaDTO schema : tableInfo){
-			//TO_DATE("#{"+schema.getColumn_name()+"}", 'yyyy-MM-dd hh24:mi:ss')
+			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
 			if(schema.getData_type().equals("DATE")) {
-				sql.append("		" + (i > 0 ? ",":" ") + "TO_CHAR(" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + ", 'yyyy-MM-dd') AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" +"\n");
+				sql.append("	" + (i > 0 ? ",":" ") + "TO_CHAR(" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + ", '" + DateUtil.DEF_DAY_FORMAT + "') AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			}
 			else {
-				sql.append("		" + (i > 0 ? ",":" ") + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" +"\n");
+				sql.append("	" + (i > 0 ? ",":" ") + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			}
 			
 			i++;
@@ -565,22 +578,22 @@ public class DBIOGenerateUtil {
 		List<ForeignInfoDTO> foreginTables = findFKTables(tableInfo.get(0).getTable_name(), forgeintables, new ArrayList<ForeignInfoDTO>(), 0);
 		
 		//FROM 절 시작 ----------------------------------------
-		sql.append("FROM" +"\n");
+		sql.append("FROM" ).append(SystemUtil.LINE_SEPARATOR);
 		i = 0;
 		for(String tableName : getFKTable(foreginTables)) {
-			sql.append("		" + (i > 0 ? ",":" ") + tableName + "	/* "+getTableComments(tableList, tableName)+" */" + "\n");
+			sql.append("		" + (i > 0 ? ",":" ") + tableName + "	/* "+getTableComments(tableList, tableName)+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			i++;
 		}
 		if(foreginTables.size() == 0) {
-			sql.append("		" + tableInfo.get(0).getTable_name() + "	/* "+getTableComments(tableList, tableInfo.get(0).getTable_name())+" */" + "\n");
+			sql.append("	" + tableInfo.get(0).getTable_name() + "	/* "+getTableComments(tableList, tableInfo.get(0).getTable_name())+" */" ).append(SystemUtil.LINE_SEPARATOR);
 		}
 		//FROM 절 종료 ----------------------------------------
 		
-		sql.append("WHERE 1=1" +"\n");
+		sql.append("WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
 		
 		//JOIN 절 시작 ----------------------------------------
 		for(ForeignInfoDTO fkTable : getFKTableJoinWhereSentence(foreginTables)){
-			sql.append("	AND " + fkTable.getTable_name() + "." + fkTable.getColumn_name() + " = " + fkTable.getFk_table_name() + "." + fkTable.getFk_column_name() + "\n");
+			sql.append("	AND " + fkTable.getTable_name() + "." + fkTable.getColumn_name() + " = " + fkTable.getFk_table_name() + "." + fkTable.getFk_column_name() ).append(SystemUtil.LINE_SEPARATOR);
 		}
 		//JOIN 절 종료 ----------------------------------------
 		
@@ -592,81 +605,202 @@ public class DBIOGenerateUtil {
 					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
 					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
 			)) {
-				sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
+				sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
 				i++;
 			}
-			/*
+			
 			if(schema.getColumn_name().equals("REC_STAT")) {
-				sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + "REC_STAT != 'D'"  + "\n");
+				sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + "REC_STAT != 'D'"  ).append(SystemUtil.LINE_SEPARATOR);
 			}
-			*/
+			
 		}
 		
-		//JOIN TABLE REC_STAT 
-		/*
+		//JOIN TABLE REC_STAT ( 명칭이 일치하는 레코드 상태 정보 컬럼이존재할경우 )
 		for(String tableName : getFKTable(foreginTables)) {
-			if(!tableInfo.get(0).getTable_name().equals(tableName) && isTableIsRecStat(tableName)) {
-				sql.append("		AND " + tableName + "." + "REC_STAT != 'D'"  + "\n");
+			if(!tableInfo.get(0).getTable_name().equals(tableName)) {
+				sql.append("	AND " + tableName + "." + "REC_STAT != 'D'"  ).append(SystemUtil.LINE_SEPARATOR);
 			}
 		}
-		*/
+		
 		
 		logger.debug("\n" + sql.toString());
 		
+		return sql.toString().trim();
+	}
+	
+	public String where(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias, String whiteSpace) {
+		
+		StringBuilder sql = new StringBuilder();
+		
+		//foregin 정보추출 시작
+		List<ForeignInfoDTO> foreginTables = findFKTables(tableInfo.get(0).getTable_name(), forgeintables, new ArrayList<ForeignInfoDTO>(), 0);
+		
+		/** ##################################
+		 * MAKE WHERE EXPRESSION
+		 * ################################## */
+		sql.append(whiteSpace);
+		sql.append("WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		/* ###################### JOIN 절 시작 ###################### */
+		for(ForeignInfoDTO fkTable : getFKTableJoinWhereSentence(foreginTables)){
+			sql.append(whiteSpace);
+			sql.append("	AND " + fkTable.getTable_name() + "." + fkTable.getColumn_name() + " = " + fkTable.getFk_table_name() + "." + fkTable.getFk_column_name() ).append(SystemUtil.LINE_SEPARATOR);  
+		}
+		/* ###################### JOIN 절 종료 ###################### */
+
+		
+		/* ###################### 검색 조건 시작 ###################### */
+		int i = 0;
+		for(VtSchemaDTO schema : tableInfo){ 
+			if(schema.getIndexes() != null && !schema.getIndexes().isEmpty()) {
+				if(schema.getData_type().equals("CHAR")) { //equals
+					//myBatis sentence
+					sql.append(whiteSpace);
+					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+					i++;
+				}
+				else if(schema.getData_type().equals("NUMBER")) { //equals
+					//myBatis sentence
+					sql.append(whiteSpace);
+					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null'>" ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+					i++;
+				}
+				else if(schema.getData_type().equals("VARCHAR2")) { //like
+					//myBatis sentence
+					if( schema.getColumn_name().endsWith("_NM") || schema.getColumn_name().endsWith("_ADDR") || schema.getColumn_name().endsWith("_DESC") || schema.getColumn_name().endsWith("_IP") || schema.getColumn_name().endsWith("_VAL") ) {
+						sql.append(whiteSpace);
+						sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
+						sql.append(whiteSpace);
+						sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " LIKE '%' || " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + " || '%'	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+						sql.append(whiteSpace);
+						sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+					}
+					else {
+						sql.append(whiteSpace);
+						sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
+						sql.append(whiteSpace);
+						sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+						sql.append(whiteSpace);
+						sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+					}
+					i++;
+				}
+				else if(schema.getData_type().equals("CLOB")) { //like
+					//myBatis sentence
+					sql.append(whiteSpace);
+					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " LIKE '%' || " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + " || '%'	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+					i++;
+				}
+				else if(schema.getData_type().equals("DATE")) { // TO_DATE equals
+					//myBatis sentence
+					sql.append(whiteSpace);
+					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	AND TO_CHAR(" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + ", '" + DateUtil.DEF_DAY_FORMAT + "') = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+					i++;
+				}
+			}
+			else {
+				if( ( schema.getData_type().equals("VARCHAR2") && schema.getData_length() > 200 ) || schema.getData_type().equals("CLOB")) { //like
+					sql.append(whiteSpace);
+					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " LIKE '%' || " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + " || '%'	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append(whiteSpace);
+					sql.append("	</if>" ).append(SystemUtil.LINE_SEPARATOR);
+				}
+			}
+
+			if(schema.getColumn_name().equals("REC_STAT")) {
+				sql.append(whiteSpace);
+				sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + "REC_STAT != 'D'"  ).append(SystemUtil.LINE_SEPARATOR);
+			}
+
+		}
+		
+		//JOIN TABLE REC_STAT 
+		
+		for(String tableName : getFKTable(foreginTables)) {
+			if(!tableInfo.get(0).getTable_name().equals(tableName)) {
+				sql.append(whiteSpace);
+				sql.append("	AND " + tableName + "." + "REC_STAT != 'D'"  ).append(SystemUtil.LINE_SEPARATOR);
+			}
+		}
+		
+		/* ###################### 검색 조건 종료 ###################### */
+	
 		return sql.toString();
 	}
 	
-	
 
-	public String selectList(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables){
-		
-	
-//		SELECT * FROM 
-//		    ( SELECT ROWNUM AS ROW__NUM, A.* FROM 
-//		        (
-//		
-//		/* #### Original SQL [[ ################# */
-//		SELECT
-//						 HD_CODE_ACNT.DEPT_CODE AS deptCode	/* 현장코드, VARCHAR2(12) */
-//						,HD_CODE_ACNT.JCODE AS jcode	/* 내부코드, VARCHAR2(2) */
-//						,HD_CODE_ACNT.JACNTCODE AS jacntcode	/* 계정코드, VARCHAR2(10) */
-//						,HD_CODE_ACNT.JACNTNAME AS jacntname	/* 계정명칭, VARCHAR2(40) */
-//						,HD_CODE_ACNT.DETAILCODE AS detailcode	/* 수지계정, VARCHAR2(10) */
-//						,HD_CODE_ACNT.INPUT_DUTY_ID AS inputDutyId	/* 입력담당, VARCHAR2(12) */
-//						,HD_CODE_ACNT.INPUT_DATE AS inputDate	/* 입력일시, VARCHAR2(14) */
-//						,HD_CODE_ACNT.CHG_DUTY_ID AS chgDutyId	/* 변경담당, VARCHAR2(12) */
-//						,HD_CODE_ACNT.CHG_DATE AS chgDate	/* 변경일시, VARCHAR2(14) */
-//					FROM
-//						HD_CODE_ACNT	/* HD_분양_전표_계정 */
-//					WHERE 1=1
-//						<if test="dHdCodeAcnt01IO.deptCode != null and dHdCodeAcnt01IO.deptCode != &quot;&quot;">
-//						AND HD_CODE_ACNT.DEPT_CODE = :dHdCodeAcnt01IO___deptCode	/* 현장코드, VARCHAR2(12) */
-//						</if>
-//						<if test="dHdCodeAcnt01IO.jcode != null and dHdCodeAcnt01IO.jcode != &quot;&quot;">
-//						AND HD_CODE_ACNT.JCODE = :dHdCodeAcnt01IO___jcode	/* 내부코드, VARCHAR2(2) */
-//						</if>
-//					ORDER BY
-//						HD_CODE_ACNT.INPUT_DATE DESC
-//		/* #### Original SQL ]] ################# */
-//		
-//		        ) A 
-//		    WHERE ROWNUM <= ((:pageNum*:pageCount)+1) 
-//		    ) 
-//		WHERE ROW__NUM > (:pageNum-1)*:pageCount 
-
+	public String selectCount(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias){
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("	SELECT * FROM (" +"\n");
-		sql.append("		SELECT ROWNUM AS RNUM, RECORDS.* FROM (" +"\n");
-		sql.append("			SELECT" +"\n");
+		sql.append("SELECT " ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	COUNT(1)" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		//foregin 정보추출 시작
+		List<ForeignInfoDTO> foreginTables = findFKTables(tableInfo.get(0).getTable_name(), forgeintables, new ArrayList<ForeignInfoDTO>(), 0);
+		
+		/** ##################################
+		 * MAKE FROM EXPRESSION
+		 * ################################## */
+		sql.append("FROM" ).append(SystemUtil.LINE_SEPARATOR);
+		int i = 0;
+		for(String tableName : getFKTable(foreginTables)) {
+			sql.append("	" + (i > 0 ? ",":" ") + tableName + "	/* "+getTableComments(tableList, tableName)+" */" ).append(SystemUtil.LINE_SEPARATOR);
+			i++;
+		}
+		if(foreginTables.size() == 0) {
+			sql.append("	" + tableInfo.get(0).getTable_name() + "	/* "+getTableComments(tableList, tableInfo.get(0).getTable_name())+" */" ).append(SystemUtil.LINE_SEPARATOR);
+		}
+
+		/** ##################################
+		 * MAKE WHERE EXPRESSION
+		 * ################################## */
+		
+		sql.append(where(tableList, tableInfo, forgeintables, null, ""));
+		
+		logger.debug("\n" + sql.toString());
+		
+		return sql.toString().trim();
+	}
+	
+
+	public String selectList(List<TableDTO> tableList, List<VtSchemaDTO> tableInfo, List<ForeignInfoDTO> forgeintables, String paramAlias){
+
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM (" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	SELECT ROWNUM AS ROW__NUM, RECORDS.* FROM (" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("		/* #### SQL Body [[ ################# */");
+		sql.append(SystemUtil.LINE_SEPARATOR);
+		sql.append("		SELECT" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		/** ##################################
+		 * MAKE READ COLUMN : COLUMN_NAME AS ALIAS_NAME
+		 * ################################## */
 		int i = 0;
 		for(VtSchemaDTO schema : tableInfo){
-			//TO_DATE("#"+schema.getColumn_name()+"#", 'yyyy-MM-dd hh24:mi:ss')
+			//TO_DATE("#"+schema.getColumn_name()+"#", '" + DateUtil.DEF_DATE_FORMAT + "')
 			if(schema.getData_type().equals("DATE")) {
-				sql.append("				" + (i > 0 ? ",":" ") + "TO_CHAR(" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + ", 'yyyy-MM-dd') AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" +"\n");
+				sql.append("			" + (i > 0 ? ",":" ") + "TO_CHAR(" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + ", '" + DateUtil.DEF_DAY_FORMAT + "') AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			}
 			else {
-				sql.append("				" + (i > 0 ? ",":" ") + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" +"\n");
+				sql.append("			" + (i > 0 ? ",":" ") + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " AS " + generateHelper.getCamelCaseFieldName(schema.getColumn_name()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			}
 			
 			i++;
@@ -676,109 +810,44 @@ public class DBIOGenerateUtil {
 		//foregin 정보추출 시작
 		List<ForeignInfoDTO> foreginTables = findFKTables(tableInfo.get(0).getTable_name(), forgeintables, new ArrayList<ForeignInfoDTO>(), 0);
 		
-		//FROM 절 시작 ----------------------------------------
-		sql.append("			FROM" +"\n");
+		/** ##################################
+		 * MAKE FROM EXPRESSION
+		 * ################################## */
+		sql.append("		FROM" ).append(SystemUtil.LINE_SEPARATOR);
 		i = 0;
 		for(String tableName : getFKTable(foreginTables)) {
-			sql.append("				" + (i > 0 ? ",":" ") + tableName + "	/* "+getTableComments(tableList, tableName)+" */" + "\n");
+			sql.append("			" + (i > 0 ? ",":" ") + tableName + "	/* "+getTableComments(tableList, tableName)+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			i++;
 		}
 		if(foreginTables.size() == 0) {
-			sql.append("				" + tableInfo.get(0).getTable_name() + "	/* "+getTableComments(tableList, tableInfo.get(0).getTable_name())+" */" + "\n");
+			sql.append("			" + tableInfo.get(0).getTable_name() + "	/* "+getTableComments(tableList, tableInfo.get(0).getTable_name())+" */" ).append(SystemUtil.LINE_SEPARATOR);
 		}
-		//FROM 절 종료 ----------------------------------------
-		
-		sql.append("			WHERE 1=1" +"\n");
-		
-		//JOIN 절 시작 ----------------------------------------
-		for(ForeignInfoDTO fkTable : getFKTableJoinWhereSentence(foreginTables)){
-			sql.append("				AND " + fkTable.getTable_name() + "." + fkTable.getColumn_name() + " = " + fkTable.getFk_table_name() + "." + fkTable.getFk_column_name() + "\n");  
-		}
-		//JOIN 절 종료 ----------------------------------------
 
+		/** ##################################
+		 * MAKE WHERE EXPRESSION
+		 * ################################## */
 		
-		i = 0;
-		for(VtSchemaDTO schema : tableInfo){ 
-			if(schema.getIndexes() != null && !schema.getIndexes().isEmpty()) {
-				if(schema.getData_type().equals("CHAR")) { //equals
-					//myBatis sentence
-					sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null and "+schema.getColumn_name().toLowerCase()+" != \"\"'>" + "\n");
-					sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-					sql.append("				</if>" + "\n");
-					i++;
-				}
-				else if(schema.getData_type().equals("NUMBER")) { //equals
-					//myBatis sentence
-					sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null'>" + "\n");
-					sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-					sql.append("				</if>" + "\n");
-					i++;
-				}
-				else if(schema.getData_type().equals("VARCHAR2")) { //like
-					//myBatis sentence
-					if( schema.getColumn_name().endsWith("_NM") || schema.getColumn_name().endsWith("_ADDR") || schema.getColumn_name().endsWith("_DESC") || schema.getColumn_name().endsWith("_IP") || schema.getColumn_name().endsWith("_VAL") ) {
-						sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null and "+schema.getColumn_name().toLowerCase()+" != \"\"'>" + "\n");
-						sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " LIKE '%' || " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + " || '%'	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-						sql.append("				</if>" + "\n");
-					}
-					else {
-						sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null and "+schema.getColumn_name().toLowerCase()+" != \"\"'>" + "\n");
-						sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-						sql.append("				</if>" + "\n");
-					}
-					i++;
-				}
-				else if(schema.getData_type().equals("CLOB")) { //like
-					//myBatis sentence
-					sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null and "+schema.getColumn_name().toLowerCase()+" != \"\"'>" + "\n");
-					sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " LIKE '%' || " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + " || '%'	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-					sql.append("				</if>" + "\n");
-					i++;
-				}
-				else if(schema.getData_type().equals("DATE")) { // TO_DATE equals
-					//myBatis sentence
-					sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null and "+schema.getColumn_name().toLowerCase()+" != \"\"'>" + "\n");
-					sql.append("				AND TO_CHAR(" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + ", 'yyyy-MM-dd') = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-					sql.append("				</if>" + "\n");
-					i++;
-				}
-			}
-			else {
-				if( ( schema.getData_type().equals("VARCHAR2") && schema.getData_length() > 200 ) || schema.getData_type().equals("CLOB")) { //like
-					sql.append("				<if test='"+schema.getColumn_name().toLowerCase()+" != null and "+schema.getColumn_name().toLowerCase()+" != \"\"'>" + "\n");
-					sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " LIKE '%' || " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type()) + " || '%'	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  + "\n");
-					sql.append("				</if>" + "\n");
-				}
-			}
-			/*
-			if(schema.getColumn_name().equals("REC_STAT")) {
-				sql.append("				AND " + tableInfo.get(0).getTable_name() + "." + "REC_STAT != 'D'"  + "\n");
-			}
-			*/
-		}
+		sql.append(where(tableList, tableInfo, forgeintables, paramAlias, "		"));
 		
-		//JOIN TABLE REC_STAT 
-		/*
-		for(String tableName : getFKTable(foreginTables)) {
-			if(!tableInfo.get(0).getTable_name().equals(tableName) && isTableIsRecStat(tableName)) {
-				sql.append("				AND " + tableName + "." + "REC_STAT != 'D'"  + "\n");
-			}
-		}
-		*/
-		
-		sql.append("			ORDER BY" +"\n");
+		/** ##################################
+		 * MAKE ORDER BY EXPRESSION
+		 * ################################## */
+		sql.append("		ORDER BY" ).append(SystemUtil.LINE_SEPARATOR);
 		boolean orderDate = false;
+		
 		for(VtSchemaDTO schema : tableInfo){
 			if(schema.getColumn_name().equals("REG_DATE")) {
-				sql.append("				" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " DESC" +"\n");
+				sql.append("			" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " DESC" ).append(SystemUtil.LINE_SEPARATOR);
 				orderDate = true;
 				break;
 			}
 		}
 		if(!orderDate) {
 			for(VtSchemaDTO schema : tableInfo){
-				if(schema.getColumn_name().endsWith("_DATE")) {
-					sql.append("				" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " DESC" +"\n");
+				if(schema.getData_type().endsWith("DATE") 
+				  || schema.getData_type().startsWith("TIMESTAMP") 
+				  || schema.getColumn_name().indexOf("DATE") > -1) {
+					sql.append("			" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " DESC" ).append(SystemUtil.LINE_SEPARATOR);
 					orderDate = true;
 					break;
 				}
@@ -792,28 +861,48 @@ public class DBIOGenerateUtil {
 						|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
 						|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
 				)) {	
-					sql.append("				" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " DESC" +"\n");
+					sql.append("			" + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " DESC" ).append(SystemUtil.LINE_SEPARATOR);
 					break;
 				}
 			}	
 		}
 		
-		sql.append("		) RECORDS" +"\n");
-		sql.append("	)" +"\n");
-		sql.append("	WHERE RNUM BETWEEN #{startRowNum} AND #{endRowNum}");
+		sql.append("		/* #### SQL Body ]] ################# */" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	) RECORDS" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	WHERE ROWNUM &lt;= ((#{pageNum}*#{pageCount})+1) " ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append(")").append(SystemUtil.LINE_SEPARATOR);
+		sql.append("WHERE ROW__NUM &gt; (#{pageNum}-1)*#{pageCount}");
 		
 		logger.debug("\n" + sql.toString());
 		
-		return sql.toString();
+		return sql.toString().trim();
 	}
 	
+
 	
 	
-	public String getMyBatisTypeValue(String valueName, String dataType){
+
+	private String getMyBatisExprValue(String valueName, String dataType, String paramAlias){
 		String caller = new Throwable().getStackTrace()[1].getMethodName();
 		logger.debug("-Call Method : " + caller);
 		
-		String[] includeJdbcType = {"insert","update","merge","delete", "select", "selectList"};
+		StringBuilder out = new StringBuilder();
+		
+		if(paramAlias != null) {
+			out.append(paramAlias);
+			out.append(".");
+		}
+		out.append(generateHelper.getCamelCaseFieldName(valueName));
+		
+		return out.toString();
+	}
+	
+
+	private String getMyBatisTypeValue(String valueName, String dataType, String paramAlias){
+		String caller = new Throwable().getStackTrace()[1].getMethodName();
+		logger.debug("-Call Method : " + caller);
+		
+		String[] includeJdbcType = {"where", "insert","update","merge","delete", "select", "selectCount", "selectList"};
 		// ,jdbcType=VARCHAR
 
 		Map<String,String> jdbcType = new HashMap<String, String>();
@@ -830,10 +919,15 @@ public class DBIOGenerateUtil {
 
 		StringBuilder out = new StringBuilder();
 		
+		out.append("#{");
+		if(paramAlias != null) {
+			out.append(paramAlias);
+			out.append(".");
+		}
+		out.append(generateHelper.getCamelCaseFieldName(valueName));
+		
 		if(Arrays.asList(includeJdbcType).indexOf(caller) > -1 && dataType != null) {
-			
-			out.append("#{");
-			out.append(generateHelper.getCamelCaseFieldName(valueName));
+
 			out.append(", jdbcType=");
 			for(Entry<String, String> entry : jdbcType.entrySet()) {
 				if(dataType.startsWith(entry.getKey())) {
@@ -841,19 +935,14 @@ public class DBIOGenerateUtil {
 					break;
 				}
 			}
-
-			out.append("}");
 		}
-		else {
 
-			out.append("#{");
-			out.append(generateHelper.getCamelCaseFieldName(valueName));
-			out.append("}");
-		}
+		out.append("}");
 		
 		return out.toString();
 	}
 
+	
 	public String getTableComments(List<TableDTO> tableList, String tableName){
 		String out = null;
 		for(TableDTO table : tableList){

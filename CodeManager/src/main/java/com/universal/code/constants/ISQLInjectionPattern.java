@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 * @author ksw
 * @version 1.0
 */
-public interface SQLInjectionPattern {
+public interface ISQLInjectionPattern {
 
     /**
      * 한글 패턴용 스트링.

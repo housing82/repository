@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 * @author ksw
 * @version 1.0
 */
-public interface XSSPattern {
+public interface IXSSPattern {
 
     /**
      * HTML_TAG 패턴용 스트링.

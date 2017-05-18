@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 
 public interface IOperateCode extends IServiceCode {
 
-	public final static String MAPPER_NAMESPACE_PREFIX = "ubms";
+	public final static String MAPPER_NAMESPACE_PREFIX = "codeManager";
 	
 	public final static String TX_TYPE_INSERT = "I";
 	public final static String TX_TYPE_UPDATE = "U";
 	public final static String TX_TYPE_REMOVE = "R";
 	public final static String TX_TYPE_DELETE = "D";
+	public final static String TX_TYPE_MERGE = "M";
 	
 	//REQUEST SERVLET SERVICE TYPE ( SPRING CONTROLLER or DWR CONTROLLER )
 	public final static String SPRING_CONTROLLER = "SPRING";
@@ -18,120 +19,24 @@ public interface IOperateCode extends IServiceCode {
 	
 	//Servlet init bean parameter 앞으로 유동변경가능하도록 변경될것
 	public final static String DEFAULT_ENCODING = "UTF-8";
-	public final static String DEFAULT_ENCODING_MS949 = "MS949";
-	public final static String DEFAULT_ENCODING_EUCKR = "EUC-KR";
-	public final static String DEFAULT_ENCODING_UTF8 = "UTF-8";
+	public final static String ENCODING_MS949 = "MS949";
+	public final static String ENCODING_EUCKR = "EUC-KR";
+	public final static String ENCODING_UTF8 = "UTF-8";
 	public final static String KR_STRING_CHARSET_NAME = "8859_1";
 	public final static String ISO_STRING_CHARSET_NAME = "ISO-8859-1";
 	public final static String STR_ROOT_RULE_PRNT = "ROOT";
 	public final static String DEFAULT_DB_VENDOR = "ORACLE";
 	public final static String DEFAULT_SESSION_NAME = "sessionDTO";
-	
-	//기본 Calendar format 
-	public final static String DEFAULT_CALENDAR_DATE_FORMAT = "yyyy-MM-dd"; 
-	//고정 플래그값
-	public final static String META_REC_STAT_ORIGINAL = "O";
-	public final static String META_REC_STAT_HIDDEN = "H";
-	public final static String META_REC_STAT_REMOVE = "D";
-	public final static String META_CODE_USE_TYPE_FORM = "F";
-	public final static String META_CODE_USE_TYPE_GRID = "G";
-	public final static String META_CODE_USE_TYPE_SERVER = "S";
-	public final static String META_CODE_USE_TYPE_ALL = "A";
-	public final static String META_CODE_YES = "Y";
-	public final static String META_CODE_NO  = "N";
-	
-	
-	public final static String META_MAIL_TYPE_RISK_FACT  = "RISK_FACT"; //(위험 요인)
-	public final static String META_MAIL_TYPE_PROG_DELY = "PROG_DELY"; //(진척 지연)
-	public final static String META_MAIL_TYPE_PFMC_REG_DELY  = "PFMC_REG_DELY"; //(실적 등록 지연)
-	
-	//COMMON CODE REFERENCE VALUE NAME
-	public final static String REF_VAL_ITEM  = "ITEM";
-	
-	//TREEGRID PAGE VIEW URI
-	public final static String TREEGRID_PAGE_VIEW = "common/treegrid/body";
-	
+
 	//VALIDATION TYPE
 	public final static int VALIDATE_DTO_FULL_FIELD_ANNO = 1;
 	public final static int VALIDATE_DTO_SINGLE_FIELD_ANNO = 2;
 	public final static int VALIDATE_SINGLE_VALUE_PATTERN = 3;
 	public final static int VALIDATE_DTO_SINGLE_FIELD_PATTERN = 4;
 	
-	
-	//IMPOERTANT CODE MASTER KEY
-	public final static String CODE_MASTER_USR_TECH_CLAS = "CD_USR_TECH_CLAS";
-	public final static String CODE_MASTER_ORG_DIV_INSD = "ORG_DIV_INSD";
-	public final static String CODE_MASTER_ORG_DIV_OUTS = "ORG_DIV_OUTS";
-	public final static String CODE_MASTER_COST_TYPE_OUTLAY = "COST_TYPE_02";
-	
-	//TREEGRID TYPE
-	public final static String TREEGRID_LAYOUT = "Layout"; //그리드 레이아웃					IOperateCode.TREEGRID_LAYOUT
-	public final static String TREEGRID_DATA = "Data"; //그리드 페이지 Body (비어있는 페이지)<B></B>	IOperateCode.TREEGRID_DATA
-	public final static String TREEGRID_PAGE = "Page"; //그리드 데이타						IOperateCode.TREEGRID_PAGE
-	
-	public final static String PARAM_TREEGRID_ID = "GridID"; //그리드 아이디 파라메터명					IOperateCode.PARAM_TREEGRID_ID
-	public final static String POSTFIX_TREEGRID_LAYOUT = "_Layout"; //그리드 레이아웃 스킨 파일 뒷단어			IOperateCode.POSTFIX_TREEGRID_LAYOUT
-	public final static String POSTFIX_TREEGRID_PAGEDATA = "_PageData"; //그리드 페이지데이터 스킨 파일 뒷단어	IOperateCode.POSTFIX_TREEGRID_PAGEDATA
-	
-	//INDEX METHOD TYPE
-	public final static String INDEX_LOGIN = "login"; 		// IOperateCode.INDEX_LOGIN
-	public final static String INDEX_MAIN = "main"; 		// IOperateCode.INDEX_MAIN
-	public final static String INDEX_BUSINESS = "business";	// IOperateCode.INDEX_BUSINESS
-	public final static String INDEX_POPUP = "popup"; 		// IOperateCode.INDEX_POPUP
-
-	//CODE MASTER META FIELD
-	public final static String META_GLOBAL_CODE_MASTER_PROJECT = "COM"; // XMl
-	
 	//CODE FIELD
-	public final static char SPECTYPE_XML = 'X'; // XMl
-	public final static char SPECTYPE_JSON = 'J'; // JSON
-	
-	//SERVER SEQ PREFIX
-	public final static String META_SEQ_FREFIX_FILE_RELS_CD = "FKS";
-	public final static String META_SEQ_FREFIX_FILE_CD = "FSQ";
-	
-	//계획/실적 타입코드
-	public final static String META_PARAM_PLAN = "plan";
-	public final static String META_PARAM_RES = "res";
-	
-	//FILE ATCH 
-	public final static String META_FILE_ATCH_DIV_DEFAULT = "STND";
-	public final static String META_CD_FILE_WORK_STAT = "FILE_WORK_STAT_CPLT";
-	
-	//SearchParam setup data key name
-	public final static String SEARCH_KEY_MENU_MODU_CD_MST_LIST = "MenuModuCdMstList";
-	public final static String SEARCH_KEY_CD_MST = "cd_mst";
-	public final static String SEARCH_KEY_CD_MST_PRJ = "cd_mst_prj";
-	public final static String SEARCH_KEY_PRJ_CD = "prj_cd";
-	public final static String SEARCH_KEY_SELT_PRJ_CD = "selt_prj_cd";
-	public final static String SEARCH_KEY_PRJ_CD_ADM = "prj_cd_adm";
-	public final static String SEARCH_KEY_CD = "cd";
-	public final static String SEARCH_KEY_MENU_CD = "menu_cd";
-	public final static String SEARCH_KEY_CD_MST_MENU_CD = "cdmst_menu_cd";
-	public final static String SEARCH_KEY_USR_ID = "usr_id";
-	public final static String SEARCH_KEY_ORG_CD = "org_cd";
-	public final static String SEARCH_KEY_VIEW_TYPE = "viewType";
-	public final static String SEARCH_KEY_VIEW_TYPE_POPUP = "POPUP";
-	public final static String SEARCH_KEY_FILE_RELS_CD = "file_rels_cd";
-	public final static String SEARCH_KEY_FILE_CD = "file_cd";
-	public final static String SEARCH_KEY_FILE = "file";
-	
-	
-	public final static String SEARCH_TYPE = "search_type";
-	public final static String SEARCH_KEY = "search_key";
-	
-	
-	
-	
-	//Login Status Type
-	public final static String LOGN_STAT_SUCCESS = "success";
-	public final static String LOGN_STAT_INVALID_PWD = "invalidPwd";
-	public final static String LOGN_STAT_NOT_FOUND = "notfound";
-	
-	//method type
-	public final static String METHOD_TYPE_CONTROLLER_INDEX = "index";
-	public final static String METHOD_TYPE_CONTROLLER_GRID = "treegrid";
-	public final static String METHOD_TYPE_COMPONENT = "component";
+	public final static char SPEC_TYPE_XML = 'X'; // XMl
+	public final static char SPEC_TYPE_JSON = 'J'; // JSON
 	
 	//data type
 	public final static String DS_TYPE_XML = "xml";
@@ -191,19 +96,6 @@ public interface IOperateCode extends IServiceCode {
 	public final static int META_OUTPUT_FIELD = 2;
 	public final static int META_INOUT_FIELD = 3;
 	
-	//DEFAULT IR META FIELD
-	public final static String ATTR_IRULE_CODE_TYPE = "iRuleCodeType";	
-	public final static String META_RULE_CODE = "ruleCode";		// IOperateCode.META_RULE_CODE
-	public final static String META_RULE_ID = "ruleId";			// IOperateCode.META_RULE_ID
-	public final static String META_RULE_VALIDATE = "ruleValidate";			// IOperateCode.META_RULE_VALIDATE
-	public final static String META_RULE_NAME = "ruleName";		// IOperateCode.META_RULE_NAME
-	public final static String META_RULE_ALIAS = "ruleAlias";	// IOperateCode.META_RULE_ALIAS
-	public final static String META_MODIFY_DATE = "modifyDate";	// IOperateCode.META_RULE_ALIAS
-	
-	public final static String STR_DELETE = "delete";
-	public final static String STR_CONFIRM = "confirm";
-	public final static String STR_PASS = "pass";
-	public final static String STR_INPUT_CONTRACTION = "I";
 	
 	//DEFAULT SETTING VALUE FIELD
 	public final static boolean CONFIRM_SYSTEMUTIL_SYSOUT = true;
@@ -270,6 +162,5 @@ public interface IOperateCode extends IServiceCode {
 	public final static char 	CHAR_DEF_VALUE = ' ';
 	public final static BigDecimal 	BIGDECIMAL_ZERO_VALUE = BigDecimal.ZERO;	
 	 
-	public final static String TEST_FIELD = "TEST_FIELD";
 	
 }

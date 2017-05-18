@@ -11,7 +11,7 @@ package com.universal.code.constants;
 * @author ksw
 * @version 1.0
 */
-public interface UniversalPattern {
+public interface IUniversalPattern {
 
     /**
      * 한글 패턴용 스트링.

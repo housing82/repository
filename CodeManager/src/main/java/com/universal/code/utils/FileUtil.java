@@ -53,7 +53,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import com.universal.code.constants.IOperateCode;
-import com.universal.code.constants.UniversalPattern;
+import com.universal.code.constants.IUniversalPattern;
 import com.universal.code.dto.FilePropertiesDTO;
 import com.universal.code.dto.FilesDataDTO;
 import com.universal.code.dto.FilesystemDTO;
@@ -602,7 +602,7 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
 				
 				if( StringUtil.isNotEmpty(fileNameEncoding) ) {
 					
-					if( fileNameEncoding.equals(IOperateCode.DEFAULT_ENCODING_MS949) || fileNameEncoding.equals(IOperateCode.DEFAULT_ENCODING_EUCKR) ) {
+					if( fileNameEncoding.equals(IOperateCode.ENCODING_MS949) || fileNameEncoding.equals(IOperateCode.ENCODING_EUCKR) ) {
 						newFileName = new String(newFileName.getBytes(fileNameEncoding), IOperateCode.KR_STRING_CHARSET_NAME);
 					}
 					else if( !fileNameEncoding.equals(IOperateCode.DEFAULT_ENCODING) ){ //UTF-8
@@ -628,7 +628,7 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
 			}
 			
 			//파일명에 들어갈수 없는 특수문자 " "공백처리
-			newFileName = regexUtil.replaceAllPattern(newFileName, UniversalPattern.PTN_FILE_NAME_NOT_SPECIAL_CHAR, " ");
+			newFileName = regexUtil.replaceAllPattern(newFileName, IUniversalPattern.PTN_FILE_NAME_NOT_SPECIAL_CHAR, " ");
 	    	if(logger.isDebugEnabled()) {
 	    		logger.debug(" +- file name encoding : " + fileNameEncoding);
 	    		logger.debug(" +- download file name : " + newFileName);

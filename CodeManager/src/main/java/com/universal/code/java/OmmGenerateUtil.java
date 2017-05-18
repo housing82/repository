@@ -158,7 +158,7 @@ public class OmmGenerateUtil {
 						new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage().replace(".", "/")).toString()
 						, fileName.concat(".omm")
 						, strbd.toString()
-						, IOperateCode.DEFAULT_ENCODING_UTF8
+						, IOperateCode.DEFAULT_ENCODING
 						, false
 						, true); 
 				

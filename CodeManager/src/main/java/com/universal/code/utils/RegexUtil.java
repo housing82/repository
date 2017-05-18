@@ -9,12 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import com.universal.code.constants.SQLInjectionPattern;
-import com.universal.code.constants.UniversalPattern;
-import com.universal.code.constants.XSSPattern;
+import com.universal.code.constants.ISQLInjectionPattern;
+import com.universal.code.constants.IUniversalPattern;
+import com.universal.code.constants.IXSSPattern;
 
 @Component
-public class RegexUtil implements UniversalPattern, XSSPattern, SQLInjectionPattern {
+public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionPattern {
 
 	protected static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);
 

@@ -177,7 +177,7 @@ public class DataSourceConfigurer {
 		this.dataSource = null;
 
 		try {
-			this.logWriter = new PrintWriter(new OutputStreamWriter(System.out, IOperateCode.DEFAULT_ENCODING_UTF8));
+			this.logWriter = new PrintWriter(new OutputStreamWriter(System.out, IOperateCode.DEFAULT_ENCODING));
 		} catch (UnsupportedEncodingException e) {
 			throw new ApplicationException("DataSourceConfigurer LogWriter 초기화 장애발생", e);
 			
