@@ -1,4 +1,4 @@
-package com.universal.code.java;
+package com.universal.code.bxm;
 
 import java.io.File;
 import java.sql.Connection;
@@ -24,15 +24,15 @@ import com.universal.code.dto.ForeignInfoDTO;
 import com.universal.code.dto.TableDTO;
 import com.universal.code.dto.VtSchemaDTO;
 import com.universal.code.exception.ApplicationException;
-import com.universal.code.java.sql.MetaViewSQL;
+import com.universal.code.sql.MetaViewSQL;
 import com.universal.code.utils.DateUtil;
 import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 
-public class DBIOGenerateUtil {
+public class BxmDBIOGenerateUtil {
 
-	private final static Logger logger = LoggerFactory.getLogger(DBIOGenerateUtil.class);
+	private final static Logger logger = LoggerFactory.getLogger(BxmDBIOGenerateUtil.class);
 	
 	// BXM ECLIPSE HD SOURCE ROOT
 	private String sourceRoot;
@@ -59,7 +59,7 @@ public class DBIOGenerateUtil {
 	private FileUtil fileUtil;
 	private GenerateHelper generateHelper;
 	
-	public DBIOGenerateUtil() {
+	public BxmDBIOGenerateUtil() {
 		jdbcManager = new JDBCManager();
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();
@@ -105,7 +105,7 @@ public class DBIOGenerateUtil {
 		methodMap.put("merge", "병합");
 		methodMap.put("delete", "삭제");
 		//템플릿 패스
-		templatePath = URLCoder.getInstance().getURLDecode(DBIOGenerateUtil.class.getResource(".").getPath().concat("template").concat(File.separator), ""); 
+		templatePath = URLCoder.getInstance().getURLDecode(BxmDBIOGenerateUtil.class.getResource(".").getPath().concat("template").concat(File.separator), ""); 
 		//기본 데이터소스명
 		DEFAULT_DATASOURCE_NAME = "MainDS";
 		
@@ -383,7 +383,7 @@ public class DBIOGenerateUtil {
 					else if(entry.getKey().equals("merge")) {
 						sqlCode = xmlUpdateMergeTemplateDbio;
 						
-						dsSql = ""; // <-- SQL
+						dsSql = merge(columnList); // <-- SQL
 					}
 					else if(entry.getKey().equals("delete")) {
 						sqlCode = xmlDeleteTemplateDbio;
@@ -461,28 +461,28 @@ public class DBIOGenerateUtil {
 	public String insert(List<VtSchemaDTO> tableInfo){
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("	INSERT INTO "+tableInfo.get(0).getTable_name()+"(	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("INSERT INTO "+tableInfo.get(0).getTable_name()+"(	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
 		int i = 0;
 		for(VtSchemaDTO schema : tableInfo){   
-			sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
+			sql.append("	" + (i > 0 ? ",":" ") + schema.getColumn_name() + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
 			i++;
 		}
-		sql.append("	) VALUES (" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append(") VALUES (" ).append(SystemUtil.LINE_SEPARATOR);
 		
 		i = 0;
 		for(VtSchemaDTO schema : tableInfo){
 			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
 			if(schema.getData_type().equals("DATE")) {
-				sql.append("		" + (i > 0 ? ",":" ") + "TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" ).append(SystemUtil.LINE_SEPARATOR);					
+				sql.append("	" + (i > 0 ? ",":" ") + "TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" ).append(SystemUtil.LINE_SEPARATOR);					
 			}
 			else {
-				sql.append("		" + (i > 0 ? ",":" ") + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null)).append(SystemUtil.LINE_SEPARATOR);
+				sql.append("	" + (i > 0 ? ",":" ") + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null)).append(SystemUtil.LINE_SEPARATOR);
 			}
 			
 			i++;
 		}
 		
-		sql.append("	)");
+		sql.append(")");
 		
 		logger.debug("\n" + sql.toString());
 
@@ -491,26 +491,10 @@ public class DBIOGenerateUtil {
 	
 	public String update(List<VtSchemaDTO> tableInfo){
 		
-		StringBuilder sql = new StringBuilder();
-		sql.append("	UPDATE "+tableInfo.get(0).getTable_name()+" SET	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
-
-		int i = 0;
-		for(VtSchemaDTO schema : tableInfo){
-
-			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
-			if(schema.getData_type().equals("DATE")) {
-				sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);					
-			}
-			else {
-				sql.append("		" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
-			}
-			
-			i++;
-		}
+		List<String> conditionCols = new ArrayList<String>();
 		
-		sql.append("	WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
+		StringBuilder where = new StringBuilder();
 		
-	
 		for(VtSchemaDTO schema : tableInfo){
 			if(schema.getConstraints() != null && (
 				   schema.getConstraints().indexOf(CONSTRAINT_PRIMARY) > -1 
@@ -518,23 +502,138 @@ public class DBIOGenerateUtil {
 				|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
 				|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
 			)) {
-				sql.append("		AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+				where.append("	AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+				conditionCols.add(schema.getColumn_name());
 			}
 		}
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("UPDATE "+tableInfo.get(0).getTable_name()+" SET	/* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
+
+		int i = 0;
+		for(VtSchemaDTO schema : tableInfo){
+			if(conditionCols.contains(schema.getColumn_name())) {
+				continue;
+			}
+			
+			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
+			if(schema.getData_type().equals("DATE")) {
+				sql.append("	" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);					
+			}
+			else {
+				sql.append("	" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
+			}
+			
+			i++;
+		}
+		
+		sql.append("WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		sql.append(where.toString());
 
 		logger.debug("\n" + sql.toString());
 		
 		return sql.toString().trim();
 	}
-	
+/*	
+	MERGE INTO emp
+    USING DUAL
+    ON (employee_id = 200911)
+    WHEN MATCHED THEN
+              UPDATE SET
+                    first_name = 'John',
+                    last_name = 'Petrucci',
+                    email = 'dream@johnpetrucci.com',
+                    ......
+    WHEN NOT MATCHED THEN
+              INSERT (first_name, last_name, email, ...... ) 
+                         VALUES ('John', 'Petrucci', 'dream@johnpetrucci.com', ...... );
+*/
+	public String merge(List<VtSchemaDTO> tableInfo) {
+		StringBuilder sql = new StringBuilder();
+		boolean checkCondition = false;
+		int i = 0;
+		sql.append("MERGE INTO "+tableInfo.get(0).getTable_name() + " /* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	USING DUAL ON (" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		List<String> conditionCols = new ArrayList<String>();
+		
+		for(VtSchemaDTO schema : tableInfo){
+			if(schema.getConstraints() != null && (
+					   schema.getConstraints().indexOf(CONSTRAINT_PRIMARY) > -1 
+					|| schema.getConstraints().indexOf(CONSTRAINT_FOREIGN) > -1
+					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
+					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
+			)) {
+				if(!checkCondition) {
+					checkCondition = true;
+				}
+				sql.append("		" + (i > 0 ? "AND " : "") + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+				conditionCols.add(schema.getColumn_name());
+				i++;
+			}
+		}
+
+		sql.append("	)" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("	WHEN MATCHED THEN" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("		UPDATE SET" ).append(SystemUtil.LINE_SEPARATOR);
+
+		i = 0;
+		for(VtSchemaDTO schema : tableInfo){
+			if(conditionCols.contains(schema.getColumn_name())) {
+				continue;
+			}
+			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
+			if(schema.getData_type().equals("DATE")) {
+				sql.append("			" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);					
+			}
+			else {
+				sql.append("			" + (i > 0 ? ",":" ") + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
+			}
+			
+			i++;
+		}
+		
+		sql.append("	WHEN NOT MATCHED THEN" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("		INSERT (" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		i = 0;
+		for(VtSchemaDTO schema : tableInfo){   
+			sql.append("			" + (i > 0 ? ",":" ") + schema.getColumn_name() + "	/* "+StringUtil.NVL(schema.getComments(), schema.getColumn_name())+", "+schema.getData_full_type()+" */" ).append(SystemUtil.LINE_SEPARATOR);
+			i++;
+		}
+		
+		sql.append("		) VALUES (" ).append(SystemUtil.LINE_SEPARATOR);
+
+		i = 0;
+		for(VtSchemaDTO schema : tableInfo){
+			//TO_DATE("#{"+schema.getColumn_name()+"}", '" + IOperateCode.DEF_DATE_FORMAT + "')
+			if(schema.getData_type().equals("DATE")) {
+				sql.append("			" + (i > 0 ? ",":" ") + "TO_DATE(" + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + ", '" + DateUtil.DEF_DATE_FORMAT + "')" ).append(SystemUtil.LINE_SEPARATOR);					
+			}
+			else {
+				sql.append("			" + (i > 0 ? ",":" ") + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null)).append(SystemUtil.LINE_SEPARATOR);
+			}
+			
+			i++;
+		}
+		
+		sql.append("		)" ).append(SystemUtil.LINE_SEPARATOR);
+		
+		if(!checkCondition) {
+			//ON 안의 조건절이 존재하지 않으면 초기화 ( 조건절은 테이블에 PK, FK, UK 중 하나라도 존재하면 생성된다 )
+			sql = new StringBuilder();
+		}
+		return sql.toString().trim();
+	}
 	
 
 	public String delete(List<VtSchemaDTO> tableInfo){
 		
 
 		StringBuilder sql = new StringBuilder();
-		sql.append("	DELETE FROM "+tableInfo.get(0).getTable_name() + " /* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
-		sql.append("	WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("DELETE FROM "+tableInfo.get(0).getTable_name() + " /* "+ StringUtil.NVL(tableInfo.get(0).getTable_comments(), tableInfo.get(0).getTable_name()) +" */" ).append(SystemUtil.LINE_SEPARATOR);
+		sql.append("WHERE 1=1" ).append(SystemUtil.LINE_SEPARATOR);
 		
 		
 		for(VtSchemaDTO schema : tableInfo){
@@ -544,7 +643,7 @@ public class DBIOGenerateUtil {
 					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_PRIMARY) 
 					|| schema.getConstraints().startsWith(CONSTRAINT_CASE_FOREIGN) 
 			)) {
-				sql.append("		AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
+				sql.append("	AND " + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), null) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
 			}
 		}
 		
@@ -666,7 +765,7 @@ public class DBIOGenerateUtil {
 				else if(schema.getData_type().equals("NUMBER")) { //equals
 					//myBatis sentence
 					sql.append(whiteSpace);
-					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null'>" ).append(SystemUtil.LINE_SEPARATOR);
+					sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null\">" ).append(SystemUtil.LINE_SEPARATOR);
 					sql.append(whiteSpace);
 					sql.append("	AND " + tableInfo.get(0).getTable_name() + "." + schema.getColumn_name() + " = " + getMyBatisTypeValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias) + "	/* "+schema.getComments()+", "+schema.getData_full_type()+" */"  ).append(SystemUtil.LINE_SEPARATOR);
 					sql.append(whiteSpace);
@@ -675,7 +774,10 @@ public class DBIOGenerateUtil {
 				}
 				else if(schema.getData_type().equals("VARCHAR2")) { //like
 					//myBatis sentence
-					if( schema.getColumn_name().endsWith("_NM") || schema.getColumn_name().endsWith("_ADDR") || schema.getColumn_name().endsWith("_DESC") || schema.getColumn_name().endsWith("_IP") || schema.getColumn_name().endsWith("_VAL") ) {
+					if( schema.getColumn_name().endsWith("NM") || schema.getColumn_name().endsWith("NAME") 
+						|| schema.getColumn_name().endsWith("ADDR") || schema.getColumn_name().endsWith("DESC") 
+						|| schema.getColumn_name().endsWith("IP") || schema.getColumn_name().endsWith("VAL") ) {
+						
 						sql.append(whiteSpace);
 						sql.append("	<if test=\""+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != null and "+getMyBatisExprValue(schema.getColumn_name().toLowerCase(), schema.getData_type(), paramAlias)+" != ''\">" ).append(SystemUtil.LINE_SEPARATOR);
 						sql.append(whiteSpace);

@@ -1,4 +1,4 @@
-package com.universal.code.java;
+package com.universal.code.bxm;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

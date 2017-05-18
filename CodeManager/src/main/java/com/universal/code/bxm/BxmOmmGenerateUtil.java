@@ -1,4 +1,4 @@
-package com.universal.code.java;
+package com.universal.code.bxm;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,14 +16,14 @@ import com.universal.code.database.JDBCManager;
 import com.universal.code.dto.TableDTO;
 import com.universal.code.dto.VtSchemaDTO;
 import com.universal.code.exception.ApplicationException;
-import com.universal.code.java.sql.MetaViewSQL;
+import com.universal.code.sql.MetaViewSQL;
 import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 
-public class OmmGenerateUtil {
+public class BxmOmmGenerateUtil {
 
-	private final static Logger logger = LoggerFactory.getLogger(OmmGenerateUtil.class);
+	private final static Logger logger = LoggerFactory.getLogger(BxmOmmGenerateUtil.class);
 	
 	// BXM ECLIPSE HD SOURCE ROOT
 	private String sourceRoot;
@@ -41,7 +41,7 @@ public class OmmGenerateUtil {
 	private FileUtil fileUtil;
 	private GenerateHelper generateHelper;
 	
-	public OmmGenerateUtil() {
+	public BxmOmmGenerateUtil() {
 		jdbcManager = new JDBCManager();
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();

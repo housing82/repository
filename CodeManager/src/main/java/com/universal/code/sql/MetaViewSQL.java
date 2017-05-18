@@ -1,4 +1,4 @@
-package com.universal.code.java.sql;
+package com.universal.code.sql;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
