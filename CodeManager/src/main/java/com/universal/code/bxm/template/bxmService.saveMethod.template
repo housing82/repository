@@ -1,0 +1,30 @@
+	@BxmServiceOperation("#{rvTrxCode}")
+	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+	public #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
+		logger.debug("[START] #{rvMethodName}");
+		
+		/** ### Validate Parameter ### */
+		#{rvValidate}
+		
+		/** ### Output Variable ### */
+		#{rvOutputType} #{rvOutputVariable} = null;
+		
+		/** ### Bean Initialize ### */
+		#{rvBeanInit}
+		
+		/** ### Set Input Value  ### */
+		#{rvSetInputValue}
+		
+		/** ### Bussiness Code ### */
+		#{rvBizCode}
+		
+		/** ### Set Output Value  ### */
+		#{rvSetOutputValue}
+		
+		/** ### Set OkResultMessage Code ### */
+		//TODO 알맞은 메시지 코드 넣어야 합니다.
+		CommonHdrUtils.setOkResultMessage("");
+		
+		logger.debug("[END] #{rvMethodName}");
+		return #{rvOutputVariable};
+	}

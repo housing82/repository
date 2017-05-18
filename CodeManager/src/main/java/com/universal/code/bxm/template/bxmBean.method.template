@@ -1,0 +1,19 @@
+	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+	public #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
+		logger.debug("[START] #{rvMethodName}: {}", #{rvInputVariable});
+		
+		/** ### Validate Parameter ### */
+		#{rvValidate}
+		
+		/** ### Output Variable ### */
+		#{rvOutputType} #{rvOutputVariable} = null;
+		
+		/** ### DBIO Initialize ### */
+		#{rvDbioInit}
+		
+		/** ### Bussiness Code ### */
+		#{rvBizCode}
+		
+		logger.debug("[END] #{rvMethodName}: {}", #{rvOutputVariable});
+		return #{rvOutputVariable};
+	}

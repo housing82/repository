@@ -1,0 +1,37 @@
+package #{rvPackage};
+
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import bxm.common.annotaion.BxmCategory;
+import bxm.container.annotation.BxmBean;
+import bxm.dft.app.KaitApplicationException;
+import bxm.dft.context.DefaultApplicationContext;
+
+#{rvImports}
+
+/**
+ * Generated Code Skeleton #{rvDate}
+ * 
+ * <br><br><b>History :</b>
+ * <pre>
+ * 
+ * 버전          성명                   일자              변경내용
+ * -------       ----------------       -----------       -----------------
+ * 0.1           CodeSkeleton       			#{rvDate}          신규작성
+ * <pre>
+ * 
+ * @since #{rvDate}
+ * @version 3.0.0
+ * @author Developer
+ * @see "BXM User Guide"
+ */
+@BxmBean
+@BxmCategory(type = "BC", logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+public class #{rvClassName} {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+#{rvBody}
+}	
