@@ -5,7 +5,7 @@ import java.util.Properties;
 import org.junit.Test;
 
 import com.universal.code.bxm.BxmDBIOGenerateUtil;
-import com.universal.code.bxm.BxmOmmGenerateUtil;
+import com.universal.code.bxm.BxmDBIOmmGenerateUtil;
 
 public class GenerateRun {
 
@@ -51,7 +51,7 @@ public class GenerateRun {
 		props.setProperty("jdbc.defaultAutoCommit", "false");
 		props.setProperty("jdbc.validationQuery", "SELECT 1 FROM DUAL");
 		
-		BxmOmmGenerateUtil ommGen = new BxmOmmGenerateUtil();
+		BxmDBIOmmGenerateUtil ommGen = new BxmDBIOmmGenerateUtil();
 		ommGen.setSourceRoot("C:/Developer/BXMWorkspace/HD-onl/src");
 		ommGen.setJavaPackage("kait.hd.hda.onl.dao.dto");
 		ommGen.setDatabaseConfig(props);

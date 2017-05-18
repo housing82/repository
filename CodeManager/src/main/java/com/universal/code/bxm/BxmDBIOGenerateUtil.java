@@ -238,7 +238,9 @@ public class BxmDBIOGenerateUtil {
 				currentTableName = table.getTableName();
 
 				// dbio 파일명 명명규칙: ‘D’ + 테이블명 + 일련번호(2자리) -> DAO동사 + 약어명 + “01” ~ “99”
-				fileName = "D".concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName))).concat(stringUtil.leftPad(Integer.toString(fileSeq), 2, "0"));
+				fileName = "D".concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
+				fileName = fileName.concat(generateHelper.getJavaSeq(fileName));
+				
 				// currentTableName테이블의 컬럼목록
 				columnList = getColumnList(conn, currentTableName, false);
 				
@@ -295,11 +297,7 @@ public class BxmDBIOGenerateUtil {
 					//마이바티스 인터페이스 (자바)
 					// DAO 메소드 : DAO동사 + 약어명 + “01” ~ “99”
 					dsMethodName = entry.getKey().concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
-					
-					/******
-					 * 일련번호 붙어야함.
-					 */
-					
+					dsMethodName = dsMethodName.concat(generateHelper.getJavaSeq(dsMethodName));
 					
 					dsMethodDescription = dsDescription.concat(" ").concat(entry.getValue());
 					dsLogicalName = dsMethodDescription; 

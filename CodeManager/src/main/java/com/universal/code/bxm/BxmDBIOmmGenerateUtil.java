@@ -21,9 +21,9 @@ import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 
-public class BxmOmmGenerateUtil {
+public class BxmDBIOmmGenerateUtil {
 
-	private final static Logger logger = LoggerFactory.getLogger(BxmOmmGenerateUtil.class);
+	private final static Logger logger = LoggerFactory.getLogger(BxmDBIOmmGenerateUtil.class);
 	
 	// BXM ECLIPSE HD SOURCE ROOT
 	private String sourceRoot;
@@ -41,7 +41,7 @@ public class BxmOmmGenerateUtil {
 	private FileUtil fileUtil;
 	private GenerateHelper generateHelper;
 	
-	public BxmOmmGenerateUtil() {
+	public BxmDBIOmmGenerateUtil() {
 		jdbcManager = new JDBCManager();
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();
@@ -87,7 +87,9 @@ public class BxmOmmGenerateUtil {
 					Default 생성 DTO명(Table당 생성)
 					- Default DTO의 순번은 ‘00’으로 함
 				*/
-				fileName = "D".concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(table.getTableName()))).concat(stringUtil.leftPad(Integer.toString(fileSeq), 2, "0")).concat("IO");
+				fileName = "D".concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(table.getTableName())));
+				fileName = fileName.concat(generateHelper.getJavaSeq(fileName)).concat("IO");
+				
 				description = StringUtil.NVL(table.getTableComments(), table.getTableName());
 				if(!description.equals(table.getTableName())) {
 					description = description.concat(" ( ").concat(table.getTableName()).concat(" )");
