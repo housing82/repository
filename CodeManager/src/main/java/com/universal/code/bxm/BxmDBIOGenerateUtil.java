@@ -50,6 +50,7 @@ public class BxmDBIOGenerateUtil {
 	private String targetTables;
 	// Create OMM File 
 	private boolean createFile;
+	private String fileNamePrefix;
 	
 	private JDBCManager jdbcManager;
 	private Connection conn;
@@ -128,7 +129,7 @@ public class BxmDBIOGenerateUtil {
 	
 	
 	
-	public void execute(String javaPrefix) {
+	public void execute() {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
 		logger.debug("★ SourceRoot: {}", getSourceRoot());
 		logger.debug("★ JavaPackage: {}", getJavaPackage());
@@ -238,7 +239,7 @@ public class BxmDBIOGenerateUtil {
 				currentTableName = table.getTableName();
 
 				// dbio 파일명 명명규칙: ‘D’ + 테이블명 + 일련번호(2자리) -> DAO동사 + 약어명 + “01” ~ “99”
-				fileName = javaPrefix.concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
+				fileName = getFileNamePrefix().concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
 				fileName = fileName.concat(generateHelper.getJavaSeq(fileName));
 				
 				// currentTableName테이블의 컬럼목록
@@ -1346,5 +1347,11 @@ public class BxmDBIOGenerateUtil {
 		this.targetTables = targetTables;
 	}
 
+	public String getFileNamePrefix() {
+		return (fileNamePrefix == null ? "" : fileNamePrefix);
+	}
 
+	public void setFileNamePrefix(String fileNamePrefix) {
+		this.fileNamePrefix = fileNamePrefix;
+	}
 }

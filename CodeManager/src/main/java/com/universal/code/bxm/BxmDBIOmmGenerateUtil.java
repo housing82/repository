@@ -32,7 +32,12 @@ public class BxmDBIOmmGenerateUtil {
 	// Database Connection infomation
 	private Properties databaseConfig;
 	// Create OMM File 
-	private boolean createFile = false;
+	private boolean createFile;
+	private String fileNamePrefix;
+	private String fileNamePostfix;
+	private String inTables;
+	private List<String> fixedOmmTags;
+	
 	private JDBCManager jdbcManager;
 	private Connection conn;
 	private PreparedStatement pstmt;
@@ -48,7 +53,7 @@ public class BxmDBIOmmGenerateUtil {
 		generateHelper = new GenerateHelper();
 	}
 	
-	public void execute(String javaPrefix, String javaPostfix, String inTables, List<String> fixedOmmTags) {
+	public void execute() {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
 		logger.debug("★ SourceRoot: {}", getSourceRoot());
 		logger.debug("★ JavaPackage: {}", getJavaPackage());
@@ -64,17 +69,12 @@ public class BxmDBIOmmGenerateUtil {
 			conn = jdbcManager.getConnection(getDatabaseConfig());
 			logger.debug("conn: {}", conn);
 			// SELECT DATABASE
-			tableList = getTableList(conn, inTables);
-			int fileSeq = 0;
+			tableList = getTableList(conn, getInTables());
+
 			String currentTableName = null;
 			
 			for(TableDTO table : tableList) {
-				if(currentTableName != null && !table.getTableName().equals(currentTableName)) {
-					fileSeq = 1;
-				}
-				else {
-					fileSeq++;
-				}
+
 				currentTableName = table.getTableName();
 				/*				
 					클래스명 50자리
@@ -87,8 +87,8 @@ public class BxmDBIOmmGenerateUtil {
 					Default 생성 DTO명(Table당 생성)
 					- Default DTO의 순번은 ‘00’으로 함
 				*/
-				fileName = javaPrefix.concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(table.getTableName())));
-				fileName = fileName.concat(generateHelper.getJavaSeq(fileName.concat(javaPostfix))).concat(javaPostfix);
+				fileName = getFileNamePrefix().concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(table.getTableName())));
+				fileName = fileName.concat(generateHelper.getJavaSeq(fileName.concat(getFileNamePostfix()))).concat(getFileNamePostfix());
 				
 				description = StringUtil.NVL(table.getTableComments(), table.getTableName());
 				if(!description.equals(table.getTableName())) {
@@ -138,8 +138,8 @@ public class BxmDBIOmmGenerateUtil {
 					strbd.append(SystemUtil.LINE_SEPARATOR);
 				}
 				
-				if(fixedOmmTags != null) {
-					for(String ommTag : fixedOmmTags) {
+				if(getFixedOmmTags() != null && getFixedOmmTags().size() > 0) {
+					for(String ommTag : getFixedOmmTags()) {
 						strbd.append("	");
 						strbd.append(ommTag);
 						strbd.append(SystemUtil.LINE_SEPARATOR);
@@ -333,10 +333,40 @@ public class BxmDBIOmmGenerateUtil {
 		return createFile;
 	}
 
-
 	public void setCreateFile(boolean createFile) {
 		this.createFile = createFile;
 	}
 
+	public String getFileNamePrefix() {
+		return (fileNamePrefix == null ? "" : fileNamePrefix);
+	}
 
+	public void setFileNamePrefix(String fileNamePrefix) {
+		this.fileNamePrefix = fileNamePrefix;
+	}
+
+	public String getFileNamePostfix() {
+		return (fileNamePostfix == null ? "" : fileNamePostfix);
+	}
+
+	public void setFileNamePostfix(String fileNamePostfix) {
+		this.fileNamePostfix = fileNamePostfix;
+	}
+
+	public String getInTables() {
+		return inTables;
+	}
+
+	public void setInTables(String inTables) {
+		this.inTables = inTables;
+	}
+
+	public List<String> getFixedOmmTags() {
+		return fixedOmmTags;
+	}
+
+	public void setFixedOmmTags(List<String> fixedOmmTags) {
+		this.fixedOmmTags = fixedOmmTags;
+	}
+	
 }

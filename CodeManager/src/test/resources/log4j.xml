@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- 
+		OFF : The OFF has the highest possible rank and is intended to turn off logging. 로깅 해제.
+		ALL : The ALL has the lowest possible rank and is intended to turn on all logging. 모든 로깅.
+		TRACE : The TRACE Level designates finer-grained informational events than the DEBUG 세밀
+		FATAL : 가장 크리티컬한 에러가 일어 났을 때 사용합니다.
+		ERROR : 일반 에러가 일어 났을 때 사용합니다.
+		WARN : 에러는 아니지만 주의할 필요가 있을 때 사용합니다.
+		INFO : 일반 정보를 나타낼 때 사용합니다.
+		DEBUG : 일반 정보를 상세히 나타낼 때 사용합니다.
+	 -->
+
+	<!-- console -->
+	<appender name="defaultConsole" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value=" %m [%5p %c{1}.%M [%F:%L] [%d{HH:mm:ss}] [%t] [%c]]%n" />
+		</layout>
+	</appender>
+
+		
+	<!-- Application Loggers -->
+	<logger name="simple.project.manager.common">
+		<level value="DEBUG" />
+		
+	</logger>
+
+	<logger name="simple.project.manager.component">
+		<level value="DEBUG" />
+		
+	</logger>
+	
+	<logger name="simple.project.manager.process">
+		<level value="DEBUG" />
+		
+	</logger>
+	
+	<logger name="simple.project.manager.process.query">
+		<level value="WARN" />
+				
+	</logger>
+			
+	<!-- jdbc Loggers -->
+	<logger name="jdbc">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<!-- jdbc.sqlonly Loggers ( Real SQL Log ) -->
+	<logger name="jdbc.sqlonly">
+		<level value="INFO" />
+		
+	</logger>
+	
+	
+	<!-- jdbc.resultsettable Loggers ( Real SQL Result Log ) -->
+	<logger name="jdbc.resultsettable">
+		<level value="INFO" />
+		
+	</logger>
+	
+	
+	<!-- log4jdbc Loggers -->
+	<logger name="log4jdbc">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<!-- 3rdparty Loggers --> 
+	<logger name="org.apache.commons.beanutils.converters">
+		<level value="WARN" />
+		
+	</logger>
+
+	<!-- 3rdparty Loggers --> 
+	<logger name="org.apache.commons.beanutils.ConvertUtils">
+		<level value="WARN" />
+		
+	</logger>
+
+	<!-- 3rdparty Loggers --> 
+	<logger name="org.apache.commons.beanutils.BeanUtils">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<!-- 3rdparty Loggers [ org.springframework ] -->
+	<logger name="org.springframework.web">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<!-- 3rdparty Loggers [ org.springframework ] -->
+	<logger name="org.springframework.beans">
+		<level value="WARN" />
+		
+	</logger>
+		
+	<!-- 3rdparty Loggers [ org.springframework ] -->
+	<logger name="org.springframework.core">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<!-- 3rdparty Loggers [ org.springframework ] -->
+	<logger name="org.springframework.context">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<!-- 3rdparty Loggers [ org.mybatis.spring.SqlSessionFactoryBean ] --> 
+	<logger name="org.mybatis.spring.SqlSessionFactoryBean">
+		<level value="WARN" />
+		
+	</logger>
+	
+	
+	<!-- 3rdparty Loggers [ org.directwebremoting.spring.DwrClassPathBeanDefinitionScanner ] --> 
+	<logger name="org.directwebremoting.spring.DwrClassPathBeanDefinitionScanner">
+		<level value="WARN" />
+		
+	</logger>
+	
+	<logger name="simple.project.manager.component.utils.ExcelUtil">
+		<level value="WARN" />
+	</logger>	
+		
+	<!-- 3rdparty Loggers [ org.directwebremoting.log.startup ] -->  
+	<logger name="org.directwebremoting.log.startup">
+		<level value="WARN" />
+		
+	</logger>
+	
+	
+	<!-- All application exceptions/errors will be written here -->  
+	<logger name="org.directwebremoting.log.accessLog">
+	   <level value="INFO"/>
+	   
+	</logger>
+	
+	<!-- All DWR script information will be written here --> 
+	<logger name="org.directwebremoting.log.scripts">
+	   <level value="DEBUG"/>
+	   
+	</logger>
+	
+	<!-- All DWR session information will be written here --> 
+	<logger name="org.directwebremoting.log.session">
+	   <level value="DEBUG"/>
+	   
+	</logger>
+  
+	<!-- root Loggers --> 
+	<root>
+		<level value="DEBUG" />
+		<appender-ref ref="defaultConsole" />
+	</root>
+	
+</log4j:configuration>
