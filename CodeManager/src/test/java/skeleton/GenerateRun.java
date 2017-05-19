@@ -89,8 +89,8 @@ public class GenerateRun {
 					if(node.get("nodeType").equals("MethodDeclaration")) {
 						descMap = (Map<String, Object>) node.get("nodeDesc");
 						node.put("javaName", file.getName().subSequence(0, file.getName().length() - JAVA_EXTENSION.length()));
-						//logger.debug("javaName: {}, methodName: {}, parameters: {}, returnType: {}", node.get("javaName"), descMap.get("name"), descMap.get("parameters"), descMap.get("returnType"));
-						logger.debug("{}	{}", node.get("javaName"), descMap.get("name"));
+						logger.debug("javaName: {}, methodName: {}, parameters: {}, returnType: {}", node.get("javaName"), descMap.get("name"), descMap.get("parameters"), descMap.get("returnType"));
+						System.out.println(node.get("javaName") + "	" + descMap.get("name") + "	" + descMap.get("annotations"));
 						//elements.add(node);
 					}
 				}

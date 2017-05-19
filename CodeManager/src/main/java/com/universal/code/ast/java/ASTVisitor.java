@@ -202,7 +202,7 @@ public class ASTVisitor {
 	
 	public List<Map<String, Object>> execute(int visitType, CompilationUnit cu, Object arg, boolean verbose) {
 		if(logger.isDebugEnabled()) {
-			logger.debug("[START] execute ");
+			//logger.debug("[START] execute ");
 		}
 		if(property == null) {
 			property = new PropertyUtil();
@@ -246,11 +246,11 @@ public class ASTVisitor {
 			}
 			
 			if(logger.isDebugEnabled()) {
-				logger.debug("[START] transferNode" );
+				//logger.debug("[START] transferNode" );
 			}
 			out = transferNode();
 			if(logger.isDebugEnabled()) {
-				logger.debug("[END] transferNode" );
+				//logger.debug("[END] transferNode" );
 			}
 		}
 		catch(Exception e){
@@ -258,7 +258,7 @@ public class ASTVisitor {
 		}
 		
 		if(logger.isDebugEnabled()) {
-			logger.debug("[END] execute ");
+			//logger.debug("[END] execute ");
 		}
 		return out;
 	}

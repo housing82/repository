@@ -24,26 +24,11 @@
 
 		
 	<!-- Application Loggers -->
-	<logger name="simple.project.manager.common">
+	<logger name="com.universal.code">
 		<level value="DEBUG" />
 		
 	</logger>
 
-	<logger name="simple.project.manager.component">
-		<level value="DEBUG" />
-		
-	</logger>
-	
-	<logger name="simple.project.manager.process">
-		<level value="DEBUG" />
-		
-	</logger>
-	
-	<logger name="simple.project.manager.process.query">
-		<level value="WARN" />
-				
-	</logger>
-			
 	<!-- jdbc Loggers -->
 	<logger name="jdbc">
 		<level value="WARN" />
@@ -55,7 +40,6 @@
 		<level value="INFO" />
 		
 	</logger>
-	
 	
 	<!-- jdbc.resultsettable Loggers ( Real SQL Result Log ) -->
 	<logger name="jdbc.resultsettable">
@@ -118,42 +102,11 @@
 		
 	</logger>
 	
-	
-	<!-- 3rdparty Loggers [ org.directwebremoting.spring.DwrClassPathBeanDefinitionScanner ] --> 
-	<logger name="org.directwebremoting.spring.DwrClassPathBeanDefinitionScanner">
+	<logger name="com.universal.code.excel">
 		<level value="WARN" />
 		
-	</logger>
-	
-	<logger name="simple.project.manager.component.utils.ExcelUtil">
-		<level value="WARN" />
 	</logger>	
 		
-	<!-- 3rdparty Loggers [ org.directwebremoting.log.startup ] -->  
-	<logger name="org.directwebremoting.log.startup">
-		<level value="WARN" />
-		
-	</logger>
-	
-	
-	<!-- All application exceptions/errors will be written here -->  
-	<logger name="org.directwebremoting.log.accessLog">
-	   <level value="INFO"/>
-	   
-	</logger>
-	
-	<!-- All DWR script information will be written here --> 
-	<logger name="org.directwebremoting.log.scripts">
-	   <level value="DEBUG"/>
-	   
-	</logger>
-	
-	<!-- All DWR session information will be written here --> 
-	<logger name="org.directwebremoting.log.session">
-	   <level value="DEBUG"/>
-	   
-	</logger>
-  
 	<!-- root Loggers --> 
 	<root>
 		<level value="DEBUG" />
