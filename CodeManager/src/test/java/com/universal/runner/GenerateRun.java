@@ -1,4 +1,4 @@
-package skeleton;
+package com.universal.runner;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -94,7 +94,6 @@ public class GenerateRun {
 						//elements.add(node);
 					}
 				}
-				
 			}
 		}
 		

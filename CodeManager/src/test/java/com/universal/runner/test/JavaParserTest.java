@@ -1,4 +1,4 @@
-package test;
+package com.universal.runner.test;
 
 import japa.parser.ASTHelper;
 import japa.parser.JavaParser;

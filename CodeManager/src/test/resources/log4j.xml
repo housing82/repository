@@ -13,7 +13,7 @@
 		DEBUG : 일반 정보를 상세히 나타낼 때 사용합니다.
 	 -->
 
-	<!-- console -->
+	<!-- Console -->
 	<appender name="defaultConsole" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
 		<param name="encoding" value="UTF-8" />
@@ -22,11 +22,38 @@
 		</layout>
 	</appender>
 
+	<!-- only log message -->
+	<appender name="onlyLogMessageConsole" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<param name="encoding" value="UTF-8" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
+	</appender>
+	
+	<!-- File -->
+	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="C:/Developer/Log Repository/${servicename}/${servicename}_log4j.log" />  
+		<!-- ${catalina.base} -->
+		<!-- ${servicename.webapp.root}/ -->
+		<param name="Append" value="true" />
+		<param name="encoding" value="UTF-8" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%5p [%d{HH:mm:ss}] [%t] (%c{1}.%M) %m [%c][%F:%L]%n" />
+		</layout>
+	</appender>
 		
 	<!-- Application Loggers -->
 	<logger name="com.universal.code">
 		<level value="DEBUG" />
-		
+		<!-- <appender-ref ref="fileAppender" /> -->
+		<appender-ref ref="defaultConsole" />
+	</logger>
+
+	<logger name="com.universal.runner">
+		<level value="DEBUG" />
+		<appender-ref ref="onlyLogMessageConsole" />
 	</logger>
 
 	<!-- jdbc Loggers -->
@@ -107,10 +134,11 @@
 		
 	</logger>	
 		
-	<!-- root Loggers --> 
+	<!-- root Loggers 
 	<root>
 		<level value="DEBUG" />
 		<appender-ref ref="defaultConsole" />
 	</root>
+	--> 
 	
 </log4j:configuration>
