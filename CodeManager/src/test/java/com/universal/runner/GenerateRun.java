@@ -92,7 +92,7 @@ public class GenerateRun {
 		
 		//dbioGenerate();
 		
-		//bxmBeanGenerate(); 
+		bxmBeanGenerate(); 
 		
 		//parseJavaMethodToExcel();
 	}

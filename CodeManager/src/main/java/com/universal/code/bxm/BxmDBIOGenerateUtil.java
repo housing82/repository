@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +107,12 @@ public class BxmDBIOGenerateUtil {
 		methodMap.put("merge", "병합");
 		methodMap.put("delete", "삭제");
 		//템플릿 패스
-		templatePath = URLCoder.getInstance().getURLDecode(BxmDBIOGenerateUtil.class.getResource(".").getPath().concat("template").concat(File.separator), ""); 
+		//templatePath = URLCoder.getInstance().getURLDecode(BxmDBIOGenerateUtil.class.getResource(".").getPath().concat("template").concat(File.separator), ""); 
+		templatePath = URLCoder.getInstance().getURLDecode(BxmDBIOGenerateUtil.class.getResource("/").getPath().concat("template").concat("/"), "");
+		if(templatePath.contains("test-classes")) {
+			templatePath = templatePath.replace("test-classes", "classes");
+		}
+		
 		//기본 데이터소스명
 		DEFAULT_DATASOURCE_NAME = "MainDS";
 		
@@ -125,9 +131,6 @@ public class BxmDBIOGenerateUtil {
 		CONSTRAINT_CASE_UNIQUE = "UK_";
 		CONSTRAINT_CASE_FOREIGN = "FK_";
 	}
-	
-	
-	
 	
 	public void execute() {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
