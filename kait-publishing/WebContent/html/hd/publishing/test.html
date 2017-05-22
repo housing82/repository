@@ -1,0 +1,161 @@
+<section id="firstSection">
+	<!-- 화면 Title 영역 -->
+	<div class="title_and_btn">
+		<span class="subtit">코드관리</span>
+	</div>
+	
+	<!-- 조회 조건 -->
+	<div class="search_wrap" id="search_wrap">
+		<ul>
+			<li>
+				<dl>
+					<dt><i></i>InputBox : </dt>
+					<dd>
+						<input component="xg-input"  type="text"  id="inp_compCd"  maxlength="10"/>
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt><i></i>그룹코드 : </dt>
+					<dd>
+						<input component="xg-input"  type="text" id="inp_cdGrpCd"  value="00001"/>
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt><i></i>ComboBox(DB) : </dt>
+					<dd>
+						<!-- 콤보 박스 DB연동 -->
+						<div component="xg-combobox" id="cbo_cd1" cdGrpCd="00001" width="120" height="25">
+							<param dataid="dt_CodeList1"/>
+							<param checkboxes="true"/>
+							<param valueMember="cd"/>
+							<param displayMember="nm"/>
+						</div>
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt><i></i>ComboBox(List) : </dt>
+					<dd>
+						<!-- 콤보 박스 하드 코딩 -->
+						<div component="xg-combobox" id="cbo_cd2"   width="120"  height="25">
+							<param valueMember="cd"/>
+							<param displayMember="nm"/>
+							<param placeHolder="선택하세요" />
+							<data>
+								{cd:"A1",nm:"임시1"},
+								{cd:"A2",nm:"임시2"},
+								{cd:"A3",nm:"임시3"}
+							</data>
+						</div>
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<!-- 라디오 버튼 -->
+					<dt><i></i>RadioButton :</dt>
+					<dd>
+						<div component="xg-radio" id="rdo_langCd"  value="ko" class="radio" ><label>ko</label>
+							<param checked="true"/>
+						</div>
+					</dd>
+					<dd>
+						<div component="xg-radio" id="rdo_langCd"  value="en" class="radio" ><label>en</label></div>
+					</dd>
+					<dd>
+						<div component="xg-radio" id="rdo_langCd"  value="jp" class="radio" ><label>jp</label></div>
+					</dd>
+				</dl>
+			</li>
+			<li>
+				<dl>
+					<dt><i></i>CheckBox :</dt>
+					<dd>
+						<div component="xg-checkbox" id="chk_Chk1"  value="03" class="checkbox" checked="true">체크박스1</div>
+					</dd>
+					<dd>
+						<div component="xg-checkbox" id="chk_Chk2"  value="04" class="checkbox">체크박스2</div>
+
+					</dd>
+				</dl>
+			</li>
+                           <li>
+                           	<dl>
+					<!-- DateTimeInput -->
+                                   <dt><i></i>DateTimeInput : </dt>
+                                   <dd>
+						<div component="xg-datetime" id="dti_Datetime1"  width="100" height="25" culture="ko-KR" formatString="yyyy/MM/dd" dayNameFormat="firstLetter"></div>
+                                       <span >~</span>
+                                       <div component="xg-datetime" id="dti_Datetime2"  width="100" height="25" culture="ko-KR" formatString="yyyy/MM/dd" dayNameFormat="firstLetter"></div>
+                                   </dd>
+                           	</dl>
+			</li>
+			<li>
+				<dl>
+					<!-- DateTimeInput -->
+					<dt><i></i>MaskedInput : </dt>
+					<dd>
+						<div component="xg-maskedinput" id="mki_Mask"  mask="###-##-####" width="100" height="22"></div>
+					</dd>
+				</dl>
+			</li>
+                           <li>
+                           	<dl>
+				<!-- NumberInput -->
+                               	<dt><i></i>NumberInput : </dt>
+					<dd>
+						<div component="xg-numberinput" id="nbi_Number"   width="100" height="22" inputMode="simple"></div>
+					</dd>
+				</dl>
+			</li>
+                           <li>
+                           	<dl>
+					<!-- PasswordInput -->
+                               	<dt><i></i>PasswordInput : </dt>
+					<dd>
+						<input component="xg-passwordinput" id="psi_Password" type="password"   width="120" height="22" placeHolder="암호를 입력하세요">
+					</dd>
+				</dl>
+			</li>								
+			<li>
+				<dl>
+					<!-- ListBox 예제 -->
+                                   <dt><i></i>ListBox : </dt>
+                                   <dd>
+						<div component="xg-listbox" id="lib_ListBox1"  width="150" height="70" enableSelection="true"  filterable="true">
+							<param valueMember="cd"/>
+							<param displayMember="nm" filterable="false"/>
+							<data>
+								{cd:"A1",nm:"임시1"},
+								{cd:"A2",nm:"임시2"},
+								{cd:"A3",nm:"임시3"}
+							</data>
+						</div>
+					</dd>
+					<dd>
+						<div component="xg-listbox" id="lib_ListBox2"   name="lib_ListBox2" width="150" height="70" autoOpen="true" cdGrpCd="00001">
+							<param valueMember="cd"/>
+							<param displayMember="nm"/>
+							<param dataid="dt_CodeList2"/>
+						</div>
+					</dd>
+				</dl>
+			</li>
+		</ul>
+		<ul>&nbsp;</ul><ul>&nbsp;</ul>
+		
+		<!--  버튼 영역  -->
+		<div class="button">
+			<button component="xg-button" id="btn_Select"  	class="btn_search"><i class="fa fa-search"></i> 조회</button>
+			<button component="xg-button" id="btn_Add"    	class="btn_search"><i class="fa fa-search"></i> 추가</button>
+			<button component="xg-button" id="btn_Del"  	class="btn_search"><i class="fa fa-search"></i> 삭제</button>
+			<button component="xg-button" id="btn_Save"  	class="btn_search"><i class="fa fa-search"></i> 저장</button>
+		</div>
+	</div>
+</section>
+<script src="../cm/kait/js/xena.js"></script>					

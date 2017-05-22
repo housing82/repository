@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+#container,
+.uini_container{background-color: rgba(255,255,255,0.0);border: 0px none; overflow: auto; position: fixed;bottom: 39px; right: 5px; width: 226px; min-height: 0px;
+ max-height: 300px;}/*알람 메시지 한개의 최소 사이즈는 60px 정도입니다.*/
+.uni_notification.jqx-notification{padding: 0px; background-image: none!important;background-color: #f5f5f5 !important; border-width: 0px; border-style: none!important; margin-bottom: 0px !important; margin-top: 8px !important;}
+.uni_notification.jqx-notification:first-child{margin-top: 0px!important;}
+.uni_notification.jqx-notification .jqx-notification-table{table-layout: fixed; border-collapse: collapse;border-spacing: 0px; border: 1px solid #a59fa5; background-color: transparent;cellspacing:0; cellpadding:0; width: 100%;min-height: 52px; max-width: }
+.uni_notification.jqx-notification .jqx-notification-table td{padding: 10px;}
+.uni_notification.jqx-notification .jqx-notification-icon { background: #80418a url('/cm/kait/images/custom/admin/icons/icon_notification.png') no-repeat left center !important; width: 55px;}/* 아이콘 */
+.uni_notification.jqx-notification .jqx-notification-content{color: #80418a;}{color: #80418a;}/* 알림메시지내용 */
+.uni_notification.jqx-notification .jqxNotificationCloseButton{background: url('/cm/kait/images/custom/admin/icons/icon_notification_close.png') no-repeat; right: 10px!important; top: auto!important;}/* 닫기버튼 */

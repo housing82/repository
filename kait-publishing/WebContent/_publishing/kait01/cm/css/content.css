@@ -1,0 +1,260 @@
+@charset "UTF-8";
+/*******************************
+ * 파일명 :	content.css
+ *   설명 :	article영역, footer제외 
+ * 작성자 :	elliott
+ * 수정일 :	2017.05.18
+ ******************************/
+.mdi{
+	float:left;	
+	width:100%; min-width:1040px;
+	height:29px;
+	margin:0 10px 0 0;
+	border:#adacba solid; border-width:0 0 3px 0;
+	text-align:left;
+}
+ .content{ 
+	position:absolute;
+	width:100%;
+	min-width:1023px; 
+	padding:0 0px 0 0;
+	top:32px;
+	bottom:45px;
+	overflow:hidden;
+	overflow-y:auto; 
+ }
+
+/* MDI_TabMenu */
+.mditab{
+	float:left; 
+	overflow:hidden;
+	width:82%; height:32px; 
+	border:#ddd solid; border-width:0 0 0 1px ;
+	z-index:10;
+}
+.mditab ul li{	
+	position:relative;
+	float:left;
+	width:auto; max-width:170px;
+	height:28px;
+	margin:0;
+	font-size:1.2em;
+	text-align:center;
+	border:#ddd solid; border-width:1px 1px 0 0;
+	border-bottom:#adacba solid 3px; 
+
+}
+
+.mditab a span{
+	display:inline-block;
+	height:28px;
+	padding:0 25px 0 25px;
+	line-height:1.9;
+	color:#222; 
+}
+.mditab a span.current_mditab,
+.mditab a:hover span{
+	height:28px; width:auto;
+	color:#c2232f; font-weight:bold;
+	border-bottom:#c2232f solid 10px !important;
+	z-index:100; overflow:visible !important;;
+}
+
+.mditab a span.arrow{ width: 22px; text-align: center; padding: 0; color:#ccc; background:none !important;}
+.mditab a:active span.arrow, 
+.mditab a:visited span.arrow {color:#ccc;}
+.mditab a:hover span.arrow{color:#c2232f; }
+
+
+.mditab a span.tabclose{
+	position:absolute;
+	right:-20px; top:-8px;
+	display:inline-block; 
+	cursor:pointer; 
+	margin:0;
+	color:#777; 
+	font-size:1em; 
+	vertical-align:top;
+	font-weight:normal !important;
+	background:none !important;
+	border:none !important; 
+}
+.mditab a:hover span.tabclose{border:none !important; font-weight:bold; background:none !important;}
+
+.mditab a:hover span.tabclose,
+.mditab a span.current_tabclose{color:#ca1c37 !important; border:none !important; }
+
+
+.mditab a span.mymenu{
+	position:absolute;
+	display:inline-block; 
+	left:-20px; top:8px;
+	vertical-align:middle;
+	overflow:hidden;
+	width:14px; height:14px;
+
+	}
+.mditab a:hover span.mymenu{
+	position:absolute;
+	display:inline-block; 
+	left:-20px; top:8px;
+	margin-top:-40px;
+	border:none !important;
+
+	}
+
+.mdi_division {
+	float:right; 
+	width:170px;
+	text-align:right;
+	border:#d5d6da solid; border-width:1px 1px 1px 0;
+	background-color:#f2f3f5;
+	}
+
+.mdi_division ul li{
+	float:left;
+	width:27px;
+	height:24px; text-align:center;
+	border:#d5d6da solid; border-width:0 0 0 1px;
+}
+.mdi_division span{ height:24px; display:inline-block; vertical-align: middle; text-align:center;}
+
+/* TitleZone */
+.titlezone{
+	float:left; 
+	width:100%;	min-width:1013px; height:27px;
+	margin:10px 0 0 0;
+}
+
+h2.title{
+	float:left; 
+	display:inline-block;
+	width:auto;
+	padding:0 10px 0 0; margin:0;
+	text-indent:20px; font-size:1.2em; font-weight:bold;
+	background:url(../../images/common/bullet_title.gif) no-repeat 0px 0px !important;
+}
+.btn_common{
+	float:left;
+	display:table;
+	width:auto;
+}
+.btn_common ul li{float:left;width:24px; height:14px;}
+.btn_common ul li{display:table-cell; text-align:center; vertical-align:middle;
+	border:#d5d6da dotted; border-width:0 0 0 1px;
+}
+.btn_common span.border_none{border:none;}
+
+
+.btngroup{
+	float:right;
+	width:auto;
+}
+.btngroup ul li{
+	float:left;
+}
+
+
+/* Button */
+button{
+	overflow:visible; 
+	position:relative; 
+	height:22px;
+	margin:0; padding:0 10px; 
+	border:0; 
+	text-decoration:none !important; vertical-align:top; white-space:nowrap;
+}
+
+.btn_gray {
+	color:#222;
+	margin:0 0 0 2px; 
+	font-size:12px; line-height:1.7; 
+	border:#b8b8b8 solid 1px;
+	background-color:#f0f1f3;
+}
+.btn_gray:hover,.btn_gray:active,.btn_gray:focus{color:#ca1c37;}
+
+
+/* TabMenu */
+.tabmenuzone{	
+	float: left;
+	width: 100%; min-width: 1040px;
+	height: 29px;
+	background: #f2f3f7 url(../../images/common/bg_tabmenu02.gif) repeat-x 0px 0px !important;
+}
+.tabmenu{
+	float:left;
+	width:90%;
+	height:29px;
+	overflow:hidden;
+}
+
+.tabmenu ul li{	
+	float:left;
+	width:auto; height:29px;
+	font-size:1.2em;
+	text-align:center;
+}
+
+.tabmenu span {
+	display:inline-block;
+	height:28px;
+	padding:0 29px;
+	line-height:1.9;
+	color:#222;
+	border:#d2d4d9 solid; border-width: 0 1px 0 0;
+}
+.tabmenu a span.current_tabmenu,
+.tabmenu a:hover span{
+	height:29px; 
+	color:#4AA5DD;
+	font-weight: bold;	
+	border:#3c404a solid 1px;
+	background-color:#fff;
+	border-bottom:#fff solid 1px; 
+}
+
+
+
+/*.tabmenu.current_tabmenu{ border-bottom:#3c404a solid; border-width:1px;} TAB활성*/
+
+.searchbox{
+	float:left;
+	width:99.9%;
+	height:40px;
+	border:#c1cad5 solid 1px;
+	background-color:#dde8f6;
+}
+.searchbox input{height:20px; border:#d3d3d3 solid 1px; outline:none;}
+
+table{
+border:0; border-collapse:collapse; border-spacing:0; 
+table-layout:fixed; empty-cells:show; 
+font-size:1em; /* Quirks Mode */
+}
+.board{width:100%;  margin:0; padding:0;}
+.board table	{width:100%;}
+.board th		{padding:5px 0 5px 10px; line-height:1.2em; text-align:center; font-weight:bold; border:#d2d2d2 solid 1px;   border-top:#757984 solid 1px;  background-color:#edeef3; }
+.board td		{padding:5px 0 5px 4px; line-height:1.2em; border:#d2d2d2 solid; border-width:1px; background:none;}
+
+.board .textarea{width:97%; margin:0; padding:5px; border:#ddd solid 1px;}
+.board input.file{width:90%;}
+.board input.chk{margin:0 0 0 2px; vertical-align:middle;}
+.board input.txt{width:90px;}
+.board input.readonly{border:#e5e0d9 solid 1px; background:#f7f2eb;}
+.board img{cursor:pointer;}
+.board img.calender {margin:2px 0 0 3px; vertical-align:middle;}
+span.text{font-size:0.9em; line-height:1.8;}
+.ta_c{text-align:center;}
+
+
+.mt15{margin-top: 15px !importnat;}
+.mg15{margin-top: 15px !importnat;}
+
+.mt03{margin-top: 3px;}
+.mb15{margin-bottom:15px;}
+.pt15{padding-top:15px;}
+.mt_mg15{margin:15px 0;}
+
+
+fl_r{float:right;}

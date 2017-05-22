@@ -1,0 +1,43 @@
+@font-face{
+	font-family: NotoSerif-Regular;
+	src:url('css/NotoSerif-Regular.ttf');
+}
+header{
+    border: solid 0.3px gray;
+    height: 50px;
+    text-align: center;
+}
+.text{
+    width: 50%;
+    position: relative;
+    float: left;
+}
+#second_row{
+    width:100%;
+}
+body{
+    width: 280px;
+}
+
+#list{
+    list-style: none;
+}
+
+#desktop{
+    position: relative;
+    left: 70px;
+}
+#list{
+    padding: 0;
+}
+.main{
+    border: solid 0.3px gray;
+    height: 50px;
+    background-color: gray;
+    text-align: center;
+    font-size: 7px;
+}
+li{
+    border: solid 0.3px gray;
+    height: 50px;
+}

@@ -1,0 +1,31 @@
+body {
+	padding-left: 20px;
+	padding-top: 20px;
+	min-width: 980px;
+}
+
+article[data-role="form"] label {
+	display: inline-block;
+	width: 90px;
+	margin-right: 10px;
+}
+
+article[data-role="form"] > div {
+	margin-bottom: 10px;
+}
+
+article[data-role="form"] > div > span {
+	margin-right: 20px;
+}
+
+article[data-role="action"] {
+	padding: 20px;
+}
+
+.reg-date, .last-login, .level, .gender, .marriage {
+	display: inline-block;
+}
+
+.marriage, .reg-date, .last-login, .level {
+	margin-bottom: -13px;
+}

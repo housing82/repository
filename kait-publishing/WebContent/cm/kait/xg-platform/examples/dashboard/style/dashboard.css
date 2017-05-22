@@ -1,0 +1,7 @@
+section {
+	display: flex;
+}
+
+#top {
+	margin-top: 20px;
+}

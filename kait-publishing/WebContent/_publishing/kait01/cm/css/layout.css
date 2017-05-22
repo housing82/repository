@@ -1,0 +1,274 @@
+@charset "UTF-8";
+/*******************************
+ * 파일명 : 	layout.css
+ *   설명 : 	layout,우측footer포함
+ * 작성자 : 	elliott
+ * 수정일 : 	2017.05.19
+ ******************************/
+body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	-webkit-overflow-scrolling:touch;
+}
+header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0; min-width: 1276px;
+	height: 50px;
+	background-color: #3c4661;
+}
+aside {
+	position: absolute;
+	top: 60px;
+	bottom: 10px;
+	left: 0px; /* -196px */
+	width: 205px;
+	border: #D2D2D2 solid; border-width: 1px 1px 1px 0;
+}
+article {
+	position: absolute;
+	top: 60px;
+	bottom: 0px;
+	left: 226px; right: 10px; /* 30px */
+	min-width: 1040px;
+	overflow: hidden;
+	text-align: left;
+ }
+
+footer{
+	 position: absolute;	 
+	 left: 0; right: 0;bottom: 10px; 
+	 height: 26px; margin: 0px; padding: 0;
+	 text-align: left;
+	 border: #ddd solid; border-width: 1px;
+	 background: #f2f3f7;/*a6a6a6*/
+	 z-index: 10;
+ }
+
+	 footer span{display: inline-block; text-indent: 10px; line-height: 2;}
+	.footer01{ float: left; width: 23%; max-width: 230px; border: #ddd solid; border-width: 0 1px 0 0;}
+	.footer02{ float: left; width: 51%;	padding: 0 0px 0 6px; background:url(../../images/common/bg_notice.gif) no-repeat 5px 8px; }
+	.footer03{ float: right; width: 25%; max-width: 240px; border: #ddd solid; border-width: 0 0 0 1px; padding: 0 0 0 6px; background:url(../../images/common/bg_note.gif) no-repeat 5px 8px;}
+
+
+
+/* header */
+.toplogo{float: left; min-width: 226px; height: 50px; margin: 0; padding: 0; text-align: left;}
+.top_menu{
+	float: left; 
+	margin: 0; padding: 0; 
+	width:60%; height: 50px;
+	overflow:hidden;
+}
+.top_menu ul li{
+	float: left; 
+	height: 50px; 
+	margin: 0 25px 0 0; padding: 12px 0 0 0; 
+	line-height: 2em; font-size: 1.1em;
+	color: #fff; 
+	text-align: left; letter-spacing:-0.05em;
+	}
+.top_menu ul li img{margin: 8px 3px 0 0;}	
+.top_menu a:link, .top_menu a:active, .top_menu a:visited{color:#fff;} 
+.top_menu a:hover{color:#09f;}
+
+/* utilMenu */
+	.top_util{float: right; width: 260px; height: 50px; margin: 0; padding: 0 20px 0 0; text-align: right;}
+	.top_util ul{float: right; color: #fff;}
+	.top_util ul li{float: left; margin: 0 0 0 10px; padding: 12px 0 0 0 ; color: #eee; line-height: 2em; text-align: left;}
+	.top_util ul li img{margin: 0 2px 0 0;}	
+	.top_util  a{color: #fff;}
+	.top_util  a:hover{ color: #cccc;}
+
+/* uesrInfo */
+.userinfo{width: 206px; height: 43px;  background-color: #edeef3; display:table;}
+.userinfo span.icon{width: 40px; display: table-cell; vertical-align: middle; text-align:center;} 
+.userinfo p.user{
+	width: 152px; height:43px; 
+	text-align: left; 
+	display: table-cell; vertical-align: middle; 
+}
+.userinfo span.toggle{float: right; width: 14px; height: 43px; vertical-align: middle; background-color: #3c4661;}
+.userinfo span.toggle_close{float: right; width: 14px; height: 43px; vertical-align: middle; background-color: #3c4661;}
+
+
+
+.nav_tab{  
+	width: 206px; 
+	height: 41px; 
+	background-color: #3878d8;
+}
+	.nav_tab ul {float: left; font-size: 1.2em; height: 36px;} 
+	.nav_tab ul li {float: left;text-align: center; color: #fff !important; background-color: #a1a3ba;}
+	.nav_tab ul li span{display: inline-block; width: 82px;  height: 32px;  padding: 4px 0 0 0; line-height: 1.8; color: #fff; }
+	.nav_tab ul li span.my{width: 40px !important; height: 27px; padding: 9px 0 0 0; }
+	.nav_tab ul li.tab_my{ width: 40px;  }
+	.nav_tab ul li.tab_all{width: 82px; margin: 0 1px; color: #fff ;} 
+	.nav_tab ul li.tab_recent{width: 82px; margin: 0; }
+	.nav_tab a span.current_tab{ height: 30px; font-weight: bold;  background-color: #3878d8;}/* 탭활성클래스*/
+	.nav_tab a:hover span{height: 30px;  width: 82px; font-weight: bold; background-color: #3878d8; color: #fff;}
+
+/* allMenu_Search*/
+.wrap_menu_all{
+	float: left;
+	width: 206px;
+}
+.menu_all{
+	float: left;
+	width: 206px;
+	height: 76px;
+	background-color: #3479e0;	
+}
+.menu_all ul {width: 186px;margin: auto;}
+.menu_all ul li{
+	float: left;
+	width: 33.3%;
+	height: 33px;
+	margin: 7px 0 0 0;
+	color: #fff;
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold; 
+}
+
+.menu_all a span{
+	display: inline-block;
+	width: 61px;
+	height: 22px;
+	line-height: 1.5em;
+	color: #fff !important; 
+}
+
+.menu_all a:hover, .menu_all a.current_menu_all{
+	display: inline-block;
+	width: 61px;
+	height: 22px;
+	color: #fff; 
+	line-height: 1.5em;
+	background-color: #3c4661;
+}
+.menu_all fieldset input.ipt_search{
+	width: 160px; 
+	height: 28px;
+	height: 26px \0/IE9+10;/* ie9,10 */
+	margin: 0 auto;padding:0;
+	font-size: 1.1em; 
+	border: #425b84 solid 1px;
+	outline:0;
+}
+.menu_all fieldset button{
+	width: 28px;	
+	height: 30px; 
+	margin: 0 0 0 -5px;
+	display: inline-block; 
+	background: #fff url(../../images/common/btn_search.gif) no-repeat 0 0;
+}
+.menu_all fieldset.menu_search{	width: 205px; text-align: center;}
+
+/* TreeMenu */
+.all_tree {	
+	position:absolute;
+	top:160px;
+	bottom:1px;
+	float: left;
+	width: 206px;
+	padding: 0 0 10px 0;
+	overflow:hidden; 
+	overflow-y:auto; 
+}
+.all_tree ol li,.all_tree ul li{float: left; width: 206px;}
+.all_tree ol li.border{border: #ddd solid 1px; border-width: 0 0 1px 0; }
+.all_tree ul li.border02:first-child{border: #ddd solid 1px; border-width: 1px 0 0 0;}
+
+	.all_tree span{display: block; line-height: 1.2;}
+	.all_tree .depth01{background: url(../../images/common/depth01.gif) no-repeat 0 10px; margin: 0 0 0 10px; padding: 7px 15px 9px 17px; font-size: 1.2em; font-weight: bold;}
+	.all_tree .depth02{background: url(../../images/common/depth02.gif) no-repeat 0 8px; margin: 0 0 0 10px; padding: 5px 15px 7px 17px;}
+	.all_tree .depth03{background: url(../../images/common/depth03.gif) no-repeat 0 6px; margin: 0 0 0 28px; padding: 5px 15px 7px 17px;}
+	.all_tree .depth04{background: url(../../images/common/depth04.gif) no-repeat 0 8px; margin: 0 0 0 47px; padding: 4px 15px 6px 5px;}
+	.all_tree .open01{background: url(../../images/common/depth01_open.gif) no-repeat 0 10px; }
+	.all_tree .open02{background: url(../../images/common/depth02_open.gif) no-repeat 0 8px; }
+	.all_tree .open03{background: url(../../images/common/depth03_open.gif) no-repeat 0 6px; }
+	.all_tree a:hover span{font-weight: bold; color: #3878d8; }
+	.all_tree a:active span{font-weight: bold; color: #3878d8; }
+	.all_tree a:focus span{font-weight: bold; color: #3878d8; }
+
+/* Menu_My */
+.menu_my{
+	position:absolute;
+	top:84px; bottom:1px;
+	width: 206px;
+	text-align: left; 
+	overflow: hidden;
+	overflow-y: auto;
+}
+	.menu_my ul{}
+	.menu_my ul li{padding: 0; font-size: 1em; border: #d9d9d9; border-style: solid; border-width: 0 0 1px 0;}
+	.menu_my ul li .myname{width: 140px; margin: 0 0 0 5px; padding: 10px 0 12px 0; display: inline-block; line-height: 1.5em; text-align: left; }
+	.menu_my ul li .icon_my{height: auto; margin: 0px 0 0 0; padding: 0 5px 0 10px; display: inline-block; vertical-align: middle; border-right: #d4d4d4 dotted 1px;}
+	.menu_my ul li a{padding: 0px;text-decoration: none !important;}
+	.menu_my ul li a:hover{color: #3878d8; font-weight: bold; }
+	.menu_my ul li a:active{color: #3878d8;}
+	.menu_my ul li a:focus{color: #3878d8;}
+
+span.my_setup {
+	display: block; 
+	width: 184px; 
+	margin: 0 auto; 
+	margin-top: 10px;
+	padding: 4px 0 4px 0;
+	line-height: 1.5; text-align: center; vertical-align: middle; 
+	border: #dfdfe2 solid; border-width: 1px ; border-radius: 0px;
+	background-color: #edeef3; 
+}
+.btn_mysetup{
+	margin: 0; 
+	font-size: 1em; font-weight: bold; text-indent: 13px; 
+	border: none; outline: 0;color: #999; 
+	background: url(../../images/common/icon_setup.png) no-repeat 0 2px !important;
+}
+
+
+/* Menu_Recent */
+.menu_recent{
+	position:absolute;
+	top:84px; bottom:1px;
+	width: 206px;
+	text-align: left;
+	overflow: hidden;
+	overflow-y: auto;
+}
+.menu_recent ul li{
+	padding: 4px 0 4px 10px; 
+	font-size: 1em; 
+	line-height: 1.5em;
+	border: #d9d9d9; border-style: solid; border-width: 0 0 1px 0;	
+ }
+.menu_recent ul li .menuname{width: 150px; display: inline-block; padding: 0 0 0 8px; background: url(../../images/common/depth04.gif) no-repeat 0px 5px !important;}
+.menu_recent ul li a:hover span{color: #3878d8; font-weight: bold; background: url(../../images/common/depth04_over.gif) no-repeat 0px 5px !important; }
+.menu_recent ul li a:active {color: #3878d8;}
+.menu_recent ul li a:focus {color: #3878d8;}
+.menu_recent img {float: right; margin: 3px 5px 0 3px; cursor: pointer;}
+
+
+
+/* Menu_depth
+.tabmenu_all{
+float: left;
+width: 205px;
+}
+.tabmenu_all_depth01{
+width: 206px;
+height: 78px;
+background-color: #3878d8;
+}
+
+.tabmenu_all_depth01 ul{padding: 0 10px; height: 40px;}
+.tabmenu_all_depth01 ul li{float: left; width: 62px;  height: 40px; font-size: 1.2em; font-weight: bold; line-height: 2.5em; text-align: center; color: #fff; background: #ddd;}
+.tabmenu_all_search{float: left; padding: 0 10px 0 10px; height: 38px; text-align: left;}
+.tabmenu_all_search input{width: 166px; height: 28px; border: #2f63b1 solid ipx;}
+button.search_zoom{margin: 0 0 0 -1px; background: url(../images/common/btn_search.gif); border: none; outline: 0; width: 14px; height: 14px;}
+.tabmenu_all_search img{cursor: pointer;}
+*/
