@@ -137,15 +137,15 @@ public class BxmDBIOGenerateUtil {
 		
 		logger.debug("url: {}", templatePath);
 		
-		String javaCrudTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("java.crud.template.dbio"));
-		String javaSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("java.selectList.template.dbio"));
-		String javaTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("java.template.dbio"));
-		String xmlDeleteTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("xml.delete.template.dbio"));
-		String xmlInsertTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("xml.insert.template.dbio"));
-		String xmlSelectTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("xml.select.template.dbio"));
-		String xmlSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("xml.selectList.template.dbio"));
-		String xmlTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("xml.template.dbio"));
-		String xmlUpdateMergeTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("xml.update.merge.template.dbio"));
+		String javaCrudTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.crud.template"));
+		String javaSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.selectList.template"));
+		String javaTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.template"));
+		String xmlDeleteTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.delete.template"));
+		String xmlInsertTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.insert.template"));
+		String xmlSelectTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.select.template"));
+		String xmlSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.selectList.template"));
+		String xmlTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.template"));
+		String xmlUpdateMergeTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.update.merge.template"));
 		
 		
 		logger.debug("javaCrudTemplateDbio:\n {}", javaCrudTemplateDbio);

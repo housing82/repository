@@ -24,9 +24,15 @@ import com.universal.code.utils.StringUtil;
 
 public class ExcelSheetDTO {
 	
-	public static final int ROW_TYPE_TITLE = 0;
+	public static final int ROW_TYPE_TITLE;
 	
-	public static final int ROW_TYPE_DATA = 1;
+	public static final int ROW_TYPE_DATA;
+	
+	static {
+		ROW_TYPE_TITLE = 0;
+		
+		ROW_TYPE_DATA = 1;
+	} 
 	
 	private RegexUtil regexUtil;
 	
@@ -122,8 +128,8 @@ public class ExcelSheetDTO {
 		this.excelRowTitleList = excelRowTitleList;
 	}
 
-	public void addExcelRowTitleList(ExcelRowDataDTO excelRowDataDTO) {
-		this.excelRowTitleList.add(excelRowDataDTO);
+	public void addExcelRowTitleList(ExcelRowDataDTO excelRowTitleDTO) {
+		this.excelRowTitleList.add(excelRowTitleDTO);
 	}
 	
 	public List<ExcelRowDataDTO> getExcelRowDataList() {
@@ -134,8 +140,8 @@ public class ExcelSheetDTO {
 		this.excelRowDataList = excelRowDataList;
 	}
 
-	public void addExcelRowDataList(ExcelRowDataDTO excelData) {
-		this.excelRowDataList.add(excelData);
+	public void addExcelRowDataList(ExcelRowDataDTO excelRowDataDTO) {
+		this.excelRowDataList.add(excelRowDataDTO);
 	}
 }
 

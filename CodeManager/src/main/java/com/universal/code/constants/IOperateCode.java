@@ -5,6 +5,9 @@ import java.math.BigDecimal;
 public interface IOperateCode extends IServiceCode {
 
 	public final static String MAPPER_NAMESPACE_PREFIX = "codeManager";
+	public final static String JAVA_EXTENSION = ".java";
+	public final static String VERSION_TAG_V = "v";
+	
 	
 	public final static String TX_TYPE_INSERT = "I";
 	public final static String TX_TYPE_UPDATE = "U";
