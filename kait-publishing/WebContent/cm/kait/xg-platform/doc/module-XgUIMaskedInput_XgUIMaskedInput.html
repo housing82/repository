@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIMaskedInput"><span class="type-signature"></span>new XgUIMaskedInput<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIMaskedInput"><span class="type-signature"></span>new XgUIMaskedInput<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -754,7 +754,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -766,51 +766,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var maskedInputOption = {
-    xgInitOption: {
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;
-    },
-    xgBindOption: {
-        mode: &#x27;read&#x27;,
-        bind: {
-            type: &#x27;column&#x27;,
-            column: &#x27;columnName&#x27;
-        }
-    },
-    width: 450,
-    height: 30,
-    ...
-};
+    <pre class="sunlight-highlight-javascript">var maskedInputOption = {    xgInitOption: {        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;    },    xgBindOption: {        mode: &#x27;read&#x27;,        bind: {            type: &#x27;column&#x27;,            column: &#x27;columnName&#x27;        }    },    width: 450,    height: 30,    ...};// module 방식var $xgMaskedInputModule = new XgUIMaskedInput(&#x27;#xg-masked-input&#x27;, maskedInputOption);// plugin 방식var $xgMaskedInputPlugin = $(&#x27;#xg-masked-input&#x27;).xgSlider(maskedInputOption);</pre>
 
-// module 방식
-var $xgMaskedInputModule = new XgUIMaskedInput( &#x27;#xg-masked-input&#x27;, maskedInputOption );
-
-// plugin 방식
-var $xgMaskedInputPlugin = $( &#x27;#xg-masked-input&#x27; ).xgSlider( maskedInputOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-masked-input
-     data-xg-option=&#x27;{
-         &quot;xgInitOption&quot;: {
-             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-             &quot;xgDataTable&quot;: &quot;dataTableName&quot;
-         },
-         &quot;xgBindOption&quot;: {
-             &quot;mode&quot;: &quot;read&quot;,
-             &quot;bind&quot;: {
-                 &quot;type&quot;: &quot;column&quot;,
-                 &quot;column&quot;: &quot;columnName&quot;
-             }
-         },
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-         ...
-         &quot;mask&quot;: &quot;\#\#\#-\#\#\#\#&quot;,
-         &quot;promptChar&quot;: &quot;$&quot;
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;div data-xg-masked-input     data-xg-option=&#x27;{         &quot;xgInitOption&quot;: {             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,             &quot;xgDataTable&quot;: &quot;dataTableName&quot;         },         &quot;xgBindOption&quot;: {             &quot;mode&quot;: &quot;read&quot;,             &quot;bind&quot;: {                 &quot;type&quot;: &quot;column&quot;,                 &quot;column&quot;: &quot;columnName&quot;             }         },         &quot;width&quot;: 300,         &quot;height&quot;: 300,         ...         &quot;mask&quot;: &quot;\#\#\#-\#\#\#\#&quot;,         &quot;promptChar&quot;: &quot;$&quot;     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

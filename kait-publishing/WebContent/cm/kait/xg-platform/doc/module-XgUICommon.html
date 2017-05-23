@@ -556,9 +556,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var allTemplateOption = XgUICommon.constant.GRID.TEMPLATE.ALL;
-
-var viewTemplateOption = XgUICommon.constant.GRID.TEMPLATE.VIEW;</pre>
+    <pre class="sunlight-highlight-javascript">var allTemplateOption = XgUICommon.constant.GRID.TEMPLATE.ALL;var viewTemplateOption = XgUICommon.constant.GRID.TEMPLATE.VIEW;</pre>
 
 
     
@@ -633,9 +631,7 @@ var viewTemplateOption = XgUICommon.constant.GRID.TEMPLATE.VIEW;</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var en = XgUICommon.localization.en;
-
-var ko = XgUICommon.localization.ko;</pre>
+    <pre class="sunlight-highlight-javascript">var en = XgUICommon.localization.en;var ko = XgUICommon.localization.ko;</pre>
 
 
     
@@ -788,7 +784,7 @@ var ko = XgUICommon.localization.ko;</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var dashStyle = XgUICommon.camelToDash( &#x27;camelStyleString&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var dashStyle = XgUICommon.camelToDash(&#x27;camelStyleString&#x27;);</pre>
 
 
     
@@ -806,7 +802,7 @@ var ko = XgUICommon.localization.ko;</pre>
 <dd>
     
     <div class="description">
-        <p>변환 대상 문자열을 메서드를 지정하여 변환하여 반환한다. 추가 인자를 통하여 
+        <p>변환 대상 문자열을 메서드를 지정하여 변환하여 반환한다. 추가 인자를 통하여
 대소문자 변환 및 data-api 방식으로 사용가능 한 문자열을 만들 수 있다.</p>
     </div>
     
@@ -1045,13 +1041,7 @@ var ko = XgUICommon.localization.ko;</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var str = &#x27;xg-foo-bar&#x27;
-
-var camelStr = XgUICommon.changeStrStyle( str, &#x27;dashToCamel&#x27; );
-
-var camelUpperStr = XgUICommon.changeStrStyle( str, &#x27;dashToCamel&#x27;, &#x27;upper&#x27; );
-
-var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;camelToDash&#x27;, null, true );</pre>
+    <pre class="sunlight-highlight-javascript">var str = &#x27;xg-foo-bar&#x27;var camelStr = XgUICommon.changeStrStyle(str, &#x27;dashToCamel&#x27;);var camelUpperStr = XgUICommon.changeStrStyle(str, &#x27;dashToCamel&#x27;, &#x27;upper&#x27;);var dashDataApiStr = XgUICommon.changeStrStyle(&#x27;xgFooBar&#x27;, &#x27;camelToDash&#x27;, null, true);</pre>
 
 
     
@@ -1069,7 +1059,7 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
 <dd>
     
     <div class="description">
-        <p>데이터 타입( gauce / innoxync )의 키 문자열을 그리드 컬럼타입으로 변환하여 반환한다.</p>
+        <p>데이터 타입(gauce/innoxync)의 키 문자열을 그리드 컬럼타입으로 변환하여 반환한다.</p>
     </div>
     
 
@@ -1175,7 +1165,7 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
     
             
 <div class="param-desc">
-    <p>gridColumnType 그리드 컬럼 타입 문자열</p>
+    <p>gridColumnType  그리드 컬럼 타입 문자열</p>
 </div>
 
 
@@ -1210,7 +1200,7 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
 <dd>
     
     <div class="description">
-        <p>데이터 타입( gauce / innoxync )의 키 문자열을 그리드에서 지원하는 자바스크립트 
+        <p>데이터 타입( gauce / innoxync )의 키 문자열을 그리드에서 지원하는 자바스크립트
 타입 문자열로 변환하여 반환한다.</p>
     </div>
     
@@ -1317,7 +1307,7 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
     
             
 <div class="param-desc">
-    <p>dataType 타입 문자열</p>
+    <p>dataType    타입 문자열</p>
 </div>
 
 
@@ -1481,7 +1471,7 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var camelStyle = XgUICommon.dashToCamel( &#x27;dash-style-string&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var camelStyle = XgUICommon.dashToCamel(&#x27;dash-style-string&#x27;);</pre>
 
 
     
@@ -1597,9 +1587,9 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
 <dd>
     
     <div class="description">
-        <p>국가 코드에 매칭되는 국제화 메시지 오브젝트를 반환한다. 국가 코드가 생략 
-되었을 경우 브라우저의 국가 코드를 이용한다. 해당 코드의 메시지 오브젝트가 없을 경우 
-기본 언어 ( 한글 )의 메시지 오브젝트가 반환한다.</p>
+        <p>국가 코드에 매칭되는 국제화 메시지 오브젝트를 반환한다. 국가 코드가 생략
+되었을 경우 브라우저의 국가 코드를 이용한다. 해당 코드의 메시지 오브젝트가 없을 경우
+기본 언어(한글)의 메시지 오브젝트가 반환한다.</p>
     </div>
     
 
@@ -1740,9 +1730,7 @@ var dashDataApiStr = XgUICommon.changeStrStyle( &#x27;xgFooBar&#x27;, &#x27;came
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var localization = XgUICommon.getLocalization();
-
-var enLocalization = XgUICommon.getLocalization( &#x27;ko&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var localization = XgUICommon.getLocalization();var enLocalization = XgUICommon.getLocalization(&#x27;ko&#x27;);</pre>
 
 
     
@@ -1851,7 +1839,7 @@ var enLocalization = XgUICommon.getLocalization( &#x27;ko&#x27; );</pre>
 <dt>
     
 
-    <h4 class="name" id="removeEvents"><span class="type-signature">&lt;static> </span>removeEvents<span class="signature">($el, eventNames)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="removeEvents"><span class="type-signature">&lt;static> </span>removeEvents<span class="signature">($el, eventNames)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -1898,7 +1886,7 @@ var enLocalization = XgUICommon.getLocalization( &#x27;ko&#x27; );</pre>
             <td class="type">
             
                 
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
             
@@ -1987,7 +1975,7 @@ var enLocalization = XgUICommon.getLocalization( &#x27;ko&#x27; );</pre>
     
             
 <div class="param-desc">
-    <p>$el</p>
+    <p>jQuery Object</p>
 </div>
 
 
@@ -1998,7 +1986,7 @@ var enLocalization = XgUICommon.getLocalization( &#x27;ko&#x27; );</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -2010,17 +1998,7 @@ var enLocalization = XgUICommon.getLocalization( &#x27;ko&#x27; );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var $el = $( &#x27;&lt;div&gt;div dom element&lt;/div&gt;&#x27; );
-
-$el.on( &#x27;foo&#x27;, function ( evt ) {
-    // do something
-} );
-
-$el.on( &#x27;bar&#x27;, function ( evt ) {
-    // do something
-} );
-
-XgUICommon.removeEvents( $el, [ &#x27;foo&#x27;, &#x27;bar&#x27; ] );</pre>
+    <pre class="sunlight-highlight-javascript">var $el = $(&#x27;&lt;div&gt;div dom element&lt;/div&gt;&#x27;);$el.on(&#x27;foo&#x27;, function(evt){    // do something});$el.on(&#x27;bar&#x27;, function(evt){    // do something});XgUICommon.removeEvents($el, [&#x27;foo&#x27;, &#x27;bar&#x27;]);</pre>
 
 
     
@@ -2038,7 +2016,7 @@ XgUICommon.removeEvents( $el, [ &#x27;foo&#x27;, &#x27;bar&#x27; ] );</pre>
 <dd>
     
     <div class="description">
-        <p>옵션 오브젝트의 bind.column 의 데이터 타입을 체크하여 해당 
+        <p>옵션 오브젝트의 bind.column 의 데이터 타입을 체크하여 해당
 옵션의 bind 속성에 컬럼의 이름과 인덱스 값을 재설정 하여 반환한다.</p>
     </div>
     
@@ -2191,22 +2169,7 @@ XgUICommon.removeEvents( $el, [ &#x27;foo&#x27;, &#x27;bar&#x27; ] );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">// xgDataTable 인스턴스가 이미 존재하고, 0번째 컬럼이름이 &#x27;foo&#x27;라고 지정되어 있다고 가정한다.
-var optWithColumnIndex = {
-    bind: {
-        column: 0
-    }
-};
-
-XgUICommon.setBindColInfo( xgDataTable, optWithColumnIndex );
-
-var optWithColumnName = {
-    bind: {
-        column: &#x27;foo&#x27;
-    }
-};
-
-XgUICommon.setBindColInfo( xgDataTable, optWithColumnName );</pre>
+    <pre class="sunlight-highlight-javascript">// xgDataTable 인스턴스가 이미 존재하고, 0번째 컬럼이름이 &#x27;foo&#x27;라고 지정되어 있다고 가정한다.var optWithColumnIndex = {    bind: {        column: 0    }};XgUICommon.setBindColInfo(xgDataTable, optWithColumnIndex);var optWithColumnName = {    bind: {        column: &#x27;foo&#x27;    }};XgUICommon.setBindColInfo(xgDataTable, optWithColumnName);</pre>
 
 
     
@@ -2217,7 +2180,7 @@ XgUICommon.setBindColInfo( xgDataTable, optWithColumnName );</pre>
 <dt>
     
 
-    <h4 class="name" id="setUUID"><span class="type-signature">&lt;static> </span>setUUID<span class="signature">($el)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="setUUID"><span class="type-signature">&lt;static> </span>setUUID<span class="signature">($el)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -2264,7 +2227,7 @@ XgUICommon.setBindColInfo( xgDataTable, optWithColumnName );</pre>
             <td class="type">
             
                 
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
             
@@ -2330,7 +2293,7 @@ XgUICommon.setBindColInfo( xgDataTable, optWithColumnName );</pre>
     
             
 <div class="param-desc">
-    <p>$el</p>
+    <p>jQuery Object</p>
 </div>
 
 
@@ -2341,7 +2304,7 @@ XgUICommon.setBindColInfo( xgDataTable, optWithColumnName );</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -2353,9 +2316,7 @@ XgUICommon.setBindColInfo( xgDataTable, optWithColumnName );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var $el = $( &#x27;&lt;div&gt;div dom element&lt;/div&gt;&#x27; );
-
-XgUICommon.setUUID( $el );</pre>
+    <pre class="sunlight-highlight-javascript">var $el = $(&#x27;&lt;div&gt;div dom element&lt;/div&gt;&#x27;);XgUICommon.setUUID($el);</pre>
 
 
     
@@ -2373,7 +2334,7 @@ XgUICommon.setUUID( $el );</pre>
 <dd>
     
     <div class="description">
-        <p>옵션으로 데이터 테이블 참조 정보가 문자열인 경우 데이터 셋에서 해당 데이터 테이블 오브젝트를 
+        <p>옵션으로 데이터 테이블 참조 정보가 문자열인 경우 데이터 셋에서 해당 데이터 테이블 오브젝트를
 설정한다.</p>
     </div>
     
@@ -2526,15 +2487,7 @@ XgUICommon.setUUID( $el );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">// xgDataSet에 &#x27;foo&#x27;라는 데이터 테이블이 존재한다고 가정한다.
-var xgDataTable = {};
-
-var opt = {
-    xgDataSet: xgDataSet
-    xgDataTable: &#x27;foo&#x27;
-};
-
-XgUICommon.setXgDataTable( xgDataTable, opt );</pre>
+    <pre class="sunlight-highlight-javascript">// xgDataSet에 &#x27;foo&#x27;라는 데이터 테이블이 존재한다고 가정한다.var xgDataTable = {};var opt = {    xgDataSet: xgDataSet    xgDataTable: &#x27;foo&#x27;};XgUICommon.setXgDataTable(xgDataTable, opt);</pre>
 
 
     

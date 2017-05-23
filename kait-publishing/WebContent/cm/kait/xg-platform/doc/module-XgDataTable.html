@@ -478,7 +478,7 @@
 <dd>
     
     <div class="description">
-        <p>새로운 컬럼을 추가한다. ( for xena )</p>
+        <p>새로운 컬럼을 추가한다. (for xena)</p>
     </div>
     
 
@@ -554,7 +554,7 @@
 
             
 
-            <td class="description last"><p>컬럼의 타입 ( xena )</p></td>
+            <td class="description last"><p>컬럼의 타입 (xena)</p></td>
         </tr>
 
 	
@@ -686,7 +686,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.addColumn( &#x27;age&#x27;, XgCommon.constant.DATATYPE[ &#x27;int16&#x27; ], 10, XgCommon.constant.CONSTRAINT.NOTNULL );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.addColumn(&#x27;age&#x27;, XgCommon.constant.DATATYPE[&#x27;int16&#x27;], 10, XgCommon.constant.CONSTRAINT.NOTNULL);</pre>
 
 
     
@@ -704,7 +704,7 @@
 <dd>
     
     <div class="description">
-        <p>컬럼을 추가한다. ( for gauce, innoxync )</p>
+        <p>컬럼을 추가한다. (for gauce, innoxync)</p>
     </div>
     
 
@@ -780,7 +780,7 @@
 
             
 
-            <td class="description last"><p>컬럼의 타입 ( gauce )</p></td>
+            <td class="description last"><p>컬럼의 타입(gauce)</p></td>
         </tr>
 
 	
@@ -912,7 +912,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.addColumnForGauce( &#x27;userId&#x27;, XgCommon.constant.DATATYPE_GAUCE[ &#x27;string&#x27; ], 20, XgCommon.constant.CONSTRAINT.KEY );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.addColumnForGauce(&#x27;userId&#x27;, XgCommon.constant.DATATYPE_GAUCE[&#x27;string&#x27;], 20, XgCommon.constant.CONSTRAINT.KEY);</pre>
 
 
     
@@ -930,7 +930,7 @@
 <dd>
     
     <div class="description">
-        <p>로우 데이터를 추가한다. 추가된 로우는 데이터 테이블의 마지막 로우에 들어간다. 
+        <p>로우 데이터를 추가한다. 추가된 로우는 데이터 테이블의 마지막 로우에 들어간다.
 rowData가 생략 되었을 경우 빈 배열이 추가된다. 배열의 크기는 데이터 테이블 헤더의 총 컬럼 수와 일치하여야 한다.</p>
     </div>
     
@@ -1103,11 +1103,7 @@ rowData가 생략 되었을 경우 빈 배열이 추가된다. 배열의 크기�
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">// 단일 로우 추가
-xgDataTable.addRow( [ 25, &#x27;foo&#x27; ] );
-
-// 다중 로우 추가
-xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre>
+    <pre class="sunlight-highlight-javascript">// 단일 로우 추가xgDataTable.addRow([25, &#x27;foo&#x27;]);// 다중 로우 추가xgDataTable.addRow([[15, &#x27;bar&#x27;], [41, &#x27;hoo&#x27;]]);</pre>
 
 
     
@@ -1223,7 +1219,7 @@ xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre
 <dd>
     
     <div class="description">
-        <p>특정 로우의 상태(status) 값을 초기화 한다.( STATUS.NORMAL )</p>
+        <p>특정 로우의 상태(status) 값을 초기화 한다.(STATUS.NORMAL)</p>
     </div>
     
 
@@ -1359,7 +1355,7 @@ xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.clearRowStatus( 0 );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.clearRowStatus(0);</pre>
 
 
     
@@ -1508,7 +1504,7 @@ xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.deleteRow( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.deleteRow(1);</pre>
 
 
     
@@ -1526,9 +1522,9 @@ xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre
 <dd>
     
     <div class="description">
-        <p>xgDataTable 특정 컬럼( colIdx )에서 value와 일치하는 최초 로우의 
-인덱스를 반환한다. 일치하는 row가 없을 경우 -1을 반환한다. value 인자로 배열이 
-전달된 경우 해당 배열요소 중에 컬럼의 값이 포함되어 있다면 해당 로우의 인덱스 
+        <p>xgDataTable 특정 컬럼( colIdx )에서 value와 일치하는 최초 로우의
+인덱스를 반환한다. 일치하는 row가 없을 경우 -1을 반환한다. value 인자로 배열이
+전달된 경우 해당 배열요소 중에 컬럼의 값이 포함되어 있다면 해당 로우의 인덱스
 값을 반환한다.</p>
     </div>
     
@@ -1709,7 +1705,7 @@ xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre
     
             
 <div class="param-desc">
-    <p>rowIdx value값이 같은 컬럼의 로우 인덱스</p>
+    <p>rowIdx          value값이 같은 컬럼의 로우 인덱스</p>
 </div>
 
 
@@ -1732,8 +1728,7 @@ xgDataTable.addRow( [ [ 15, &#x27;bar&#x27; ], [ 41, &#x27;hoo&#x27; ] ] );</pre
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var findAge = xgDataTable.find( 0, 30, 0 );
-var findUserId = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ], 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var findAge = xgDataTable.find(0, 30, 0);var findUserId = xgDataTable.find(1, [&#x27;foo&#x27;, &#x27;bar&#x27;], 1);</pre>
 
 
     
@@ -1752,7 +1747,7 @@ var findUserId = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ], 1 );
     
     <div class="description">
         <p>xgDataTable 특정 컬럼( colIdx )에서 value와 일치하는 데이터의 로우 인덱스 배열을 반환한다.
-일치하는 컬럼이 없을 경우 빈 배열을 반환한다. value 인자로 배열이 전달된 경우 해당 배열요소 중에 컬럼의 
+일치하는 컬럼이 없을 경우 빈 배열을 반환한다. value 인자로 배열이 전달된 경우 해당 배열요소 중에 컬럼의
 값이 포함되어 있다면 해당 로우의 인덱스 값도 포함해서 반환한다.</p>
     </div>
     
@@ -1933,7 +1928,7 @@ var findUserId = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ], 1 );
     
             
 <div class="param-desc">
-    <p>arr 찾은 값 들의 로우 인덱스 배열</p>
+    <p>arr             찾은 값 들의 로우 인덱스 배열</p>
 </div>
 
 
@@ -1956,8 +1951,7 @@ var findUserId = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ], 1 );
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var findAgeArray = xgDataTable.find( 0, 30, 0 );
-var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ], 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var findAgeArray = xgDataTable.find(0, 30, 0);var findUserIdArray = xgDataTable.find(1, [&#x27;foo&#x27;, &#x27;bar&#x27;], 1);</pre>
 
 
     
@@ -2088,7 +2082,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>constraint 컬럼의 제약조건 값</p>
+    <p>constraint  컬럼의 제약조건 값</p>
 </div>
 
 
@@ -2111,7 +2105,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnConstraint = xgDataTable.getColumnConstraint( 0 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnConstraint = xgDataTable.getColumnConstraint(0);</pre>
 
 
     
@@ -2333,7 +2327,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>result 컬럼의 인덱스</p>
+    <p>result  컬럼의 인덱스</p>
 </div>
 
 
@@ -2356,7 +2350,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnIndex = xgDataTable.getColumnIndex( &#x27;age&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var columnIndex = xgDataTable.getColumnIndex(&#x27;age&#x27;);</pre>
 
 
     
@@ -2503,7 +2497,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnName = xgDataTable.getColumnName( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnName = xgDataTable.getColumnName(1);</pre>
 
 
     
@@ -2627,7 +2621,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>size 컬럼의 크기 값</p>
+    <p>size    컬럼의 크기 값</p>
 </div>
 
 
@@ -2650,7 +2644,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnSize = xgDataTable.getColumnSize( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnSize = xgDataTable.getColumnSize(1);</pre>
 
 
     
@@ -2668,7 +2662,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
 <dd>
     
     <div class="description">
-        <p>colIdx 번째 컬럼의 데이터 타입 값을 반환한다. ( xena )</p>
+        <p>colIdx 번째 컬럼의 데이터 타입 값을 반환한다. (xena)</p>
     </div>
     
 
@@ -2781,7 +2775,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>type 컬럼의 데이터 타입 값 ( xena )</p>
+    <p>type    컬럼의 데이터 타입 값 (xena)</p>
 </div>
 
 
@@ -2804,7 +2798,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnType = xgDataTable.getColumnType( 0 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnType = xgDataTable.getColumnType(0);</pre>
 
 
     
@@ -2822,7 +2816,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
 <dd>
     
     <div class="description">
-        <p>colIdx 번째 컬럼의 데이터 타입의 값을 반환한다. ( gauce, innoxync )</p>
+        <p>colIdx 번째 컬럼의 데이터 타입의 값을 반환한다. (gauce, innoxync)</p>
     </div>
     
 
@@ -2935,7 +2929,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>type 컬럼의 데이터 타입 값 ( gauce, innoxync )</p>
+    <p>type    컬럼의 데이터 타입 값 (gauce, innoxync)</p>
 </div>
 
 
@@ -2958,7 +2952,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnType = xgDataTable.getColumnTypeForGauce( 0 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnType = xgDataTable.getColumnTypeForGauce(0);</pre>
 
 
     
@@ -2976,7 +2970,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
 <dd>
     
     <div class="description">
-        <p>colIdx 번째 컬럼의 데이터 타입 문자열 값을 반환한다. ( xena )</p>
+        <p>colIdx 번째 컬럼의 데이터 타입 문자열 값을 반환한다. (xena)</p>
     </div>
     
 
@@ -3089,7 +3083,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>type 컬럼의 데이터 타입 문자열 값 ( xena )</p>
+    <p>type    컬럼의 데이터 타입 문자열 값 (xena)</p>
 </div>
 
 
@@ -3112,7 +3106,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnTypeStr = xgDataTable.getColumnTypeStr( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnTypeStr = xgDataTable.getColumnTypeStr(1);</pre>
 
 
     
@@ -3130,7 +3124,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
 <dd>
     
     <div class="description">
-        <p>colIdx 번째 컬럼의 데이터 타입 문자열 값을 반환한다. ( gauce, innoxync )</p>
+        <p>colIdx 번째 컬럼의 데이터 타입 문자열 값을 반환한다. (gauce, innoxync)</p>
     </div>
     
 
@@ -3243,7 +3237,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>type 컬럼의 데이터 타입 문자열 값 ( gauce, innoxync )</p>
+    <p>type    컬럼의 데이터 타입 문자열 값 (gauce, innoxync)</p>
 </div>
 
 
@@ -3266,7 +3260,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var columnTypeStr = xgDataTable.getColumnTypeStrForGauce( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var columnTypeStr = xgDataTable.getColumnTypeStrForGauce(1);</pre>
 
 
     
@@ -3511,7 +3505,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var rowData = xgDataTable.getRow( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var rowData = xgDataTable.getRow(1);</pre>
 
 
     
@@ -3586,7 +3580,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>rowCount 로우의 총 수</p>
+    <p>rowCount    로우의 총 수</p>
 </div>
 
 
@@ -3684,7 +3678,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>rowIdx 로우의 인덱스</p>
+    <p>rowIdx  로우의 인덱스</p>
 </div>
 
 
@@ -3725,8 +3719,8 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
 <dd>
     
     <div class="description">
-        <p>로우의 상태( status ) 값을 반환한다.
-[ 1 : Normal, 2 : Insert, 3 : Update, 4 : Delete ]</p>
+        <p>로우의 상태(status)값을 반환한다.
+[1: Normal, 2: Insert, 3: Update, 4: Delete]</p>
     </div>
     
 
@@ -3839,7 +3833,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>rowSatus 로우의 상태 값</p>
+    <p>rowSatus    로우의 상태 값</p>
 </div>
 
 
@@ -3862,7 +3856,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var rowStatus = xgDataTable.getRowStatus( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var rowStatus = xgDataTable.getRowStatus(1);</pre>
 
 
     
@@ -3881,7 +3875,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
     <div class="description">
         <p>로우의 상태( status ) 코드 값을 반환한다.
-[ 0 - UN, 1 - N, 2 - C, 3 - U, 4 - D, 5 - S ]</p>
+[0 - UN, 1 - N, 2 - C, 3 - U, 4 - D, 5 - S]</p>
     </div>
     
 
@@ -3994,7 +3988,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
             
 <div class="param-desc">
-    <p>rowSatusCode - 로우의 상태 코드</p>
+    <p>rowSatusCode    로우의 상태 코드</p>
 </div>
 
 
@@ -4017,8 +4011,7 @@ var findUserIdArray = xgDataTable.find( 1, [ &#x27;foo&#x27;, &#x27;bar&#x27; ],
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var rowStatus = xgDataTable.getRowStatus( 1 );
-var rowStatusCode = xgDataTable.getRowStatusCode( rowStatus );</pre>
+    <pre class="sunlight-highlight-javascript">var rowStatus = xgDataTable.getRowStatus(1);var rowStatusCode = xgDataTable.getRowStatusCode(rowStatus);</pre>
 
 
     
@@ -4098,7 +4091,7 @@ var rowStatusCode = xgDataTable.getRowStatusCode( rowStatus );</pre>
 
             
 
-            <td class="description last"><p>타겟 속성.<strong>[ 'select', 'update' ] 중 택일</strong></p></td>
+            <td class="description last"><p>타겟 속성.<strong>['select', 'update'] 중 택일</strong></p></td>
         </tr>
 
 	
@@ -4180,14 +4173,7 @@ var rowStatusCode = xgDataTable.getRowStatusCode( rowStatus );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">// 전체 정보를 받을 경우
-var urlInfo = xgDataTable.getUrl();
-
-// &#x27;select&#x27; url을 요청 할 경우
-var selectUrl = xgDataTable.getUrl( &#x27;select&#x27; );
-
-// &#x27;update&#x27; url을 요청 할 경우
-var updateUrl = xgDataTable.getUrl( &#x27;update&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">// 전체 정보를 받을 경우var urlInfo = xgDataTable.getUrl();// &#x27;select&#x27; url을 요청 할 경우var selectUrl = xgDataTable.getUrl(&#x27;select&#x27;);// &#x27;update&#x27; url을 요청 할 경우var updateUrl = xgDataTable.getUrl(&#x27;update&#x27;);</pre>
 
 
     
@@ -4337,7 +4323,7 @@ var updateUrl = xgDataTable.getUrl( &#x27;update&#x27; );</pre>
     
             
 <div class="param-desc">
-    <p>value 컬럼의 데이터</p>
+    <p>value   컬럼의 데이터</p>
 </div>
 
 
@@ -4360,7 +4346,7 @@ var updateUrl = xgDataTable.getUrl( &#x27;update&#x27; );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var value = xgDataTable.getValue( 0, 1 );</pre>
+    <pre class="sunlight-highlight-javascript">var value = xgDataTable.getValue(0, 1);</pre>
 
 
     
@@ -4378,7 +4364,7 @@ var updateUrl = xgDataTable.getUrl( &#x27;update&#x27; );</pre>
 <dd>
     
     <div class="description">
-        <p>컬럼 데이터의 사이즈를 반환한다. 
+        <p>컬럼 데이터의 사이즈를 반환한다.
 길이 속성이 없는 타입일 경우, 문자열로 변환하여 그 길이 값을 반환한다.</p>
     </div>
     
@@ -4511,7 +4497,7 @@ var updateUrl = xgDataTable.getUrl( &#x27;update&#x27; );</pre>
     
             
 <div class="param-desc">
-    <p>size 컬럼 데이터의 사이즈</p>
+    <p>size    컬럼 데이터의 사이즈</p>
 </div>
 
 
@@ -4534,8 +4520,7 @@ var updateUrl = xgDataTable.getUrl( &#x27;update&#x27; );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var ageSize = xgDataTable.getValueSize( 0, 0 );
-var userIdSize = xgDataTable.getValueSize( 0, &#x27;userId&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var ageSize = xgDataTable.getValueSize(0, 0);var userIdSize = xgDataTable.getValueSize(0, &#x27;userId&#x27;);</pre>
 
 
     
@@ -4553,7 +4538,7 @@ var userIdSize = xgDataTable.getValueSize( 0, &#x27;userId&#x27; );</pre>
 <dd>
     
     <div class="description">
-        <p>로우를 rowIdx위치에 삽입한다. rowData가 생략 되었을 경우 빈 배열이 삽입된다. 
+        <p>로우를 rowIdx위치에 삽입한다. rowData가 생략 되었을 경우 빈 배열이 삽입된다.
 배열의 크기는 데이터 테이블 헤더의 총 컬럼 수와 일치하여야 한다.</p>
     </div>
     
@@ -4726,7 +4711,7 @@ var userIdSize = xgDataTable.getValueSize( 0, &#x27;userId&#x27; );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.insertRow( 0, [ 40, &#x27;bar&#x27; ] );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.insertRow(0, [40, &#x27;bar&#x27;]);</pre>
 
 
     
@@ -4744,7 +4729,7 @@ var userIdSize = xgDataTable.getValueSize( 0, &#x27;userId&#x27; );</pre>
 <dd>
     
     <div class="description">
-        <p>데이터( 로우 )와 헤더( 컬럼 ) 정보를 초기화 한다. 
+        <p>데이터(로우)와 헤더(컬럼) 정보를 초기화 한다.
 바인딩 컴포넌트 정보는 초기화 하지 않는다.</p>
     </div>
     
@@ -4843,10 +4828,10 @@ var userIdSize = xgDataTable.getValueSize( 0, &#x27;userId&#x27; );</pre>
 <dd>
     
     <div class="description">
-        <p>Server측에서 boolean 형식의 데이터를 보내줄 수 없어 
+        <p>Server측에서 boolean 형식의 데이터를 보내줄 수 없어
 boolean 형태로 표현되어야 하는 컬럼의 정보를 설정한다. 이후 서버에서
 데이터 수신 시 해당 정보를 기준으로 boolean 형태로 설정된다.
-데이터를 설정 시 trueValue와 같지 않은 값은 모두 false로 설정된다. 단 
+데이터를 설정 시 trueValue와 같지 않은 값은 모두 false로 설정된다. 단
 현재 표시되는 정보일 뿐이지 데이터가 변경되지 않으면 지정한 falseValue
 로 저장되지 않는다.</p>
 <p><b>해당 메서드는 서버 데이터가 동기화 되기 전에 설정하여야 반영된다.</b></p>
@@ -4978,15 +4963,7 @@ boolean 형태로 표현되어야 하는 컬럼의 정보를 설정한다. 이�
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var booleanColumn = [
-    { 
-        column: &#x27;age&#x27;, 
-        trueValue: 30,
-        falseValue: 40
-    }
-];
-
-xgDataTable.setBooleanColumn( booleanColumn );</pre>
+    <pre class="sunlight-highlight-javascript">var booleanColumn = [    {        column: &#x27;age&#x27;,        trueValue: 30,        falseValue: 40    }];xgDataTable.setBooleanColumn(booleanColumn);</pre>
 
 
     
@@ -5136,7 +5113,7 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.setRowPos( 1 );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.setRowPos(1);</pre>
 
 
     
@@ -5154,8 +5131,8 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
 <dd>
     
     <div class="description">
-        <p>로우의 상태( status ) 값을 설정한다. 
-[ 1 : Normal, 2 : Insert, 3 : Update, 4 : Delete ]</p>
+        <p>로우의 상태(status) 값을 설정한다.
+[1 : Normal, 2 : Insert, 3 : Update, 4 : Delete]</p>
     </div>
     
 
@@ -5314,7 +5291,7 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.setRowStatus( 1, XgCommon.constant.STATUS.UPDATE );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.setRowStatus(1, XgCommon.constant.STATUS.UPDATE);</pre>
 
 
     
@@ -5325,7 +5302,7 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
 <dt>
     
 
-    <h4 class="name" id="setUrl"><span class="type-signature"></span>setUrl<span class="signature">(info, <span class="optional">url</span>)</span><span class="type-signature"> &rarr; {obejct}</span></h4>
+    <h4 class="name" id="setUrl"><span class="type-signature"></span>setUrl<span class="signature">(<span class="optional">info</span>, <span class="optional">url</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -5385,6 +5362,8 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
 
             
                 <td class="attributes">
+                
+                    &lt;optional><br>
                 
 
                 
@@ -5495,7 +5474,7 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">obejct</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -5507,12 +5486,7 @@ xgDataTable.setBooleanColumn( booleanColumn );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">// 오브젝트로 설정하는 경우
-xgDataTable.setUrl( { select: &#x27;./selectUrl&#x27;, update: &#x27;./updateUrl&#x27; } );
-
-// 각각 설정하는 경우
-xgDataTable.setUrl( &#x27;select&#x27;, &#x27;./anotherSelctUrl&#x27; );
-xgDataTable.setUrl( &#x27;update&#x27;, &#x27;./anotherUpdateUrl&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">// 오브젝트로 설정하는 경우xgDataTable.setUrl( { select: &#x27;./selectUrl&#x27;, update: &#x27;./updateUrl&#x27; } );// 각각 설정하는 경우xgDataTable.setUrl( &#x27;select&#x27;, &#x27;./anotherSelctUrl&#x27; );xgDataTable.setUrl( &#x27;update&#x27;, &#x27;./anotherUpdateUrl&#x27; );</pre>
 
 
     
@@ -5523,7 +5497,7 @@ xgDataTable.setUrl( &#x27;update&#x27;, &#x27;./anotherUpdateUrl&#x27; );</pre>
 <dt>
     
 
-    <h4 class="name" id="setValue"><span class="type-signature"></span>setValue<span class="signature">(rowIdx, column)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="setValue"><span class="type-signature"></span>setValue<span class="signature">(rowIdx, column, value)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -5610,6 +5584,32 @@ xgDataTable.setUrl( &#x27;update&#x27;, &#x27;./anotherUpdateUrl&#x27; );</pre>
         </tr>
 
 	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>해당 셀의 값</p></td>
+        </tr>
+
+	
 	</tbody>
 </table>
 
@@ -5685,8 +5685,7 @@ xgDataTable.setUrl( &#x27;update&#x27;, &#x27;./anotherUpdateUrl&#x27; );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataTable.setValue( 0, &#x27;age&#x27;, 30 );
-xgDataTable.setValue( 0, 1, &#x27;taz&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataTable.setValue(0, &#x27;age&#x27;, 30);xgDataTable.setValue(0, 1, &#x27;taz&#x27;);</pre>
 
 
     

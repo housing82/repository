@@ -12,7 +12,7 @@
 .jqx-grid-column-sortdescbutton{display:none !important;}
 .jqx-grid-column-sortascbutton{display:none !important;}
 
-.jqx-grid .jqx-grid-column-header.jqx-widget-header{border-top: 2px solid #fff;line-height: 0.9em}
+.jqx-grid .jqx-grid-column-header.jqx-widget-header{border-top: 2px solid #fff; line-height: 0.9em}
 .jqx-grid .jqx-grid-header>div>div>div{font-family:'微软雅黑 Regular', '微软雅黑', "Microsoft Yahei", Arial, sans-serif; font-size: 15px; font-weight: bold; color: #817d81;}
 .jqx-grid .jqx-grid-column-header .jqx-grid-column-menubutton{border-style: none;}
 .jqx-grid .jqx-grid-cell{background: transparent;}

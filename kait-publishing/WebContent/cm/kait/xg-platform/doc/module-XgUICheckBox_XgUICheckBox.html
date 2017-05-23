@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUICheckBox"><span class="type-signature"></span>new XgUICheckBox<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUICheckBox"><span class="type-signature"></span>new XgUICheckBox<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -671,7 +671,7 @@
             <td>boolean</td>
             <td>false</td>
             <td class="last">
-                <code>'write'</code> 모드 일 때 변경사항을 즉시 전파할지 여부를 설정한다. <code>false</code>로 
+                <code>'write'</code> 모드 일 때 변경사항을 즉시 전파할지 여부를 설정한다. <code>false</code>로
                 설정할 경우 컴퍼넌트에서 포커스를 잃을 때 변경사항을 전파한다.
             </td>
         </tr>
@@ -711,7 +711,7 @@
                             <td>string|number</td>
                             <td>null</td>
                             <td>
-                                <code>'column'</code> type으로 설정되었을 때 바인딩 할 컬럼을 지정한다. 
+                                <code>'column'</code> type으로 설정되었을 때 바인딩 할 컬럼을 지정한다.
                                 컬럼의 이름 또는 컬럼의 인덱스로 지정할 수 있다. ( 데이터 테이블 기준 )
                             </td>
                         </tr>
@@ -790,7 +790,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -802,55 +802,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var checkBoxOption = {
-    xgInitOption: {
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;
-    },
-    xgBindOption: {
-        mode: &#x27;read&#x27;,
-        bind: {
-            type: &#x27;column&#x27;,
-            column: &#x27;columnName&#x27;
-        }
-    },
-    min: new Date( 2015, 1, 1 ),
-    max: new Date( 2025, 12, 31 ),
-    width: 300,
-    height: 300,
-    ...
-    boxSize: 15,
-    checked: false
-};
+    <pre class="sunlight-highlight-javascript">var checkBoxOption = {    xgInitOption: {        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;    },    xgBindOption: {        mode: &#x27;read&#x27;,        bind: {            type: &#x27;column&#x27;,            column: &#x27;columnName&#x27;        }    },    min: new Date(2015, 1, 1),    max: new Date(2025, 12, 31),    width: 300,    height: 300,    ...    boxSize: 15,    checked: false};// module 방식var $xgCheckBoxModule = new XgUICheckBox(&#x27;#xg-check-box&#x27;, checkBoxOption);// plugin 방식var $xgCheckBoxPlugin = $(&#x27;#xg-check-box&#x27;).xgCheckBox(checkBoxOption);</pre>
 
-// module 방식
-var $xgCheckBoxModule = new XgUICheckBox( &#x27;#xg-check-box&#x27;, checkBoxOption );
-
-// plugin 방식
-var $xgCheckBoxPlugin = $( &#x27;#xg-check-box&#x27; ).xgCheckBox( checkBoxOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-check-box
-     data-xg-option=&#x27;{
-         &quot;xgInitOption&quot;: {
-             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-             &quot;xgDataTable&quot;: &quot;dataTableName&quot;
-         },
-         &quot;xgBindOption&quot;: {
-             &quot;mode&quot;: &quot;read&quot;,
-             &quot;bind&quot;: {
-                 &quot;type&quot;: &quot;column&quot;,
-                 &quot;column&quot;: &quot;columnName&quot;
-             }
-         },
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-         ...
-         &quot;boxSize&quot;: 15,
-         &quot;checked&quot;: false
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;div data-xg-check-box     data-xg-option=&#x27;{         &quot;xgInitOption&quot;: {             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,             &quot;xgDataTable&quot;: &quot;dataTableName&quot;         },         &quot;xgBindOption&quot;: {             &quot;mode&quot;: &quot;read&quot;,             &quot;bind&quot;: {                 &quot;type&quot;: &quot;column&quot;,                 &quot;column&quot;: &quot;columnName&quot;             }         },         &quot;width&quot;: 300,         &quot;height&quot;: 300,         ...         &quot;boxSize&quot;: 15,         &quot;checked&quot;: false     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

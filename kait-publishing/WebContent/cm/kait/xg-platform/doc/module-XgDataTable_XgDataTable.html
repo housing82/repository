@@ -396,7 +396,7 @@
 <dd>
     
     <div class="description">
-        <p>새로운 XgDataTable의 인스턴스를 생성한다. 
+        <p>새로운 XgDataTable의 인스턴스를 생성한다.
 id값이 생략되었다면 UUID를 생성하여 설정된다.</p>
     </div>
     
@@ -684,29 +684,7 @@ id값이 생략되었다면 UUID를 생성하여 설정된다.</p>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var xgDataTable1 = new XgDataTable( &#x27;dt1&#x27; );
-
-var option = {
-    booleanColumn: [
-        {
-            column: &#x27;foo&#x27;,
-            trueValue: &#x27;T&#x27;,
-            falseValue: &#x27;F&#x27;
-        },
-        {
-            column: &#x27;bar&#x27;,
-            trueValue: 1,
-            falseValue: 0
-        }
-    ],
-    url: {
-        select: &#x27;http://my.server.com/select&#x27;,
-        update: &#x27;http://my.server.com/update&#x27;
-    }
-};
-
-
-var xgDataTable2 = new XgDataTable( null, option );</pre>
+    <pre class="sunlight-highlight-javascript">var xgDataTable1 = new XgDataTable(&#x27;dt1&#x27;);var option = {    booleanColumn: [        {            column: &#x27;foo&#x27;,            trueValue: &#x27;T&#x27;,            falseValue: &#x27;F&#x27;        },        {            column: &#x27;bar&#x27;,            trueValue: 1,            falseValue: 0        }    ],    url: {        select: &#x27;http://my.server.com/select&#x27;,        update: &#x27;http://my.server.com/update&#x27;    }};var xgDataTable2 = new XgDataTable(null, option);</pre>
 
 
     

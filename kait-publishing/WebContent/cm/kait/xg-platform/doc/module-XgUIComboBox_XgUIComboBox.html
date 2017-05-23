@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIComboBox"><span class="type-signature"></span>new XgUIComboBox<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIComboBox"><span class="type-signature"></span>new XgUIComboBox<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -828,7 +828,7 @@
                             <td>string|number</td>
                             <td>null</td>
                             <td>
-                                <code>'column'</code> type으로 설정되었을 때 바인딩 할 컬럼을 지정한다. 
+                                <code>'column'</code> type으로 설정되었을 때 바인딩 할 컬럼을 지정한다.
                                 컬럼의 이름 또는 컬럼의 인덱스로 지정할 수 있다. ( 데이터 테이블 기준 )
                             </td>
                         </tr>
@@ -955,7 +955,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -967,55 +967,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var comboBoxOption = {
-    xgInitOption: {
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;
-    },
-    xgBindOption: {
-        mode: &#x27;write&#x27;,
-        bind: {
-            type: &#x27;column&#x27;,
-            column: &#x27;columnName&#x27;
-        }
-    },
-    width: 300,
-    height: 300,
-    ...
-    source: [ { text: &#x27;foo&#x27;, value: 0 }, { text: &#x27;bar&#x27;, value: 1 } ]
-    displayMember: &#x27;text&#x27;
-    valueMember: &#x27;value&#x27;
-};
+    <pre class="sunlight-highlight-javascript">var comboBoxOption = {    xgInitOption: {        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;    },    xgBindOption: {        mode: &#x27;write&#x27;,        bind: {            type: &#x27;column&#x27;,            column: &#x27;columnName&#x27;        }    },    width: 300,    height: 300,    ...    source: [ { text: &#x27;foo&#x27;, value: 0 }, { text: &#x27;bar&#x27;, value: 1 } ]    displayMember: &#x27;text&#x27;    valueMember: &#x27;value&#x27;};// module 방식var $xgComboBoxModule = new XgUIComboBox( &#x27;#xg-combo-box&#x27;, comboBoxOption );// plugin 방식var $xgComboBoxPlugin = $( &#x27;#xg-combo-box&#x27; ).xgComboBox( comboBoxOption );</pre>
 
-// module 방식
-var $xgComboBoxModule = new XgUIComboBox( &#x27;#xg-combo-box&#x27;, comboBoxOption );
-
-// plugin 방식
-var $xgComboBoxPlugin = $( &#x27;#xg-combo-box&#x27; ).xgComboBox( comboBoxOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-combo-box
-     data-xg-option=&#x27;{
-         &quot;xgInitOption&quot;: {
-             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-             &quot;xgDataTable&quot;: &quot;dataTableName&quot;
-         },
-         &quot;xgBindOption&quot;: {
-             &quot;mode&quot;: &quot;write&quot;,
-             &quot;bind&quot;: {
-                 &quot;type&quot;: &quot;column&quot;,
-                 &quot;column&quot;: &quot;columnName&quot;
-             }
-         },
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-         ...
-         &quot;source&quot;: [ { &quot;text&quot;: &quot;foo&quot;, &quot;value&quot;: 0 }, { &quot;text&quot;: &quot;bar&quot;, &quot;value&quot;: 1 } ],
-         &quot;displayMember&quot;: &quot;text&quot;,
-         &quot;valueMember&quot;: &quot;value&quot;
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;&lt;div data-xg-combo-box     data-xg-option=&#x27;{         &quot;xgInitOption&quot;: {             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,             &quot;xgDataTable&quot;: &quot;dataTableName&quot;         },         &quot;xgBindOption&quot;: {             &quot;mode&quot;: &quot;write&quot;,             &quot;bind&quot;: {                 &quot;type&quot;: &quot;column&quot;,                 &quot;column&quot;: &quot;columnName&quot;             }         },         &quot;width&quot;: 300,         &quot;height&quot;: 300,         ...         &quot;source&quot;: [ { &quot;text&quot;: &quot;foo&quot;, &quot;value&quot;: 0 }, { &quot;text&quot;: &quot;bar&quot;, &quot;value&quot;: 1 } ],         &quot;displayMember&quot;: &quot;text&quot;,         &quot;valueMember&quot;: &quot;value&quot;     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

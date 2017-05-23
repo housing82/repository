@@ -1,9 +1,8 @@
 @CHARSET "UTF-8";
 
-@import url("./xg_style.css");
 
 /* Element Reset */
-body,table,input,textarea,select,button{color:#817d81;font-size:12px;font-family:'微软雅黑 Regular', '微软雅黑', "Microsoft Yahei", Arial, sans-serif;}
+body,table,input,textarea,select,button{color:#4f4f4f;font:normal .75em/1.2 NanumGothic,nanumgothic,Dotum,Gulim,Tahoma,AppleGothic,sans-serif;}
 header,footer,section,article,aside,nav,hgroup,details,menu,figure,figcaption{display: block}
 button,input[type=submit],input[type=reset],input[type=button]{cursor:pointer;overflow:visible;}
 img{border:0}
@@ -85,6 +84,7 @@ body{width:100%;min-width:1046px;/* height:auto!important;*/overflow-y:auto; fon
 
 .topnav>ul>li.active .menu_all{display:block;}
 .dis_none{display:none;}
+/*
 .menu_all{display:none;position:fixed;left:0;right:0;margin:0 41px 0 41px;padding:10px 0 10px 15px;min-width:1162px;height:auto;border:1px solid #464646;background:#fff;box-shadow: 3px 3px 3px rgba(0,0,0,.1)}
 .menu_all:after{content:'';display:block;clear:both;}
 .menu_all .menu_all_box{margin-right:1%;float:left;width:15.66666666666667%;min-height:204px;border-right:1px solid #cdcdcd;box-sizing:border-box;}
@@ -98,7 +98,7 @@ body{width:100%;min-width:1046px;/* height:auto!important;*/overflow-y:auto; fon
 .menu_all .menu_all_box>ul>li>a:hover,.menu_all>ul>li>a:focus, .menu_all>ul>li>a:active, .menu_all>ul>li.active>a{color:#630c5a;font-weight:bold}
 .menu_all .menu_all_box ul li li{font-size:12px; line-height:21px}
 .menu_all .menu_all_box ul li li a{color:#464646;}
-.menu_all .menu_all_box ul li li a:hover,.menu_all .menu_all_box ul li li a:focus,.menu_all .menu_all_box ul li li a:active{color:#630c5a;font-weight:bold}
+.menu_all .menu_all_box ul li li a:hover,.menu_all .menu_all_box ul li li a:focus,.menu_all .menu_all_box ul li li a:active{color:#630c5a;font-weight:bold}*/
 .btn{width:20px;height:20px;background: url(/cm/kait/images/custom/admin/btn_close.gif) 50% 50%;outline: none;border-radius: 0px;}
 .btn.close{position:absolute;top:10px;right:10px}
 
@@ -258,7 +258,8 @@ article.sift_auth_Wrap .auth_wrap{padding-right: 1%;}
 .sift_alert2 > dl > capchaText{display: inline-block; vertical-align: middle; height: 30px;font-size: 18px; text-align: left; width: 100%;}
 
 .sift_alert2 > dl > dd > input[type="password"],
-.sift_alert2 > dl > dd > input[type="text"]{border: 0px none; background: transparent; outline: none; padding: 5px ; min-height: 29px; width: 100%; box-sizing: border-box;}
+.sift_alert2 > dl > dd > input[type="text"]{
+	border: 0px none; background: transparent; outline: none; padding: 5px ; min-height: 29px; width: 100%; box-sizing: border-box;}
 .sift_alert2 > dl > capchaText > input[type="password"]{border: 0px none; background: transparent; outline: none; padding: 5px ; min-height: 29px; width: 100%; box-sizing: border-box;}
 
 

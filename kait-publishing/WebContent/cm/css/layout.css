@@ -39,7 +39,7 @@ article {
  }
 
 footer{
-	 position: absolute;	 
+	position: absolute;	 
 	 left: 0; right: 0;bottom: 10px; 
 	 height: 26px; margin: 0px; padding: 0;
 	 text-align: left;
@@ -189,11 +189,11 @@ footer{
 }
 .menu_all fieldset input.ipt_search{
 	width: 160px; 
-	height: 23px;
-	height: 23px \0/IE9+10;/* ie9,10 */
-	margin: 0 auto;padding:0;
+	height: 25px !important;
+	height: 25px !important \0/IE9+10;/* ie9,10 */
+	margin: 0 auto !important ; padding:0 !important ;
 	font-size: 1.1em; 
-	border: #425b84 solid 1px;
+	border: #036 solid 1px;
 	outline:0;
 }
 .menu_all fieldset button{

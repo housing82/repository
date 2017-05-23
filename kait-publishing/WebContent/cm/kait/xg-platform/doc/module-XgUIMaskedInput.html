@@ -481,7 +481,7 @@
 <dt>
     
 
-    <h4 class="name" id="xgMaskedInput"><span class="type-signature"></span>xgMaskedInput<span class="signature">(options)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgMaskedInput"><span class="type-signature"></span>xgMaskedInput<span class="signature">(options)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -612,7 +612,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -770,7 +770,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput( &#x27;inputValue&#x27;, value );</pre>
+    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput(&#x27;inputValue&#x27;, value);</pre>
 
 
     
@@ -894,7 +894,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput( &#x27;focus&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput(&#x27;focus&#x27;);</pre>
 
 
     
@@ -1018,7 +1018,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput( &#x27;destroy&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput(&#x27;destroy&#x27;);</pre>
 
 
     
@@ -1142,7 +1142,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput( &#x27;clear&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput(&#x27;clear&#x27;);</pre>
 
 
     
@@ -1319,14 +1319,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var outputValue = $xgMaskedInput.xgMaskedInput( &#x27;val&#x27; );
-or
-$xgMaskedInput.xgMaskedInput( &#x27;val&#x27;, inputValue );
-
-// jQuery 함수 이용
-var outputValue = $xgMaskedInput.val();
-or
-$xgMaskedInput.val( inputValue );</pre>
+    <pre class="sunlight-highlight-javascript">var outputValue = $xgMaskedInput.xgMaskedInput(&#x27;val&#x27;);or$xgMaskedInput.xgMaskedInput(&#x27;val&#x27;, inputValue);// jQuery 함수 이용var outputValue = $xgMaskedInput.val();or$xgMaskedInput.val(inputValue);</pre>
 
 
     
@@ -1346,7 +1339,7 @@ $xgMaskedInput.val( inputValue );</pre>
     <div class="description">
         <p>마스크가 적용된 값을 지정한다.
 별도의 설명을 하자면, 'mask'가 &quot;###- ###&quot;처럼 설정되어 있을 경우,
-&quot;1234&quot;를 파라메터로 주었다면, 마스크 입력 컨트롤에는 &quot;123-<em>_</em>&quot; 된다.</p>
+&quot;1234&quot;를 파라메터로 주었다면, 마스크 입력 컨트롤에는 &quot;123-___&quot; 된다.</p>
     </div>
     
 
@@ -1478,7 +1471,7 @@ $xgMaskedInput.val( inputValue );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput( &#x27;maskedValue&#x27;, value );</pre>
+    <pre class="sunlight-highlight-javascript">$xgMaskedInput.xgMaskedInput(&#x27;maskedValue&#x27;, value);</pre>
 
 
     

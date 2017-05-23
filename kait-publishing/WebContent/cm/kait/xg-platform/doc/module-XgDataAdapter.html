@@ -471,7 +471,7 @@
 <dt>
     
 
-    <h4 class="name" id="addRequestHeader"><span class="type-signature"></span>addRequestHeader<span class="signature">(Header에, Header에)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="addRequestHeader"><span class="type-signature"></span>addRequestHeader<span class="signature">(name, value)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -512,7 +512,7 @@
 
         <tr>
             
-                <td class="name"><code>Header에</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
@@ -528,14 +528,14 @@
 
             
 
-            <td class="description last"><p>담아 보낼 정보의 name</p></td>
+            <td class="description last"><p>Header에 담아 보낼 정보의 name</p></td>
         </tr>
 
 	
 
         <tr>
             
-                <td class="name"><code>Header에</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -551,7 +551,7 @@
 
             
 
-            <td class="description last"><p>담아 보낼 정보의 value</p></td>
+            <td class="description last"><p>Header에 담아 보낼 정보의 value</p></td>
         </tr>
 
 	
@@ -870,8 +870,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.CRUD( crud, dataTable, packet, function() {
-} );</pre>
+    <pre class="sunlight-highlight-javascript">da.CRUD(crud, dataTable, packet, function() {     ...});</pre>
 
 
     
@@ -1166,8 +1165,7 @@ false 이면 동기 방식으로 동작하는 것이며, true 이면 비동기 �
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var params = XgDataAdapter.getParams();
-// params &quot;key1=value1&amp;key2=value2&amp;...&quot;</pre>
+    <pre class="sunlight-highlight-javascript">var params = XgDataAdapter.getParams();// params &quot;key1=value1&amp;key2=value2&amp;...&quot;</pre>
 
 
     
@@ -2005,7 +2003,7 @@ XgDataAdapter.async 속성에 저장되며, 기본값은 true(비동기) 이다.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setAsyncStatus( true );</pre>
+    <pre class="sunlight-highlight-javascript">da.setAsyncStatus(true);</pre>
 
 
     
@@ -2153,7 +2151,7 @@ XgDataAdapter.async 속성에 저장되며, 기본값은 true(비동기) 이다.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">XgDataAdapter.setDataType( &#x27;JSON&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">XgDataAdapter.setDataType(&#x27;JSON&#x27;);</pre>
 
 
     
@@ -2302,9 +2300,7 @@ setParams로 설정한 파라메터만 SP-PARAM에 담겨져 보내진다.
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setParams( &quot;key1=value1&amp;key2=value2&quot; );
-or
-da.setParams( { key1: &quot;value1&quot;, key2: &quot;value2&quot; } );</pre>
+    <pre class="sunlight-highlight-javascript">da.setParams(&quot;key1=value1&amp;key2=value2&quot;);orda.setParams({key1: &quot;value1&quot;, key2: &quot;value2&quot;});</pre>
 
 
     
@@ -2451,7 +2447,7 @@ da.setParams( { key1: &quot;value1&quot;, key2: &quot;value2&quot; } );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setProcessSize( 100 );</pre>
+    <pre class="sunlight-highlight-javascript">da.setProcessSize(100);</pre>
 
 
     
@@ -2598,7 +2594,7 @@ da.setParams( { key1: &quot;value1&quot;, key2: &quot;value2&quot; } );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setProcessSize( 100 );</pre>
+    <pre class="sunlight-highlight-javascript">da.setProcessSize(100);</pre>
 
 
     
@@ -2748,7 +2744,7 @@ DataTable을 INPUT/OUTPUT 용으로 구분하여 표기해 놓으며, 서버의 
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setSOCD( &quot;(O:dt_1=table01,O:dt_2=table02,I:dt_3=table03,I:dt_4=table04)&quot; );</pre>
+    <pre class="sunlight-highlight-javascript">da.setSOCD(&quot;(O:dt_1=table01,O:dt_2=table02,I:dt_3=table03,I:dt_4=table04)&quot;);</pre>
 
 
     
@@ -2895,7 +2891,7 @@ DataTable을 INPUT/OUTPUT 용으로 구분하여 표기해 놓으며, 서버의 
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setSrc( &quot;http://127.0.0.1:8080/.../test.jsp&quot; );</pre>
+    <pre class="sunlight-highlight-javascript">da.setSrc(&quot;http://127.0.0.1:8080/.../test.jsp&quot;);</pre>
 
 
     
@@ -3044,7 +3040,7 @@ true를 넘기면 First-Row 기능을 사용하게 되고, false를 넘기면 Fi
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setUseFragment( true );</pre>
+    <pre class="sunlight-highlight-javascript">da.setUseFragment(true);</pre>
 
 
     
@@ -3193,7 +3189,7 @@ true를 넘기면 First-Row 기능을 사용하게 되고, false를 넘기면 Fi
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">da.setXgPath( true );</pre>
+    <pre class="sunlight-highlight-javascript">da.setXgPath(true);</pre>
 
 
     

@@ -389,15 +389,15 @@
 <dt>
     
 
-    <h4 class="name" id="XgDataSet"><span class="type-signature"></span>new XgDataSet<span class="signature">(<span class="optional">xgDataSetId</span>, <span class="optional">xgDataTableId</span>, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="XgDataSet"><span class="type-signature"></span>new XgDataSet<span class="signature">(<span class="optional">dataSetId</span>, <span class="optional">dataTableId</span>, <span class="optional">xgDataTableOption</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>새로운 데이터 셋 인스턴스를 생성한다. 
-id값이 생략되었다면 UUID를 생성하여 설정된다. 데이터 셋이 생성될 때 2번째 인자값을 
+        <p>새로운 데이터 셋 인스턴스를 생성한다.
+id값이 생략되었다면 UUID를 생성하여 설정된다. 데이터 셋이 생성될 때 2번째 인자값을
 아이디로 가진 데이터 테이블이 추가 된다.</p>
     </div>
     
@@ -434,7 +434,7 @@ id값이 생략되었다면 UUID를 생성하여 설정된다. 데이터 셋이 
 
         <tr>
             
-                <td class="name"><code>xgDataSetId</code></td>
+                <td class="name"><code>dataSetId</code></td>
             
 
             <td class="type">
@@ -467,7 +467,7 @@ id값이 생략되었다면 UUID를 생성하여 설정된다. 데이터 셋이 
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -500,7 +500,7 @@ id값이 생략되었다면 UUID를 생성하여 설정된다. 데이터 셋이 
 
         <tr>
             
-                <td class="name"><code>option</code></td>
+                <td class="name"><code>xgDataTableOption</code></td>
             
 
             <td class="type">
@@ -605,23 +605,7 @@ id값이 생략되었다면 UUID를 생성하여 설정된다. 데이터 셋이 
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var xgDataSet1 = new XgDataSet( &#x27;ds&#x27; );
-
-var dataTableOption = {
-    booleanColumn: [
-        { 
-            column: &#x27;foo&#x27;, 
-            trueValue: 30,
-            falseValue: 40
-        }
-    ],
-    url: {
-        select: &#x27;http://myserver.com/select&#x27;,
-        update: &#x27;http://myserver.com/update&#x27;
-    }
-};
-    
-var xgDataSet2 = new XgDataSet( null, &#x27;dt&#x27;, dataTableOption );</pre>
+    <pre class="sunlight-highlight-javascript">var xgDataSet1 = new XgDataSet(&#x27;ds&#x27;);var dataTableOption = {    booleanColumn: [        {            column: &#x27;foo&#x27;,            trueValue: 30,            falseValue: 40        }    ],    url: {        select: &#x27;http://myserver.com/select&#x27;,        update: &#x27;http://myserver.com/update&#x27;    }};var xgDataSet2 = new XgDataSet(null, &#x27;dt&#x27;, dataTableOption);</pre>
 
 
     

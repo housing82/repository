@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIWindow"><span class="type-signature"></span>new XgUIWindow<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIWindow"><span class="type-signature"></span>new XgUIWindow<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -796,7 +796,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -808,33 +808,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var windowOption = {
-    width: 300,
-    height: 300,
-	   resizable: false,
-	   okButton: $(&#x27;#okButton&#x27;),
-	   cancelButton: $(&#x27;#cancelButton&#x27;),
-    ...
-};
+    <pre class="sunlight-highlight-javascript">var windowOption = {    width: 300,    height: 300,	   resizable: false,	   okButton: $(&#x27;#okButton&#x27;),	   cancelButton: $(&#x27;#cancelButton&#x27;),    ...};// module 방식var $xgWindowModule = new XgUIWindow(&#x27;#xg-window&#x27;, windowOption);// plugin 방식var $xgWindowPlugin = $(&#x27;#xg-window&#x27;).xgWindow(windowOption);</pre>
 
-// module 방식
-var $xgWindowModule = new XgUIWindow( &#x27;#xg-window&#x27;, windowOption );
-
-// plugin 방식
-var $xgWindowPlugin = $( &#x27;#xg-window&#x27; ).xgWindow( windowOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-window
-     data-xg-option=&#x27;{
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-	        &quot;resizable&quot;: false,
-         &quot;okButton&quot;: &quot;$(&#x27;#okButton&#x27;)&quot;,
-	        &quot;cancelButton&quot;: &quot;$(&#x27;#cancelButton&#x27;)&quot;,
-         ...
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;div data-xg-window     data-xg-option=&#x27;{         &quot;width&quot;: 300,         &quot;height&quot;: 300,	        &quot;resizable&quot;: false,         &quot;okButton&quot;: &quot;$(&#x27;#okButton&#x27;)&quot;,	        &quot;cancelButton&quot;: &quot;$(&#x27;#cancelButton&#x27;)&quot;,         ...     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

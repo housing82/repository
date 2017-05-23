@@ -3,7 +3,7 @@
  * 파일명 :	content.css
  *   설명 :	article영역, footer제외 
  * 작성자 :	elliott
- * 수정일 :	2017.05.22
+ * 수정일 :	2017.05.23
  ******************************/
 .mdi{
 	float:left;	
@@ -123,15 +123,38 @@
 	width:100%;	min-width:1013px; height:27px;
 	margin:10px 0 0 0;
 }
+.stitlezone{
+	float:left; 
+	width:100%;	min-width:1013px; height:25px;
+	padding:0 0 0 0; box-sizing:border-box; 
+}
+/* Div 안으로 들어갈 경우*/
+.in_stitlezone{
+	float:left; 
+	width:100%;	height:25px;
+	padding:0 0 0 0; box-sizing:border-box; 
+}
 
 h2.title{
 	float:left; 
 	display:inline-block;
 	width:auto;
-	padding:0 10px 0 0; margin:0;
-	text-indent:20px; font-size:1.2em;font-family: NanumGothicBold,나눔고딕Bold;
-	background:url(../../images/common/bullet_title.gif) no-repeat 0px 0px !important;
+	padding:0 0px 0 0; margin:0;
+	text-indent:20px; font-size:1.2em; font-family: NanumGothicBold,나눔고딕Bold;
+	background:url(../../images/content/bullet_title.gif) no-repeat 0px 0px !important;
 }
+
+h3.stitle{
+	float:left; 
+	display:inline-block;
+	width:auto;
+	padding:5px 10px 0 0; margin:0;
+	text-indent:14px; line-height:1; 
+	font-size:1.1em; font-family: NanumGothicBold,나눔고딕Bold;
+	background:url(../../images/content/bullet_stitle.gif) no-repeat 6px 8px !important;	
+}
+
+.text_s{font-size:0.9em; color: #3479e0; line-height:1.5;}
 .btn_common{
 	float:left;
 	display:table;
@@ -213,86 +236,15 @@ button{
 	border-bottom:#fff solid 1px; 
 }
 
-.ta_l{text-align:left;}
-.ta_c{text-align:center;}
-.ta_r{text-align:right;}
 
-.fl_l{float:left !important;}
-.fl_r{float:right !important;}
-
-
-.mt03{margin-top: 3px !important;}
-.mt10{margin-top: 10px !important;}
-.mt15{margin-top: 15px !important;}
-
-.mb02{margin-bottom:03px !important;}
-.mb10{margin-bottom:10px !important;}
-.mb15{margin-bottom:15px !important;}
-
-.ml_05{margin-left:-19px !important;}
-.mr_05{margin-right:-10px !important;}
-.mr_10{margin-right:-10px !important;}
- 
-.pl05{padding-left:5px !important;}
-.pr05{padding-right:5px !important;}
-
-.mt_mb15{margin:15px 0;}
-.mt15_mb15{margin:15px 0;}
-.mt15_mb15{margin:15px 0;}
-
-
-.w40{width:40% !important;}
-.w49{width:49% !important;}
-.w50{width:50% !important;}
-.w58{width:58% !important;}
-.w99{width:99.8% !important;}
-.w100{width:100% !important;}
-
-.w40px{width:40px !important;}
-.w100px{width:100px !important;}
-.w120px{width:140px !important;}
-.w150px{width:150px !important;}
-.w180px{width:180px !important;}
-
-
-/* UI 텍스트에 따른 글자크기 PPT_81page */
-w12px{width: 12px;}/* 1글자*/
-w24px{width: 24px;}/* 2글자*/
-w36px{width: 36px;}/* 3글자*/
-w48px{width: 48px;}/* 4글자*/
-w60px{width: 60px;}/* 5글자*/
-w72px{width: 72px;}/* 6글자*/
-w84px{width: 84px;}/* 7글자*/
-w96px{width: 84px;}/* 8글자*/
-w108px{width: 84px;}/* 9글자*/
-w120px{width: 84px;}/* 10글자*/
-w132px{width: 84px;}/* 11글자*/
-w144px{width: 84px;}/* 12글자*/
-w156px{width: 84px;}/* 13글자*/
-w168px{width: 84px;}/* 14글자*/
-w180px{width: 84px;}/* 15글자*/
-w192px{width: 84px;}/* 16글자*/
-w204px{width: 84px;}/* 17글자*/
-w216px{width: 84px;}/* 18글자*/
-w228px{width: 84px;}/* 19글자*/
-w240px{width: 84px;}/* 20글자*/
-
-/* icon+button */
-.btn_txt02{width: 52px;}/* 2글자*/
-.btn_txt03{width: 64px;}/* 3글자*/
-.btn_txt04{width: 76px;}/* 4글자*/
-.btn_txt05{width: 88px;}/* 5글자*/
-.btn_txt06{width: 90px;}/* 6글자*/
-
-
-.w50pl10{float: right; width: 50% !important; padding-left: 10px; box-sizing: border-box; }
 label{font-family: NanumGothicBold,나눔고딕Bold;}
 input{height: 20px; border:#CCC solid 1px; box-sizing:border-box;}
 input[type="datetime"]{}
 input[type="radio"]{}
 input[type="checkbox"]{}
-
 select{height: 20px; outline:0;}
+
+/* 검색박스 */
 .searchbox{
 	float:left;
 	width:100%; min-width: 1040px;
@@ -302,10 +254,14 @@ select{height: 20px; outline:0;}
 	background-color:#dde8f6;
 }
 .searchbox ul li{float:left;} 
-.searchbox ul li.form{padding:9px 0 0 2px; } 
-.searchbox fieldset input{width:100px; height: 20px; border:#d3d3d3 solid 1px; outline:none;display: table-cell; vertical-align: middle;}
-.searchbox fieldset .label{width: 90px !important; height: 40px;  margin: ; display: table-cell; vertical-align: middle; text-align: right;}
+.searchbox ul li.labeltxt{float:left; padding: 12px 0 0px 0; line-height:;} 
+.searchbox ul li.form{float:left; padding: 9px 0 0 2px; line-height:1.5;} 
+.searchbox fieldset input{float: left; height: 20px; border:#d3d3d3 solid 1px; outline:none;display: table-cell; vertical-align: middle;}
+.searchbox fieldset label{width: 90px !important; height: 40px;  padding:0 0 2px 0; text-align: right; display:inline-block;}
 
+.searchbox ul li.formtext{margin:0; line-height:1.5;}
+.searchbox input[type="checkbox"]{margin:0 5px 0 2px; vertical-align:middle;}
+.searchbox input[type="radio"]{margin:0 5px 0 2px; vertical-align:middle;}
 
 .in_searchbox{
 	float:left;
@@ -317,26 +273,30 @@ select{height: 20px; outline:0;}
 }
 .in_searchbox ul li{float:left;} 
 .in_searchbox ul li.form{padding:9px 0 0 2px; } 
-.in_searchbox fieldset input{width:100px; height: 20px; border:#d3d3d3 solid 1px; outline:none;display: table-cell; vertical-align: middle;}
+.in_searchbox fieldset input{height: 20px; border:#d3d3d3 solid 1px; outline:none;display: table-cell; vertical-align: middle;}
 .in_searchbox fieldset .label{width: 90px ; height: 40px;  margin: ; display: table-cell; vertical-align: middle; text-align: right;}
-
+.in_searchbox input{font-size: 12px !important;}
 
 
 table{
-border:0; border-collapse:collapse; border-spacing:0; 
+border:0; border-collapse:collapse; border-spacing:0; /*border-collapse:collapse;*/
 table-layout:fixed; empty-cells:show; 
 font-size:1em;
 }
-table caption{ font-size:1.2em; display:block; font-family: NanumGothicBold,나눔고딕Bold;}
-
+table caption{display:none;}
+.caption{display:none !important; }
 .board{width:100%;  margin:0; padding:0;}
 .board table	{width:100%;}
 .board th		{padding:5px 0 5px 10px; line-height:1.2em; text-align:center; font-family: NanumGothicBold,나눔고딕Bold; border:#d2d2d2 solid 1px;   border-top:#757984 solid 1px;  background-color:#edeef3; }
 .board td		{padding:5px 0 5px 4px; line-height:1.2em; border:#d2d2d2 solid; border-width:1px; background:none;}
 
+.board input.chk{margin:0 0 0 2px; vertical-align:middle;}
+
+
+
 .board .textarea{width:97%; margin:0; padding:5px; border:#ddd solid 1px;}
 .board input.file{width:90%;}
-.board input.chk{margin:0 0 0 2px; vertical-align:middle;}
+
 .board input.txt{width:90px;}
 .board input.readonly{border:#e5e0d9 solid 1px; background:#f7f2eb;}
 .board img{cursor:pointer;}
@@ -345,16 +305,35 @@ span.text{font-size:0.9em; line-height:1.8;}
 
 
 /* view */
-.board_view{width:100%;  margin:0; padding:0;}
+.board_view{width:100%;}
 .board_view table	{width:100%;}
-.board_view th		{padding: 5px 0; line-height:1.2em; text-align:center; font-family: NanumGothicBold,나눔고딕Bold; border:#d2d2d2 solid 1px; background-color:#edeef3; }
-.board_view td		{padding: 5px 2px; line-height:1.2em; border:#d2d2d2 solid; border-width:1px; background:none; box-sizing:border-box;}
+.board_view th		{
+	padding: 5px 0; 
+	line-height:1.2em; text-align:center; 
+	font-family: NanumGothicBold,나눔고딕Bold; 
+	border:#d2d2d2 solid 1px; 
+	box-sizing:border-box !important;
+	background-color:#edeef3; 
+}
+.board_view td{
+	padding: 5px 2px; 
+	line-height:1.2em; 
+	border:#d2d2d2 solid; border-width:1px; 
+	box-sizing:border-box !important;
+	background:none;
+}
+
+.board_view table td ul li{display:inline-block;}
+.board_view input.chk{margin:0 0 0 2px; vertical-align:middle;}
+.board_view input.rao{margin:0 0 0 2px; vertical-align:middle;}
+.board_view .caption{display:block !important; height:20px; font-size:1.2em;  font-family: NanumGothicBold,나눔고딕Bold; background-color:#ef3}
 
 .board_view .textarea{width:97%; margin:0; padding:5px; border:#ddd solid 1px;}
 .board_view input.file{width:90%;}
-.board_view input.chk{margin:0 0 0 2px; vertical-align:middle;}
-.board_view input.txt{width:90px;}
-.board_view input.readonly{border:#e5e0d9 solid 1px; background:#f7f2eb;}
+
+.board_view input{input[type="text"]:focus{border:#3878D8 solid 1px !important; }}
+.board_view input{border:#e5e0d9 solid 1px; background:#f7f2eb;}
 .board_view img{cursor:pointer;}
 .board_view img.calender {margin:2px 0 0 3px; vertical-align:middle;}
 span.text{font-size:0.9em; line-height:1.8;}
+

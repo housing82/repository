@@ -389,14 +389,14 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIExcelButton"><span class="type-signature"></span>new XgUIExcelButton<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIExcelButton"><span class="type-signature"></span>new XgUIExcelButton<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>새로운 엑셀 버튼 인스턴스를 생성한다. 
+        <p>새로운 엑셀 버튼 인스턴스를 생성한다.
 XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#button-option">공통 버튼 옵션</a>을 동일하게 사용할 수 있다.</p>
     </div>
     
@@ -596,7 +596,7 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
             <td>string</td>
             <td>'./xg-platform'</td>
             <td class="last">
-                브라우저에서 <a href="http://www.w3.org/TR/workers/">Web Worker</a>를 지원할 때 사용할 XgUIWorker의 경로를 지정한다. 
+                브라우저에서 <a href="http://www.w3.org/TR/workers/">Web Worker</a>를 지원할 때 사용할 XgUIWorker의 경로를 지정한다.
                 브라우저에서 Web Worker를 지원하지 않거나 상대경로가 기본값과 일치한다면 생략 가능하다.<br/><br/><a href="http://caniuse.com/#search=WebWorkers" target="_blank">브라우저별 지원여부</a>
             </td>
         </tr>
@@ -605,7 +605,7 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
             <td>string</td>
             <td>'./lib/js-xlsx/dist'</td>
             <td class="last">
-                XgUIWorker에서 사용할 js-xlsx 라이브러리의 경로를 설정한다. 
+                XgUIWorker에서 사용할 js-xlsx 라이브러리의 경로를 설정한다.
                 브라우저에서 Web Worker를 지원하지 않거나 상대경로가 기본값과 일치한다면 생략 가능하다.<br/><br/>
                 <strong>위치는 <code>'XgUIWorker.js' 파일 위치에서의 상대경로</code> 이다.</strong>
             </td>
@@ -722,7 +722,7 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -734,69 +734,9 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var importOption ={
-    xgInitOption: {
-        type: &#x27;import&#x27;,
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;
-    },
-    xgBindOption: {
-        start: function () {
-            alert( &#x27;excel import start&#x27; );
-        },
-        end: function () {
-            alert( &#x27;excel import end&#x27; );
-        }
-    }
-};
+    <pre class="sunlight-highlight-javascript">var importOption ={    xgInitOption: {        type: &#x27;import&#x27;,        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;    },    xgBindOption: {        start: function () {            alert(&#x27;excel import start&#x27;);        },        end: function () {            alert(&#x27;excel import end&#x27;);        }    }};// module 방식var $xgExcelButtonModule = new XgUIExcelButton(&#x27;#xg-excel-button&#x27;, importOption);var exportOption ={    xgInitOption: {        type: &#x27;export&#x27;,        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;    }};// plugin 방식var $xgExcelButtonPlugin = $(&#x27;#xg-excel-button&#x27;).xgExcelButton(exportOption);</pre>
 
-// module 방식
-var $xgExcelButtonModule = new XgUIExcelButton( &#x27;#xg-excel-button&#x27;, importOption );
-
-var exportOption ={
-    xgInitOption: {
-        type: &#x27;export&#x27;,
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;
-    }
-};
-
-// plugin 방식
-var $xgExcelButtonPlugin = $( &#x27;#xg-excel-button&#x27; ).xgExcelButton( exportOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;!-- 엑셀 가져오기 --&gt;
-&lt;input 
-    type=&quot;file&quot; 
-    data-xg-excel-button 
-    data-xg-option=&#x27;{
-        &quot;template&quot;: &quot;success&quot;,
-        &quot;xgInitOption&quot;: {
-            &quot;type&quot;: &quot;import&quot;,
-            &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-            &quot;xgDataTable&quot;: &quot;dataTableName&quot;,
-            &quot;xgUIWorkerUrl&quot;: &quot;./xg-platform&quot;,
-            &quot;xlsxUrl&quot;: &quot;lib/dist/js-xlsx&quot;
-        }
-    }&#x27;
-&gt;
-
-&lt;!-- 엑셀 내보내기 --&gt;
-&lt;button 
-    type=&quot;button&quot; 
-    data-xg-excel-button 
-    data-xg-option=&#x27;{
-        &quot;template&quot;: &quot;danger&quot;,
-        &quot;xgInitOption&quot;: {
-            &quot;type&quot;: &quot;export&quot;,
-            &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-            &quot;xgDataTable&quot;: &quot;dataTableName&quot;,
-            &quot;xgUIWorkerUrl&quot;: &quot;./xg-platform&quot;,
-            &quot;xlsxUrl&quot;: &quot;lib/dist/js-xlsx&quot;
-        }
-    }&#x27;
-&gt;&lt;/button&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;!-- 엑셀 가져오기 --&gt;&lt;input    type=&quot;file&quot;    data-xg-excel-button    data-xg-option=&#x27;{        &quot;template&quot;: &quot;success&quot;,        &quot;xgInitOption&quot;: {            &quot;type&quot;: &quot;import&quot;,            &quot;xgDataSet&quot;: &quot;dataSetName&quot;,            &quot;xgDataTable&quot;: &quot;dataTableName&quot;,            &quot;xgUIWorkerUrl&quot;: &quot;./xg-platform&quot;,            &quot;xlsxUrl&quot;: &quot;lib/dist/js-xlsx&quot;        }    }&#x27;&gt;&lt;!-- 엑셀 내보내기 --&gt;&lt;button    type=&quot;button&quot;    data-xg-excel-button    data-xg-option=&#x27;{        &quot;template&quot;: &quot;danger&quot;,        &quot;xgInitOption&quot;: {            &quot;type&quot;: &quot;export&quot;,            &quot;xgDataSet&quot;: &quot;dataSetName&quot;,            &quot;xgDataTable&quot;: &quot;dataTableName&quot;,            &quot;xgUIWorkerUrl&quot;: &quot;./xg-platform&quot;,            &quot;xlsxUrl&quot;: &quot;lib/dist/js-xlsx&quot;        }    }&#x27;&gt;&lt;/button&gt;</pre>
 
 
     

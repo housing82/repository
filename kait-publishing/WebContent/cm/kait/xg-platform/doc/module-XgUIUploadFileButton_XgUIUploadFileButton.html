@@ -389,14 +389,14 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIUploadFileButton"><span class="type-signature"></span>new XgUIUploadFileButton<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIUploadFileButton"><span class="type-signature"></span>new XgUIUploadFileButton<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>새로운 업로드파일 버튼 인스턴스를 생성한다. 
+        <p>새로운 업로드파일 버튼 인스턴스를 생성한다.
 XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#button-option">공통 버튼 옵션</a>을 동일하게 사용할 수 있다.</p>
     </div>
     
@@ -457,7 +457,7 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
 
             
 
-            <td class="description last"><p>CSS 셀렉터 ( 하기 지정된 테그를 사용하여야 한다 )<br/></p>
+            <td class="description last"><p>CSS 셀렉터 (하기 지정된 테그를 사용하여야 한다)<br/></p>
 <ul>
     <li>button 또는 input[type=&quot;button&quot;]</li>
 </ul></td>
@@ -627,7 +627,7 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -639,38 +639,9 @@ XgUIButton 컴퍼넌트를 사용함으로 <a href="./module-XgUIButton.html#but
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var option ={
-    xgInitOption: {
-        actionUrl: &#x27;/XG/ix-upload.file&#x27;,
-        uploadResult: function ( success, message, file ) {
-            alert( success );
-            alert( message );
-            alert( file.name );
-            alert( file.size );
-            alert( file.id );
-        }
-    }
-};
+    <pre class="sunlight-highlight-javascript">var option ={    xgInitOption: {        actionUrl: &#x27;/XG/ix-upload.file&#x27;,        uploadResult: function(success, message, file){            alert(success);            alert(message);            alert(file.name);            alert(file.size);            alert(file.id);        }    }};// module 방식var $xgUploadFileButtonModule = new XgUIUploadFileButton(&#x27;#xg-upload-button&#x27;, option);// plugin 방식var $xgUploadFileButtonPlugin = $(&#x27;#xg-upload-button&#x27;).xgUploadFileButton(option);</pre>
 
-// module 방식
-var $xgUploadFileButtonModule = new XgUIUploadFileButton( &#x27;#xg-upload-button&#x27;, option );
-
-
-// plugin 방식
-var $xgUploadFileButtonPlugin = $( &#x27;#xg-upload-button&#x27; ).xgUploadFileButton( option );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;button 
-    type=&quot;button&quot;
-    data-xg-upload-file-button 
-    data-xg-option=&#x27;{
-        &quot;template&quot;: &quot;success&quot;,
-        &quot;xgInitOption&quot;: {
-            &quot;actionUrl&quot;: &quot;/XG/ix-upload.file&quot;
-        }
-    }&#x27;
-&gt;&lt;/button&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;button    type=&quot;button&quot;    data-xg-upload-file-button    data-xg-option=&#x27;{        &quot;template&quot;: &quot;success&quot;,        &quot;xgInitOption&quot;: {            &quot;actionUrl&quot;: &quot;/XG/ix-upload.file&quot;        }    }&#x27;&gt;&lt;/button&gt;</pre>
 
 
     

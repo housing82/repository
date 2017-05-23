@@ -48,16 +48,17 @@
 			</fieldset>
 		</div>				
 		<!-- E.searchboxs -->
+		
 		<!--S. XENA Grid -->
 		<div component="xg-grid" id="" class="fl_l w99"></div>
 		<!--E. XENA Grid -->			
 	</div>
 	
-	<div class="w50pl10">
+	<div class="w50pl10px">
 		<!-- S.view -->
 		<div class="board_view">
 			<table>
-				<caption>기본정보</caption>
+				<caption class="caption">기본정보</caption>
 				<colgroup>
 					<col style="width: 90px;" />
 					<col style="width:" />
@@ -67,10 +68,7 @@
 				<tr>
 					<th>*현장코드</th>
 					<td colspan="3">
-						<input component="xg-radio" type="radio" value="ko" checked/><label>ko</label>
-						<input component="xg-radio" type="radio" value="jp"/><label>jp</label>
-						<input component="xg-radio" type="radio" value="en"/><label>en</label>
-						</td>
+					</td>
 				</tr>
 				<tr>
 					<th>*현장명</th>
@@ -79,12 +77,6 @@
 				<tr>
 					<th>*물건종류</th>
 					<td>
-						<!-- jqx-listbox jqx-reset jqx-rc-all jqx-widget jqx-widget-content jqx-disableselect -->
-						<div component="xg-listbox" autoOpen="true" cdGrpCd="00001">
-							<param valueMember="cd"/>
-							<param displayMember="nm"/>
-							<param dataid="dt_CodeList2"/>
-						</div>
 					</td>
 					<th>*완료여부</th>
 					<td></td>
@@ -140,4 +132,4 @@
 		<!-- E.view -->	
 	</div>
 </div>
-<script src="../cm/kait/js/xena.js"></script>			
+	

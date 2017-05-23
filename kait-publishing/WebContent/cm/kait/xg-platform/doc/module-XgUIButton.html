@@ -589,7 +589,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$button.xgButton( &#x27;destroy&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$button.xgButton(&#x27;destroy&#x27;);</pre>
 
 
     
@@ -714,7 +714,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$button.xgButton( &#x27;focus&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$button.xgButton(&#x27;focus&#x27;);</pre>
 
 
     
@@ -732,7 +732,7 @@
 <dd>
     
     <div class="description">
-        <p>버튼의 value값을 반환한다. 2번째 인자가 전달된 경우 값을 반환하지 않고 
+        <p>버튼의 value값을 반환한다. 2번째 인자가 전달된 경우 값을 반환하지 않고
 버튼의 value값을 변경한다. jQuery에서 직접 제공되는 <code>val()</code> 메소드를 이용해도 된다.</p>
     </div>
     
@@ -908,14 +908,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$button.xgButton( &#x27;val&#x27;, &#x27;foo&#x27; );
-
-var fooValue = $button.xgButton( &#x27;val&#x27; );
-
-// jQuery 함수 이용
-$button.val( &#x27;bar&#x27; );
-
-var barValue = $button.val();</pre>
+    <pre class="sunlight-highlight-javascript">$button.xgButton(&#x27;val&#x27;, &#x27;foo&#x27;);var fooValue = $button.xgButton(&#x27;val&#x27;);// jQuery 함수 이용$button.val(&#x27;bar&#x27;);var barValue = $button.val();</pre>
 
 
     
@@ -926,7 +919,7 @@ var barValue = $button.val();</pre>
 <dt>
     
 
-    <h4 class="name" id="xgButton"><span class="type-signature"></span>xgButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgButton"><span class="type-signature"></span>xgButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -1108,7 +1101,7 @@ var barValue = $button.val();</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -1120,23 +1113,7 @@ var barValue = $button.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    width: 150,
-    height: 25
-};
-
-var $xgButtonPlugin = $( &#x27;#xg-button&#x27; ).xgButton( buttonOption );
-
-var $xgButtonModule = new XgUIButton( &#x27;default&#x27;, &#x27;#xg-button&#x27;, buttonOption );
-
-// 설정 한 옵션 값을 구하려면 옵션의 이름 문자열을 인자로 넘겨준다.
-// $xgButtonModule.xgButton( &#x27;optionName&#x27; );
-
-var widthOptionValue = $xgButtonModule.xgButton( &#x27;width&#x27; );
-
-$xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    width: 150,    height: 25};var $xgButtonPlugin = $(&#x27;#xg-button&#x27;).xgButton(buttonOption);var $xgButtonModule = new XgUIButton(&#x27;default&#x27;, &#x27;#xg-button&#x27;, buttonOption);// 설정 한 옵션 값을 구하려면 옵션의 이름 문자열을 인자로 넘겨준다.// $xgButtonModule.xgButton(&#x27;optionName&#x27;);var widthOptionValue = $xgButtonModule.xgButton(&#x27;width&#x27;);$xgButtonModule.on(&#x27;click&#x27;, function(event) {    // do something..});</pre>
 
 
     
@@ -1283,7 +1260,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;enableAt&#x27;, 1 );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;enableAt&#x27;, 1);</pre>
 
 
     
@@ -1430,7 +1407,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;disableAt&#x27;, 1 );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;disableAt&#x27;, 1);</pre>
 
 
     
@@ -1521,7 +1498,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
 
             
 
-            <td class="description last"><p>버튼 그룹내의 버튼 인덱스 ( 0부터 시작한다. )</p></td>
+            <td class="description last"><p>버튼 그룹내의 버튼 인덱스 (0부터 시작한다.)</p></td>
         </tr>
 
 	
@@ -1577,7 +1554,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;setSelection&#x27;, 0 );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;setSelection&#x27;, 0);</pre>
 
 
     
@@ -1701,7 +1678,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;disable&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;disable&#x27;);</pre>
 
 
     
@@ -1825,7 +1802,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;destroy&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;destroy&#x27;);</pre>
 
 
     
@@ -1949,7 +1926,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;focus&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;focus&#x27;);</pre>
 
 
     
@@ -1960,14 +1937,14 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
 <dt>
     
 
-    <h4 class="name" id="xgButtonGroup"><span class="type-signature"></span>xgButtonGroup<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgButtonGroup"><span class="type-signature"></span>xgButtonGroup<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>버튼 그룹에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 
+        <p>버튼 그룹에 옵션을 적용 시킨다. 모듈 방식으로 생성 시
 첫번째 인자로 'buttonGroup' 문자열을 전달하여야 한다.<br/>
 드랍다운 버튼을 적용 시킬 DOM은 버튼 DOM을 감싸고 있는 <code>div</code> 엘리먼트 이여야 한다.</p>
     </div>
@@ -2141,7 +2118,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -2153,21 +2130,7 @@ $xgButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    mode: &#x27;radio&#x27;
-};
-
-var $xgButtonGroupPlugin = $( &#x27;#xg-button-group&#x27; ).xgButtonGroup( buttonOption );
-
-var $xgButtonGroupModule = new XgUIButton( &#x27;buttonGroup&#x27;, &#x27;#xg-button-group&#x27;, buttonOption );
-
-$xgButtonGroupPlugin.on( &#x27;buttonClick&#x27;, function ( event ) {
-    // do something..
-} );
-
-$xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    mode: &#x27;radio&#x27;};var $xgButtonGroupPlugin = $(&#x27;#xg-button-group&#x27;).xgButtonGroup(buttonOption);var $xgButtonGroupModule = new XgUIButton(&#x27;buttonGroup&#x27;, &#x27;#xg-button-group&#x27;, buttonOption);$xgButtonGroupPlugin.on(&#x27;buttonClick&#x27;, function(event){    // do something..});$xgButtonGroupModule.on(&#x27;selected&#x27;, function(event){    // do something..});</pre>
 
 
     
@@ -2296,7 +2259,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
             
 <div class="param-desc">
-    <p>index | indexes</p>
+    <p>index|indexes</p>
 </div>
 
 
@@ -2322,7 +2285,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var indexes = $buttonGroup.xgButtonGroup( &#x27;getSelection&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var indexes = $buttonGroup.xgButtonGroup(&#x27;getSelection&#x27;);</pre>
 
 
     
@@ -2446,7 +2409,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup( &#x27;enable&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$buttonGroup.xgButtonGroup(&#x27;enable&#x27;);</pre>
 
 
     
@@ -2593,7 +2556,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var content = $dropDown.xgDropDownButton( &#x27;getContent&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var content = $dropDown.xgDropDownButton(&#x27;getContent&#x27;);</pre>
 
 
     
@@ -2740,7 +2703,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var isOpened = $dropDown.xgDropDownButton( &#x27;isOpened&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var isOpened = $dropDown.xgDropDownButton(&#x27;isOpened&#x27;);</pre>
 
 
     
@@ -2864,7 +2827,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton( &#x27;open&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton(&#x27;open&#x27;);</pre>
 
 
     
@@ -2988,7 +2951,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton( &#x27;close&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton(&#x27;close&#x27;);</pre>
 
 
     
@@ -2999,7 +2962,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
 <dt>
     
 
-    <h4 class="name" id="xgDropDownButton"><span class="type-signature"></span>xgDropDownButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgDropDownButton"><span class="type-signature"></span>xgDropDownButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -3007,7 +2970,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
     <div class="description">
         <p><span id="drop-down-option"></span>
-드랍다운 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 
+드랍다운 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시
 첫번째 인자로 'dropDown' 문자열을 전달하여야 한다.<br/>
 드랍다운 버튼을 적용 시킬 DOM은 <code>div</code> 엘리먼트 이여야 한다.</p>
     </div>
@@ -3214,7 +3177,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -3226,25 +3189,7 @@ $xgButtonGroupModule.on( &#x27;selected&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    width: 150,
-    height: 25,
-    ...
-    autoOpen: true,
-    animationType: &#x27;fade&#x27;
-};
-
-var $xgDropDownButtonPlugin = $( &#x27;#xg-drop-down-button&#x27; ).xgDropDownButton( buttonOption );
-
-var $xgDropDownButtonModule = new XgUIButton( &#x27;dropDown&#x27;, &#x27;#xg-drop-down-button&#x27;, buttonOption );
-
-$xgDropDownButtonPlugin.on( &#x27;open&#x27;, function ( event ) {
-    // do something..
-} );
-
-$xgDropDownButtonModule.on( &#x27;close&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    width: 150,    height: 25,    ...    autoOpen: true,    animationType: &#x27;fade&#x27;};var $xgDropDownButtonPlugin = $(&#x27;#xg-drop-down-button&#x27;).xgDropDownButton(buttonOption);var $xgDropDownButtonModule = new XgUIButton(&#x27;dropDown&#x27;, &#x27;#xg-drop-down-button&#x27;, buttonOption);$xgDropDownButtonPlugin.on(&#x27;open&#x27;, function(event){    // do something..});$xgDropDownButtonModule.on(&#x27;close&#x27;, function(event){    // do something..});</pre>
 
 
     
@@ -3368,7 +3313,7 @@ $xgDropDownButtonModule.on( &#x27;close&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton( &#x27;destroy&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton(&#x27;destroy&#x27;);</pre>
 
 
     
@@ -3515,12 +3460,7 @@ $xgDropDownButtonModule.on( &#x27;close&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var str = &#x27;foo&#x27;;
-var markupStr = &#x27;&lt;i&gt;bar&lt;/i&gt;&#x27;;
-
-$dropDown.xgDropDownButton( &#x27;setContent&#x27;, str );
-
-$dropDown.xgDropDownButton( &#x27;setContent&#x27;, markupStr );</pre>
+    <pre class="sunlight-highlight-javascript">var str = &#x27;foo&#x27;;var markupStr = &#x27;&lt;i&gt;bar&lt;/i&gt;&#x27;;$dropDown.xgDropDownButton(&#x27;setContent&#x27;, str);$dropDown.xgDropDownButton(&#x27;setContent&#x27;, markupStr);</pre>
 
 
     
@@ -3644,7 +3584,7 @@ $dropDown.xgDropDownButton( &#x27;setContent&#x27;, markupStr );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton( &#x27;focus&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$dropDown.xgDropDownButton(&#x27;focus&#x27;);</pre>
 
 
     
@@ -3775,7 +3715,7 @@ $dropDown.xgDropDownButton( &#x27;setContent&#x27;, markupStr );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$link.xgLinkButton( methodName );</pre>
+    <pre class="sunlight-highlight-javascript">$link.xgLinkButton(methodName);</pre>
 
 
     
@@ -3786,15 +3726,15 @@ $dropDown.xgDropDownButton( &#x27;setContent&#x27;, markupStr );</pre>
 <dt>
     
 
-    <h4 class="name" id="xgLinkButton"><span class="type-signature"></span>xgLinkButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgLinkButton"><span class="type-signature"></span>xgLinkButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>링크 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 첫번째 인자로 'link' 
-문자열을 전달하여야 한다. 일반 버튼과 차이점은 생김세는 일반 버튼과 같지만 적용전 엘리먼트의 
+        <p>링크 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 첫번째 인자로 'link'
+문자열을 전달하여야 한다. 일반 버튼과 차이점은 생김세는 일반 버튼과 같지만 적용전 엘리먼트의
 속성을 적용 받아 링크와 동일하게 동작한다.<br/>
 버튼을 적용 시킬 DOM은 <code>a</code>(anchor) 엘리먼트 이여야 한다.</p>
     </div>
@@ -3929,7 +3869,7 @@ $dropDown.xgDropDownButton( &#x27;setContent&#x27;, markupStr );</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -3941,19 +3881,7 @@ $dropDown.xgDropDownButton( &#x27;setContent&#x27;, markupStr );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    width: 150,
-    ...
-    height: 35
-};
-
-var $xgLinkButtonPlugin = $( &#x27;#xg-link-button&#x27; ).xgLinkButton( buttonOption );
-
-var $xgLinkButtonModule = new XgUIButton( &#x27;link&#x27;, &#x27;#xg-link-button&#x27;, buttonOption );
-
-$xgLinkButtonModule.on( &#x27;click&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    width: 150,    ...    height: 35};var $xgLinkButtonPlugin = $(&#x27;#xg-link-button&#x27;).xgLinkButton(buttonOption);var $xgLinkButtonModule = new XgUIButton(&#x27;link&#x27;, &#x27;#xg-link-button&#x27;, buttonOption);$xgLinkButtonModule.on(&#x27;click&#x27;, function(event){    // do something..});</pre>
 
 
     
@@ -4084,7 +4012,7 @@ $xgLinkButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$repeat.xgRepeatButton( methodName );</pre>
+    <pre class="sunlight-highlight-javascript">$repeat.xgRepeatButton(methodName);</pre>
 
 
     
@@ -4095,15 +4023,15 @@ $xgLinkButtonModule.on( &#x27;click&#x27;, function ( event ) {
 <dt>
     
 
-    <h4 class="name" id="xgRepeatButton"><span class="type-signature"></span>xgRepeatButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgRepeatButton"><span class="type-signature"></span>xgRepeatButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>반복 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 첫번째 인자로 'repeat' 
-문자열을 전달하여야 한다. 일반 버튼과 차이점은 일반 버튼은 클릭 이벤트가 클릭했을 
+        <p>반복 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 첫번째 인자로 'repeat'
+문자열을 전달하여야 한다. 일반 버튼과 차이점은 일반 버튼은 클릭 이벤트가 클릭했을
 시 한번만 발생하지만 반복 버튼은 클릭 이벤트가 누르고 있을 경우 반복해서 발생한다.<br/>
 버튼을 적용 시킬 DOM은 <code>input[type=&quot;button&quot;]</code> 또는 <code>button</code> 엘리먼트 이여야 한다.</p>
     </div>
@@ -4255,7 +4183,7 @@ $xgLinkButtonModule.on( &#x27;click&#x27;, function ( event ) {
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -4267,20 +4195,7 @@ $xgLinkButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    width: 150,
-    height: 35,
-    ...
-    delay: 1000
-};
-
-var $xgRepeatButtonPlugin = $( &#x27;#xg-repeat-button&#x27; ).xgRepeatButton( buttonOption );
-
-var $xgRepeatButtonModule = new XgUIButton( &#x27;repeat&#x27;, &#x27;#xg-repeat-button&#x27;, buttonOption );
-
-$xgRepeatButtonModule.on( &#x27;click&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    width: 150,    height: 35,    ...    delay: 1000};var $xgRepeatButtonPlugin = $(&#x27;#xg-repeat-button&#x27;).xgRepeatButton(buttonOption);var $xgRepeatButtonModule = new XgUIButton(&#x27;repeat&#x27;, &#x27;#xg-repeat-button&#x27;, buttonOption);$xgRepeatButtonModule.on( &#x27;click&#x27;, function(event){    // do something..});</pre>
 
 
     
@@ -4291,14 +4206,14 @@ $xgRepeatButtonModule.on( &#x27;click&#x27;, function ( event ) {
 <dt>
     
 
-    <h4 class="name" id="xgSwitchButton"><span class="type-signature"></span>xgSwitchButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgSwitchButton"><span class="type-signature"></span>xgSwitchButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>스위치 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 
+        <p>스위치 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시
 첫번째 인자로 'switch' 문자열을 전달하여야 한다.<br/>
 스위치 버튼을 적용 시킬 DOM은 <code>div</code> 엘리먼트 이여야 한다.</p>
     </div>
@@ -4489,7 +4404,7 @@ $xgRepeatButtonModule.on( &#x27;click&#x27;, function ( event ) {
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -4501,26 +4416,7 @@ $xgRepeatButtonModule.on( &#x27;click&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    width: 150,
-    height: 25,
-    ...
-    offLabel: &#x27;꺼짐&#x27;,
-    thumbSize: &#x27;50%&#x27;,
-    checkec: false
-};
-
-var $xgSwitchButtonPlugin = $( &#x27;#xg-switch-button&#x27; ).xgSwitchButton( buttonOption );
-
-var $xgSwitchButtonModule = new XgUIButton( &#x27;switch&#x27;, &#x27;#xg-switch-button&#x27;, buttonOption );
-
-$xgSwitchButtonPlugin.on( &#x27;change&#x27;, function ( event ) {
-    // do something..
-} );
-
-$xgSwitchButtonModule.on( &#x27;unchecked&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    width: 150,    height: 25,    ...    offLabel: &#x27;꺼짐&#x27;,    thumbSize: &#x27;50%&#x27;,    checkec: false};var $xgSwitchButtonPlugin = $(&#x27;#xg-switch-button&#x27;).xgSwitchButton(buttonOption);var $xgSwitchButtonModule = new XgUIButton(&#x27;switch&#x27;, &#x27;#xg-switch-button&#x27;, buttonOption);$xgSwitchButtonPlugin.on(&#x27;change&#x27;, function(event){    // do something..});$xgSwitchButtonModule.on(&#x27;unchecked&#x27;, function(event){    // do something..});</pre>
 
 
     
@@ -4644,7 +4540,7 @@ $xgSwitchButtonModule.on( &#x27;unchecked&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton( &#x27;toggle&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton(&#x27;toggle&#x27;);</pre>
 
 
     
@@ -4768,7 +4664,7 @@ $xgSwitchButtonModule.on( &#x27;unchecked&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton( &#x27;disable&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton(&#x27;disable&#x27;);</pre>
 
 
     
@@ -4892,7 +4788,7 @@ $xgSwitchButtonModule.on( &#x27;unchecked&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton( &#x27;enable&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton(&#x27;enable&#x27;);</pre>
 
 
     
@@ -4910,7 +4806,7 @@ $xgSwitchButtonModule.on( &#x27;unchecked&#x27;, function ( event ) {
 <dd>
     
     <div class="description">
-        <p>버튼의 value값을 반환한다. 2번째 인자가 전달된 경우 값을 반환하지 않고 
+        <p>버튼의 value값을 반환한다. 2번째 인자가 전달된 경우 값을 반환하지 않고
 버튼의 value값을 변경한다. jQuery에서 직접 제공되는 <code>val()</code> 메소드를 이용해도 된다.</p>
     </div>
     
@@ -5083,14 +4979,7 @@ $xgSwitchButtonModule.on( &#x27;unchecked&#x27;, function ( event ) {
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton( &#x27;val&#x27;, true );
-
-var trueValue = $switch.xgSwitchButton( &#x27;val&#x27; );
-
-// jQuery 함수 이용
-$switch.val( false );
-
-var falseValue = $switch.val();</pre>
+    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton(&#x27;val&#x27;, true);var trueValue = $switch.xgSwitchButton(&#x27;val&#x27;);// jQuery 함수 이용$switch.val(false);var falseValue = $switch.val();</pre>
 
 
     
@@ -5214,7 +5103,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton( &#x27;uncheck&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton(&#x27;uncheck&#x27;);</pre>
 
 
     
@@ -5338,7 +5227,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton( &#x27;check&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$switch.xgSwitchButton(&#x27;check&#x27;);</pre>
 
 
     
@@ -5462,7 +5351,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton( &#x27;toggle&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton(&#x27;toggle&#x27;);</pre>
 
 
     
@@ -5586,7 +5475,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton( &#x27;check&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton(&#x27;check&#x27;);</pre>
 
 
     
@@ -5710,7 +5599,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton( &#x27;unCheck&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton(&#x27;unCheck&#x27;);</pre>
 
 
     
@@ -5841,7 +5730,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton( methodName );</pre>
+    <pre class="sunlight-highlight-javascript">$toggle.xgToggleButton(methodName);</pre>
 
 
     
@@ -5852,14 +5741,14 @@ var falseValue = $switch.val();</pre>
 <dt>
     
 
-    <h4 class="name" id="xgToggleButton"><span class="type-signature"></span>xgToggleButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="xgToggleButton"><span class="type-signature"></span>xgToggleButton<span class="signature">(option)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>토글 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시 
+        <p>토글 버튼에 옵션을 적용 시킨다. 모듈 방식으로 생성 시
 첫번째 인자로 'toggle' 문자열을 전달하여야 한다.</p>
     </div>
     
@@ -6010,7 +5899,7 @@ var falseValue = $switch.val();</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -6022,17 +5911,7 @@ var falseValue = $switch.val();</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = {
-    toggled: true
-};
-
-var $xgToggleButtonPlugin = $( &#x27;#xg-toggle-button&#x27; ).xgToggleButton( buttonOption );
-
-var $xgToggleButtonModule = new XgUIButton( &#x27;toggle&#x27;, &#x27;#xg-toggle-button&#x27;, buttonOption );
-
-$xgToggleButtonModule.on( &#x27;click&#x27;, function ( event ) {
-    // do something..
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var buttonOption = {    toggled: true};var $xgToggleButtonPlugin = $(&#x27;#xg-toggle-button&#x27;).xgToggleButton(buttonOption);var $xgToggleButtonModule = new XgUIButton(&#x27;toggle&#x27;, &#x27;#xg-toggle-button&#x27;, buttonOption );$xgToggleButtonModule.on(&#x27;click&#x27;, function(event){    // do something..});</pre>
 
 
     

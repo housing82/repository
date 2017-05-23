@@ -49,37 +49,14 @@
 .xg-grid-status-unknown:before{
 	content: '?';
 }
-
-/* .xg-grid-status-normal{
-	background: url('../../images/sample/_Penguins.jpg') 0px 0px no-repeat;
-	height: 50px;
-} */
-
-/* 
-.xg-grid-status-insert{	
-} 
-
-.xg-grid-status-update{	
-}
-
-.xg-grid-status-delete{
-}  
-*/
-
 .xg-grid-status-normal:before{
- 	content: '-';
-/* 	content: url('../../images/sample/_Penguins.jpg');
- 	position: absolute;
-	top: 5px;
-	left: 5px; */
+	content: '-';
 }
- 
 .xg-grid-status-insert:before{
-	content: '◀'; 
+	content: '◀';
 }
-
 .xg-grid-status-update:before{
-	content: '△'; 
+	content: '△';
 }
 .xg-grid-status-delete:before{
 	content: 'X';

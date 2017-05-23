@@ -491,7 +491,7 @@
 <dt>
     
 
-    <h4 class="name" id="addDataTable"><span class="type-signature"></span>addDataTable<span class="signature">(xgDataTable)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="addDataTable"><span class="type-signature"></span>addDataTable<span class="signature">(dataTable)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -532,7 +532,7 @@
 
         <tr>
             
-                <td class="name"><code>xgDataTable</code></td>
+                <td class="name"><code>dataTable</code></td>
             
 
             <td class="type">
@@ -627,9 +627,7 @@
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var dt = new XgDataTable();
-
-xgDataSet.addDataTable( dt );</pre>
+    <pre class="sunlight-highlight-javascript">var dt = new XgDataTable();xgDataSet.addDataTable(dt);</pre>
 
 
     
@@ -640,7 +638,7 @@ xgDataSet.addDataTable( dt );</pre>
 <dt>
     
 
-    <h4 class="name" id="bindComponent"><span class="type-signature"></span>bindComponent<span class="signature">($el)</span><span class="type-signature"> &rarr; {obejct}</span></h4>
+    <h4 class="name" id="bindComponent"><span class="type-signature"></span>bindComponent<span class="signature">($el, method)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -698,6 +696,29 @@ xgDataSet.addDataTable( dt );</pre>
             
 
             <td class="description last"><p>바인딩 할 Xg UI 컴포넌트의 jQuery Element</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>method</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>수행할 메서드 이름</p></td>
         </tr>
 
 	
@@ -764,7 +785,7 @@ xgDataSet.addDataTable( dt );</pre>
 	</dt>
 	<dd>
 		
-<span class="param-type">obejct</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -776,9 +797,7 @@ xgDataSet.addDataTable( dt );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var $xgGrid = $( &#x27;.xg-grid&#x27; ).xgGrid( gridOption );
-
-xgDataSet.bindComponent( $xgGrid );</pre>
+    <pre class="sunlight-highlight-javascript">var $xgGrid = $(&#x27;.xg-grid&#x27;).xgGrid(gridOption);xgDataSet.bindComponent($xgGrid);</pre>
 
 
     
@@ -887,7 +906,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 <dt>
     
 
-    <h4 class="name" id="getDataTable"><span class="type-signature"></span>getDataTable<span class="signature">(xgDataTableId)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="getDataTable"><span class="type-signature"></span>getDataTable<span class="signature">(dataTableId)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -928,7 +947,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -1023,7 +1042,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var xgDataTable = xgDataSet.getDataTable( &#x27;dt&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var xgDataTable = xgDataSet.getDataTable(&#x27;dt&#x27;);</pre>
 
 
     
@@ -1098,7 +1117,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
             
 <div class="param-desc">
-    <p>xgDataTableIds 테이터 테이블의 id 배열</p>
+    <p>xgDataTableIds  테이터 테이블의 id 배열</p>
 </div>
 
 
@@ -1230,7 +1249,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 <dt>
     
 
-    <h4 class="name" id="hasDataTable"><span class="type-signature"></span>hasDataTable<span class="signature">(xgDataTableId, flag)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="hasDataTable"><span class="type-signature"></span>hasDataTable<span class="signature">(dataTableId, flag)</span><span class="type-signature"></span></h4>
     
     
 </dt>
@@ -1271,7 +1290,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -1366,7 +1385,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataSet.hasDataTable( &#x27;dt&#x27;, true );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataSet.hasDataTable(&#x27;dt&#x27;, true);</pre>
 
 
     
@@ -1377,14 +1396,14 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 <dt>
     
 
-    <h4 class="name" id="isBinded"><span class="type-signature"></span>isBinded<span class="signature">(xgDataTableId, uuid)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="isBinded"><span class="type-signature"></span>isBinded<span class="signature">(dataTableId, uuid)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>xgDataTableId를 지닌 데이터 테이블에 uuid를 지닌 UI Component가 
+        <p>xgDataTableId를 지닌 데이터 테이블에 uuid를 지닌 UI Component가
 바인딩 되어 있는지 여부를 반환한다.</p>
     </div>
     
@@ -1419,7 +1438,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -1537,7 +1556,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var flag = xgDataSet.isBinded( &#x27;dt&#x27;, &#x27;859a2dd6-35f2-4b39-a772-376890c30218&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var flag = xgDataSet.isBinded(&#x27;dt&#x27;, &#x27;859a2dd6-35f2-4b39-a772-376890c30218&#x27;);</pre>
 
 
     
@@ -1548,7 +1567,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 <dt>
     
 
-    <h4 class="name" id="isExistDataTable"><span class="type-signature"></span>isExistDataTable<span class="signature">(xgDataTableId)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="isExistDataTable"><span class="type-signature"></span>isExistDataTable<span class="signature">(dataTableId)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
     
     
 </dt>
@@ -1589,7 +1608,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -1684,7 +1703,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var flag = xgDataSet.isExistDataTable( &#x27;dt&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var flag = xgDataSet.isExistDataTable(&#x27;dt&#x27;);</pre>
 
 
     
@@ -1695,7 +1714,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 <dt>
     
 
-    <h4 class="name" id="makeJSONExportData"><span class="type-signature"></span>makeJSONExportData<span class="signature">(xgDataTableId)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="makeJSONExportData"><span class="type-signature"></span>makeJSONExportData<span class="signature">(dataTableId)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -1736,7 +1755,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -1831,7 +1850,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var dataTableJSON = xgDataSet.makeJSONExportData( &#x27;dt&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var dataTableJSON = xgDataSet.makeJSONExportData(&#x27;dt&#x27;);</pre>
 
 
     
@@ -1842,7 +1861,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 <dt>
     
 
-    <h4 class="name" id="makeJSONHeader"><span class="type-signature"></span>makeJSONHeader<span class="signature">(xgDataTableId)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="makeJSONHeader"><span class="type-signature"></span>makeJSONHeader<span class="signature">(dataTableId)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -1883,7 +1902,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableId</code></td>
             
 
             <td class="type">
@@ -1978,7 +1997,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var headerJSON = xgDataSet.makeJSONHeader( &#x27;dt&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">var headerJSON = xgDataSet.makeJSONHeader(&#x27;dt&#x27;);</pre>
 
 
     
@@ -2178,9 +2197,7 @@ xgDataSet.bindComponent( $xgGrid );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var source = xgDataSet.makeListTypeSource( &#x27;dt&#x27;, &#x27;column_01&#x27;, &#x27;column_02&#x27; );
-or
-var source = xgDataSet.makeListTypeSource( &#x27;dt&#x27;, 1, 3 );</pre>
+    <pre class="sunlight-highlight-javascript">var source = xgDataSet.makeListTypeSource(&#x27;dt&#x27;, &#x27;column_01&#x27;, &#x27;column_02&#x27;);orvar source = xgDataSet.makeListTypeSource(&#x27;dt&#x27;, 1, 3);</pre>
 
 
     
@@ -2406,9 +2423,7 @@ var source = xgDataSet.makeListTypeSource( &#x27;dt&#x27;, 1, 3 );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var source = xgDataSet.makeTreeTypeSource( &#x27;dt&#x27;, &#x27;column_01&#x27;, &#x27;column_02&#x27;, &#x27;column_03&#x27; );
-or
-var source = xgDataSet.makeTreeTypeSource( &#x27;dt&#x27;, 2, 1, 6 );</pre>
+    <pre class="sunlight-highlight-javascript">var source = xgDataSet.makeTreeTypeSource(&#x27;dt&#x27;, &#x27;column_01&#x27;, &#x27;column_02&#x27;, &#x27;column_03&#x27;);orvar source = xgDataSet.makeTreeTypeSource(&#x27;dt&#x27;, 2, 1, 6);</pre>
 
 
     
@@ -2419,7 +2434,7 @@ var source = xgDataSet.makeTreeTypeSource( &#x27;dt&#x27;, 2, 1, 6 );</pre>
 <dt>
     
 
-    <h4 class="name" id="removeDataTable"><span class="type-signature"></span>removeDataTable<span class="signature">(<span class="optional">xgDataTableId</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="removeDataTable"><span class="type-signature"></span>removeDataTable<span class="signature">(<span class="optional">dataTableIds</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -2463,7 +2478,7 @@ var source = xgDataSet.makeTreeTypeSource( &#x27;dt&#x27;, 2, 1, 6 );</pre>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableIds</code></td>
             
 
             <td class="type">
@@ -2571,7 +2586,7 @@ var source = xgDataSet.makeTreeTypeSource( &#x27;dt&#x27;, 2, 1, 6 );</pre>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">xgDataSet.removeDataTable( &#x27;dt&#x27; );</pre>
+    <pre class="sunlight-highlight-javascript">xgDataSet.removeDataTable(&#x27;dt&#x27;);</pre>
 
 
     
@@ -2582,7 +2597,7 @@ var source = xgDataSet.makeTreeTypeSource( &#x27;dt&#x27;, 2, 1, 6 );</pre>
 <dt>
     
 
-    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(xgDataTableId, <span class="optional">callback</span>, <span class="optional">params</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="select"><span class="type-signature"></span>select<span class="signature">(dataTableIds, <span class="optional">cb</span>, <span class="optional">params</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -2626,7 +2641,7 @@ xgDataTableIds.length 만큼 select를 수행한다.</p>
 
         <tr>
             
-                <td class="name"><code>xgDataTableId</code></td>
+                <td class="name"><code>dataTableIds</code></td>
             
 
             <td class="type">
@@ -2657,7 +2672,7 @@ xgDataTableIds.length 만큼 select를 수행한다.</p>
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>cb</code></td>
             
 
             <td class="type">
@@ -2799,13 +2814,7 @@ xgDataTableIds.length 만큼 select를 수행한다.</p>
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var xgDataTableId = &#x27;dt1&#x27;;
-
-xgDataSet.select( xgDataTableId, function ( dataTableIds, result, code ) {
-    // do something
-}, &#x27;key1=value1&amp;key2=value2&#x27; );
-
-xgDataSet.select( xgDataTableId, null, { foo: &#x27;text&#x27;, bar: 777 } );</pre>
+    <pre class="sunlight-highlight-javascript">var xgDataTableId = &#x27;dt1&#x27;;xgDataSet.select(xgDataTableId, function (dataTableIds, result, code) {    // do something}, &#x27;key1=value1&amp;key2=value2&#x27;);xgDataSet.select(xgDataTableId, null, {foo: &#x27;text&#x27;, bar: 777});</pre>
 
 
     
@@ -2816,7 +2825,7 @@ xgDataSet.select( xgDataTableId, null, { foo: &#x27;text&#x27;, bar: 777 } );</p
 <dt>
     
 
-    <h4 class="name" id="setDataAdapter"><span class="type-signature"></span>setDataAdapter<span class="signature">(xgDataAdapter)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="setDataAdapter"><span class="type-signature"></span>setDataAdapter<span class="signature">(dataAdapter)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -2857,7 +2866,7 @@ xgDataSet.select( xgDataTableId, null, { foo: &#x27;text&#x27;, bar: 777 } );</p
 
         <tr>
             
-                <td class="name"><code>xgDataAdapter</code></td>
+                <td class="name"><code>dataAdapter</code></td>
             
 
             <td class="type">
@@ -2952,9 +2961,7 @@ xgDataSet.select( xgDataTableId, null, { foo: &#x27;text&#x27;, bar: 777 } );</p
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var xgDataAdapter = new XgDataAdapter( adapterOption );
-
-xgDataSet.setDataAdapter( xgDataAdapter );</pre>
+    <pre class="sunlight-highlight-javascript">var xgDataAdapter = new XgDataAdapter(adapterOption);xgDataSet.setDataAdapter(xgDataAdapter);</pre>
 
 
     
@@ -2965,14 +2972,14 @@ xgDataSet.setDataAdapter( xgDataAdapter );</pre>
 <dt>
     
 
-    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(xgDataTableIds, <span class="optional">callback</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(dataTableIds, <span class="optional">cb</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
 <dd>
     
     <div class="description">
-        <p>데이터 셋과 연결된 데이터 어댑터를 통하여 데이터 테이블에서 변경된 데이터 서버에 보낸다. 
+        <p>데이터 셋과 연결된 데이터 어댑터를 통하여 데이터 테이블에서 변경된 데이터 서버에 보낸다.
 콜백 함수가 생략 되었을 경우, update 요청 후 요청 시 전달된 데이터 테이블 아이디 배열 정보 기준으로 select
 를 요청 한다.
 만약, DataTable 별로 URL이 지정되어 있을 경우에는 dataTableIds.length만큼 update를 수행하며, 첫번째
@@ -3012,7 +3019,7 @@ DataTable에만 URL이 지정되어 있을 경우에는 update를 한번만 수�
 
         <tr>
             
-                <td class="name"><code>xgDataTableIds</code></td>
+                <td class="name"><code>dataTableIds</code></td>
             
 
             <td class="type">
@@ -3044,7 +3051,7 @@ DataTable에만 URL이 지정되어 있을 경우에는 update를 한번만 수�
 
         <tr>
             
-                <td class="name"><code>callback</code></td>
+                <td class="name"><code>cb</code></td>
             
 
             <td class="type">
@@ -3150,11 +3157,7 @@ DataTable에만 URL이 지정되어 있을 경우에는 update를 한번만 수�
     
         <h5>Example</h5>
         
-    <pre class="sunlight-highlight-javascript">var xgDataTableIds = [ &#x27;dt1&#x27;, &#x27;dt2&#x27; ];
-
-xgDataSet.update( xgDataTableIds, function ( dataTableIds, result, code ) {
-    // do something
-} );</pre>
+    <pre class="sunlight-highlight-javascript">var xgDataTableIds = [&#x27;dt1&#x27;, &#x27;dt2&#x27;];xgDataSet.update(xgDataTableIds, function(dataTableIds, result, code){    // do something});</pre>
 
 
     

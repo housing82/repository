@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUINumberInput"><span class="type-signature"></span>new XgUINumberInput<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUINumberInput"><span class="type-signature"></span>new XgUINumberInput<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -838,7 +838,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -850,55 +850,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var numberInputOption = {
-    xgInitOption: {
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;
-    },
-    xgBindOption: {
-        mode: &#x27;read&#x27;,
-        bind: {
-            type: &#x27;column&#x27;,
-            column: &#x27;columnName&#x27;
-        }
-    },
-    width: 450,
-    height: 30,
-    ...
-    max: 10,
-    min: -10,
-    inputMode: &quot;simple&quot;
-};
+    <pre class="sunlight-highlight-javascript">var numberInputOption = {    xgInitOption: {        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;    },    xgBindOption: {        mode: &#x27;read&#x27;,        bind: {            type: &#x27;column&#x27;,            column: &#x27;columnName&#x27;        }    },    width: 450,    height: 30,    ...    max: 10,    min: -10,    inputMode: &quot;simple&quot;};// module 방식var $xgNumberInputModule = new XgUINumberInput(&#x27;#xg-number-input&#x27;, numberInputOption);// plugin 방식var $xgNumberInputPlugin = $(&#x27;#xg-number-input&#x27;).xgNumberInput(numberInputOption);</pre>
 
-// module 방식
-var $xgNumberInputModule = new XgUINumberInput( &#x27;#xg-number-input&#x27;, numberInputOption );
-
-// plugin 방식
-var $xgNumberInputPlugin = $( &#x27;#xg-number-input&#x27; ).xgNumberInput( numberInputOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-number-input
-     data-xg-option=&#x27;{
-         &quot;xgInitOption&quot;: {
-             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-             &quot;xgDataTable&quot;: &quot;dataTableName&quot;
-         },
-         &quot;xgBindOption&quot;: {
-             &quot;mode&quot;: &quot;read&quot;,
-             &quot;bind&quot;: {
-                 &quot;type&quot;: &quot;column&quot;,
-                 &quot;column&quot;: &quot;columnName&quot;
-             }
-         },
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-         ...
-         &quot;max&quot;: 10,
-         &quot;min&quot;: -10,
-         &quot;inputMode&quot;: &quot;simple&quot;
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;div data-xg-number-input     data-xg-option=&#x27;{         &quot;xgInitOption&quot;: {             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,             &quot;xgDataTable&quot;: &quot;dataTableName&quot;         },         &quot;xgBindOption&quot;: {             &quot;mode&quot;: &quot;read&quot;,             &quot;bind&quot;: {                 &quot;type&quot;: &quot;column&quot;,                 &quot;column&quot;: &quot;columnName&quot;             }         },         &quot;width&quot;: 300,         &quot;height&quot;: 300,         ...         &quot;max&quot;: 10,         &quot;min&quot;: -10,         &quot;inputMode&quot;: &quot;simple&quot;     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

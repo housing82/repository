@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIButton"><span class="type-signature"></span>new XgUIButton<span class="signature">(buttonName, selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIButton"><span class="type-signature"></span>new XgUIButton<span class="signature">(buttonName, selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -611,7 +611,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -623,46 +623,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var buttonOption = { ... };
+    <pre class="sunlight-highlight-javascript">var buttonOption = {...};// module 방식var $xgButtonModule = new XgUIButton(&#x27;default&#x27;, &#x27;#xg-button&#x27;, buttonOption);// plugin 방식var $xgButtonPlugin = $(&#x27;#xg-button&#x27;).xgButton(buttonOption);// plugin 방식의 메서드 이름은 다음과 같다.(단 &#x27;default&#x27;, &#x27;buttonGroup&#x27;은 예외).// eg.) xg[MethodName]Buttonvar $toggle = $(selector).xgToggleButton();var $switch = $(selector).xgSwitchButton();var $dropDown = $(selector).xgDropDownButton();var $buttonGroup = $(selector).xgButtonGroup();</pre>
 
-// module 방식
-var $xgButtonModule = new XgUIButton( &#x27;default&#x27;, &#x27;#xg-button&#x27;, buttonOption );
-
-// plugin 방식
-var $xgButtonPlugin = $( &#x27;#xg-button&#x27; ).xgButton( buttonOption );
-
-// plugin 방식의 메서드 이름은 다음과 같다.( 단 &#x27;default&#x27;, &#x27;buttonGroup&#x27;은 예외 ).
-// eg.) xg[MethodName]Button
-var $toggle = $( selector ).xgToggleButton();
-var $switch = $( selector ).xgSwitchButton();
-var $dropDown = $( selector ).xgDropDownButton();
-var $buttonGroup = $( selector ).xgButtonGroup();</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!--
-data-api 방식 ( Markup Tag로 선언한다. )
-data-api 이름은 plugin 방식과 비슷하지만 dash 형식으로 작성한다.
-eg.) data-xg-[methodName]-button // 단 &#x27;default&#x27; 버튼인 경우 methodName은 생략한다.
---&gt;
-
-&lt;button type=&quot;button&quot;
-        data-xg-button
-        data-xg-option=&#x27;{
-            &quot;width&quot;: 120,
-            &quot;height&quot;: 30
-        }&#x27;
-&gt;button&lt;/button&gt;
-
-&lt;button data-xg-toggle-button ... &gt;toggle&lt;/button&gt;
-
-&lt;div data-xg-switch-button ... &gt;&lt;/div&gt;
-
-&lt;div data-xg-drop-down-button ... &gt;&lt;/div&gt;
-
-&lt;div data-xg-button-group ... &gt;
-    &lt;button type=&quot;button&quot;&gt;button 1&lt;/button&gt;
-    &lt;button type=&quot;button&quot;&gt;button 2&lt;/button&gt;
-&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!--data-api 방식 (Markup Tag로 선언한다.)data-api 이름은 plugin 방식과 비슷하지만 dash 형식으로 작성한다.eg.) data-xg-[methodName]-button // 단 &#x27;default&#x27; 버튼인 경우 methodName은 생략한다.--&gt;&lt;button type=&quot;button&quot;        data-xg-button        data-xg-option=&#x27;{            &quot;width&quot;: 120,            &quot;height&quot;: 30        }&#x27;&gt;button&lt;/button&gt;&lt;button data-xg-toggle-button ... &gt;toggle&lt;/button&gt;&lt;div data-xg-switch-button ... &gt;&lt;/div&gt;&lt;div data-xg-drop-down-button ... &gt;&lt;/div&gt;&lt;div data-xg-button-group ... &gt;    &lt;button type=&quot;button&quot;&gt;button 1&lt;/button&gt;    &lt;button type=&quot;button&quot;&gt;button 2&lt;/button&gt;&lt;/div&gt;</pre>
 
 
     

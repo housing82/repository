@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIGrid"><span class="type-signature"></span>new XgUIGrid<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIGrid"><span class="type-signature"></span>new XgUIGrid<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -1210,7 +1210,7 @@
                             <td>function</td>
                             <td>null</td>
                             <td class="last">
-                                컬럼 헤더가 렌더링 된 후 수행할 콜백 함수를 설정한다. 
+                                컬럼 헤더가 렌더링 된 후 수행할 콜백 함수를 설정한다.
                                 렌더링 된 컬럼헤더 엘리먼트에 추가적인 작업이 필요할때 사용한다.
                                 <br/><strong>전달 인자 : columnHeaderElement</strong>
                             </td>
@@ -1254,7 +1254,7 @@
                                          'textbox' : 텍스트 입력상자를 기본 셀 에디터로 설정한다.
                                      </li>
                                      <li>
-                                         'template' : 커스텀 에디터로 설정한다. 에디터는 'createeditor' 콜백함수를 통해 생성한다. 
+                                         'template' : 커스텀 에디터로 설정한다. 에디터는 'createeditor' 콜백함수를 통해 생성한다.
                                          셀 값과 동기화는 'initeditor' 콜백함수를 통해 할 수있다.
                                          'geteditorvalue' 콜백함수를 통해 해당 에디터의 값을 전달 받을 수 있다.
                                      </li>
@@ -1309,7 +1309,7 @@
                             <td>function</td>
                             <td>null</td>
                             <td class="last">
-                                셀 에디터가 폐기? 될 때 수행할 콜백함수를 설정한다. <code>'columntype'이 'custom' 또는 'template'</code> 
+                                셀 에디터가 폐기? 될 때 수행할 콜백함수를 설정한다. <code>'columntype'이 'custom' 또는 'template'</code>
                                 일때만 수행한다. <br/>
                                 <strong>전달 인자 : editorElement, boundRowIndex( 인덱스는 <code>'columntype'이 'custom'</code> 일 경우만 )
                             </td>
@@ -1319,7 +1319,7 @@
                             <td>function</td>
                             <td>null</td>
                             <td class="last">
-                                셀에 표현될 데이터를 어떻게 렌더링 할지 설정한다. 콜백함수의 반환값이 렌더링된다. 
+                                셀에 표현될 데이터를 어떻게 렌더링 할지 설정한다. 콜백함수의 반환값이 렌더링된다.
                                 사용자정의 에디터의 값을 다르게 표현하고 싶을때 사용할 수 있다.<br/>
                                 <strong>전달 인자 : boundRowIndex, cellValue, editorElement</strong>
                             </td>
@@ -1329,7 +1329,7 @@
                             <td>function</td>
                             <td>null</td>
                             <td class="last">
-                                셀이 에디팅 모드에 진입 시에 수행할 콜백함수를 설정한다. 해당 함수는 'boolean' 타입을 반환하여야 하며 반환값에 따라 
+                                셀이 에디팅 모드에 진입 시에 수행할 콜백함수를 설정한다. 해당 함수는 'boolean' 타입을 반환하여야 하며 반환값에 따라
                                 에디팅 종료 여부를 결정할 수 있다.
                                 <ul>
                                     <li>true : 셀 에디팅이 종료된다.</li>
@@ -1343,7 +1343,7 @@
                             <td>function</td>
                             <td>null</td>
                             <td class="last">
-                                셀 값이 변경될 때 수행할 콜백함수를 설정한다. 해당 함수의 반환값이 셀의 값으로 설정된다. 셀 값이 변경된 후 해당 값에 대해 
+                                셀 값이 변경될 때 수행할 콜백함수를 설정한다. 해당 함수의 반환값이 셀의 값으로 설정된다. 셀 값이 변경된 후 해당 값에 대해
                                 추가적인 작업을 수행할 때 사용할 수 있다.<br/>
                                 <strong>전달 인자 : rowIndex, datafield, columntype, oldValue, newValue</strong>
                             </td>
@@ -1391,7 +1391,7 @@
                             <td>string</td>
                             <td>''</td>
                             <td class="last">
-                                셀 값을 표현할 포멧을 설정한다 ( 숫자 또는 날짜형 ). 
+                                셀 값을 표현할 포멧을 설정한다 ( 숫자 또는 날짜형 ).
                                 사용자의 localization에 따라 표현 방식이 다르다. ( 하기는 'ko' 기준 값이다 )<br/><br/>
                                 <strong><code>숫자형</code></strong><br/><br/>
                                 포멧 문자열 뒤에 소수점 위치를 지정할 수 있다.<br/>
@@ -1545,7 +1545,7 @@
                             <td>array</td>
                             <td>null</td>
                             <td class="last">
-                                필터 리스트에 보여질 아이템들을 설정한다. 'showfilterrow' 기능 활성화 및 필터 타입이 'list' 또는 
+                                필터 리스트에 보여질 아이템들을 설정한다. 'showfilterrow' 기능 활성화 및 필터 타입이 'list' 또는
                                 'checkedlist' 일 경우에만 적용된다.
                             </td>
                         </tr>
@@ -1728,7 +1728,7 @@
             <td>string</td>
             <td>''</td>
             <td class="last">
-                그리드의 템플릿을 설정한다. 템플릿을 지정시 바인드 옵션을 생성하여 적용하며, 
+                그리드의 템플릿을 설정한다. 템플릿을 지정시 바인드 옵션을 생성하여 적용하며,
                 이와 별도로 각각의 바인드 옵션이 추가된다면 해당 옵션값을 우선적으로 적용한다.<br/><br/>
                 <strong>[ 'all', 'view' ] 중 택일</strong><br/>
                 <ul>
@@ -1785,8 +1785,8 @@
             <td>object</td>
             <td>XgUICommon.getLocalization()</td>
             <td class="last">
-                국제화 메시지 오브젝트를 설정한다. 
-                생략될 경우 사용자의 브라우저의 locale 정보를 파악하여 해당 국가의 메시지 오브젝트를 반환한다. 
+                국제화 메시지 오브젝트를 설정한다.
+                생략될 경우 사용자의 브라우저의 locale 정보를 파악하여 해당 국가의 메시지 오브젝트를 반환한다.
                 만약 해당 언어가 미지원 된다면 기본 언어( 영어 ) 메시지 오브젝트를 반환한다.
             </td>
         </tr>
@@ -1795,7 +1795,7 @@
             <td>boolean</td>
             <td>false</td>
             <td class="last">
-                서버와 동기화된 데이터 중 컬럼 타입( 서버에서 전달된 헤더의 정보 기준 )이 <code>'key' 또는 'sequnce'</code> 일 경우 
+                서버와 동기화된 데이터 중 컬럼 타입( 서버에서 전달된 헤더의 정보 기준 )이 <code>'key' 또는 'sequnce'</code> 일 경우
                 사용자의 셀 값 수정 인터럭션이 발생할 때 셀 에디팅 모드 진입을 막는다.<br/>
                 <strong>키 값이 변경될 경우 서버측에서 업데이트를 정상적으로 수행할 수 없기 때문에 이를 방지하기 위해 사용한다.</strong>
             </td>
@@ -1805,7 +1805,7 @@
             <td>boolean</td>
             <td>false</td>
             <td class="last">
-                서버에서 전달 된 헤더 정보기준으로 셀 값의 유효성 검증기능 활성화 여부를 설정한다. 동기화 된 데이터 테이블 
+                서버에서 전달 된 헤더 정보기준으로 셀 값의 유효성 검증기능 활성화 여부를 설정한다. 동기화 된 데이터 테이블
                 헤더의 'size', 'type', 'constaint' 정보를 기준으로 사용자가 셀의 값을 변경 후 에디팅을 종료할 때 수행된다.
             </td>
         </tr>
@@ -1857,13 +1857,13 @@
             <td class="last">
                 각 컬럼 별 에디터를 적용하고 데이터 테이블과 동기화를 위한 추가적인 컬럼 옵션을 설정한다.<br/><br/>
                 <strong><code>true 일 경우</code></strong><br/><br/>
-                동기화된 데이터 테이블의 헤더를 기준으로 타입이 <code>'number'</code> 일 경우 숫자만 입력가능한 입력컨트롤, 
+                동기화된 데이터 테이블의 헤더를 기준으로 타입이 <code>'number'</code> 일 경우 숫자만 입력가능한 입력컨트롤,
                 <code>'data' 또는 'datetime'</code> 일 경우 날짜 입력 및 달력 기능이 제공되는 입력컨트롤을 적용시킨다.<br/><br/>
                 <strong><code>오브젝트일 경우</code></strong><br/><br/>
-                컬럼에 타입을 사용자가 정의하여 사용할 때 작성한다. 
-                <strong>[ 'datetimeinput', 'numberinput', 'checkbox', 'passwordinput', 'dropdownlist' ]</strong> 를 지원한다.<br/><br/>
-                datafield( string), value ( object ) 형식으로 작성하며 <code>value</code> 하기 옵션 적용 예제를 참조한다.
-                ( 각 컬럼에 추가되는 옵션은 해당 컴퍼넌트의 xgInitOption 및 xgBindOption을 제외한 모든 옵션을 적용할 수 있다. )<br/>
+                컬럼에 타입을 사용자가 정의하여 사용할 때 작성한다.
+                <strong>['datetimeinput', 'numberinput', 'checkbox', 'passwordinput', 'dropdownlist']</strong> 를 지원한다.<br/><br/>
+                datafield(string), value(object) 형식으로 작성하며 <code>value</code> 하기 옵션 적용 예제를 참조한다.
+                (각 컬럼에 추가되는 옵션은 해당 컴퍼넌트의 xgInitOption 및 xgBindOption을 제외한 모든 옵션을 적용할 수 있다.)<br/>
             </td>
         </tr>
     </tbody>
@@ -1977,7 +1977,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -1989,93 +1989,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">// dataSet안에 &#x27;dataTable&#x27;이라는 데이터 테이블이 들어와있고 서버에서 자료를 받아왔다고 가정한다.
-var gridOption = {
-    
-    // xgGrid 기본 옵션
-    width: 730,
-    height: 340,
-    sortable: true
-    editable: true
-    editmode: &#x27;dblclick&#x27;,
-    keyboardnavigation: true,
-    columnsmenu: true,
-    columnsresize: true,
-    columnsreorder: true,
-    groupable: true,
-    pageable: true,
-    enablekeyboarddelete: true,
-    filterable: true,
-    ...
-    // xgGrid init option
-    xgInitOption: {
-        xgDataSet: dataSet,
-        xgDataTable: &#x27;dataTableName&#x27;,
-        columns: [
-            {
-                datafield: &#x27;foo&#x27;,
-                text: &#x27;foo text&#x27;,
-                ...
-                align: &#x27;left&#x27;,
-                cellsalign: &#x27;center&#x27;
-            },
-            ...
-            {
-                datafield: &#x27;miz&#x27;,
-                text: &#x27;miz header&#x27;,
-                align: &#x27;right&#x27;,
-                cellsalign: &#x27;left&#x27;
-            }
-    },
-    // xgGrid data bind option
-    xgBindOption: {
-        template: &#x27;all&#x27;,
-        ...
-        showRowStatus: fasle,
-        cellValidation: false,
-        useEditor: {
-            &#x27;foo&#x27;: { columntype: &#x27;datetimeinput&#x27; },
-            &#x27;bar&#x27;: { columntype: &#x27;passwordinput&#x27; },
-            &#x27;roo&#x27;: {
-                columntype: &#x27;numberinput&#x27;,
-                option: {
-                    decimalDigits: 0,
-                    max: XgCommon.constant.RANGE_OF_GAUCE.INT.MAX,
-                    min: XgCommon.constant.RANGE_OF_GAUCE.INT.MIN
-                }
-            },
-            &#x27;kal&#x27;: {
-                columntype: &#x27;checkbox&#x27;,
-                checkedAll: true
-            },
-            &#x27;miz&#x27;: {
-                columntype: &#x27;dropdownlist&#x27;
-            }
-        }
-    }
-};
+    <pre class="sunlight-highlight-javascript">// dataSet안에 &#x27;dataTable&#x27;이라는 데이터 테이블이 들어와있고 서버에서 자료를 받아왔다고 가정한다.var gridOption = {    // xgGrid 기본 옵션    width: 730,    height: 340,    sortable: true    editable: true    editmode: &#x27;dblclick&#x27;,    keyboardnavigation: true,    columnsmenu: true,    columnsresize: true,    columnsreorder: true,    groupable: true,    pageable: true,    enablekeyboarddelete: true,    filterable: true,    ...    // xgGrid init option    xgInitOption: {        xgDataSet: dataSet,        xgDataTable: &#x27;dataTableName&#x27;,        columns: [            {                datafield: &#x27;foo&#x27;,                text: &#x27;foo text&#x27;,                ...                align: &#x27;left&#x27;,                cellsalign: &#x27;center&#x27;            },            ...            {                datafield: &#x27;miz&#x27;,                text: &#x27;miz header&#x27;,                align: &#x27;right&#x27;,                cellsalign: &#x27;left&#x27;            }    },    // xgGrid data bind option    xgBindOption: {        template: &#x27;all&#x27;,        ...        showRowStatus: fasle,        cellValidation: false,        useEditor: {            &#x27;foo&#x27;: { columntype: &#x27;datetimeinput&#x27; },            &#x27;bar&#x27;: { columntype: &#x27;passwordinput&#x27; },            &#x27;roo&#x27;: {                columntype: &#x27;numberinput&#x27;,                option: {                    decimalDigits: 0,                    max: XgCommon.constant.RANGE_OF_GAUCE.INT.MAX,                    min: XgCommon.constant.RANGE_OF_GAUCE.INT.MIN                }            },            &#x27;kal&#x27;: {                columntype: &#x27;checkbox&#x27;,                checkedAll: true            },            &#x27;miz&#x27;: {                columntype: &#x27;dropdownlist&#x27;            }        }    }};// module 방식var $xgGridModule = new XgUIGrid(&#x27;#xg-grid&#x27;, gridOption);// plugin 방식var $xgGridPlugin = $(&#x27;#xg-grid&#x27;).xgGrid(gridOption);</pre>
 
-// module 방식
-var $xgGridModule = new XgUIGrid( &#x27;#xg-grid&#x27;, gridOption );
-
-// plugin 방식
-var $xgGridPlugin = $( &#x27;#xg-grid&#x27; ).xgGrid( gridOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div id=&quot;xg-grid&quot; 
-     data-xg-grid 
-     data-xg-option=&#x27;{
-         &quot;xgInitOption&quot;: {
-     	    &quot;columns&quot;: [ 
-                 { &quot;datafield&quot;: &quot;foo&quot;, &quot;text&quot;: &quot;column foo&quot; },
-                 { &quot;datafield&quot;: &quot;bar&quot;, &quot;text&quot;: &quot;column bar&quot; }
-     	    ]
-         },
-     	&quot;sortable&quot;: true, 
-     	&quot;groupable&quot;: true
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식(Markup Tag로 선언한다.) --&gt;&lt;div id=&quot;xg-grid&quot;     data-xg-grid     data-xg-option=&#x27;{         &quot;xgInitOption&quot;: {     	    &quot;columns&quot;: [                 {&quot;datafield&quot;: &quot;foo&quot;, &quot;text&quot;: &quot;column foo&quot;},                 {&quot;datafield&quot;: &quot;bar&quot;, &quot;text&quot;: &quot;column bar&quot;}     	    ]         },     	&quot;sortable&quot;: true,     	&quot;groupable&quot;: true     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

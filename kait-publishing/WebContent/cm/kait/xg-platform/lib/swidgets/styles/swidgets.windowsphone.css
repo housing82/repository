@@ -447,7 +447,7 @@ border-color:#008a00; color: #fff; background-color:#008a00;
     background-position: center;
 }
 .jqx-tree-grid-expand-button-windowsphone {
-    margin-top: 5px;
+    margin-top: 0px;
 }
 .jqx-tree-grid-checkbox-windowsphone, .jqx-tree-grid-collapse-button-windowsphone {
     margin-top: 3px;
@@ -489,4 +489,8 @@ border-color:#008a00; color: #fff; background-color:#008a00;
 .jqx-layout-pseudo-window-pinned-icon-windowsphone
 {
     background-image: url("images/pinned-white.png");
+}
+.jqx-scheduler-windowsphone, .jqx-scheduler-toolbar-windowsphone, .jqx-scheduler-time-column-windowsphone, .jqx-scheduler-toolbar-details-windowsphone {
+    color: white !important;
+    background: black !important;
 }

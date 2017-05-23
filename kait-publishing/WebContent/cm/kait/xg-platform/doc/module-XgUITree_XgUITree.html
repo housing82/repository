@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUITree"><span class="type-signature"></span>new XgUITree<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUITree"><span class="type-signature"></span>new XgUITree<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -805,7 +805,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -817,29 +817,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var treeOption = {
-    width: 300,
-    height: 300,
-    ...
-    source: [ { label: &#x27;foo&#x27;, value: 0 }, { label: &#x27;bar&#x27;, value: 1 } ]
-};
+    <pre class="sunlight-highlight-javascript">var treeOption = {    width: 300,    height: 300,    ...    source: [{label: &#x27;foo&#x27;, value: 0}, {label: &#x27;bar&#x27;, value: 1}]};// module 방식var $xgTreeModule = new XgUITree(&#x27;#xg-tree&#x27;, treeOption);// plugin 방식var $xgTreePlugin = $(&#x27;#xg-tree&#x27;).xgTree(treeOption);</pre>
 
-// module 방식
-var $xgTreeModule = new XgUITree( &#x27;#xg-tree&#x27;, treeOption );
-
-// plugin 방식
-var $xgTreePlugin = $( &#x27;#xg-tree&#x27; ).xgTree( treeOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-tree
-     data-xg-option=&#x27;{
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-         ...
-         &quot;source&quot;: [ {&quot;label&quot;: &quot;foo&quot;, &quot;value&quot;: 0 }, { &quot;label&quot;: &quot;bar&quot;, &quot;value&quot;: 1 } ]
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;div data-xg-tree     data-xg-option=&#x27;{         &quot;width&quot;: 300,         &quot;height&quot;: 300,         ...         &quot;source&quot;: [{&quot;label&quot;: &quot;foo&quot;, &quot;value&quot;: 0}, {&quot;label&quot;: &quot;bar&quot;, &quot;value&quot;: 1}]     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

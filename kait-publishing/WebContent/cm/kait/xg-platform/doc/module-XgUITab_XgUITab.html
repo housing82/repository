@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUITab"><span class="type-signature"></span>new XgUITab<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUITab"><span class="type-signature"></span>new XgUITab<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -742,7 +742,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -754,27 +754,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var tabOption = {
-    width: 300,
-    height: 300,
-    ...
-};
+    <pre class="sunlight-highlight-javascript">var tabOption = {    width: 300,    height: 300,    ...};// module 방식var $xgTabModule = new XgUITab(&#x27;#xg-tab&#x27;, tabOption);// plugin 방식var $xgTabPlugin = $(&#x27;#xg-tab&#x27;).xgTab(tabOption);</pre>
 
-// module 방식
-var $xgTabModule = new XgUITab( &#x27;#xg-tab&#x27;, tabOption );
-
-// plugin 방식
-var $xgTabPlugin = $( &#x27;#xg-tab&#x27; ).xgTab( tabOption );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;div data-xg-tab
-     data-xg-option=&#x27;{
-         &quot;width&quot;: 300,
-         &quot;height&quot;: 300,
-         ...
-     }&#x27;
-&gt;&lt;/div&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;div data-xg-tab     data-xg-option=&#x27;{         &quot;width&quot;: 300,         &quot;height&quot;: 300,         ...     }&#x27;&gt;&lt;/div&gt;</pre>
 
 
     

@@ -389,7 +389,7 @@
 <dt>
     
 
-    <h4 class="name" id="XgUIInput"><span class="type-signature"></span>new XgUIInput<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {$object}</span></h4>
+    <h4 class="name" id="XgUIInput"><span class="type-signature"></span>new XgUIInput<span class="signature">(selector, <span class="optional">option</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
     
     
 </dt>
@@ -545,7 +545,7 @@
 <td>opened</td>
 <td>boolean</td>
 <td>false</td>
-<td>추천 단어 팝업을 열려있는 상태로 지정할지 여부를 설정한다. ( 초기화시 동작 문제 발견 )</td>
+<td>추천 단어 팝업을 열려있는 상태로 지정할지 여부를 설정한다. (초기화시 동작 문제 발견)</td>
 </tr>
 <tr>
 <td>theme</td>
@@ -679,10 +679,10 @@
                 데이터 테이블 로우의 상태값 및 제약조건의 반영 여부를 설정한다.
                 <ul>
                     <li>
-                        true : 로우의 상태값 및 제약조건과 상호작용( 자동 비활성화 ) 기능을 사용한다. 선택된 로우가 삭제될 경우 수정불가능 상태로 변경된다. 또한 서버와 동기화 된 'key', 'sequence' 컬럼을 바라보는 경우 수정불가능 상태로 변경된다.
+                        true : 로우의 상태값 및 제약조건과 상호작용(자동 비활성화) 기능을 사용한다. 선택된 로우가 삭제될 경우 수정불가능 상태로 변경된다. 또한 서버와 동기화 된 'key', 'sequence' 컬럼을 바라보는 경우 수정불가능 상태로 변경된다.
                     </li>
                     <li>
-                        false : 로우의 상태값 및 제약조건과 상호작용( 자동 비활성화 ) 기능을 사용하지 않는다.
+                        false : 로우의 상태값 및 제약조건과 상호작용(자동 비활성화) 기능을 사용하지 않는다.
                     </li>
                 </ul>
             </td>
@@ -692,7 +692,7 @@
             <td>boolean</td>
             <td>false</td>
             <td class="last">
-                <code>'write'</code> 모드 일 때 변경사항을 즉시 전파할지 여부를 설정한다. <code>false</code>로 
+                <code>'write'</code> 모드 일 때 변경사항을 즉시 전파할지 여부를 설정한다. <code>false</code>로
                 설정할 경우 컴퍼넌트에서 포커스를 잃을 때 변경사항을 전파한다.
             </td>
         </tr>
@@ -723,7 +723,7 @@
                             <td>'row'</td>
                             <td>
                                 데이터 테이블의 바인딩 목표를 설정한다. 데이터 테이블의 현재 선택된 로우를 기준으로 동작된다.<br/>
-                                <strong>[ 'row', 'column' ] 중 택일</strong>
+                                <strong>['row', 'column'] 중 택일</strong>
                             </td>
                         </tr>
                         <tr>
@@ -731,8 +731,8 @@
                             <td>string|number</td>
                             <td>null</td>
                             <td>
-                                <code>'row'</code> type으로 설정되었을 때 바인딩 할 컬럼을 지정한다. 
-                                컬럼의 이름 또는 컬럼의 인덱스로 지정할 수 있다. ( 데이터 테이블 기준 )
+                                <code>'row'</code> type으로 설정되었을 때 바인딩 할 컬럼을 지정한다.
+                                컬럼의 이름 또는 컬럼의 인덱스로 지정할 수 있다. (데이터 테이블 기준)
                             </td>
                         </tr>
                     </tbody>
@@ -810,7 +810,7 @@
 	</dt>
 	<dd>
 		
-<span class="param-type">$object</span>
+<span class="param-type">object</span>
 
 
 	</dd>
@@ -822,87 +822,9 @@
     
         <h5>Examples</h5>
         
-    <pre class="sunlight-highlight-javascript">var source = [ &#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;miz&#x27;, &#x27;roo&#x27;, &#x27;key&#x27; ];
+    <pre class="sunlight-highlight-javascript">var source = [&#x27;foo&#x27;, &#x27;bar&#x27;, &#x27;miz&#x27;, &#x27;roo&#x27;, &#x27;key&#x27;];// module 방식var $xgInputModule = new XgUIInput( &#x27;#xg-input&#x27;, {    xgInitOption: {        xgDataSet: dataSet,        xgDataTable: dataTable    },    xgBindOption: {        mode: &#x27;write&#x27;,        immediately: true,        bind: {            type: &#x27;column&#x27;,            column: &#x27;columnName&#x27;        }    },    width: &#x27;30%&#x27;,    height: 40,    searchMode: &#x27;equal&#x27;,    placeHolder: &#x27;Need to input value.&#x27;,    source: source} );// plugin 방식 (하기 split 메서드에 regexp 값에 아스테릭스값이 생략되어 있다 /,\s아스테릭스/)var $xgInputPlugin = $(&#x27;#xg-input&#x27;).xgInput({    width: 150,    height: 50,    source: function(query, callbackFunction){        // 입력 컨트롤의 입력값을 &#x27;,&#x27;로 분리 및 마지막 요소를 분리        var item = query.split(/,\s/).pop();        // 쿼리 업데이트        $(&#x27;#xg-input&#x27;).xgInput({query: item});        callbackFunction(source);    },    renderer: function(itemValue, inputValue){        var inputItems = inputValue.split(/,\s/);        // 입력 컨트롤의 입력값을 &#x27;,&#x27;로 분리 및 마지막 요소를 분리        inputItems.pop();        // 선택된 아이템을 배열에 추가        inputItems.push(itemValue);        // 선택된 값을 기존 입력값처럼 &#x27;,&#x27; 로 추가하기 위해 빈 문자열 요소 추가        inputItems.push(&#x27;&#x27;);        // 배열요소들을 &#x27;, &#x27; 문자열과 병합하여 반환        var result = inputItems.join(&#x27;, &#x27;);        return result    }} );</pre>
 
-// module 방식
-var $xgInputModule = new XgUIInput( &#x27;#xg-input&#x27;, {
-    xgInitOption: {
-        xgDataSet: dataSet,
-        xgDataTable: dataTable
-    },
-    xgBindOption: {
-        mode: &#x27;write&#x27;,
-        immediately: true,
-        bind: {
-            type: &#x27;column&#x27;,
-            column: &#x27;columnName&#x27;
-        }
-    },
-    width: &#x27;30%&#x27;,
-    height: 40,
-    searchMode: &#x27;equal&#x27;,
-    placeHolder: &#x27;Need to input value.&#x27;,
-    source: source
-} );
-
-// plugin 방식 ( 하기 split 메서드에 regexp 값에 아스테릭스값이 생략되어 있다 /,\s아스테릭스/ )
-
-var $xgInputPlugin = $( &#x27;#xg-input&#x27; ).xgInput( {
-    width: 150,
-    height: 50,
-    source: function ( query, callbackFunction ) {
-        // 입력 컨트롤의 입력값을 &#x27;,&#x27;로 분리 및 마지막 요소를 분리
-        var item = query.split( /,\s/ ).pop();
-
-        // 쿼리 업데이트
-        $( &#x27;#xg-input&#x27; ).xgInput( { query: item } );
-        
-        callbackFunction( source );
-    },
-    renderer: function ( itemValue, inputValue ) {
-        var inputItems = inputValue.split( /,\s/ );
-
-        // 입력 컨트롤의 입력값을 &#x27;,&#x27;로 분리 및 마지막 요소를 분리
-        inputItems.pop();
-
-        // 선택된 아이템을 배열에 추가
-        inputItems.push( itemValue );
-
-        // 선택된 값을 기존 입력값처럼 &#x27;,&#x27; 로 추가하기 위해 빈 문자열 요소 추가
-        inputItems.push( &#x27;&#x27; );
-
-        // 배열요소들을 &#x27;, &#x27; 문자열과 병합하여 반환
-        var result = inputItems.join( &#x27;, &#x27; );
-        
-        return result
-    }
-} );</pre>
-
-    <pre class="sunlight-highlight-xml">
-&lt;!-- data-api 방식 ( Markup Tag로 선언한다. ) --&gt;
-&lt;input 
-    type=&quot;text&quot;
-    data-xg-input
-    data-xg-option=&#x27;{
-         &quot;xgInitOption&quot;: {
-             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,
-             &quot;xgDataTable&quot;: &quot;dataTableName&quot;
-         },
-         &quot;xgBindOption&quot;: {
-             &quot;mode&quot;: &quot;write&quot;,
-             &quot;immediately&quot;: false,
-             &quot;bind&quot;: {
-                 &quot;type&quot;: &quot;column&quot;,
-                 &quot;column&quot;: &quot;columnName&quot;
-             }
-         },
-        &quot;width&quot;: 150,
-        &quot;height&quot;: 40,
-        &quot;searchMode&quot;: &quot;equal&quot;,
-        &quot;placeHolder&quot;: &quot;값을 입력해주세요.&quot;,
-        &quot;source&quot;: [ &quot;foo&quot;, &quot;bar&quot;, &quot;miz&quot;, &quot;roo&quot;, &quot;key&quot; ]
-    }&#x27;
-&gt;</pre>
+    <pre class="sunlight-highlight-xml">&lt;!-- data-api 방식 (Markup Tag로 선언한다.) --&gt;&lt;input    type=&quot;text&quot;    data-xg-input    data-xg-option=&#x27;{         &quot;xgInitOption&quot;: {             &quot;xgDataSet&quot;: &quot;dataSetName&quot;,             &quot;xgDataTable&quot;: &quot;dataTableName&quot;         },         &quot;xgBindOption&quot;: {             &quot;mode&quot;: &quot;write&quot;,             &quot;immediately&quot;: false,             &quot;bind&quot;: {                 &quot;type&quot;: &quot;column&quot;,                 &quot;column&quot;: &quot;columnName&quot;             }         },        &quot;width&quot;: 150,        &quot;height&quot;: 40,        &quot;searchMode&quot;: &quot;equal&quot;,        &quot;placeHolder&quot;: &quot;값을 입력해주세요.&quot;,        &quot;source&quot;: [&quot;foo&quot;, &quot;bar&quot;, &quot;miz&quot;, &quot;roo&quot;, &quot;key&quot;]    }&#x27;&gt;</pre>
 
 
     
