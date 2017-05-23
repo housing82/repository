@@ -45,7 +45,7 @@
 	</appender>
 		
 	<!-- Application Loggers -->
-	<logger name="com.universal.code" additivity="false">
+	<logger name="com.universal.code" additivity="true">
 		<level value="DEBUG" />
 		<appender-ref ref="fileAppender" />
 		<appender-ref ref="defaultConsole" />

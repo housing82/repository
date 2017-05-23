@@ -77,7 +77,7 @@ public class GenerateRun {
 		// 프로그램 설계 엑셀 파일경로
 		EXCEL_PATH = "N:/03.프로잭트/11.뱅크웨어/01.한국자산신탁/06.프로그램설계";
 		
-		READ_EXCEL_NAME = "한국자산신탁_분양임대_프로그램설계_ver.1.0.xlsx";
+		READ_EXCEL_NAME = "한국자산신탁_분양임대_프로그램설계_ver.1.1.xlsx";
 		
 		WRITE_EXCEL_NAME = "한국자산신탁_분양임대_프로그램_자바메소드_ver.1.0.xlsx";
 		
@@ -217,7 +217,7 @@ public class GenerateRun {
 	}
 
 	public void bxmBeanGenerate() {
-		
+		logger.debug("[START] bxmBeanGenerate");
 		BxmBeanGenerateUtil beanGen = new BxmBeanGenerateUtil();
 		beanGen.setSourceRoot(SOURCE_ROOT);
 		beanGen.setCreateFile(true);
@@ -226,6 +226,7 @@ public class GenerateRun {
 		
 		// create bean with program design excel
 		beanGen.execute();
+		logger.debug("[END] bxmBeanGenerate");
 	}
 	
 }

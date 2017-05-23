@@ -64,7 +64,7 @@ public class PropertyUtil {
 	 * @throws InvocationTargetException
 	 * @throws NoSuchMethodException
 	 */
-    public Object getProperty(Object bean, String propertyName) {
+    public static  Object getProperty(Object bean, String propertyName) {
         if(bean == null || StringUtil.isEmpty(propertyName)) {
         	throw new ApplicationException(" The parameter was null or invalid. ");
         }
@@ -85,6 +85,8 @@ public class PropertyUtil {
 			throw new ApplicationException(e);
 		} catch (NoSuchMethodException e) {
 			throw new ApplicationException(e);
+		} catch (Exception e) {
+			throw new ApplicationException(e);
 		}
         
         if(logger.isWarnEnabled()) {
@@ -104,7 +106,7 @@ public class PropertyUtil {
      * @throws InvocationTargetException
      * @throws NoSuchMethodException
      */
-    public boolean setProperty(Object bean, String propertyName, Object result) {
+    public static boolean setProperty(Object bean, String propertyName, Object result) {
         if(bean == null || StringUtil.isEmpty(propertyName)) {
         	throw new ApplicationException(" The parameter was null or invalid. ");
         }
@@ -125,6 +127,8 @@ public class PropertyUtil {
 		} catch (InvocationTargetException e) {
 			throw new ApplicationException(e);
 		} catch (NoSuchMethodException e) {
+			throw new ApplicationException(e);
+		} catch (Exception e) {
 			throw new ApplicationException(e);
 		}
         

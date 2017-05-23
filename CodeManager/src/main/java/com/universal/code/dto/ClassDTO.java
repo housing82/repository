@@ -2,8 +2,11 @@ package com.universal.code.dto;
 
 import java.lang.reflect.Method;
 
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
 
-public class ClassDTO {
+
+public class ClassDTO extends CommonObject implements IDataTransferObject {
 	
     private String packageString;
     private String className;
