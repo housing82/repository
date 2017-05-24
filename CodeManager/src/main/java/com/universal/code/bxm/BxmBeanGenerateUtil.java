@@ -107,24 +107,6 @@ public class BxmBeanGenerateUtil {
 						if(cell.getCellIndex() == 0) {
 							if(programDesginDTO != null) {
 								//logger.debug("programDesgin[{}]: {}", i, programDesginDTO.toString());
-								
-								List<String> test = new ArrayList<String>();
-								test.add("test1");
-								test.add("test2");
-								test.add("test3");
-								programDesginDTO.setStrList(test);
-								
-								Collection set = new HashSet();
-						        set.add("양효선");
-						        set.add("홍용표");
-						        set.add("황진호");
-						        set.add("김동진");
-						        set.add("전경수");
-						        set.add("양효선");
-								programDesginDTO.setStrCollection(set);
-								
-								TableDTO tableDTO = new TableDTO();
-								programDesginDTO.setTableDTO(tableDTO);
 								programDesginList.add(programDesginDTO);
 							}
 							
@@ -163,13 +145,21 @@ public class BxmBeanGenerateUtil {
 			}
 		}
 		
-		for(ProgramDesginDTO desgin : programDesginList) {
-			logger.debug(desgin.toString());
-		}
+		createCode(programDesginList);
 		
 		logger.debug("[END] execute");
 	}
 
+	private int createCode(List<ProgramDesginDTO> programDesginList) {
+		int out = 0;
+
+		for(ProgramDesginDTO desgin : programDesginList) {
+			logger.debug(desgin.toString());
+		}
+		
+		return out;
+	}
+	
 	private void extractField(List<ExcelDTO> designDataList, long currentRow) {
 		boolean find = false;
 		for(ExcelDTO excelDTO : designDataList) {
