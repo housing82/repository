@@ -1,6 +1,11 @@
 package com.universal.code.dto;
 
-public class ForeignInfoDTO {
+import java.io.Serializable;
+
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
+
+public class ForeignInfoDTO extends CommonObject implements IDataTransferObject, Serializable {
 
 	private String table_name= "";
 	private String constraint_type= "";

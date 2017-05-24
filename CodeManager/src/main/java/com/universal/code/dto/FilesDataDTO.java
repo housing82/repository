@@ -1,5 +1,10 @@
 package com.universal.code.dto;
 
+import java.io.Serializable;
+
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
+
 
 /**
 * <p>Title: FilesDataDTO</p>
@@ -11,7 +16,7 @@ package com.universal.code.dto;
 */
 
 
-public class FilesDataDTO {
+public class FilesDataDTO extends CommonObject implements IDataTransferObject, Serializable {
 
 	private	long   	file_id;	//column name : FILE_ID, data type : NUMBER(0,22), comments : 첨부파일 ID
 	private	String  file_nm;	//column name : FILE_NM, data type : VARCHAR2(500), comments : 파일 명

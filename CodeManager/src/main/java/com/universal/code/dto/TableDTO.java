@@ -3,7 +3,10 @@ package com.universal.code.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TableDTO {
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
+
+public class TableDTO extends CommonObject implements IDataTransferObject {
 
 
 	private String	tableName;

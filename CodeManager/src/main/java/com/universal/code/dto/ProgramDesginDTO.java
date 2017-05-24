@@ -1,5 +1,8 @@
 package com.universal.code.dto;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.universal.code.extend.CommonObject;
 import com.universal.code.extend.IDataTransferObject;
 
@@ -24,6 +27,9 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 	private String bcMetdLogc;
 	private String dbioNm;
 	private String dbioMetdNm;
+	private List<String> strList;
+	private Collection strCollection;
+	private TableDTO tableDTO;
 	
 	public ProgramDesginDTO() {
 		this.reset();
@@ -49,6 +55,9 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 		bcMetdLogc = "";
 		dbioNm = "";
 		dbioMetdNm = "";
+		strList = null;
+		strCollection= null;
+		tableDTO = null;
 	}
 
 	public String getLogc() {
@@ -201,6 +210,30 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 
 	public void setDbioMetdNm(String dbioMetdNm) {
 		this.dbioMetdNm = dbioMetdNm;
+	}
+
+	public List<String> getStrList() {
+		return strList;
+	}
+
+	public void setStrList(List<String> strList) {
+		this.strList = strList;
+	}
+
+	public Collection getStrCollection() {
+		return strCollection;
+	}
+
+	public void setStrCollection(Collection strCollection) {
+		this.strCollection = strCollection;
+	}
+
+	public TableDTO getTableDTO() {
+		return tableDTO;
+	}
+
+	public void setTableDTO(TableDTO tableDTO) {
+		this.tableDTO = tableDTO;
 	}
 	
 	

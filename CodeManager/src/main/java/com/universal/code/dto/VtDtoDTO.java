@@ -1,11 +1,16 @@
 package com.universal.code.dto;
 
+import java.io.Serializable;
+
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
+
 /**
  * VT_DTO 데이터 DTO
  * @author Administrator
  *
  */
-public class VtDtoDTO {
+public class VtDtoDTO extends CommonObject implements IDataTransferObject, Serializable {
 
 
 	   private String var;	   //column name : VAR, data type : VARCHAR2(49), comments : 	      var = "";

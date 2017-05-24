@@ -1,11 +1,16 @@
 package com.universal.code.dto;
 
+import java.io.Serializable;
+
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
+
 /**
  * VT_SCHEMA 데이터 DTO
  * @author Administrator
  *
  */
-public class VtSchemaDTO {
+public class VtSchemaDTO extends CommonObject implements IDataTransferObject, Serializable {
 
 
 	 private String table_name;

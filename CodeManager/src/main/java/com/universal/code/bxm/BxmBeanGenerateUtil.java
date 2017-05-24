@@ -1,6 +1,8 @@
 package com.universal.code.bxm;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.universal.code.dto.ProgramDesginDTO;
+import com.universal.code.dto.TableDTO;
 import com.universal.code.excel.ExcelUtil;
 import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
@@ -104,6 +107,24 @@ public class BxmBeanGenerateUtil {
 						if(cell.getCellIndex() == 0) {
 							if(programDesginDTO != null) {
 								//logger.debug("programDesgin[{}]: {}", i, programDesginDTO.toString());
+								
+								List<String> test = new ArrayList<String>();
+								test.add("test1");
+								test.add("test2");
+								test.add("test3");
+								programDesginDTO.setStrList(test);
+								
+								Collection set = new HashSet();
+						        set.add("양효선");
+						        set.add("홍용표");
+						        set.add("황진호");
+						        set.add("김동진");
+						        set.add("전경수");
+						        set.add("양효선");
+								programDesginDTO.setStrCollection(set);
+								
+								TableDTO tableDTO = new TableDTO();
+								programDesginDTO.setTableDTO(tableDTO);
 								programDesginList.add(programDesginDTO);
 							}
 							

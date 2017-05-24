@@ -2,10 +2,15 @@ package com.universal.code.extend;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.mapping.Collection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.PropertyUtil;
@@ -13,8 +18,11 @@ import com.universal.code.utils.SystemUtil;
 
 public abstract class CommonObject {
 
+	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	private PropertyUtil propertyUtil;
 	
+	@Override
 	public String toString() {
 		propertyUtil = new PropertyUtil();
 		StringBuilder out = new StringBuilder();
@@ -30,34 +38,69 @@ public abstract class CommonObject {
 			for(Field field : fields) {
 				try {
 
-					value = PropertyUtil.getProperty(this, field.getName());
+					value = PropertyUtils.getProperty(this, field.getName());
 					out.append("	");
 					out.append(field.getName());
 					out.append(": ");
-					
-					if(Collection.class.isAssignableFrom(field.getType())) {
-						out.append("{").append(SystemUtil.LINE_SEPARATOR);
-						Iterator items = ((Collection) value).getColumnIterator();
-						while(items.hasNext()) {
-							out.append("		");
-							out.append(items.next());
-						}
-						out.append("	}").append(SystemUtil.LINE_SEPARATOR);
+					if(value == null) {
+						logger.debug("＃Value of null {}: {}", field.getName(), value);
+						out.append(value)
+							.append(SystemUtil.LINE_SEPARATOR);
 					}
-					else if(Map.class.isAssignableFrom(field.getType())) {
+					else if(List.class.isAssignableFrom(value.getClass())) {
+						logger.debug("＃From List {}: {}", field.getName(), value.getClass());
+						out.append("{").append(SystemUtil.LINE_SEPARATOR);
+						List items = (List) value;
+						for(Object item : items) {
+							logger.debug(" item: {}", item);
+							out.append("		")
+								.append(item)
+								.append(SystemUtil.LINE_SEPARATOR);
+						}
+						out.append("	}")
+							.append(SystemUtil.LINE_SEPARATOR);
+					}
+					else if(Collection.class.isAssignableFrom(value.getClass())) {
+						logger.debug("＃From Collection {}: {}", field.getName(), value.getClass());
+						out.append("{").append(SystemUtil.LINE_SEPARATOR);
+						Iterator<?> items = ((Collection) value).getColumnIterator();
+						while(items.hasNext()) {
+							out.append("		")
+								.append(items.next())
+								.append(SystemUtil.LINE_SEPARATOR);
+						}
+						out.append("	}")
+							.append(SystemUtil.LINE_SEPARATOR);
+					}
+					else if(Set.class.isAssignableFrom(value.getClass())) {
+						logger.debug("＃From Set {}: {}", field.getName(), value.getClass());
+						out.append("{").append(SystemUtil.LINE_SEPARATOR);
+						Iterator<?> items = ((Set) value).iterator();
+						while(items.hasNext()) {
+							out.append("		")
+								.append(items.next())
+								.append(SystemUtil.LINE_SEPARATOR);
+						}
+						out.append("	}")
+							.append(SystemUtil.LINE_SEPARATOR);
+					}
+					else if(Map.class.isAssignableFrom(value.getClass())) {
+						logger.debug("＃From Map {}: {}", field.getName(), value.getClass());
 						out.append("{").append(SystemUtil.LINE_SEPARATOR);
 						Map<?, ?> items = (Map) value;
 						for(Entry item : items.entrySet()) {
-							out.append("		");
-							out.append(item.getKey());
-							out.append(": ");
-							out.append(item.getValue());
-							out.append(SystemUtil.LINE_SEPARATOR);
+							out.append("		")
+								.append(item.getKey())
+								.append(": ")
+								.append(item.getValue())
+								.append(SystemUtil.LINE_SEPARATOR);
 						}
 						out.append("	}").append(SystemUtil.LINE_SEPARATOR);
 					}
 					else {
-						out.append(value).append(SystemUtil.LINE_SEPARATOR);
+						logger.debug("＃General {}: {}", field.getName(), value.getClass());
+						out.append(value)
+							.append(SystemUtil.LINE_SEPARATOR);
 					}
 
 				} catch (IllegalArgumentException e) {

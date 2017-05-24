@@ -1,9 +1,13 @@
 package com.universal.code.dto;
 
+import java.io.Serializable;
 import java.lang.annotation.Annotation;
 
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
 
-public class FilesystemDTO {
+
+public class FilesystemDTO extends CommonObject implements IDataTransferObject, Serializable {
 	
 	private String type;
 	private String name;

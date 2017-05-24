@@ -1,12 +1,13 @@
 package com.universal.code.dto;
 
+import java.io.Serializable;
 import java.lang.reflect.Method;
 
 import com.universal.code.extend.CommonObject;
 import com.universal.code.extend.IDataTransferObject;
 
 
-public class ClassDTO extends CommonObject implements IDataTransferObject {
+public class ClassDTO extends CommonObject implements IDataTransferObject, Serializable {
 	
     private String packageString;
     private String className;

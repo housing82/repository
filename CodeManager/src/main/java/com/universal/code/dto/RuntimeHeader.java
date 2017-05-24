@@ -1,8 +1,12 @@
 package com.universal.code.dto;
 
-import com.universal.code.constants.IOperateCode;
+import java.io.Serializable;
 
-public class RuntimeHeader {
+import com.universal.code.constants.IOperateCode;
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
+
+public class RuntimeHeader extends CommonObject implements IDataTransferObject, Serializable {
 
 	private long startTimeMillies;
 	

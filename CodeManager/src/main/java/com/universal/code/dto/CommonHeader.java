@@ -17,12 +17,14 @@ import org.springframework.stereotype.Component;
 
 import com.universal.code.annotation.Fields;
 import com.universal.code.constants.IOperateCode;
+import com.universal.code.extend.CommonObject;
+import com.universal.code.extend.IDataTransferObject;
 import com.universal.code.parameter.SearchParam;
 import com.universal.code.utils.SystemUtil;
 
 
 @Component
-public class CommonHeader implements Serializable {
+public class CommonHeader extends CommonObject implements IDataTransferObject, Serializable {
 	
 	/**
 	 * serialVersionUID
