@@ -1,8 +1,6 @@
 package com.universal.code.bxm;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,11 +8,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.universal.code.coder.URLCoder;
+import com.universal.code.constants.IOperateCode;
 import com.universal.code.dto.ProgramDesginDTO;
-import com.universal.code.dto.TableDTO;
 import com.universal.code.excel.ExcelUtil;
 import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
+import com.universal.code.utils.DateUtil;
 import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.PropertyUtil;
 import com.universal.code.utils.StringUtil;
@@ -33,11 +33,19 @@ public class BxmBeanGenerateUtil {
 
 	//엑셀에서 참고하는 시트 이름
 	private final static List<String> EXTRACT_SHEET_NAMES;
-
+	private static String templatePath;
+	
 	private String sourceRoot;
 	private boolean createFile;
 	private String fileNamePrefix;
 	private String excelPath;
+	
+	private String javaPackage;
+	private String basePackage;
+	private String subPackage;
+	private String bxmBeanMethodTemplate;
+	private String bxmBeanSaveMethodTemplate;
+	private String bxmBeanTemplate;
 	
 	private static Map<Long, String> indexFieldMap;
 	
@@ -50,6 +58,11 @@ public class BxmBeanGenerateUtil {
 		EXTRACT_SHEET_NAMES.add("3) SC,BC 메소드설계");
 		
 		indexFieldMap = new LinkedHashMap<Long, String>();
+		
+		templatePath = URLCoder.getInstance().getURLDecode(BxmDBIOGenerateUtil.class.getResource("/").getPath().concat("template").concat("/"), "");
+		if(templatePath.contains("test-classes")) {
+			templatePath = templatePath.replace("test-classes", "classes");
+		}
 	}
 	
 	public BxmBeanGenerateUtil(){
@@ -57,6 +70,11 @@ public class BxmBeanGenerateUtil {
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();
 		generateHelper = new GenerateHelper();
+		
+		//bean template
+		bxmBeanMethodTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmBean.method.template"));
+		bxmBeanSaveMethodTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmBean.saveMethod.template"));
+		bxmBeanTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmBean.template"));
 	}
 	
 	public void execute() {
@@ -93,7 +111,10 @@ public class BxmBeanGenerateUtil {
 				long currentRow = 0;
 				ExcelDTO cell = null;
 				String fieldName = null;
+				String fieldValue = null;
+				StringBuilder mergeFieldValue = null;
 				int kindIdx = -1;
+				int mergeCnt = -1;
 				for(int i = 0; i < designDataList.size(); i++) {
 					cell = designDataList.get(i);
 					
@@ -118,13 +139,25 @@ public class BxmBeanGenerateUtil {
 						}
 						
 						fieldName = getFieldName(cell.getCellIndex());
+						fieldValue = cell.getCellValue();
+						//logger.debug("-- real fieldName: {}, fieldValue: {}", fieldName, fieldValue);
+						
 						if(StringUtil.isNotEmpty(fieldName)) {
-							kindIdx = fieldName.indexOf("-");
+							kindIdx = fieldName.indexOf(IOperateCode.STR_PLUS);
 							if(kindIdx > -1) {
+								
+								mergeCnt = Integer.parseInt(fieldName.substring(kindIdx + IOperateCode.STR_PLUS.length()).trim());
 								fieldName = fieldName.substring(0, kindIdx);
+								mergeFieldValue = new StringBuilder();
+								
+								//logger.debug("-i: {}, (i + mergeCnt): {}", i, (i + mergeCnt));
+								for(int c = i; c <= (i + mergeCnt); c++) {
+									mergeFieldValue.append(designDataList.get(c).getCellValue());
+								}
+								fieldValue = mergeFieldValue.toString();
 							}
-							//logger.debug(" fieldName: {}", fieldName);
-							PropertyUtil.setProperty(programDesginDTO, fieldName, cell.getCellValue());	
+							//logger.debug(" fieldName: {}, fieldValue: {}", fieldName, fieldValue);
+							PropertyUtil.setProperty(programDesginDTO, fieldName, fieldValue);	
 						}
 					}
 					
@@ -152,10 +185,81 @@ public class BxmBeanGenerateUtil {
 
 	private int createCode(List<ProgramDesginDTO> programDesginList) {
 		int out = 0;
+		
+		// bxmBean file name
+		String fileName = null;
+		
+		// bxmBeanTemplate
+		String rvPackage = "#{rvPackage}";
+		String rvImports = "#{rvImports}";
+		String rvDate = "#{rvDate}";
+		String rvLogicalName = "#{rvLogicalName}";
+		String rvDescription = "#{rvDescription}";
+		String rvClassName = "#{rvClassName}";
+		String rvBody = "#{rvBody}";
+		
+		// bxmBeanMethodTemplate
+		String rvOutputType = "#{rvOutputType}";
+		String rvMethodName = "#{rvMethodName}";
+		String rvInputType = "#{rvInputType}";
+		String rvInputVariable = "#{rvInputVariable}";
+		String rvOutputVariable = "#{rvOutputVariable}";
+		String rvDbioInit = "#{rvDbioInit}";
+		String rvBcModf = "#{rvBcModf}";
+		String rvMethodLogicalName = "#{rvMethodLogicalName}";
+		String rvMethodDescription = "#{rvMethodDescription}";
+		
+		// bxmBeanSaveMethodTemplate
+		String rvInputVariableFirstUpper = "#{rvInputVariableFirstUpper}";
 
+		// code data
+		// bxmBeanTemplate
+		String dsPackage = getJavaPackage();
+		String dsImports = null;
+		String dsDate = null;
+		String dsLogicalName = null;
+		String dsDescription = null;
+		String dsClassName = null;
+		String dsBody = null;
+		
+		// bxmBeanMethodTemplate
+		String dsOutputType = null;
+		String dsMethodName = null;
+		String dsInputType = null;
+		String dsInputVariable = null;
+		String dsOutputVariable = null;
+		String dsDbioInit = null;
+		String dsBcModf = null;
+		String dsMethodLogicalName = null;
+		String dsMethodDescription = null;
+		
+		// bxmBeanSaveMethodTemplate
+		String dsInputVariableFirstUpper = null;
+		
 		for(ProgramDesginDTO desgin : programDesginList) {
 			logger.debug(desgin.toString());
+			
+			
+			dsDate = DateUtil.getFastDate(DateUtil.DEF_DATE_FORMAT);
+			rvLogicalName = desgin.getLogc();
+			rvDescription = desgin.getLogc();
+			rvClassName = desgin.getBcNm();
+			fileName = rvClassName.concat(".java");
+			dsBcModf = StringUtil.NVL(desgin.getBcModf(), "public").toLowerCase();
+			
+			
+			dsMethodName = new StringBuilder().append(desgin.getBcMetdPref()).append(stringUtil.getFirstCharUpperCase(desgin.getBcMetdBody())).toString();
+			dsMethodLogicalName = new StringBuilder().append(rvLogicalName).append(" ").append(desgin.getBcMetdLogc()).toString();
+			dsMethodDescription = dsMethodLogicalName;
+			
+			logger.debug("fileName: {}, rvPackage: {}, dsDate: {}", fileName, dsPackage, dsDate);
+			
+			
 		}
+		
+
+		
+		
 		
 		return out;
 	}
@@ -214,5 +318,39 @@ public class BxmBeanGenerateUtil {
 	}
 
 
+	public static String getTemplatePath() {
+		return templatePath;
+	}
+
+	public static void setTemplatePath(String templatePath) {
+		BxmBeanGenerateUtil.templatePath = templatePath;
+	}
+
+	public String getJavaPackage() {
+		if(basePackage == null) {
+			throw new ApplicationException("베이스 패키지가 설정되지 않았습니다.");
+		}
+		if(subPackage == null) {
+			throw new ApplicationException("서브 패키지가 설정되지 않았습니다.");
+		}
+		return new StringBuilder().append(basePackage).append(".").append(subPackage).toString(); 
+	}
+
+
+	public String getSubPackage() {
+		return subPackage;
+	}
+
+	public void setSubPackage(String subPackage) {
+		this.subPackage = subPackage;
+	}
+
+	public String getBasePackage() {
+		return basePackage;
+	}
+
+	public void setBasePackage(String basePackage) {
+		this.basePackage = basePackage;
+	}
 	
 }

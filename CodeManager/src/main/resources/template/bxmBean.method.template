@@ -1,9 +1,6 @@
-	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
-	public #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
+	@BxmCategory(logicalName = "#{rvMethodLogicalName}", description = "#{rvMethodDescription}")
+	#{rvBcModf} #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
 		logger.debug("[START] #{rvMethodName}: {}", #{rvInputVariable});
-		
-		/** ### Validate Parameter ### */
-		#{rvValidate}
 		
 		/** ### Output Variable ### */
 		#{rvOutputType} #{rvOutputVariable} = null;

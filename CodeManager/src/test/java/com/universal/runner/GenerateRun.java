@@ -41,7 +41,7 @@ public class GenerateRun {
 	
 	private static String EXCEL_VERSION_DATE_FORMAT;
 	
-	private static Map<String, List<Map<String, Object>>> analyzedMap;
+	private static Map<String, List<Map<String, Object>>> ANALYZED_MAP;
 	
 	private ASTVisitor visitor;
 	
@@ -81,8 +81,10 @@ public class GenerateRun {
 		
 		WRITE_EXCEL_NAME = "한국자산신탁_분양임대_프로그램_자바메소드_ver.1.0.xlsx";
 		
-		analyzedMap = new LinkedHashMap<String, List<Map<String, Object>>>();
-		analyzedMap.put("kait.hd.hda.onl.dao", null);
+		ANALYZED_MAP = new LinkedHashMap<String, List<Map<String, Object>>>();
+		ANALYZED_MAP.put("kait.hd.hda.onl.sc", null);
+		ANALYZED_MAP.put("kait.hd.hda.onl.bc", null);
+		ANALYZED_MAP.put("kait.hd.hda.onl.dao", null);
 	}
 	
 	@Test
@@ -91,7 +93,7 @@ public class GenerateRun {
 		//dbioOmmGenerate(); 
 		
 		//dbioGenerate();
-		
+
 		bxmBeanGenerate(); 
 		
 		//parseJavaMethodToExcel();
@@ -99,7 +101,7 @@ public class GenerateRun {
 	
 	private void parseJavaMethodToExcel() throws Exception {
 
-		for(Entry<String, List<Map<String, Object>>> entry : analyzedMap.entrySet()) {
+		for(Entry<String, List<Map<String, Object>>> entry : ANALYZED_MAP.entrySet()) {
 			entry.setValue(parseJava(entry.getKey()));
 
 			for(Map<String, Object> item : entry.getValue()) {
@@ -108,7 +110,7 @@ public class GenerateRun {
 			logger.debug("package: '{}' Number of Java methods analyzed: {}", entry.getKey(), entry.getValue().size());
 		}
 		
-		logger.debug("Number of Java packages analyzed: {}", analyzedMap.size());
+		logger.debug("Number of Java packages analyzed: {}", ANALYZED_MAP.size());
 		
 		// 자바 메소드 분석 결과를 저장할 파일 경로
 		String writeExcelPath = EXCEL_PATH.concat("/").concat(WRITE_EXCEL_NAME);
@@ -125,7 +127,7 @@ public class GenerateRun {
 		workBookDTO.setFileDir(EXCEL_PATH);
 		workBookDTO.setFileName(WRITE_EXCEL_NAME);
 		
-		String newExcelPath = excelWriterUtil.createExcel(workBookDTO, analyzedMap);
+		String newExcelPath = excelWriterUtil.createExcel(workBookDTO, ANALYZED_MAP);
 		
 		logger.debug("newExcelPath: {}", newExcelPath);
 		
@@ -206,7 +208,8 @@ public class GenerateRun {
 		
 		BxmDBIOGenerateUtil dbioGen = new BxmDBIOGenerateUtil();
 		dbioGen.setSourceRoot(SOURCE_ROOT);
-		dbioGen.setJavaPackage("kait.hd.hda.onl.dao");
+		dbioGen.setBasePackage("kait.hd.hda.onl");
+		dbioGen.setSubPackage("dao");
 		dbioGen.setDatabaseConfig(props);
 		dbioGen.setCreateFile(true);
 		dbioGen.setDatasourceName("MainDS");
@@ -220,6 +223,8 @@ public class GenerateRun {
 		logger.debug("[START] bxmBeanGenerate");
 		BxmBeanGenerateUtil beanGen = new BxmBeanGenerateUtil();
 		beanGen.setSourceRoot(SOURCE_ROOT);
+		beanGen.setBasePackage("kait.hd.hda.onl");
+		beanGen.setSubPackage("bc");
 		beanGen.setCreateFile(true);
 		beanGen.setFileNamePrefix("B");
 		beanGen.setExcelPath(EXCEL_PATH.concat("/").concat(READ_EXCEL_NAME));

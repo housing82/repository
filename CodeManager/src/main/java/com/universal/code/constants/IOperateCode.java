@@ -130,6 +130,7 @@ public interface IOperateCode extends IServiceCode {
 	public final static String STR_BRACE_START = "{";
 	public final static String STR_BRACE_END  = "}";
 	
+	public final static String STR_PLUS = "+"; // IOperateCode.STR_PLUS
 	public final static String STR_DOT = ".";
 	public final static String STR_COMA = ",";
 	public final static String STR_DOUBLE_QUOTATION = "\"";

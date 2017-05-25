@@ -1,0 +1,48 @@
+	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+	#{rvBcModf} Integer #{rvMethodName}(List<#{rvInputType}> delete#{rvInputVariableFirstUpper}, List<#{rvInputType}> update#{rvInputVariableFirstUpper}, List<#{rvInputType}> insert#{rvInputVariableFirstUpper}) throws KaitApplicationException {
+		logger.debug("[START] #{rvMethodName}", #{rvInputVariableFirstUpper});
+		logger.debug("- delete#{rvInputVariableFirstUpper}: {}", (delete#{rvInputVariableFirstUpper} != null ? delete#{rvInputVariableFirstUpper}.size() : 0));
+		logger.debug("- update#{rvInputVariableFirstUpper}: {}", (update#{rvInputVariableFirstUpper} != null ? update#{rvInputVariableFirstUpper}.size() : 0));
+		logger.debug("- insert#{rvInputVariableFirstUpper}: {}", (insert#{rvInputVariableFirstUpper} != null ? insert#{rvInputVariableFirstUpper}.size() : 0));
+		
+		/** ### Output Variable ### */
+		Integer out = 0;
+		Integer deleteCount = 0;
+		Integer updateCount = 0;
+		Integer insertCount = 0;
+		
+		/** ### DBIO Initialize ### */
+		#{rvDbioInit}
+		
+		/** ### Bussiness Code ### */
+		// delete
+		if(delete#{rvInputVariableFirstUpper} != null) {
+			for(#{rvInputType} item : delete#{rvInputVariableFirstUpper}) {
+				
+				deleteCount++;
+			}
+		}
+		logger.debug("- #{rvMethodName}.delete: {}", deleteCount);
+		
+		// update
+		if(update#{rvInputVariableFirstUpper} != null) {
+			for(#{rvInputType} item : update#{rvInputVariableFirstUpper}) {
+				
+				updateCount++;
+			}
+		}
+		logger.debug("- #{rvMethodName}.update: {}", updateCount);
+		
+		// insert
+		if(insert#{rvInputVariableFirstUpper} != null) {
+			for(#{rvInputType} item : insert#{rvInputVariableFirstUpper}) {
+				
+				insertCount++;
+			}
+		}
+		logger.debug("- #{rvMethodName}.insert: {}", insertCount);
+		
+		out = deleteCount + updateCount + insertCount;
+		logger.debug("[END] #{rvMethodName}: {}", out);
+		return out;
+	}

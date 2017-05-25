@@ -39,6 +39,9 @@ public class BxmDBIOGenerateUtil {
 	private String sourceRoot;
 	// ASIS DAO DTO BASE PACKAGE
 	private String javaPackage; 
+	private String basePackage; 
+	private String subPackage;
+	
 	// Database Connection infomation
 	private Properties databaseConfig;
 	//datasourceName
@@ -61,33 +64,37 @@ public class BxmDBIOGenerateUtil {
 	private FileUtil fileUtil;
 	private GenerateHelper generateHelper;
 	
-	public BxmDBIOGenerateUtil() {
-		jdbcManager = new JDBCManager();
-		stringUtil = new StringUtil();
-		fileUtil = new FileUtil();
-		generateHelper = new GenerateHelper();
-	}
-	
-	private static final String rvMethodDescription = "#{rvMethodDescription}"; //인터페이스 메소드 주석 설명
-	private static final String rvTestValues = "#{rvTestValues}";				//인터페이스 메소드 주석 테스트 값
-	private static final String rvLogicalName = "#{rvLogicalName}";				//인터페이스 메소드 어노테이션 로지컬 명
-	private static final String rvDescription = "#{rvDescription}";				//인터페이스 메소드 어노테이션 설명
-	private static final String rvOutputType = "#{rvOutputType}"; 				//인터페이스 메소드 결과 타입
-	private static final String rvMethodName = "#{rvMethodName}";				//인터페이스 메소드 명
-	private static final String rvInputType = "#{rvInputType}"; 				//인터페이스 메소드 입력 타입
-	private static final String rvInputVariable = "#{rvInputVariable}";			//인터페이스 메소드 입력 타입 변수 명
-	private static final String rvPackage = "#{rvPackage}";						//인터페이스 패키지
-	private static final String rvMapper = "#{rvMapper}";						//인터페이스 어노테이션 mapper
-	private static final String rvDatasource = "#{rvDatasource}";				//인터페이스 어노테이션 datasource
-	private static final String rvClassName = "#{rvClassName}";					//인터페이스 클래스 명
-	private static final String rvBody = "#{rvBody}";							//인터페이스 & XML 내용
-	private static final String rvSql = "#{rvSql}";								//XML 노드별 SQL 내용
-	private static final String rvNamespace = "#{rvNamespace}";					//XML 네임스페이스
-	private static final String rvDate = "#{rvDate}";							//생성일자
-	
-	private static Map<String, String> methodMap = new LinkedHashMap<String, String>();
+	private final String javaCrudTemplateDbio;
+	private final String javaSelectListTemplateDbio;
+	private final String javaTemplateDbio;
+	private final String xmlDeleteTemplateDbio;
+	private final String xmlInsertTemplateDbio;
+	private final String xmlSelectTemplateDbio;
+	private final String xmlSelectListTemplateDbio;
+	private final String xmlTemplateDbio;
+	private final String xmlUpdateMergeTemplateDbio;
 	
 	private static String templatePath;
+	
+	private static final String rvMethodDescription;	//인터페이스 메소드 주석 설명
+	private static final String rvTestValues;			//인터페이스 메소드 주석 테스트 값
+	private static final String rvLogicalName;			//인터페이스 메소드 어노테이션 로지컬 명
+	private static final String rvDescription;			//인터페이스 메소드 어노테이션 설명
+	private static final String rvOutputType; 			//인터페이스 메소드 결과 타입
+	private static final String rvMethodName;			//인터페이스 메소드 명
+	private static final String rvInputType; 			//인터페이스 메소드 입력 타입
+	private static final String rvInputVariable;		//인터페이스 메소드 입력 타입 변수 명
+	private static final String rvPackage;				//인터페이스 패키지
+	private static final String rvMapper;				//인터페이스 어노테이션 mapper
+	private static final String rvDatasource;			//인터페이스 어노테이션 datasource
+	private static final String rvClassName;			//인터페이스 클래스 명
+	private static final String rvBody;					//인터페이스 & XML 내용
+	private static final String rvSql;					//XML 노드별 SQL 내용
+	private static final String rvNamespace;			//XML 네임스페이스
+	private static final String rvDate;					//생성일자
+	
+	private static Map<String, String> methodMap;
+	
 	
 	
 	private static String CONSTRAINT_CHECK;
@@ -99,6 +106,8 @@ public class BxmDBIOGenerateUtil {
 	private static String CONSTRAINT_CASE_FOREIGN;
 	
 	static {
+		
+		methodMap = new LinkedHashMap<String, String>();
 		methodMap.put("insert", "등록");
 		methodMap.put("select", "단건조회");
 		methodMap.put("selectCount", "전채건수조회");
@@ -130,27 +139,48 @@ public class BxmDBIOGenerateUtil {
 		CONSTRAINT_CASE_PRIMARY = "PK_";
 		CONSTRAINT_CASE_UNIQUE = "UK_";
 		CONSTRAINT_CASE_FOREIGN = "FK_";
+		
+		rvMethodDescription = "#{rvMethodDescription}"; //인터페이스 메소드 주석 설명
+		rvTestValues = "#{rvTestValues}";				//인터페이스 메소드 주석 테스트 값
+		rvLogicalName = "#{rvLogicalName}";				//인터페이스 메소드 어노테이션 로지컬 명
+		rvDescription = "#{rvDescription}";				//인터페이스 메소드 어노테이션 설명
+		rvOutputType = "#{rvOutputType}"; 				//인터페이스 메소드 결과 타입
+		rvMethodName = "#{rvMethodName}";				//인터페이스 메소드 명
+		rvInputType = "#{rvInputType}"; 				//인터페이스 메소드 입력 타입
+		rvInputVariable = "#{rvInputVariable}";			//인터페이스 메소드 입력 타입 변수 명
+		rvPackage = "#{rvPackage}";						//인터페이스 패키지
+		rvMapper = "#{rvMapper}";						//인터페이스 어노테이션 mapper
+		rvDatasource = "#{rvDatasource}";				//인터페이스 어노테이션 datasource
+		rvClassName = "#{rvClassName}";					//인터페이스 클래스 명
+		rvBody = "#{rvBody}";							//인터페이스 & XML 내용
+		rvSql = "#{rvSql}";								//XML 노드별 SQL 내용
+		rvNamespace = "#{rvNamespace}";					//XML 네임스페이스
+		rvDate = "#{rvDate}";							//생성일자
+	}
+	
+	public BxmDBIOGenerateUtil() {
+		jdbcManager = new JDBCManager();
+		stringUtil = new StringUtil();
+		fileUtil = new FileUtil();
+		generateHelper = new GenerateHelper();
+		
+		// source template
+		javaCrudTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.crud.template"));
+		javaSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.selectList.template"));
+		javaTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.template"));
+		xmlDeleteTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.delete.template"));
+		xmlInsertTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.insert.template"));
+		xmlSelectTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.select.template"));
+		xmlSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.selectList.template"));
+		xmlTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.template"));
+		xmlUpdateMergeTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.update.merge.template"));
 	}
 	
 	public void execute() {
 		logger.debug("[START] execute: {}", getDatabaseConfig());
 		logger.debug("★ SourceRoot: {}", getSourceRoot());
 		logger.debug("★ JavaPackage: {}", getJavaPackage());
-		
-		
 		logger.debug("url: {}", templatePath);
-		
-		String javaCrudTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.crud.template"));
-		String javaSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.selectList.template"));
-		String javaTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.template"));
-		String xmlDeleteTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.delete.template"));
-		String xmlInsertTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.insert.template"));
-		String xmlSelectTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.select.template"));
-		String xmlSelectListTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.selectList.template"));
-		String xmlTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.template"));
-		String xmlUpdateMergeTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.xml.update.merge.template"));
-		
-		
 		logger.debug("javaCrudTemplateDbio:\n {}", javaCrudTemplateDbio);
 		logger.debug("javaSelectListTemplateDbio:\n {}", javaSelectListTemplateDbio);
 		logger.debug("javaTemplateDbio:\n {}", javaTemplateDbio);
@@ -160,39 +190,12 @@ public class BxmDBIOGenerateUtil {
 		logger.debug("xmlSelectListTemplateDbio:\n {}", xmlSelectListTemplateDbio);
 		logger.debug("xmlTemplateDbio:\n {}", xmlTemplateDbio);
 		logger.debug("xmlUpdateMergeTemplateDbio:\n {}", xmlUpdateMergeTemplateDbio);
-		
-		/*
-		private static final String rvMethodDescription = "#{rvMethodDescription}"; //인터페이스 메소드 주석 설명
-		private static final String rvTestValues = "#{rvTestValues}";				//인터페이스 메소드 주석 테스트 값
-		private static final String rvLogicalName = "#{rvLogicalName}";				//인터페이스 메소드 어노테이션 로지컬 명
-		private static final String rvDescription = "#{rvDescription}";				//인터페이스 메소드 어노테이션 설명
-		private static final String rvOutputType = "#{rvOutputType}"; 				//인터페이스 메소드 결과 타입
-		private static final String rvMethodName = "#{rvMethodName}";				//인터페이스 메소드 명
-		private static final String rvInputType = "#{rvInputType}"; 				//인터페이스 메소드 입력 타입
-		private static final String rvInputVariable = "#{rvInputVariable}";			//인터페이스 메소드 입력 타입 변수 명
-		private static final String rvPackage = "#{rvPackage}";						//인터페이스 패키지
-		private static final String rvMapper = "#{rvMapper}";						//인터페이스 어노테이션 mapper
-		private static final String rvDatasource = "#{rvDatasource}";				//인터페이스 어노테이션 datasource
-		private static final String rvClassName = "#{rvClassName}";					//인터페이스 클래스 명
-		private static final String rvBody = "#{rvBody}";							//인터페이스 & XML 내용
-		private static final String rvSql = "#{rvSql}";								//XML 노드별 SQL 내용
-		private static final String rvNamespace = "#{rvNamespace}";					//XML 네임스페이스
-		*/
-		
+
 		List<TableDTO> tableList = null;
 		List<VtSchemaDTO> columnList = null;
 		List<ForeignInfoDTO> foreignColumnList = null;
-		StringBuilder javaStrbd = null;
-		StringBuilder xmlStrbd = null;
 		String fileName = null;
 		String fieldName = null;
-		
-		String packages = getJavaPackage();
-		String mapper = packages.replace(".", "/");
-		String datasource = getDatasourceName(); // MainDS
-		String logicalName = null;
-		String dbioFileName = null;
-		
 		
 		String dsMethodDescription = null; //인터페이스 메소드 주석 설명
 		String dsTestValues = null;				//인터페이스 메소드 주석 테스트 값
@@ -206,7 +209,6 @@ public class BxmDBIOGenerateUtil {
 		String dsMapper = null;						//인터페이스 어노테이션 mapper
 		String dsDatasource = null;				//인터페이스 어노테이션 datasource
 		String dsClassName = null;					//인터페이스 클래스 명
-		String dsBody = null;							//인터페이스 & XML 내용
 		String dsSql = null;								//XML 노드별 SQL 내용
 		String dsNamespace = null;					//XML 네임스페이스
 		String dsDate = null;				// 생성 일시
@@ -228,17 +230,11 @@ public class BxmDBIOGenerateUtil {
 			tableList = getTableList(conn, getTargetTables());
 			// currentTableName테이블의 참조키 컬럼정보
 			foreignColumnList = getForgeinColumn(conn);
-			int fileSeq = 0;
+
 			String currentTableName = null;
 			//테이블 목록
 			for(TableDTO table : tableList) {
-				
-				if(currentTableName != null && !table.getTableName().equals(currentTableName)) {
-					fileSeq = 1;
-				}
-				else {
-					fileSeq++;
-				}
+
 				currentTableName = table.getTableName();
 
 				// dbio 파일명 명명규칙: ‘D’ + 테이블명 + 일련번호(2자리) -> DAO동사 + 약어명 + “01” ~ “99”
@@ -1310,13 +1306,23 @@ public class BxmDBIOGenerateUtil {
 	}
 
 	public String getJavaPackage() {
-		return javaPackage;
-	}
-
-	public void setJavaPackage(String javaPackage) {
-		this.javaPackage = javaPackage;
+		if(basePackage == null) {
+			throw new ApplicationException("베이스 패키지가 설정되지 않았습니다.");
+		}
+		if(subPackage == null) {
+			throw new ApplicationException("서브 패키지가 설정되지 않았습니다.");
+		}
+		return new StringBuilder().append(basePackage).append(".").append(subPackage).toString(); 
 	}
 	
+	public String getSubPackage() {
+		return subPackage;
+	}
+
+	public void setSubPackage(String subPackage) {
+		this.subPackage = subPackage;
+	}
+
 	public Properties getDatabaseConfig() {
 		return databaseConfig;
 	}
@@ -1357,4 +1363,13 @@ public class BxmDBIOGenerateUtil {
 	public void setFileNamePrefix(String fileNamePrefix) {
 		this.fileNamePrefix = fileNamePrefix;
 	}
+
+	public String getBasePackage() {
+		return basePackage;
+	}
+
+	public void setBasePackage(String basePackage) {
+		this.basePackage = basePackage;
+	}
+	
 }
