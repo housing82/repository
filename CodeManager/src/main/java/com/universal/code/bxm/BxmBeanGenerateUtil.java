@@ -236,7 +236,7 @@ public class BxmBeanGenerateUtil {
 		// bxmBeanSaveMethodTemplate
 		String dsInputVariableFirstUpper = null;
 		
-		for(ProgramDesginDTO desgin : programDesginList) {
+		for(ProgramDesginDTO desgin : programDesginList) { 
 			logger.debug(desgin.toString());
 			
 			
