@@ -1077,7 +1077,10 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
     public static File[] getFiles(String path){
     	File[] files = null;
     	File directory = new File(path);
-    	if(directory.isDirectory()) {
+    	if(!directory.exists()) {
+    		throw new RuntimeException(" 존재하지 않는 경로["+path+"]입니다.");
+    	}
+    	else if(directory.isDirectory()) {
     		files = directory.listFiles();
     	}
     	else {

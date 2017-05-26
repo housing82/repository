@@ -1,4 +1,4 @@
-package com.universal.runner;
+package com.universal.code.excel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.universal.code.constants.IOperateCode;
-import com.universal.code.excel.ExcelUtil;
 import com.universal.code.excel.dto.ExcelCellDataDTO;
 import com.universal.code.excel.dto.ExcelDefaultStyleDTO;
 import com.universal.code.excel.dto.ExcelRowDataDTO;
@@ -38,7 +37,7 @@ public class ExcelWriterUtil {
 		excelUtil = new ExcelUtil();
 	}
 
-	String createExcel (WorkBookDTO workBookDTO, Map<String, List<Map<String, Object>>> analyzedMap) {
+	public String createExcel (WorkBookDTO workBookDTO, Map<String, List<Map<String, Object>>> analyzedMap) {
 		
 		List<ExcelSheetDTO> excelSheetList = new ArrayList<ExcelSheetDTO>();
 		ExcelSheetDTO excelSheetDTO = null;
@@ -160,7 +159,7 @@ public class ExcelWriterUtil {
 	 * @param excelFile
 	 * @return
 	 */
-	boolean renameExcelFile(String writeExcelPath, File excelFile, String excelVersionDateFormat) {
+	public boolean renameExcelFile(String writeExcelPath, File excelFile, String excelVersionDateFormat) {
 		
 		String renameExt = getExcelExt(writeExcelPath);
 		String renameDate = IOperateCode.VERSION_TAG_V.concat(DateUtil.getFastDate(excelVersionDateFormat));

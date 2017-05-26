@@ -13,18 +13,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.universal.code.exception.ApplicationException;
-import com.universal.code.utils.PropertyUtil;
 import com.universal.code.utils.SystemUtil;
 
 public abstract class CommonObject {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	private PropertyUtil propertyUtil;
-	
 	@Override
 	public String toString() {
-		propertyUtil = new PropertyUtil();
+
 		StringBuilder out = new StringBuilder();
 		out.append(SystemUtil.LINE_SEPARATOR);
 		out.append("[");

@@ -1,5 +1,8 @@
 package com.universal.code.bxm;
 
+import japa.parser.ast.body.Parameter;
+import japa.parser.ast.type.Type;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -269,11 +272,11 @@ public class BxmBeanGenerateUtil {
 		String dsInputType = null;
 		String dsInputVariable = null;
 		String dsOutputVariable = null;
-		String dsDbioInit = null;
+		StringBuilder dsDbioInit = null;
 		String dsBcModf = null;
 		String dsMethodLogicalName = null;
 		String dsMethodDescription = null;
-		String dsBizCode = null;
+		StringBuilder dsBizCode = null;
 		
 		// bxmBeanSaveMethodTemplate
 		String dsInputVariableFirstUpper = null;
@@ -321,18 +324,10 @@ public class BxmBeanGenerateUtil {
 				 * 설계서에서취합된 자료를 기반으로 빈코드를 생성한다.
 				 */
 				if(currentDesign != null) {
-					logger.debug("★★★★★★★★★★★★★ [START] ★★★★★★★★★★★★★★");
+					logger.debug("★★★★★★★★★★★★★ [START Method Element Setup] ★★★★★★★★★★★★★★");
 					logger.debug(currentDesign.toString());
 					//logger.debug("[dsImportsSet]\n{}", dsImportsSet);
-					dsImports = new StringBuilder();
-					dsVariables = new StringBuilder();
-					for(String imports : dsImportsSet) {
-						dsImports.append("import ").append(imports).append(";").append(SystemUtil.LINE_SEPARATOR);
-						String varTypeName = imports.substring(imports.lastIndexOf(".") + ".".length());
-						dsVariables.append("	private ").append(varTypeName).append(" ").append(stringUtil.getFirstCharLowerCase(varTypeName)).append(";").append(SystemUtil.LINE_SEPARATOR);
-					}
-					logger.debug("[dsImports]\n{}", dsImports.toString());
-					logger.debug("[dsVariables]\n{}", dsVariables.toString());
+
 					
 					for(Entry<String, Map<String, Object>> entry : currentDesign.getCalleeMap().entrySet()) {
 						String bcMethodName = entry.getKey();
@@ -347,7 +342,8 @@ public class BxmBeanGenerateUtil {
 						
 						//output
 						dsOutputType = bcOmmName.concat("Out");
-						dsImports.append("import ").append(dsPackage.concat(".dto")).append(dsOutputType).append(";").append(SystemUtil.LINE_SEPARATOR);
+						dsImportsSet.add(dsPackage.concat(".dto.").concat(dsOutputType)); // -> dsImportsSet.add
+						logger.debug("bcOmmName: {} > {}", bcOmmName, dsPackage.concat(".dto.").concat(dsOutputType));
 						dsOutputVariable = "out";
 						
 						//method name
@@ -355,25 +351,41 @@ public class BxmBeanGenerateUtil {
 						 
 						//input 
 						dsInputType = bcOmmName.concat("In");
-						dsImports.append("import ").append(dsPackage.concat(".dto")).append(dsInputType).append(";").append(SystemUtil.LINE_SEPARATOR);
+						dsImportsSet.add(dsPackage.concat(".dto.").concat(dsInputType)); // -> dsImportsSet.add
+						logger.debug("bcOmmName: {} > {}", bcOmmName, dsPackage.concat(".dto.").concat(dsInputType));
 						dsInputVariable = stringUtil.getFirstCharLowerCase(dsInputType);
 						
-						dsDbioInit = "";
-						 
-						dsBizCode = "";
-						
+						//callee init code
+						dsDbioInit = new StringBuilder();
+						//callee biz code
+						dsBizCode = new StringBuilder();
+
 						logger.debug("-- dsMethodLogicalName: {}", dsMethodLogicalName);
 						logger.debug("-- bcMethodName: {}", bcMethodName);
 						
 						for(Entry<String, Object> callee : calleeMap.entrySet()) {
 							
 							String calleeTypeFullName = callee.getKey();
-							String calleeTypeName = calleeTypeFullName.substring(0, calleeTypeFullName.lastIndexOf("."));
-							String calleeMethodName = calleeTypeFullName.substring(calleeTypeFullName.lastIndexOf(".") + ".".length());
+							String calleeTypeName = calleeTypeFullName.substring(0, calleeTypeFullName.lastIndexOf(IOperateCode.STR_DOT));
+							String calleeSimpleName = calleeTypeName.substring(calleeTypeName.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length()); 
+							String calleeVarName = stringUtil.getFirstCharLowerCase(calleeSimpleName);
+							
+							String calleeMethodName = calleeTypeFullName.substring(calleeTypeFullName.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+							
+							dsDbioInit
+							.append("		")
+							.append(calleeVarName)
+							.append(" = DefaultApplicationContext.getBean(")
+							.append(calleeVarName)
+							.append(", ")
+							.append(calleeSimpleName)
+							.append(".class);")
+							.append(SystemUtil.LINE_SEPARATOR);
+							
 							logger.debug("---- calleeTypeFullName: {}", calleeTypeFullName);
 							logger.debug("  ----- calleeTypeName: {}", calleeTypeName);
 							
-							String javaPath = new StringBuilder().append(getSourceRoot()).append("/").append(calleeTypeName.replace(".", "/")).append(".java").toString();
+							String javaPath = new StringBuilder().append(getSourceRoot()).append("/").append(calleeTypeName.replace(IOperateCode.STR_DOT, "/")).append(".java").toString();
 							logger.debug(" + + parse javaPath: {}", javaPath);
 							List<Map<String, Object>> ast = visitor.execute(javaPath, ASTVisitor.VISIT_METHOD_NODE, false);
 							boolean findMethod = false;
@@ -382,21 +394,53 @@ public class BxmBeanGenerateUtil {
 									
 									descMap = (Map<String, Object>) method.get("nodeDesc");
 									if(descMap.get("name").equals(calleeMethodName)) {
+										logger.debug("method descMap: {}", descMap);
+
+										List<Parameter> parameters = (List<Parameter>) descMap.get("parameters");
+										Type returnType = (Type) descMap.get("returnType");
+										
+										for(Parameter parameter : parameters) {
+											dsImportsSet.add(parameter.getType().toString()); // -> dsImportsSet.add
+											logger.debug("parameter -> {}: {}", parameter.getType().toString(), parameter.getId().toString());
+										}
+										logger.debug("returnType -> {}", returnType.toString());
+										
+										
 										findMethod = true;
-										logger.debug("method: {}", method);
+										dsBizCode
+											.append("		")
+											.append(calleeVarName)
+											.append(IOperateCode.STR_DOT)
+											.append(calleeMethodName)
+											.append(SystemUtil.LINE_SEPARATOR);
 									}
 								}
 							}
 							if(!findMethod) {
 								throw new ApplicationException("설계서에 작성된 피호출자 메소드를 찾을수 없습니다. 자바: {}, 메소드: {}", calleeTypeName, calleeMethodName);
 							}
-							
 						}
 						
+						logger.debug("[dsDbioInit]\n{}", dsDbioInit.toString());
+						
+						logger.debug("[dsBizCode]\n{}", dsBizCode.toString());
 						
 					}
-					logger.debug("★★★★★★★★★★★★★ [END] ★★★★★★★★★★★★★★");
+					
+					dsImports = new StringBuilder();
+					dsVariables = new StringBuilder();
+					for(String imports : dsImportsSet) {
+						dsImports.append("import ").append(imports).append(";").append(SystemUtil.LINE_SEPARATOR);
+						String varTypeName = imports.substring(imports.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+						dsVariables.append("	private ").append(varTypeName).append(" ").append(stringUtil.getFirstCharLowerCase(varTypeName)).append(";").append(SystemUtil.LINE_SEPARATOR);
+					}
+					logger.debug("[dsImports]\n{}", dsImports.toString());
+					logger.debug("[dsVariables]\n{}", dsVariables.toString());
+					
+					logger.debug("★★★★★★★★★★★★★ [END Method Element Setup] ★★★★★★★★★★★★★★");
 				}
+				
+				logger.debug("★★★★★★★★★★★★★ [START Class Element Setup] ★★★★★★★★★★★★★★");
 				
 				if(StringUtil.isEmpty(currentBasePackage)) {
 					throw new ApplicationException("베이스 패키지 정보가 존재하지 않습니다. 프로그램설계 문서(엑셀)을 확인하세요.");
@@ -422,11 +466,13 @@ public class BxmBeanGenerateUtil {
 				dsClassName = designRow.getBcNm();
 				fileName = dsClassName.concat(".java");
 				dsBcModf = StringUtil.NVL(designRow.getBcModf()).toLowerCase();
-				dsPackage = currentDesign.getBasePack().concat(getSubPackage());
+				dsPackage = currentDesign.getBasePack().concat(".").concat(getSubPackage());
 				
 				dsMethodName = new StringBuilder().append(designRow.getBcMetdPref()).append(stringUtil.getFirstCharUpperCase(designRow.getBcMetdBody())).toString();
 				dsMethodLogicalName = new StringBuilder().append(rvLogicalName).append(" ").append(designRow.getBcMetdLogc()).toString();
 				dsMethodDescription = dsMethodLogicalName;
+				
+				logger.debug("★★★★★★★★★★★★★ [END Class Element Setup] ★★★★★★★★★★★★★★");
 				
 				//첫번째 BC메소드
 				bcMetdNm = designRow.getBcMetdPref().concat(designRow.getBcMetdBody());
@@ -435,13 +481,11 @@ public class BxmBeanGenerateUtil {
 				
 				//variable init 
 				//dsImports = new StringBuilder();
-				dsImportsSet = new TreeSet();
+				dsImportsSet = new TreeSet<String>();
 				//import code
 				addImportCode(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
 				
-				
-				logger.debug("fileName: {}, rvPackage: {}, dsDate: {}", fileName, dsPackage, dsDate);
-				
+				logger.debug("fileName: {}, dsPackage: {}, dsDate: {}", fileName, dsPackage, dsDate);
 			}
 			else if((StringUtil.isEmpty(designRow.getBcNm())
 					&& StringUtil.isNotEmpty(designRow.getBcMetdPref())
@@ -486,17 +530,17 @@ public class BxmBeanGenerateUtil {
 	}
 	
 	
-	private void addImportCode(Map<String, Object> bcCalleeMap, ProgramDesignDTO designRow, Set dsImportsSet, String currentBasePackage) {
+	private void addImportCode(Map<String, Object> bcCalleeMap, ProgramDesignDTO designRow, Set<String> dsImportsSet, String currentBasePackage) {
 		//import code
 		if(StringUtil.isNotEmpty(designRow.getDbioNm())) {
 			
-			if(designRow.getDbioNm().contains(".")) {
+			if(designRow.getDbioNm().contains(IOperateCode.STR_DOT)) {
 				
 				dsImportsSet.add(designRow.getDbioNm());
 				
 				bcCalleeMap.put(new StringBuilder()
 					.append(designRow.getDbioNm())
-					.append(".")
+					.append(IOperateCode.STR_DOT)
 					.append(designRow.getDbioMetdNm())
 					.toString()
 				, null);
@@ -506,18 +550,18 @@ public class BxmBeanGenerateUtil {
 				String classPrefix = designRow.getDbioNm().substring(0, 1);
 				
 				dsImportsSet.add(new StringBuilder().append(currentBasePackage)
-						.append(".")
+						.append(IOperateCode.STR_DOT)
 						.append(GenerateHelper.JAVA_PREFIX.get(classPrefix))
-						.append(".")
+						.append(IOperateCode.STR_DOT)
 						.append(designRow.getDbioNm()).toString());
 				
 				bcCalleeMap.put(new StringBuilder()
 						.append(currentBasePackage)
-						.append(".")
+						.append(IOperateCode.STR_DOT)
 						.append(GenerateHelper.JAVA_PREFIX.get(classPrefix))
-						.append(".")
+						.append(IOperateCode.STR_DOT)
 						.append(designRow.getDbioNm())
-						.append(".")
+						.append(IOperateCode.STR_DOT)
 						.append(designRow.getDbioMetdNm())
 						.toString()
 					, null);
@@ -594,7 +638,7 @@ public class BxmBeanGenerateUtil {
 		if(subPackage == null) {
 			throw new ApplicationException("서브 패키지가 설정되지 않았습니다.");
 		}
-		return new StringBuilder().append(basePackage).append(".").append(subPackage).toString(); 
+		return new StringBuilder().append(basePackage).append(IOperateCode.STR_DOT).append(subPackage).toString(); 
 	}
 
 
