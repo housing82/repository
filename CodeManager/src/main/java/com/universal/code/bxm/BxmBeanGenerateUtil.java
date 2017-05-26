@@ -359,7 +359,7 @@ public class BxmBeanGenerateUtil {
 						dsInputVariable = stringUtil.getFirstCharLowerCase(dsInputType);
 						
 						dsDbioInit = "";
-						
+						 
 						dsBizCode = "";
 						
 						logger.debug("-- dsMethodLogicalName: {}", dsMethodLogicalName);
