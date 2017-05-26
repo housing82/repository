@@ -352,7 +352,7 @@ public class BxmBeanGenerateUtil {
 						
 						//method name
 						dsMethodName = bcMetdDesign.getBcMetdPref().concat(stringUtil.getFirstCharUpperCase(bcMetdDesign.getBcMetdBody()));
-						
+						 
 						//input
 						dsInputType = bcOmmName.concat("In");
 						dsImports.append("import ").append(dsPackage.concat(".dto")).append(dsInputType).append(";").append(SystemUtil.LINE_SEPARATOR);
