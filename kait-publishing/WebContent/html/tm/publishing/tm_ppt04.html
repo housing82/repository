@@ -1,0 +1,87 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">선급비용</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="" id="" class="btn_gray btn_txt02">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표발행</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표취소</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div>
+	
+	
+
+	<!-- S.tabMenu -->
+	<div class="tabmenuzone  mb15">
+		<div class="tabmenu">
+			<ul>
+				<li><a href="#"><span class="current_tabmenu">결산처리</span></a></li>
+				<li><a href="#"><span>조회</span></a></li>
+			</ul>
+		</div>
+	</div> 
+	<!-- E.tabMenu -->
+	
+	<div style="display:block;">
+	<!-- S.table -->
+		<div class="board_view mb15">
+			<table>
+				<caption>기준년도</caption>
+				<colgroup>
+					<col style="width:8%;">
+					<col style="width:10%;">
+					<col style="width:8%;">
+					<col style="width:14%;">
+					<col style="width:8%;">
+					<col style="width:22%;">
+					<col style="width:8%;">
+					<col style="width:22%;">
+				</colgroup>
+				<tr>
+					<th>기준년도</th>
+					<td>
+						<select name="" id="" class="w100">
+							<option value=""></option>
+						</select>
+					</td>
+					<th>결산일자</th>
+					<td>
+						<input type="text" id="" class="w100px mr02"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+					<th>집행부서</th>
+					<td>
+						<input type="text" id="" readonly class="readonly w84px mr02" value="A050134" /><input type="text" id="" class="w96px mr02" /><a href="#"><img src="../images/content/btn_search.gif" alt=""title="검색" /></a>
+					</td>
+					<th>담당자</th>
+					<td>
+						<input type="text" id="" readonly class="readonly w84px mr02"/><input type="text" id="" class="w96px mr02" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색"/></a>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- E.table -->
+
+		<!--S. XenaGrid -->   
+		<div class="w100 fl_l" style="height:600px; background:#eff">
+			<div component="xg-grid" class="w100"></div>
+			</div>
+		<!--E. XenaGrid -->
+	</div>
+
+</div>
+<!-- 화면 스크립트 -->
+<script src="../cm/kait/js/xena.js"></script>		

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="../cm/css/common.css" media="all">
+<link rel="stylesheet" type="text/css" href="../cm/css/layout.css" media="all">
+<link rel="stylesheet" type="text/css" href="../cm/css/content.css" media="all">
+<!-- //START 탭 클릭이벤트용 임시스크립트 -->
+<script type="text/javascript" src="../cm/temp/jquery-1.12.3.min.js" charset="UTF-8"></script>
+<script type="text/javascript" src="../cm/temp/temp-common.js" charset="UTF-8"></script>
+<!-- //END -->
+<title>공통레이아웃</title>
+<style type="text/css">
+
+</style>
+</head>
+
+<body>
+<!-- S.Header --> 
+<header>
+	<h1 class="toplogo"><img src="../images/common/logo.gif" alt="한국자산신탁" /></h1>
+	<div class="top_menu">
+		<ul>
+			<li><a href="#"><img src="../images/common/topmenu_00.gif" alt="" />대기목록</a></li>
+			<li><a href="#"><img src="../images/common/topmenu_00.gif" alt="" />계약종합조회</a></li>
+			<li><a href="#"><img src="../images/common/topmenu_00.gif" alt="" />고객종합조회</a></li>
+			<li><a href="#"><img src="../images/common/topmenu_00.gif" alt="" />업무일정표</a></li>
+			<li><a href="#"><img src="../images/common/topmenu_00.gif" alt="" />Web GIS</a></li>
+		</ul>
+	</div>
+	<div class="top_util">
+		<ul>
+			<li><a href="#"><img src="../images/common/toputil_note.gif" alt="쪽지" />쪽지(2)</a></li>
+			<li><a href="#"><img src="../images/common/toputil_notice.gif" alt="공지사항으로 이동" />공지사항</a></li>
+			<li><a href="#"><img src="../images/common/toputil_logout.gif" alt="로그아웃" />로그아웃</a></li>
+		</ul>
+	</div>			
+</header>
+
+<!-- S.LeftArea/ContentArea--> 
+<div id="body">
+<aside>
+	<div class="userinfo">
+		<span class="icon"><img src="../images/common/userinfo.gif" alt="" /></span>
+		<span class="user">경기도지역본부 서부지사 요금관리팀 팀원홍길동</span>
+		<span class="toggle"><img src="../images/common/toggle_close.gif"  alt="좌측메뉴 숨기기" /></span>
+	</div>
+	<div class="nav_tab">
+		<ul>
+			<li class="tab_my"><a href="#"><span class="my current_tab"><img src="../images/common/tabmenu_my.png" alt="마이메뉴보기" /></span></a></li>
+			<li class="tab_all"><a href="#"><span class="">전체메뉴</span></a></li>
+			<li class="tab_recent"><a href="#"><span class="">최근메뉴</span></a></li>
+		</ul>
+	</div>	
+
+	<!-- S.Tabmenu_My -->
+	<div class="menu_my" style="display:block;">
+		<ul>
+			<li><span class="icon_my"><img src="../images/common/icon_my01.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my02.gif" alt="" /></span><span class="myname"><a href="#">차량충돌 복구처리상세</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my03.gif" alt="" /></span><span class="myname"><a href="#">종합계약오피스텔요금계산</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my04.gif" alt="" /></span><span class="myname"><a href="#">최대수요전력초과고압고객현황</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my05.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my06.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my07.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my08.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my09.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my01.gif" alt="" /></span><span class="myname"><a href="#">고객정보등록</a></span></li>
+		</ul>
+		<span class="my_setup" title="마이메뉴 설정"><button class="btn_mysetup"  >설정</button></span>
+	</div>
+
+	<!-- S.Tabmenu_All -->
+	<div class="wrap_menu_all" style="display:none;">
+		<div class="menu_all">
+			<ul>
+				<li><a href="#" class="current_menu_all"><span>영업</span></a></li>
+				<li><a href="#"><span>배전</span></a></li>
+				<li><a href="#"><span>공통</span></a></li>
+			</ul>
+			<fieldset class="menu_search">
+				<legend>메뉴검색</legend>
+				<input type="search" />
+				<button type="button" title="메뉴검색"></button>
+			</fieldset>
+		</div>
+		<!-- S.TabMenu_AllM_Tree -->
+		<div class="all_tree">
+			<ol>
+				<li class="border"><a href="#"><span class="depth01 open01">1Depth메뉴열림</span></a>
+					<ul>		
+						<li class="border02"><a href="#"><span class="depth02">2Depth menu</span></a></li>
+						<li class="border02"><a href="#"><span class="depth02">2Depth menu</span></a></li>
+						<li class="border02"><a href="#"><span class="depth02">2Depth menu</span></a></li>
+						<li><a href="#"><span class="depth02 open02">2Depth메뉴열림</span></a>
+							<ul>
+								<li><a href="#"><span class="depth03 open03">3Depth메뉴열림</span></a>
+									<ul>
+										<li><a href="#"><span class="depth04">4Depth</span></a></li>
+										<li><a href="#"><span class="depth04">4Depth</span></a></li>
+										<li><a href="#"><span class="depth04">4Depth</span></a></li>
+										<li><a href="#"><span class="depth04">4Depth</span></a></li>
+										<li><a href="#"><span class="depth04">4Depth</span></a></li>
+										<li><a href="#"><span class="depth04">메뉴명길어질경우아래로떨어짐</span></a></li>
+									</ul>
+								</li>
+								<li><a href="#"><span class="depth03">3Depth menu</span></a></li>
+								<li><a href="#"><span class="depth03">3Depth menu</span></a></li>
+								<li><a href="#"><span class="depth03">3Depth menu</span></a></li>
+								<li><a href="#"><span class="depth03">3Depth menu</span></a></li>
+							</ul>
+						</li>
+						<li><a href="#"><span class="depth02">2Depth menu</span></a></li>
+						<li><a href="#"><span class="depth02">2Depth menu</span></a></li>
+						<li><a href="#"><span class="depth02">2Depth menu</span></a></li>
+					</ul>
+				<li class="border"><a href="#"><span class="depth01">동호별변경이력조회(분양)</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">일반전표등록수정(회계)</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">아주길어진메뉴명메뉴명메뉴명</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">메뉴명메뉴명메뉴명</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">메뉴명메뉴명메뉴명</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">메뉴명메뉴명메뉴명</span></a></li>
+			</ol>
+		</div>
+	</div>
+		
+	<!-- S.Tabmenu_Recent -->
+	<div class="menu_recent" style="display:none;">
+		<ul>
+			<li><a href="#"><span class="menuname">고객종합조회</span></a><a href=""><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></a></li>
+			<li><a href="#"><span class="menuname">전기사용신청접수</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">고객종합조회</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">전기사용신청접수</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 및 해제</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">고객종합조회</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">전기사용신청접수</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">TV난시청지역등록 TV난시청지역등록 및</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+		</ul>
+	</div>
+</aside>	
+
+<!-- S.ContentArea -->
+<article>
+	<div class="mdi">
+		<div class="mditab">
+			<ul>
+				<li><a href="#"><span class="arrow">◀</span></a></li>
+				<li><a href="#"><span>고객정보조회</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span>고객정보수정</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span class="current_mditab">w170px>Tooltip</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span>전기사용신청접수</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span>그럼에도불구하고</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span class="arrow">▶</span></a></li>	
+			</ul>
+		</div>
+		<!-- S.ContentArea > ViewControl-->
+		<div class="mdi_division">
+			<ul>
+				<li><a href="#"><span><img src="../images/common/mdi_icon01.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon02.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon03.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon04.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon05.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon06.gif" alt="" /></span></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- S.Content_Scroll_OK-->
+	<div class="content">
+		<div class="titlezone">
+			<h2 class="title">고객종합조회</h2> 
+			<div class="btn_common">
+				<ul>
+					<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+					<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+					<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+					<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+					<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+				</ul>
+			 </div>
+			<!-- S.Content>BtnGroup_Right -->
+			 <div class="btngroup">
+				<ul>
+					<li><button type="button" class="btn_gray">개인정보</button></li>
+					<li><button type="button" class="btn_gray">조회</button></li>
+					<li><button type="button" class="btn_gray">전표발행</button></li>
+					<li><button type="button" class="btn_gray">전표취소</button></li>
+				</ul>			 
+			 </div>
+		</div>
+
+		<!-- S.TabMenu -->
+		<div class="tabmenu mb15">
+			<ul>
+				<li><a href="#"><span class="current_tabmenu">결산처리</span></a></li>
+				<li><a href="#"><span>조회</span></a></li>
+				<li><a href="#"><span>메뉴명</span></a></li>
+				<li><a href="#"><span>다섯글자명</span></a></li>
+				<li><a href="#"><span>탭메뉴</span></a></li>
+				<li><a href="#"><span>탭많을경우버튼생성</span></a></li>
+			</ul>
+		</div>
+
+
+
+		<!--S. Table --> 
+	<div class="board">
+			<table>
+				<caption class="caption">예정프로젝트 기본정보</caption>
+				<colgroup>
+					<col style="width:4%">
+					<col style="width:5%">
+					<col style="width:10%">
+					<col style="width:10%">
+					<col style="width:20%">
+					<col style="width:10%">
+					<col style="width:10%">
+					<col style="width:20%">
+					<col style="width:8%">
+				</colgroup>
+					<tr>
+						<th><input type="checkbox" /></th>
+						<th>No.</th>
+						<th>전표번호</th>
+						<th>전표일자</th>
+						<th>계정과목</th>
+						<th>시작일</th>
+						<th>만기일</th>
+						<th>적요</th>
+						<th>비용부서</th>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+						<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+						<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+						<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+						<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+						<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+					<tr>
+						<td class="ta_c"><input type="checkbox" /></td>
+						<td class="ta_c">1</td>
+						<td class="ta_c">20170125-00012</td>
+						<td class="ta_c">2017-01-25</td>
+						<td>621140101 /보험료 차량(M)</td>
+						<td class="ta_c">2017-01-25</td>
+						<td class="ta_c">2018-01-25</td>
+						<td>차량 보험료 지원_VMD</td>
+						<td class="ta_c">H0204828</td>
+					</tr>
+			</table>
+		</div>
+
+
+
+
+
+
+	</div>
+	
+<!-- S.Footer -->
+<footer>
+	<span class="footer01">접수내역 11건이 조회되었습니다.</span>
+	<span class="footer02">긴급공지_공지사항내용입니다. 오늘 03시11분 부터 삼성동 지역 정전 되었으며 복구중...</span>
+	<span class="footer03">내글에 댓글이 1건 등록되었습니다.</span>
+</footer>
+
+</article>
+</div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+@charset "euc-kr";
+
+/* Common */
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
+body,input,textarea,select,button,table{font-family:'µ¸¿ò',Dotum,AppleGothic,sans-serif;font-size:12px}
+img,fieldset{border:0}
+ul,ol{list-style:none}
+em,address{font-style:normal}
+a{text-decoration:none}
+a:hover,a:active,a:focus{text-decoration:underline}
+
+#header {width:100%; height:60px; background:#fff url("/cm/kait/images/mdi/top_bg.gif") repeat-x}
+#headerGroup {width:318px; hegith:100%; float:right; text-align:right; margin:0 30px 0 0}
+#userName{width:125px; display:inline-block; float:left; line-height:5em}
+#header #fontType_a {color: #FFFFFF; font-size: 12px}
+#header #fontType_b {color:#f8e835; font-size: 12px}
+
+
+
+.tab_container {
+	border: 0px solid #999;
+	border-top: none;
+	clear: both;
+	float: left; 
+	width: 100%;
+	background: #fff;
+	-moz-border-radius-bottomright: 5px;
+	-khtml-border-radius-bottomright: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-khtml-border-radius-bottomleft: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+.tab_content {
+	padding: 0;
+	font-size: 1.2em;
+}
+.tab_content h2 {
+	font-weight: normal;
+	padding-bottom: 10px;
+	border-bottom: 1px dashed #ddd;
+	font-size: 1.8em;
+}
+
+.tab_content{
+}
+
+#container .con {margin:0;}
+#container .con_margin {margin-top:40px}
+#container .tab_con_first {position:relative; margin:32px 0 0 0;}
+
+#footer {width: 100%; height:30px; background:#fff url("/cm/kait/images/mdi/bottom_bg.gif") repeat-x}
+#footer #left {width:17px; height:26px; float:left}
+#footer #right {width:17px; height:26px; float:right}

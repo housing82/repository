@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XgUIMaskedInput</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../lib/swidgets/styles/swidgets.base.css">
+    <style type="text/css">
+        .components {
+            padding-left: 100px;
+        }
+
+        .row {
+            margin: 10px 0 0 10px;
+        }
+    </style>
+
+    <!-- dependencies lib module -->
+    <script src="../../lib/json3/lib/json3.min.js"></script>
+    <script src="../../lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- swidgets module -->
+    <script src="../../lib/swidgets/swidgets.js"></script>
+    
+    <!-- xg-platform module -->
+    <script src="../../xg-all.js"></script>
+
+</head>
+<body>
+<div class="components">
+    <h1>XgUIMaskedInput</h1>
+    <h2>Masked Input</h2>
+
+    <div class="row">
+        <h3>module 방식</h3>
+        <div class="xg-masked-input-module-1"></div>
+        <div class="xg-masked-input-module-2"></div>
+        <span id="log-module"></span>
+    </div>
+
+    <div class="row">
+        <h3>jquery plugin 방식</h3>
+        <div type="text" class="xg-masked-input-plugin-1"></div>
+        <div type="text" class="xg-masked-input-plugin-2"></div>
+        <span id="log-plugin"></span>
+    </div>
+
+    <div class="row">
+        <h3>data-api 방식</h3>
+        <div class="xg-masked-input-data-api-1" data-xg-masked-input data-xg-option='{
+            "height": 25,
+            "width": 200,
+            "mask": "[abcd][0123][efgh][4567]-[ijkl][mnop]-[qrst][uvwx][yz89]",
+            "promptChar": "$"
+        }'></div>
+        <div class="xg-masked-input-data-api-2" data-xg-masked-input data-xg-option='{
+            "height": 25,
+            "width": 200,
+            "rtl": "true",
+            "mask": "[0-2]00.[0-2]00.[0-2]00.[0-2]00",
+            "promptChar": "*"
+        }'></div>
+        <span id="log-dataAPI"></span>
+    </div>
+</div>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

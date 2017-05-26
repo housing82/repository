@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XgUIRadioButton</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../lib/swidgets/styles/swidgets.base.css">
+    <style type="text/css">
+        .components {
+            padding-left: 100px;
+        }
+
+        .row {
+            margin: 10px 0 0 10px;
+        }
+    </style>
+
+    <!-- dependencies lib module -->
+    <script src="../../lib/json3/lib/json3.min.js"></script>
+    <script src="../../lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- swidgets module -->
+    <script src="../../lib/swidgets/swidgets.js"></script>
+    
+    <!-- xg-platform module -->
+    <script src="../../xg-all.js"></script>
+
+</head>
+<body>
+<div class="components">
+    <h1>XgUIRadioButton</h1>
+    <!-- module 방식 -->
+    <div class="row">
+        <h3>moule 방식 1</h3>
+        <div class="xg-radio-button-module-1">Use module 1</div>
+        <h3>moule 방식 2</h3>
+        <div class="xg-radio-button-module-2">Use module 2</div>
+    </div>
+    <!-- jquery plugin 방식 -->
+    <div class="row">
+        <h3>jquery plugin 방식</h3>
+        <div class="xg-radio-button-plugin-1">Use plugin 1</div>
+    </div>
+    <!-- data-api 방식 -->
+    <div class="row">
+        <h3>data-api 방식</h3>
+        <div data-xg-radio-button class="xg-radio-button-data-api-1">Use data-API 1</div>
+        <div data-xg-radio-button class="xg-radio-button-data-api-2" data-xg-option='{
+            "width": 200,
+            "height": 30,
+            "rtl": true
+        }'>Use data-API 2</div>
+    </div>
+    <div class="row">
+        <div id='events'>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XgUIListBox</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../lib/swidgets/styles/swidgets.base.css">
+    <style type="text/css">
+        .components {
+            padding-left: 100px;
+        }
+        .row {
+            margin: 10px 0 0 10px;
+        }
+    </style>
+    
+    <!-- dependencies lib module -->
+    <script src="../../lib/json3/lib/json3.min.js"></script>
+    <script src="../../lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- swidgets module -->
+    <script src="../../lib/swidgets/swidgets.js"></script>
+    
+    <!-- xg-platform module -->
+    <script src="../../xg-all.js"></script>
+
+</head>
+<body>
+<div class="components">
+    <h1>XgUIListBox</h1>
+    <h2>ListBox</h2>
+
+    <div class="row">
+        <h3>module 방식</h3>
+        <div class="xg-list-box-module-1"></div>
+        <div style="margin-top: 20px;" class="xg-list-box-module-2"></div>
+        <span id="log-module">selected : </span>
+    </div>
+
+    <div class="row">
+        <h3>jquery plugin 방식</h3>
+        <div class="xg-list-box-plugin-1"></div>
+        <div style="margin-top: 20px;" class="xg-list-box-plugin-2"></div>
+        <span id="log-plugin"></span>
+    </div>
+
+    <div class="row">
+        <h3>data-api 방식</h3>
+        <div class="xg-list-box-data-api-1" data-xg-list-box></div>
+        <div class="xg-list-box-data-api-2" style="margin-top: 20px;" data-xg-list-box data-xg-option='{
+            "source": [
+                "Café Bombón",
+                "Café au lait",
+                "Caffé Corretto",
+                "Café Crema",
+                "Caffé Latte",
+                "Caffé macchiato",
+                "Café mélange"
+            ],
+            "width": "300px",
+            "height": "100px"
+        }'></div>
+        <span id="log-dataAPI"></span>
+    </div>
+</div>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

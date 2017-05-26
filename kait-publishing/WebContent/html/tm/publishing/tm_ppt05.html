@@ -1,0 +1,75 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">일반전표 조회</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="" id="" class="btn_gray btn_txt02">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표발행</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표취소</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div>
+	
+	<!-- S.searchBox -->
+	<div class="searchbox mb15">
+		<fieldset>
+		<legend>선급비용검색</legend>
+			<ul>
+				<li class="labeltxt"><label class="label">기준년도</label></li>
+				<li class="form">
+					<select id="" class="w84px">
+						<option>2017년</option>
+						<option> </option>
+						<option> </option>
+					</select>					
+				</li>
+				<li class="labeltxt"><label class="label">결산일자</label></li>
+				<li class="form">
+					<input type="text" id="" class="w100px mr02"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+				</li>
+				<li class="labeltxt"><label class="label mr02">집행부서</label></li>
+				<li class="form">
+					<input type="text" id="" readonly class="readonly w84px mr02" value="A050134" /><input type="text" id="" class="w96px mr02" /><a href="#"><img src="../images/content/btn_search.gif" alt=""title="검색" /></a>
+				</li>
+				<li class="labeltxt"><label class="label">담당자</label></li>
+				<li class="form">
+					<input type="text" id="" readonly class="readonly w84px mr02"/><input type="text" id="" class="w96px mr02" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색"/></a>
+				</li>
+			</ul>			
+		</fieldset>
+	</div>
+	<!-- E.searchBox -->
+
+	<!-- S.tabMenu -->
+	<div class="tabmenuzone  mb15">
+		<div class="tabmenu">
+			<ul>
+				<li><a href="#"><span class="current_tabmenu">결산처리</span></a></li>
+				<li><a href="#"><span>조회</span></a></li>
+			</ul>
+		</div>
+	</div> 
+	<!-- E.tabMenu -->
+
+	<!--S. XenaGrid -->   
+	<div class="w100 fl_l" style="height:600px; background:#eff">
+		<div component="xg-grid" class="w100"></div>
+		</div>
+	<!--E. XenaGrid -->
+
+</div>
+<!-- 화면 스크립트 -->
+<script src="../cm/kait/js/xena.js"></script>		

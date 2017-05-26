@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>XgUIDateTimeInput</title>
+		<link rel="stylesheet" type="text/css" media="all" href="../../lib/swidgets/styles/swidgets.base.css">
+		<style type="text/css">
+			.components {
+				padding-left: 100px;
+			}
+
+			.row {
+				margin: 10px 0 0 10px;
+			}
+
+		</style>
+		
+		<!-- dependencies lib module -->
+		<script src="../../lib/json3/lib/json3.min.js"></script>
+		<script src="../../lib/jquery/dist/jquery.min.js"></script>
+
+		<!-- swidgets module -->
+		<script src="../../lib/swidgets/swidgets.js"></script>
+		<script type="text/javascript" src="../../lib/swidgets/globalization/globalize.js"></script>
+		<script type="text/javascript" src="../../lib/swidgets/globalization/globalize.culture.ko-KR.js"></script>
+		
+		<!-- xg-platform module -->
+		<script src="../../xg-all.js"></script>
+
+	</head>
+	<body>
+		<div class="components">
+			
+			<h1>XgUIDateTimeInput</h1>
+
+			<h2>DateTimeInput</h2>
+
+			<div class="row">
+				<h3>module 방식</h3>
+				<div class="xg-date-time-input-module-1"></div>
+				<div class="xg-date-time-input-module-2"></div>
+				<span class="xg-date-time-input-module-3"></span>
+			</div>
+
+			<div class="row">
+				<h3>jquery plugin 방식</h3>
+				<div type="text" class="xg-date-time-input-plugin-1"></div>
+				<div type="text" class="xg-date-time-input-plugin-2"></div>
+				<span class="xg-date-time-input-plugin-3"></span>
+			</div>
+
+			<div class="row">
+				<h3>data-api 방식</h3>
+				<div
+					class="xg-date-time-input-data-api-1" 
+					data-xg-date-time-input 
+					data-xg-option='{ 
+						"height": 25,
+						"width": 200,
+						"culture": "ko-KR",
+						"formatString": "yyyy-MM-dd",
+						"selectionMode": "range"
+					}'>
+				</div>
+
+				<div 
+					class="xg-date-time-input-data-api-2"
+					data-xg-date-time-input 
+					data-xg-option='{ 
+						"height": 25,
+						"width": 200,
+						"readonly": true,
+						"allowKeyboardDelete": false
+					}'>
+				</div>
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="main.js"></script>
+	</body>
+</html>

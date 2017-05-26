@@ -1,0 +1,244 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">일반전표등록&#47;수정</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">저장</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">삭제</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표취소</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div>
+	
+	<!-- S.tableView -->
+	<div class="board_view">
+		<table>
+			<caption class="blind">caption</caption>
+			<colgroup>
+				<col style="width:10%; max-width:90px;"/>
+				<col style="width:15%;"/>
+				<col style="width:10%; max-width:90px;"/>
+				<col style="width:15%;"/>
+				<col style="width:10%; max-width:90px;"/>
+				<col style="width:40%;"/>
+			</colgroup>
+			<tr>
+				<th>전표번호</th>
+				<td><input type="text" name="" id="" class="w100"/></td>
+				<th>작성내역</th>
+				<td colspan="3"><input type="text" name="" id="" class="w100px mr02"/><input type="text" name="" id="" class="w96px mr02"/><input type="text" id="" class="w74px mr02"/><a href="#"><img src="../images/content/btn_calendar.gif" alt="" class="mr02" /></a><input type="text" name="" id="" class="w84px mr02"/><input type="text" name="" id="" class="w96px mr02"/></td>
+			</tr>
+			<tr>
+				<th>전표종류</th>
+				<td>
+					<select name="" id="" class="w100">
+						<option value=""></option>
+					</select>
+				</td>
+				<th>수정내역</th>
+				<td colspan="3"><input type="text" name="" id="" class="w100px mr02"/><input type="text" name="" id="" class="w96px mr02"/><input type="text" id="" class="w74px mr02"/><a href="#"><img src="../images/content/btn_calendar.gif" alt="" class="mr02" /></a><input type="text" name="" id="" class="w84px mr02"/><input type="text" name="" id="" class="w96px mr02"/>
+				<input type="checkbox" name="" id="" class="chk"/>지급완료체크출력</td>
+			</tr>
+			<tr>
+				<th>전표일자</th>
+				<td><input type="text" id="" class="w74px mr02"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a></td>
+				<th>회계일자</th>
+				<td><input type="text" id="" class="w74px mr02"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a></td>
+				<th>확정자</th>
+				<td><input type="text" name="" id="" class="w84px mr02"/><input type="text" name="" id="" class="w96px mr02"/><button component="xg-button" id="" class="btn_table">전표승인</button></td>
+			</tr>
+		</table>
+	</div>
+	<!-- E.tableView -->
+	
+	<!-- S.stitleZone -->
+	<div class="stitlezone mt05">
+		<h3 class="stitle">전표번호검색</h3>
+		<fieldset class="fl_l">
+			<legend>전표번호검색</legend>
+			<ul><li class="pt02"><input type="text" id="" class="w120px mr02"/><button component="" id="" class="btn_search00">조회</li></ul></button>
+		</fieldset>
+		
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_arrow">▲</button></li>
+				<li><button component="xg-button" id="" class="btn_arrow">▼</button></li>
+				<li><button component="xg-button" id="" class="btn_grid">행추가</button></li>
+				<li><button component="xg-button" id="" class="btn_grid">행삭제</button></li>
+				<li><button component="xg-button" id="" class="btn_grid">행복사</button></li>
+				<li><button component="xg-button" id="" class="btn_grid">상계</button></li>
+				<li><button component="xg-button" id="" class="btn_grid">배부</button></li>
+				<li><button component="xg-button" id="" class="btn_grid">적요수정</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div> 
+	<!-- E.stitleZone -->
+
+
+	<!--S. XenaGrid -->   
+	<div class="w100 fl_l">
+		<div component="xg-grid" class="w100"></div>
+	</div>
+	<!--E. XenaGrid -->
+	
+	<div class="w30 fl_l">
+		<div class="in_stitlezone mt05">
+			<h3 class="stitle">관리항목</h3>
+			<span class="fl_r text_s">&#8249;F2클릭시 팝업이용 가능합니다.&#8250;</span>
+		</div>
+		<!--S. XenaGrid -->   
+		<div component="xg-grid" class="w100"></div>
+		<!--E. XenaGrid -->		
+	</div>
+	
+	<div class="w70pl10px">
+		<div class="stitlezone mt05">
+			<h3 class="stitle">부가세</h3>
+			<span><button component="xg-button" id="" class="fl_r btn_grid">계산서발행</button></span>
+		</div>
+		<div class="board_view">
+			<table>
+				<caption>부가세</caption>
+				<colgroup>
+					<col style="width:10%;">
+					<col style="width:6%;">
+					<col style="width:12%;">
+					<col style="width:10%;">
+					<col style="width:20%;">
+					<col style="width:10%;">
+					<col style="width:12%;">						
+				</colgroup>
+					<tr>
+						<th>사업장</th>
+						<td colspan="2">
+							<select name="" id="" class="w100">
+								<option value=""></option>
+							</select>
+						</td>
+						<th>계산서일자</th>
+						<td colspan="3">
+							<input type="text" name="" id="" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" class="ml2" /></a><input type="checkbox" name="" id="" class="chk"/>전자계산서<input type="checkbox" name="" id="" class="chk"/>역발행여부
+						</td>
+					</tr>
+					<tr>
+						<th>세금계산서번호</th>
+						<td colspan="2"><input type="" name="" id=""  class="w83" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="ml02" /></a></td>
+						<th>발행번호</th>
+						<td><input type="text" name="" id=""  class="w100"/></td>
+						<th>영수&#47;청구</th>
+						<td><input type="radio" name="" id="" class="rao" />영수<input type="radio" name="" id="" class="rao" />청구</td>
+					</tr>
+					<tr>
+						<th>사업자번호</th>
+						<td colspan="2"><input type="" name="" id="" class="w100"/></td>
+						<th>상호</th>
+						<td><input type="text" name="" id="" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="ml02" /></a></td>
+						<th>대표자명</th>
+						<td><input type="text" name="" id=""  class="w100" /></td>
+					</tr>
+					<tr>
+						<th>매출&#47매입</th>
+						<td colspan="2"><input type="radio" name="" id="" class="rao" />매출<input type="radio" name="" id="" class="rao" />매입</td>
+						<th>과세유형</th>
+						<td>
+							<select name="" id="" class="w100">
+								<option value=""></option>
+							</select>
+						</td>
+						<th>세부유형</th>
+						<td>
+							<select name="" id="" class="w100">
+								<option value=""></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>공급가액</th>
+						<td colspan="2"><input type="text" name="" id="" class="w100"/></td>
+						<th>부가세</th>
+						<td>
+							<select name="" id=""  class="w100">
+								<option value=""></option>
+							</select>
+						</td>
+						<th>합계</th>
+						<td>
+							<input type="text" name="" id=""  class="w100" />
+						</td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td colspan="2"><input type="text" name="" id="" class="w83" class="ml02" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="ml02" /></a></td>
+						<th>비고</th>
+						<td colspan="3">
+							<input type="text" name="" id="" class="w100"/>
+						</td>
+					</tr>
+					<tr>
+						<th colspan="2">수정세금계산서 발행여부</th>
+						<td>
+							<input type="checkbox" name="" id="" class="chk"/>
+						</td>
+						<th>수정사유</th>
+						<td>
+							<select name="" id="" class="w100">
+								<option value=""></option>
+							</select>
+						</td>
+						<th>원승인번호</th>
+						<td><input type="text" name="" id="" class="w100"/></td>
+					</tr>
+					<tr>
+						<th colspan="2">ERP시스템에서의 발행여부</th>
+						<td>
+							<select name="" id="" class="w100">
+								<option value="">미발행</option>
+							</select>
+						</td>
+						<th>상태코드</th>
+						<td>
+							<select name="" id="" class="w100">
+								<option value=""></option>
+							</select>
+						</td>
+						<th>상태메세지</th>
+						<td><input type="text" name="" id="" class="w100"/></td>
+					</tr>
+				</table>
+			</div>		
+		</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

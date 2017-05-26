@@ -1,0 +1,142 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">분양현장등록(분양)</h2> 
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		<!-- S.content > btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button type="button" class="btn_gray">기본현황</button></li>
+				<li><button type="button" class="btn_gray">현장메모</button></li>
+				<li><button type="button" class="btn_gray">조회</button></li>
+				<li><button type="button" class="btn_gray">추가</button></li>
+				<li><button type="button" class="btn_gray">삭제</button></li>
+				<li><button type="button" class="btn_gray">저장</button></li>
+				<li><button type="button" class="btn_gray">도움</button></li>
+				<li><button type="button" class="btn_gray">닫기</button></li>
+			</ul>			 
+		 </div>
+	</div>
+
+	<div class="w50 fl_l">
+		<!-- S.searchbox -->
+		<div class="in_searchbox mb15">
+			<fieldset>
+			<legend>검색</legend>
+				<ul>
+					<li><label class="label">찾기구분 </label></li>
+					<li class="form">
+						<select name="" id="" class="w100px">
+						</select>
+					<li class="form">
+						<input type="text" class="w100px"/>
+					</li>
+					<li><label class="label">진행여부 </label></li>
+					<li class="form">
+						<select name="" id="" class="w100px">
+						</select>
+					</li>
+				</ul>
+				
+			</fieldset>
+		</div>				
+		<!-- E.searchboxs -->
+		<!--S. XENA Grid -->
+		<div component="xg-grid" id="" class="fl_l w99"></div>
+		<!--E. XENA Grid -->			
+	</div>
+	
+	<div class="w50pl10">
+		<!-- S.view -->
+		<div class="board_view">
+			<table>
+				<caption>기본정보</caption>
+				<colgroup>
+					<col style="width: 90px;" />
+					<col style="width:" />
+					<col style="width: 90px;" />
+					<col style="width:" />						
+				</colgroup>
+				<tr>
+					<th>*현장코드</th>
+					<td colspan="3">
+						<input component="xg-radio" type="radio" value="ko" checked/><label>ko</label>
+						<input component="xg-radio" type="radio" value="jp"/><label>jp</label>
+						<input component="xg-radio" type="radio" value="en"/><label>en</label>
+						</td>
+				</tr>
+				<tr>
+					<th>*현장명</th>
+					<td colspan="3"><input type="text" class="w100" /> </td>
+				</tr>
+				<tr>
+					<th>*물건종류</th>
+					<td>
+						<!-- jqx-listbox jqx-reset jqx-rc-all jqx-widget jqx-widget-content jqx-disableselect -->
+						<div component="xg-listbox" autoOpen="true" cdGrpCd="00001">
+							<param valueMember="cd"/>
+							<param displayMember="nm"/>
+							<param dataid="dt_CodeList2"/>
+						</div>
+					</td>
+					<th>*완료여부</th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>전화번호 </th>
+					<td></td>
+					<th>*세금계산기준</th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td colspan="3"><input type="text" class="w40px" title="우편번호"/>검색<input type="text" class="w150px ml02" title="시·도 + 시·군·구"/><input type="text" class="w100px ml02" title="읍·면"/> <input type="text" class="w120px" title="도로명건물본·부번"/> </td>
+				</tr>
+				<tr>
+					<th>회신번호</th>
+					<td><input type="text" name="" id="" /></td>
+					<th>*현장약칭</th>
+					<td><input type="text" name="" id="" class=""/></td>
+				</tr>
+			</table>
+
+			<table class="mt10_mb10">
+				<caption>대표시행사</caption>
+				<colgroup>
+					<col style="width: 90px;" />
+					<col style="width:" />
+					<col style="width: 90px;" />
+					<col style="width:" />						
+				</colgroup>
+				<tr>
+					<th>거래처</th>
+					<td><input type="text" name="" id="" />시행사버튼</td>
+					<th>상호</th>
+					<td><input type="text" name="" id="" /></td>
+				</tr>
+				<tr>
+					<th>업태</th>
+					<td></td>
+					<th>업종</th>
+					<td></td>
+				</tr>
+				<tr>
+					<th>대표자</th>
+					<td colspan="2"><input type="text" name="" id="" /></td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td colspan="3"><input type="text" class="w40px" title="우편번호"/>검색<input type="text" class="w150px ml02" title="시·도 + 시·군·구"/><input type="text" class="w100px ml02" title="읍·면"/> <input type="text" class="w120px" title="도로명건물본·부번"/> </td>
+				</tr>
+			</table>
+		</div>				
+		<!-- E.view -->	
+	</div>
+</div>		

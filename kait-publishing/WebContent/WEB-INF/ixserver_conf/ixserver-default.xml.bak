@@ -1,0 +1,55 @@
+<configuration>
+    <global compressed="false" fragment="40" gdml="false" checkAgent="true" mergeParameter="true">
+        <charset default="euc-kr" get="euc-kr" post="euc-kr"/>
+        <col-def integer="6" decimal="7.3" string="255" round="R"/>
+        
+        <!--putType: Parameter value get type ["F"(First Value) | "L"(Last Value)] default("L")-->
+        <!--param putType="F"/-->
+        
+        <crypto spi="com.ixync.common.crypto.impl.IXyncSeedAdapter">
+        	<!-- value: Use jdk version [1.4 | 1.5(1.5 or more)]-->
+	    	<!--param key="jdk" value="1.4"/-->
+	    </crypto>
+	           
+        <!--SecurityAdapter provides function that can prevent leakage of 
+            information being transmitted over a network, change of information, 
+            and denial of information reception and transmission.
+        -->
+        <!--crypto spi="com.ixync.common.crypto.impl.SecuiAdapter"/-->
+        <!--crypto spi="com.ixync.common.crypto.impl.XecureAdapter">
+            <param name="conf" value="/home/xecureweb_ver5/xecure_servlet.conf"/>
+        </crypto-->        
+        <!--crypto spi="com.ixync.common.crypto.impl.InisafeNetAdapter">
+            <param name="conf" value="C:\INISAFENET.properties"/>
+        </crypto-->
+        <!--crypto spi="com.ixync.common.crypto.impl.SigngateAdapter">
+            <param name="conf" value="C:\kmPri.key"/>
+            <param name="passwd" value="1234"/>
+        </crypto-->
+        
+        <monitor log="false" path="monitor_log"/>
+
+        <connector>
+            <request className="com.ixync.filter.HttpIXyncRequestWrapper"/>
+            <!--request className="com.ixync.filter.HttpStrutsRequestWrapper"/-->
+        </connector>
+    </global>
+    <resource>
+        <dataSource name="default" charsetIn="euc-kr" charsetOut="euc-kr">
+            <jdbc 
+                driver="oracle.jdbc.driver.OracleDriver" 
+                url="jdbc:oracle:thin:@localhost:1521:ORA9" 
+                user="scott" 
+                password="tiger" 
+                schema="SCOTT"/>
+        </dataSource>
+        <dataSource name="sampledb" charsetIn="ksc5601" charsetOut="ksc5601">
+            <jdbc 
+                driver="org.hsqldb.jdbcDriver" 
+                url="jdbc:hsqldb:hsql://localhost/" 
+                user="sa" 
+                password="" 
+                schema=""/>
+        </dataSource>
+    </resource>
+</configuration>

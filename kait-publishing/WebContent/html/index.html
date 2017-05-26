@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>공통레이아웃</title>
+	<meta charset="utf-8">
+
+	<!-- // START HTML/CSS 작업단계에서 필요한 탭클릭과 XENA그리드 출력을 위한 임시스크립트 -->
+	<!-- // XENA 그리드 관련 소스는  전달받은 kait 프로젝트의 doc디렉토리 안에있는 소스를 이용함 -->
+
+	<!-- xena doc: swidgets stylesheet -->
+	<link rel="stylesheet" href="../cm/kait/xg-platform/lib/swidgets/styles/swidgets.base.css">
+	
+	<!-- kait 프로젝트 WebContent/css -->
+	<link rel="stylesheet" type="text/css" href="../cm/kait/css/custom/xg_style.css">
+ 	<link rel="stylesheet" type="text/css" href="../cm/kait/css/custom/common_admin.css">
+
+	<link rel="stylesheet" type="text/css" href="../cm/css/xg_style.css" media="all"><!-- 수정 -->
+	<link rel="stylesheet" type="text/css" href="../cm/css/common.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../cm/css/layout.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../cm/css/content.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../cm/css/xena.css" media="all">
+
+
+    <!-- kait 프로젝트 WebContent/js & WebContent/xg-platform -->
+    <script type="text/javascript" src="../cm/kait/js/jquery-1.12.3.min.js" charset="UTF-8"></script>	
+    
+	<!--[if lte IE 8]>
+    <script type="text/javascript" src="../cm/kait/xg-platform/lib/es5-shim/es5-shim.min.js" charset="UTF-8"></script>
+    <![endif]-->
+    <!--[if lte IE 9]>
+    <script type="text/javascript" src="../cm/kait/xg-platform/lib/html5shiv/dist/html5shiv.js" charset="UTF-8"></script>
+    <![endif]-->
+        
+	<!-- kait 프로젝트 WebContent/xg-platform: dependencies lib module -->
+	<script type="text/javascript" src="../cm/kait/xg-platform/lib/json3/lib/json3.min.js" charset="UTF-8"></script>
+
+	<script type="text/javascript" src="../cm/kait/js/sugar.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../cm/kait/js/jquerymy-1.2.4.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../cm/kait/js/jquery.form.js" charset="UTF-8"></script>
+	
+	<script type="text/javascript" src="../cm/kait/xg-platform/lib/swidgets/swidgets.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../cm/kait/xg-platform/lib/swidgets/globalization/globalize.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../cm/kait/xg-platform/lib/swidgets/globalization/globalize.culture.zh-CN.js" charset="UTF-8"></script>
+			
+	<script type="text/javascript" src="../cm/kait/xg-platform/xg-all.js" charset="UTF-8"></script>
+	
+	<script type="text/javascript" src="../cm/kait/js/attribute.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../cm/kait/js/xenaPlugin.js" charset="UTF-8"></script>
+	
+	<!-- XENA 컴포넌트 초기화 관련 스크립트 -->
+	<script type="text/javascript" src="../cm/kait/js/xena.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../cm/kait/js/xenaInit.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../cm/kait/js/mdi.js" charset="UTF-8"></script>
+	
+	<!-- 탭 메뉴 클릭 이벤트 및 그리드 초기화 -->
+	<script type="text/javascript" src="../cm/kait/temp-common.js" charset="UTF-8"></script>
+	
+	<!-- //END -->
+
+	<!-- 제나 component tag 
+		component="xg-input"
+		component="xg-combobox"
+		component="xg-radio"
+		component="xg-checkbox"
+		component="xg-datetime"
+		component="xg-maskedinput"
+		component="xg-numberinput"
+		component="xg-passwordinput"
+		component="xg-listbox"
+		component="xg-button"
+		component="xg-tab"
+		component="xg-grid"
+	 -->
+</head>
+
+<body>
+<!-- S.header --> 
+<header>
+	<h1 class="toplogo"><img src="../images/common/logo.png" alt="한국자산신탁" /></h1>
+	<div class="top_menu">
+		<ul>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />인사급여</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />재무회계</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />신탁회계</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />사업관리</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />분양임대</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />복지기금</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />내부통제</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />경영정보</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />개인공통</a></li>
+			<li><a href="#"><img src="../images/common/icon_top00.gif" alt="" />시스템관리</a></li>
+		</ul>
+	</div>
+	<div class="top_util">
+		<ul>
+			<li><a href="#"><img src="../images/common/toputil_note.gif" alt="쪽지" />쪽지(2)</a></li>
+			<li><a href="#"><img src="../images/common/toputil_notice.gif" alt="공지사항으로 이동" />공지사항</a></li>
+			<li><a href="#"><img src="../images/common/toputil_logout.gif" alt="로그아웃" />로그아웃</a></li>
+		</ul>
+	</div>			
+</header>
+
+<!-- S.leftArea/contentArea--> 
+<div id="body">
+<aside>
+	<div class="userinfo">
+		<span class="icon"><img src="../images/common/userinfo.png" alt="" /></span>
+		<p class="user">분양관리팀 팀원홍길동</p>
+		<span class="toggle"><a href="#"><img src="../images/common/toggle_close.gif"  title="좌측메뉴 숨기기" /></a></span>
+	</div>
+	<div class="nav_tab">
+		<ul>
+			<li class="tab_my"><a href="#"><span class="my"><img src="../images/common/tabmenu_my.png" alt="마이메뉴보기" /></span></a></li>
+			<li class="tab_all"><a href="#"><span class="current_tab">전체메뉴</span></a></li>
+			<li class="tab_recent"><a href="#"><span class="">최근메뉴</span></a></li>
+		</ul>
+	</div>	
+
+	<!-- S.tabMenu_my -->
+	<div class="menu_my" style="display:none;">
+		<ul>
+			<li><span class="icon_my"><img src="../images/common/icon_my01.gif" alt="" /></span><span class="myname"><a href="#">(분양)분양현장등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my02.gif" alt="" /></span><span class="myname"><a href="#">(분양)분양구분등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my03.gif" alt="" /></span><span class="myname"><a href="#">(분양)기간별계약자명단</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my04.gif" alt="" /></span><span class="myname"><a href="#">(분양)일자별입금내역</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my05.gif" alt="" /></span><span class="myname"><a href="#">(사업)신탁가계약등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my06.gif" alt="" /></span><span class="myname"><a href="#">(사업)신탁계약등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my07.gif" alt="" /></span><span class="myname"><a href="#">(사업)관계자등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my08.gif" alt="" /></span><span class="myname"><a href="#">(사업)신탁보수및약정승인</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my09.gif" alt="" /></span><span class="myname"><a href="#">(사업)신탁보수매출기여장려금지급</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my01.gif" alt="" /></span><span class="myname"><a href="#">(신탁)입금전표등록</a></span></li>
+			<li><span class="icon_my"><img src="../images/common/icon_my01.gif" alt="" /></span><span class="myname"><a href="#">(신탁)입출금조회</a></span></li>
+		</ul>
+		<span class="my_setup" title="마이메뉴 설정"><button class="btn_mysetup"  >설정</button></span>
+	</div>
+
+	<!-- S.tabMenu_all -->
+	<div class="wrap_menu_all" style="display:block;">
+		<div class="menu_all">
+			<ul>
+				<li><a href="#" class="current_menu_all"><span>분양</span></a></li>
+				<li><a href="#"><span>신탁</span></a></li>
+				<li><a href="#"><span>공통</span></a></li>
+			</ul>
+			<fieldset class="menu_search">
+				<legend>메뉴검색</legend>
+				<span>
+					<input type="text" class="ipt_search"/>
+					<button title="메뉴검색"></button>
+				</span>
+			</fieldset>
+		</div>
+		<!-- S.tabMenu_all_Tree -->
+		<div class="all_tree">
+			<ol>
+				<li class="border"><a href="#"><span class="depth01">퍼블리싱</span></a>
+					<ul>		
+						<li class="border02"><a href="#"><span class="depth02">분양임대</span></a>
+							<ul>
+								<li><a href="/hd/publishing/hd_ppt04.html" init="true"><span class="depth03">분양현장등록(분양)</span></a></li>
+								<li><a href="/hd/publishing/hd_ppt05.html"><span class="depth03">메뉴명02</span></a></li>
+								<li><a href="/hd/publishing/hd_ppt06.html"><span class="depth03">메뉴명03</span></a></li>
+								<li><a href="/hd/publishing/hd_ppt07.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/hd/publishing/test.html"><span class="depth03">테스트</span></a></li>
+							</ul>
+						</li>
+					</ul>
+					<ul>		
+						<li class="border02"><a href="#"><span class="depth02">회계자금</span></a>
+							<ul>
+								<li><a href="/tm/publishing/tm_ppt04.html"><span class="depth03">선급비용</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt05.html"><span class="depth03">일반전표조회</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt06.html"><span class="depth03">일반전표등록 &#47;수정</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt07.html"><span class="depth03">품목분류기준등록</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt08.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt09.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt10.html"><span class="depth03">합계잔액시산표</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+								<li><a href="/tm/publishing/tm_ppt11.html"><span class="depth03">메뉴명04</span></a></li>
+							</ul>
+						</li>
+					</ul>					
+				</li>
+				<li class="border"><a href="#"><span class="depth01">코드관리</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">기본관리</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">계약관리</span></a></li>
+				<li class="border"><a href="#"><span class="depth01 open01">분양금관리</span></a>
+					<ul>		
+						<li class="border02"><a href="#"><span class="depth02">등록및조회</span></a></li>
+						<li><a href="#"><span class="depth02 open02">보고서</span></a>
+							<ul>
+								<li><a href="#"><span class="depth03 open03">분양및입금현황</span></a>
+									<ul>
+										<li><a href="#"><span class="depth04">기간별분양현황</span></a></li>
+										<li><a href="#"><span class="depth04">동(층)별분양및입금현황</span></a></li>
+										<li><a href="#"><span class="depth04">현장별분양및입금현황</span></a></li>
+										<li><a href="#"><span class="depth04">면적별분양및입금현황</span></a></li>
+										<li><a href="#"><span class="depth04">면적별입금및미수현황</span></a></li>
+									</ul>
+								</li>
+								<li><a href="#"><span class="depth03">세대별현황</span></a></li>
+								<li><a href="#"><span class="depth03">입금현황</span></a></li>
+								<li><a href="#"><span class="depth03">차수별납입현황</span></a></li>
+								<li><a href="#"><span class="depth03">안내장</span></a></li>
+							</ul>
+						</li>
+					</ul>
+				<li class="border"><a href="#"><span class="depth01">전표관리</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">계산서</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">현장관리</span></a></li>
+				<li class="border"><a href="#"><span class="depth01">임대관리</span></a></li>
+			</ol>
+		</div>
+	</div>
+		
+	<!-- S.tabmenu_recent -->
+	<div class="menu_recent" style="display:none;">
+		<ul>
+			<li><a href="#"><span class="menuname">기간별분양현황</span></a><a href=""><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></a></li>
+			<li><a href="#"><span class="menuname">개인별임대료대장</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">신탁가계약등록</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">세대별일자별입금내역</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">계약변경취소</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">분양금집계관리</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">정산내역서</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">고객종합조회</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">개인별임대료대장</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">재계약세대리스트</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">해약요청자제한물건내역</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">열쇠인수증등록</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">부동산거래신고관리</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">임대보증금입출금일보</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">임대보증금입금 예정조회</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">분양수입금CashFlow</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">일자별입금내역</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">가상계좌등록</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">가상계좌부여</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+			<li><a href="#"><span class="menuname">세대별약정및차수별입금미납현황</span></a><img src="../images/common/btn_menudel.gif" alt="메뉴삭제" title="메뉴삭제" /></li>
+		</ul>
+	</div>
+</aside>	
+
+<!-- S.contentArea -->
+<article>
+	<div class="mdi">
+		<div class="mditab">
+			<ul>
+				<li><a href="#"><span class="arrow">◀</span></a></li>
+				<li><a href="#"><span class="mymenu"><img src="../images/common/btn_mymenu.png" title="마이메뉴등록" /></span></a><a href="#"><span class="current_mditab">기간별분양현황</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span class="mymenu"><img src="../images/common/btn_mymenu.png" title="마이메뉴등록" /></span></a><a href="#"><span>신탁가계약등록</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>	
+				<li><a href="#"><span class="mymenu"><img src="../images/common/btn_mymenu.png" title="마이메뉴등록" /></span></a><a href="#"><span>계약변경취소</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>			
+				<li><a href="#"><span class="mymenu"><img src="../images/common/btn_mymenu.png" title="마이메뉴등록" /></span></a><a href="#"><span>정산내역서</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span class="mymenu"><img src="../images/common/btn_mymenu.png" title="마이메뉴등록" /></span></a><a href="#"><span>분양금집계관리</span></a><a><span class="tabclose" title="메뉴닫기">x</span></a></li>
+				<li><a href="#"><span class="arrow">▶</span></a></li>	
+			</ul>
+		</div>
+		<!-- S.contentArea > viewControl-->
+		<div class="mdi_division">
+			<ul>
+				<li><a href="#"><span><img src="../images/common/mdi_icon01.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon02.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon03.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon04.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon05.gif" alt="" /></span></a></li>
+				<li><a href="#"><span><img src="../images/common/mdi_icon06.gif" alt="" /></span></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<!-- S.content -->
+	<div id="kait_content" class="icontent"></div>
+	<!-- E.content -->
+	
+<!-- S.Footer -->
+<footer>
+	<span class="footer01">접수내역 11건이 조회되었습니다.</span>
+	<span class="footer02">긴급공지사항. 오늘 21시부터 시스템 점검 작업이 진행됨으로 약 1시간가량 접속이 제한됩니다.</span>
+	<span class="footer03">내글에 댓글이 1건 등록되었습니다.</span>
+</footer>
+
+</article>
+</div>
+</body>
+</html>
