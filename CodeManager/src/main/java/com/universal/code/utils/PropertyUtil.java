@@ -175,6 +175,7 @@ public class PropertyUtil {
     	Class<?> readType = null;
     	Object readValue = null;
     	try {
+
     		PropertyDescriptor[] readProperties  = PropertyUtils.getPropertyDescriptors(readBean);
     		PropertyDescriptor[] writeProperties = PropertyUtils.getPropertyDescriptors(writeBean);
     		
@@ -216,7 +217,7 @@ public class PropertyUtil {
 			throw new ApplicationException(e);
 		} catch (NoSuchMethodException e) {
 			throw new ApplicationException(e);
-		}
+		} 
 
     	return result;
     }

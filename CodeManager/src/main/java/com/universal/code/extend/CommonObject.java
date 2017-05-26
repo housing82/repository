@@ -43,16 +43,16 @@ public abstract class CommonObject {
 					out.append(field.getName());
 					out.append(": ");
 					if(value == null) {
-						logger.debug("＃Value of null {}: {}", field.getName(), value);
+						//logger.debug("＃Value of null {}: {}", field.getName(), value);
 						out.append(value)
 							.append(SystemUtil.LINE_SEPARATOR);
 					}
 					else if(List.class.isAssignableFrom(value.getClass())) {
-						logger.debug("＃From List {}: {}", field.getName(), value.getClass());
+						//logger.debug("＃From List {}: {}", field.getName(), value.getClass());
 						out.append("{").append(SystemUtil.LINE_SEPARATOR);
 						List items = (List) value;
 						for(Object item : items) {
-							logger.debug(" item: {}", item);
+							//logger.debug(" item: {}", item);
 							out.append("		")
 								.append(item)
 								.append(SystemUtil.LINE_SEPARATOR);
@@ -61,7 +61,7 @@ public abstract class CommonObject {
 							.append(SystemUtil.LINE_SEPARATOR);
 					}
 					else if(Collection.class.isAssignableFrom(value.getClass())) {
-						logger.debug("＃From Collection {}: {}", field.getName(), value.getClass());
+						//logger.debug("＃From Collection {}: {}", field.getName(), value.getClass());
 						out.append("{").append(SystemUtil.LINE_SEPARATOR);
 						Iterator<?> items = ((Collection) value).getColumnIterator();
 						while(items.hasNext()) {
@@ -73,7 +73,7 @@ public abstract class CommonObject {
 							.append(SystemUtil.LINE_SEPARATOR);
 					}
 					else if(Set.class.isAssignableFrom(value.getClass())) {
-						logger.debug("＃From Set {}: {}", field.getName(), value.getClass());
+						//logger.debug("＃From Set {}: {}", field.getName(), value.getClass());
 						out.append("{").append(SystemUtil.LINE_SEPARATOR);
 						Iterator<?> items = ((Set) value).iterator();
 						while(items.hasNext()) {
@@ -85,7 +85,7 @@ public abstract class CommonObject {
 							.append(SystemUtil.LINE_SEPARATOR);
 					}
 					else if(Map.class.isAssignableFrom(value.getClass())) {
-						logger.debug("＃From Map {}: {}", field.getName(), value.getClass());
+						//logger.debug("＃From Map {}: {}", field.getName(), value.getClass());
 						out.append("{").append(SystemUtil.LINE_SEPARATOR);
 						Map<?, ?> items = (Map) value;
 						for(Entry item : items.entrySet()) {
@@ -98,7 +98,7 @@ public abstract class CommonObject {
 						out.append("	}").append(SystemUtil.LINE_SEPARATOR);
 					}
 					else {
-						logger.debug("＃General {}: {}", field.getName(), value.getClass());
+						//logger.debug("＃General {}: {}", field.getName(), value.getClass());
 						out.append(value)
 							.append(SystemUtil.LINE_SEPARATOR);
 					}

@@ -33,5 +33,7 @@ import bxm.dft.context.DefaultApplicationContext;
 public class #{rvClassName} {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
+#{rvVariables}
+	
 #{rvBody}
 }	

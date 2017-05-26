@@ -1,18 +1,18 @@
 package com.universal.code.dto;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.universal.code.extend.CommonObject;
 import com.universal.code.extend.IDataTransferObject;
 
-public class ProgramDesginDTO extends CommonObject implements IDataTransferObject {
+public class ProgramDesignDTO extends CommonObject implements IDataTransferObject {
 
 	private String logc;
 	private String asisTrxCd;
 	private String grnt;
 	private String progType;
-	private String userYn;
+	private String dataKind;
 	private String basePack;
 	private String scNm;
 	private String trxSeq;
@@ -27,11 +27,11 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 	private String bcMetdLogc;
 	private String dbioNm;
 	private String dbioMetdNm;
-	private List<String> strList;
-	private Collection strCollection;
-	private TableDTO tableDTO;
+	private long excelRow;
+	private Map<String, Map<String, Object>> calleeMap;
+	private Map<String, ProgramDesignDTO> methodDesignMap;
 	
-	public ProgramDesginDTO() {
+	public ProgramDesignDTO() {
 		this.reset();
 	}
 	
@@ -40,7 +40,7 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 		asisTrxCd = "";
 		grnt = "";
 		progType = "";
-		userYn = "";
+		dataKind = "";
 		basePack = "";
 		scNm = "";
 		trxSeq = "";
@@ -55,9 +55,9 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 		bcMetdLogc = "";
 		dbioNm = "";
 		dbioMetdNm = "";
-		strList = null;
-		strCollection= null;
-		tableDTO = null;
+		excelRow = -1;
+		calleeMap = null;
+		methodDesignMap = null;
 	}
 
 	public String getLogc() {
@@ -92,12 +92,12 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 		this.progType = progType;
 	}
 
-	public String getUserYn() {
-		return userYn;
+	public String getDataKind() {
+		return dataKind;
 	}
 
-	public void setUserYn(String userYn) {
-		this.userYn = userYn;
+	public void setDataKind(String dataKind) {
+		this.dataKind = dataKind;
 	}
 
 	public String getBasePack() {
@@ -212,30 +212,63 @@ public class ProgramDesginDTO extends CommonObject implements IDataTransferObjec
 		this.dbioMetdNm = dbioMetdNm;
 	}
 
-	public List<String> getStrList() {
-		return strList;
+	public Map<String, Map<String, Object>> getCalleeMap() {
+		return calleeMap;
 	}
 
-	public void setStrList(List<String> strList) {
-		this.strList = strList;
-	}
-
-	public Collection getStrCollection() {
-		return strCollection;
-	}
-
-	public void setStrCollection(Collection strCollection) {
-		this.strCollection = strCollection;
-	}
-
-	public TableDTO getTableDTO() {
-		return tableDTO;
-	}
-
-	public void setTableDTO(TableDTO tableDTO) {
-		this.tableDTO = tableDTO;
+	public Map<String, Object> getCalleeMap(String key) {
+		if(calleeMap == null) {
+			calleeMap = new LinkedHashMap<String, Map<String, Object>>();
+		}
+		return calleeMap.get(key);
 	}
 	
+	public void setCalleeMap(Map<String, Map<String, Object>> calleeMap) {
+		this.calleeMap = calleeMap;
+	}
+
+	public void addCalleeMap(String key, Map<String, Object> value) {
+		if(calleeMap == null) {
+			calleeMap = new LinkedHashMap<String, Map<String, Object>>();
+		}
+		calleeMap.put(key, value);
+	}
+
 	
+	
+	
+	public Map<String, ProgramDesignDTO> getMethodDesignMap() {
+		return methodDesignMap;
+	}
+
+	public ProgramDesignDTO getMethodDesignMap(String key) {
+		if(methodDesignMap == null) {
+			methodDesignMap = new LinkedHashMap<String, ProgramDesignDTO>();
+		}
+		return methodDesignMap.get(key);
+	}
+	
+	public void setMethodDesignMap(Map<String, ProgramDesignDTO> methodDesignMap) {
+		this.methodDesignMap = methodDesignMap;
+	}
+	
+	public void addMethodDesignMap(String key, ProgramDesignDTO value) {
+		if(methodDesignMap == null) {
+			methodDesignMap = new LinkedHashMap<String, ProgramDesignDTO>();
+		}
+		this.methodDesignMap.put(key, value);
+	}
+
+	public String getBcMetdMergeStr() {
+		return new StringBuilder().append(getBcNm()).append(getBcMetdPref()).append(getBcMetdBody()).toString();
+	}
+
+	public long getExcelRow() {
+		return excelRow;
+	}
+
+	public void setExcelRow(long excelRow) {
+		this.excelRow = excelRow;
+	}
 	
 }

@@ -1,5 +1,6 @@
 package com.universal.code.bxm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +27,47 @@ public class GenerateHelper {
 	
 	private static Map<String, Map<String, List<ExcelDTO>>> excelDataMap;
 	
+	final static List<String> EXTRACT_SHEET_NAMES;
+	
+	final static String CPNT_DESIGN_SHEET_NAME;
+	
+	final static String DBIO_DESIGN_SHEET_NAME;
+	
+	final static Map<String, String> JAVA_PREFIX;
+	
+	final static Map<String, String> METHOD_VERB;
+	
 	static {
+		JAVA_PREFIX = new HashMap<String, String>();
+		
+		JAVA_PREFIX.put("S", "sc");
+		JAVA_PREFIX.put("B", "bc");
+		JAVA_PREFIX.put("D", "dao");
+		
+		METHOD_VERB = new HashMap<String, String>();
+		METHOD_VERB.put("get", "조회");
+		METHOD_VERB.put("search", "다건조회");
+		METHOD_VERB.put("save", "저장");
+		METHOD_VERB.put("modify", "수정");
+		METHOD_VERB.put("remove", "삭제");
+		
+		
 		INSTANCE = new GenerateHelper();
 		javaDataMap = new HashMap<String, Integer>();
 		javaMethodDataMap = new HashMap<String, Map<String, Integer>>();
 		excelDataMap = new HashMap<String, Map<String, List<ExcelDTO>>>();
+		
+		DBIO_DESIGN_SHEET_NAME = "2) DB테이블 DBIO";
+		CPNT_DESIGN_SHEET_NAME = "3) SC,BC 메소드설계";
+		
+		
+		EXTRACT_SHEET_NAMES = new ArrayList<String>();
+		EXTRACT_SHEET_NAMES.add(DBIO_DESIGN_SHEET_NAME);
+		EXTRACT_SHEET_NAMES.add(CPNT_DESIGN_SHEET_NAME);
+	}
+	
+	static String getMethodVerb(String key) {
+		return (METHOD_VERB.get(key) != null ? METHOD_VERB.get(key) : "");
 	}
 	
 	public GenerateHelper() {
