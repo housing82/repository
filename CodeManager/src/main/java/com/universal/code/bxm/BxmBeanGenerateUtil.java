@@ -3,6 +3,7 @@ package com.universal.code.bxm;
 import japa.parser.ast.body.Parameter;
 import japa.parser.ast.type.Type;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -397,21 +398,97 @@ public class BxmBeanGenerateUtil {
 										logger.debug("method descMap: {}", descMap);
 
 										List<Parameter> parameters = (List<Parameter>) descMap.get("parameters");
-										Type returnType = (Type) descMap.get("returnType");
+										Type calleeReturnType = (Type) descMap.get("returnType");
+
+										StringBuilder celleeInputVar = new StringBuilder();
+										StringBuilder methodInputExpr = new StringBuilder();
+										Map<String, Integer> methodVarMap = new HashMap<String, Integer>();
 										
 										for(Parameter parameter : parameters) {
 											dsImportsSet.add(parameter.getType().toString()); // -> dsImportsSet.add
 											logger.debug("parameter -> {}: {}", parameter.getType().toString(), parameter.getId().toString());
+											
+											String calleeInTypeSimpleName = parameter.getType().toString().substring(parameter.getType().toString().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+											celleeInputVar.append("		");
+											celleeInputVar.append(calleeInTypeSimpleName);
+											celleeInputVar.append(" ");
+											
+											//중복 체크
+											String lowerInTypeSimpleName = stringUtil.getFirstCharLowerCase(calleeInTypeSimpleName);
+											Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
+											if(varCnt != null) {
+												// 증가
+												lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0")); 
+											}
+											else {
+												// 01
+												lowerInTypeSimpleName = lowerInTypeSimpleName.concat("01");
+											}
+											//method inner variable name  
+											celleeInputVar.append(lowerInTypeSimpleName);
+											celleeInputVar.append(" = ");
+											
+											//omm일 경우
+											celleeInputVar.append("new ");
+											celleeInputVar.append(calleeInTypeSimpleName);
+											celleeInputVar.append("();");
+											
+											celleeInputVar.append(SystemUtil.LINE_SEPARATOR);
+											
+											//OMM 분석
+											String ifOmmPath = new StringBuilder().append(getSourceRoot()).append("/").append(parameter.getType().toString().replace(IOperateCode.STR_DOT, "/")).append(".omm").toString();
+											logger.debug("ifOmmPath: {}", ifOmmPath);
+											if(new File(ifOmmPath).exists()) {
+												// OMM 파일이 존재하면 분석 실행
+
+												
+												
+											}
+											else if(parameter.getType().toString().contains(".")){
+												//omm 파일이 존재하지 않고 패키지가 존재할 경우
+												
+												
+												
+											}
+											else {
+												//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
+												
+												
+												
+											}
+											
+											//메소드의 입력 표현식
+											if(StringUtil.isNotEmpty(methodInputExpr.toString())) {
+												methodInputExpr.append(", ");
+											}
+											methodInputExpr.append(stringUtil.getFirstCharLowerCase(calleeInTypeSimpleName));
 										}
-										logger.debug("returnType -> {}", returnType.toString());
 										
+										
+										logger.debug("methodInputExpr: {}", methodInputExpr.toString());
+										logger.debug("calleeReturnType: {}", calleeReturnType.toString());
+										
+										
+										String celleeOutType = calleeReturnType.toString();
+										if(celleeOutType.contains(".")) {
+											celleeOutType = celleeOutType.substring(celleeOutType.lastIndexOf(".") + ".".length());
+										}
+										String celleeOutVarName = stringUtil.getFirstCharLowerCase(celleeOutType);
+
 										
 										findMethod = true;
 										dsBizCode
 											.append("		")
+											.append(celleeOutType)
+											.append(" ")
+											.append(celleeOutVarName)
+											.append(" = ")
 											.append(calleeVarName)
 											.append(IOperateCode.STR_DOT)
 											.append(calleeMethodName)
+											.append("(")
+											.append(methodInputExpr.toString())
+											.append(");")
 											.append(SystemUtil.LINE_SEPARATOR);
 									}
 								}

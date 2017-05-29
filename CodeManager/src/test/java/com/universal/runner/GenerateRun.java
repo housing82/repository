@@ -73,10 +73,10 @@ public class GenerateRun {
 		EXCEL_PATH = "N:/03.프로잭트/11.뱅크웨어/01.한국자산신탁/06.프로그램설계";
 		
 		// 클라우드 접속이 안되었을경우 로컬에 있는 파일을 봄
-		if(!new File(EXCEL_PATH).exists()) {
+		//if(!new File(EXCEL_PATH).exists()) {
 			String currenPath = GenerateRun.class.getClassLoader().getResource(".").getPath();
 			EXCEL_PATH = new StringBuilder().append(URLCoder.getInstance().getURLDecode(currenPath, "UTF-8")).append("../../document").toString();
-		}
+		//}
 		logger.debug("EXCEL_PATH: {}", EXCEL_PATH);
 		
 		READ_EXCEL_NAME = "한국자산신탁_분양임대_프로그램설계_ver.1.1.xlsx";
