@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XgUIProgress</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../lib/swidgets/styles/swidgets.base.css">
+    <style type="text/css">
+        .components {
+            padding-left: 100px;
+            width: 750px;
+        }
+
+        .row {
+            margin: 10px 0 0 10px;
+        }
+    </style>
+
+    <!-- dependencies lib module -->
+    <script src="../../lib/json3/lib/json3.min.js"></script>
+    <script src="../../lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- swidgets module -->
+    <script src="../../lib/swidgets/swidgets.js"></script>
+    
+    <!-- xg-platform module -->
+    <script src="../../xg-all.js"></script>
+
+</head>
+<body>
+<div class="components">
+    <h1>XgUIProgress</h1>
+    <!-- module 방식 -->
+    <div style="float: left">
+        <div class="row">
+            <h3>moule 방식 1</h3>
+            <div class="xg-progress-module-1"></div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+            <h3>moule 방식 2</h3>
+            <div class="xg-progress-module-2"></div>
+            <div id="log-module-2">Event : </div>
+        </div>
+    </div>
+    <div style="float: right">
+        <!-- jquery plugin 방식 -->
+        <div class="row">
+            <h3>jquery plugin 방식</h3>
+            <div class="xg-progress-plugin-1"></div>
+            <div id="log-plugin-1">Event : </div>
+        </div>
+        <!-- data-api 방식 -->
+        <div class="row">
+            <h3>data-api 방식</h3>
+            <div data-xg-progress class="xg-progress-data-api-1" data-xg-option='{
+                "width": 40,
+                "height": 350,
+                "max": 100,
+                "value": 50,
+                "layout": "reverse",
+                "orientation": "vertical"
+            }'></div>
+            <div id="log-data-api-1">Event : </div>
+        </div>
+    </div>
+    <br />
+    <div style="float: bottom">
+        <input style="margin-top: 30px;"type="button" class="xg-set-value" value="Set new value" />
+    </div>
+</div>
+<script type="text/javascript" src="main.js"></script>
+</body>
+</html>

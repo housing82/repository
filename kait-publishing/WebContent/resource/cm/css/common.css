@@ -1,0 +1,52 @@
+@charset "UTF-8";
+/*******************************
+ * 파일명 :	common.css
+ *   설명 :	reset,common
+ * 작성자 :	elliott
+ * 수정일 :	2017.05.26
+******************************/
+
+@font-face {
+font-family:NanumGothic;
+font-weight:400; font-style:normal;
+src: url(../../cm/font/NanumGothic.eot);
+src: url(../../cm/font/NanumGothic.eot?#iefix)format('embedded-opentype'),
+       url(../../cm/font/NanumGothic.woff) format('woff'),
+       url(../../cm/font/NanumGothic.ttf) format('truetype'),
+	   url(../../cm/font/NanumGothic.svg#NanumGothic)format('svg');
+}
+
+@font-face {
+font-family: NanumGothicBold;
+font-weight:700; font-style:normal;
+src: url(../../cm/font/NanumGothicBold.eot);
+src: url(../../cm/font/NanumGothicBold.eot?#iefix)format('embedded-opentype'),
+       url(../../cm/font/NanumGothicBold.woff) format('woff'),
+       url(../../cm/font/NanumGothicBold.ttf) format('truetype'),
+	   url(../../cm/font/NanumGothicBold.svg#NanumGothicBold)format('svg');
+}
+
+/* RESET */
+html, body {width:100%; height:100%;}
+body {font:normal .75em/1.2 NanumGothic,nanumgothic,Tahoma,AppleGothic,sans-serif;}
+
+html, body, div, span, iframe, 
+table, caption, thead, tfoot, tbody, tr, th, td,
+p, blockquote, pre, a, address, code, form, fieldset, legend, label,
+input,select,textarea,
+dl, dt, dd, ul, ol, li {margin:0; padding:0; border:0; color:#2f2f2f; font-family:NanumGothic,nanumgothic,Tahoma,AppleGothic,sans-serif;}
+h1, h2, h3, h4, h5, h6 {margin:0; padding:0; font-size:100%;}
+ul, ol, li {list-style:none;}
+label{font-weight:bold;}
+legend{visibility:hidden; overflow:hidden; font-size:0; line-height:0;}
+hr,caption {display:none; height:0; font-size:0;}
+em,address {font-style:normal;}
+img{border:0; vertical-align:top;}
+
+button{font-family:NanumGothic,nanumgothic,Tahoma,AppleGothic,sans-serif;}
+a {text-decoration:none; cursor:pointer;} 
+/* A 
+a:visited {color:#; text-decoration:none;}  
+a:link {color:#;}                             
+a:active, a:hover {color:#;}
+*/

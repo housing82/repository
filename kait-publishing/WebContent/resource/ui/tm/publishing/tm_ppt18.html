@@ -1,0 +1,255 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">거래처등록</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		 <!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">저장</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->		
+	</div>
+	
+	 <!-- S.searchTable -->		
+	<div class="board_search mb15">
+		<table class="board_search_line01">
+			<caption>검색조건</caption>
+			<colgroup>
+				<col style="width:90px" />
+				<col style="width:270px" />
+				<col style="width:80px" />
+				<col style="width:100px" />
+				<col style="width:80px" />
+				<col style="width:100px" />
+				<col style="width:70px" />
+				<col style="width:" />
+			</colgroup>
+			<tr>
+				<th>거래처코드&#47;명</th>
+				<td>
+					<select id="" class="w60px">
+						<option value="">포함</option>
+					</select
+					><input type="text" id="" class="w96px">
+					<span><input type="checkbox" id="" class="chk">미사용포함</span>					
+				</td>
+				<th>거래처종류</th>
+				<td>
+					<select id="" class="w96px">
+						<option value="">일반사업자</option>
+					</select>
+				</td>
+				<th>거래처구분1</th>
+				<td>
+					<select id="" class="w96px">
+						<option value="">all</option>
+					</select>
+				</td>
+				<th>확정여부</th>
+				<td>
+					<span><input type="radio" id="" class="rao" />all</span>
+					<span><input type="radio" id="" class="rao" />확정</span>
+					<span><input type="radio" id="" class="rao" />미확정</span>
+					<span><input type="radio" id="" class="rao" />확정요청</span>
+				</td>
+			</tr>	
+		</table>
+	</div>	
+
+	<div class="w35fl">
+		<!--S. XenaGrid --> <!-- 그리드 h323px-- -->
+		<div component="xg-grid" class="w100" height="323"></div>	
+		<!--E. XenaGrid -->
+	</div>
+	
+	<div class="w65pl">
+		<!-- S.tabMenu -->
+		<div class="tabmenuzone  mb15">
+			<div class="tabmenu">
+				<ul>
+					<li><a href="#"><span class="current_tabmenu">기준정보</span></a></li>
+					<li><a href="#"><span>상세정보</span></a></li>
+					<li><a href="#"><span>추가정보</span></a></li>
+					<li><a href="#"><span>로고등록</span></a></li>
+				</ul>
+			</div>
+		</div> 
+		<!-- E.tabMenu -->
+		
+		<!-- S.table -->
+		<div class="board_view">
+		<table>
+			<caption></caption>
+			<colgroup>
+				<col style="width:100px" />
+				<col style="width:261px" />
+				<col style="width:90px" />
+				<col style="width:88px" />
+				<col style="width:60px" />
+				<col style="width:" />
+			</colgroup>
+			<tr>
+				<th>거래처코드</th>
+				<td class="td_pd">
+					<input type="text" id="" class="w84px"/><input type="text" id="" class="w84px"/
+					><select id="" class="w84px">
+						<option value=""></option>
+					</select>
+				</td>
+				<th>거래처명</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>거래처명(영문)</th>
+				<td>
+					<input type="text" id="" class="w100"/>					
+				</td>
+				<th>거래처명(약)</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>거래처명(영문)</th>
+				<td>
+					<input type="text" id="" class="w100"/>
+				</td>
+				<th>거래처명(B)</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>거래처명 구분</th>
+				<td>
+					<select id="" class="w100">
+						<option value=""></option>
+					</select>
+				</td>
+				<th>사업자번호</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>거래처명 유형1</th>
+				<td>
+					<select id="" class="w100">
+						<option value=""></option>
+					</select>
+				</td>
+				<th>법인번호</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>거래처명 유형2</th>
+				<td>
+					<select id="" class="w100">
+						<option value=""></option>
+					</select>
+				</td>
+				<th>금융기관 코드</th>
+				<td>
+					<input type="text" id="" class="w100"/>
+				</td>
+				<th>S.T 약어</th>
+				<td>
+					<input type="text" id="" class="w48px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>통합거래처</th>
+				<td class="td_pd">
+					<input type="text" id="" class="w84px"/
+					><input type="text" id="" class="w144px"/
+					><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+				</td>
+				<th>상위거래처</th>
+				<td colspan="3">
+					<input type="text" id="" class="w84px"/
+					><input type="text" id="" class="w84px"/
+					><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+				</td>
+			</tr>
+			<tr>
+				<th>통합거래처2</th>
+				<td class="td_pd">
+					<input type="text" id="" class="w84px"/
+					><input type="text" id="" class="w144px"/><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+				</td>
+				<th>재고관리여부</th>
+				<td>
+					<input type="checkbox" id="" class=""/>
+				</td>
+				<th>매장여부</th>
+				<td>
+					<input type="checkbox" id="" class=""/>
+				</td>
+			</tr>
+			<tr>
+				<th>업태(한글)</th>
+				<td>
+					<input type="text" id="" class="w100"/>
+				</td>
+				<th>업태(영문)</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>종목(한글)</th>
+				<td>
+					<input type="text" id="" class="w100"/>
+				</td>
+				<th>종목(영문)</th>
+				<td colspan="3">
+					<input type="text" id="" class="w146px"/>
+				</td>
+			</tr>
+			<tr>
+				<th>요청부서&#47;자</th>
+				<td colspan="5">
+					<input type="text" id="" class="w170px"/><input type="text" id="" class="w84px"/>
+				</td>
+			</tr>			
+		</table>		
+	</div>
+	<!-- E.table -->		
+	</div>
+	
+	<!-- S.tabMenu -->
+	<div class="tabmenuzone mt15_mb15">
+		<div class="tabmenu">
+			<ul>
+				<li><a href="#"><span class="current_tabmenu">등록</span></a></li>
+				<li><a href="#"><span>조회</span></a></li>
+			</ul>
+		</div>
+	</div> 
+	<!-- E.tabMenu -->
+	
+	<div style="display:block;">
+		<!--S. XenaGrid --> 
+		<div component="xg-grid" class="w100"></div>	
+		<!--E. XenaGrid -->
+	</div>
+	
+</div>
+<!-- 화면 스크립트 -->
+<script src="../cm/kait/js/xena.js"></script>		

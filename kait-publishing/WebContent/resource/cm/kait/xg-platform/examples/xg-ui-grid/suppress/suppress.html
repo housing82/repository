@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>XgUIGrid</title>
+    <link rel="stylesheet" type="text/css" media="all" href="../../../lib/swidgets/styles/swidgets.base.css">
+    <style type="text/css">
+        .components {
+            padding-left: 100px;
+        }
+
+        .row {
+            margin: 10px 0 0 10px;
+        }
+
+        .cell-invalidate {
+            background-color: #EFC6C6;
+        }
+
+        .xg-suppress-first {
+            border-bottom-width: 0;
+        }
+
+        .xg-suppress-cell {
+            border-bottom-width: 0;
+        }
+
+        .xg-suppress-cell > div {
+            visibility: hidden;
+        }
+
+        .xg-suppress-last {
+        }
+
+        .xg-suppress-last > div {
+            visibility: hidden;
+        }
+    </style>
+
+    <!-- dependencies lib module -->
+    <script src="../../../lib/json3/lib/json3.min.js"></script>
+    <script src="../../../lib/jquery/dist/jquery.min.js"></script>
+
+    <!-- swidgets module -->
+    <!--<script src="../../lib/swidgets/swidgets.js"></script>-->
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxcore.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxgrid.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxdata.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxscrollbar.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxbuttons.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxmenu.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxgrid.sort.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxgrid.edit.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxgrid.selection.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxdropdownlist.js"></script>
+    <script src="/xg-platform/reference/jqwidgets_3.8.2/jqwdigets/jqxlistbox.js"></script>
+
+
+    <!-- xg-platform module -->
+    <!--<script src="../../../xg-all.js"></script>-->
+    <script src="../../../xg-common.js"></script>
+    <script src="../../../xg-ui-common.js"></script>
+    <script src="../../../xg-ui-grid.js"></script>
+
+</head>
+<body>
+<div class="components">
+    <div class="xg-grid-plugin"></div>
+</div>
+<script type="text/javascript" src="suppress.js"></script>
+</body>
+</html>

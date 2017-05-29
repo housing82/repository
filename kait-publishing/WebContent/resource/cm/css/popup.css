@@ -1,0 +1,116 @@
+@charset "UTF-8";
+/*******************************
+ * 파일명 :	popup.css
+ *   설명 :	팝업
+ * 작성자 :	elliott
+ * 수정일 :	2017.05.26
+******************************/
+
+#popup_header{
+	wight:100%;
+	height:30px; 
+	padding:0 0 0 10px; 
+	box-sizing: boder-box !important; 
+	background-color:#083470;
+}
+#popup_header h1.ptitle{
+	float:left;
+	display:inline-block;
+	width:80%;
+	color:#FFF; 
+	font-size:14px; line-height:2; 
+	font-family: NanumGothicBold,나눔고딕Bold;
+}
+.popup_btn{float:right; width:20%; height:30px; padding:7px 10px 0 0; box-sizing:border-box !important; text-align:right;}
+.popup_btn_common{
+	float:left;	
+	width:100%; height:21px;
+	margin:15px 10px 0 10px;
+	text-align:left;display:table;	
+}
+.popup_btn_common ul li{float:left; width:24px; height:15px;}
+.popup_btn_common ul li{display:table-cell; text-align:center; vertical-align:middle; border:#d5d6da dotted; border-width:0 0 0 1px;}
+.popup_btn_common span.border_none{border:none;}
+.popup_content{
+	width:100%;
+	padding:0 10px;
+	box-sizing:border-box !important;
+}
+.popup_grid{
+	float:left;
+	width:100%;
+	overflow:hidden;
+	overflow-y:auto;
+}
+.popup_bottom{
+	float:left;
+	width:100%; height:40px; 
+	margin:8px 0 0 0;
+	text-align:center;
+}
+.popup_grid_add{
+	float:left;
+	width:100%; height:22px;
+	margin:8px 0;
+	text-align:center;
+}
+/* search */
+.popup_search{width:100%;}
+.popup_search table	{width:100%; border:#c2ccd6 solid 1px; }
+.popup_search th		{
+	padding: 0 2px; 
+	line-height:1.2em; text-align:right; 
+	font-family: NanumGothicBold,나눔고딕Bold; 
+	box-sizing:border-box !important;
+	background-color:#dce8f6; 
+}
+.popup_search td{
+	padding: 2px 0px; 
+	line-height:1.2em; 
+	box-sizing:border-box !important;
+	background-color:#DCE8F6;
+}
+.popup_search table td ul li{display:inline-block; margin:0 10px 0 0; }
+.popup_search table td span{display:inline-block; margin:0 10px 0 0;}
+.popup_search table td span.space{width:50px;}
+.popup_search input.chk{margin:0 2px; vertical-align:middle;}
+.popup_search input.rao{margin:0 2px; vertical-align:middle;}
+.popup_search_line01{height:40px;}
+.popup_search_line02{height:56px;}
+.popup_search_line03{height:76px;}
+
+/* view */
+.popup_view{width:100%;}
+.popup_view table	{width:100%;}
+.popup_view th		{
+	padding: 5px 0; 
+	line-height:1.2em; text-align:center; 
+	font-family: NanumGothicBold,나눔고딕Bold; 
+	border:#d2d2d2 solid 1px; 
+	box-sizing:border-box !important;
+	background-color:#edeef3; 
+}
+.popup_view td{
+	padding: 2px; 
+	line-height:1.2em; 
+	border:#d2d2d2 solid; border-width:1px; 
+	box-sizing:border-box !important;
+	background:none;
+}
+.popup_view td.td_pd{padding: 2px 0 2px 2px !important; }
+.popup_view .caption{
+	float:left; 
+	display:block;
+	width:auto; height:20px;
+	padding:5px 10px 0 0; margin:0;
+	text-indent:14px; line-height:1; 
+	font-size:1.1em; font-family: NanumGothicBold,나눔고딕Bold;
+	background:url(../../images/content/bullet_stitle.gif) no-repeat 6px 8px !important;	
+}
+
+.popup_view table td ul li{display:inline-block;}
+.popup_view table td span{display:inline-block; margin:0 10px 0 0; }
+.popup_view input.chk{margin:0 0 0 2px; vertical-align:middle;}
+.popup_view input.rao{margin:0 0 0 2px; vertical-align:middle;}
+.popup_view .caption{display:block !important; height:20px; font-size:1.2em;  font-family: NanumGothicBold,나눔고딕Bold; background-color:#ef3}
+.popup_view .textarea{margin:0 0 0px 0; border:#ddd solid 1px; box-sizing:border-box;}

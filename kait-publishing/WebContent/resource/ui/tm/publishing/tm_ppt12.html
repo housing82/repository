@@ -1,0 +1,335 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">부가세정보</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">저장</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div>
+	
+	<!-- S.table -->
+	<div class="w55fl">
+		<div class="board_view mb10">
+			<table>
+				<caption>부가세정보 기본정보</caption>
+				<colgroup>
+					<col style="width:25px;">
+					<col style="width:75px;">
+					<col style="width:115px;">
+					<col style="width:10.4%;">
+					<col style="width:115px;">
+					<col style="width:10.5%;">
+					<col style="width:;">
+					
+				</colgroup>
+				<tr>
+					<th colspan="2">승인번호</th>
+					<td>
+						<input type="text" id="" class="req w84px"/><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+					</td>
+					<th>신고기간</th>
+					<td>
+						<input type="text" id="" class="w84px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+					<th>작성일</th>
+					<td>
+						<input type="text" id="" class="req ta_c w84px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+				</tr>
+				<tr>
+					<th rowspan="4">거<br>래<br>처</th>
+					<th>사업자번호</th>
+					<td>
+						<input type="text" id="" class="w100"/>
+					</td>
+					<th>대표자</th>
+					<td>
+						<input type="text" id="" class="w100"/>
+					</td>
+					<th>주민번호</th>
+					<td>
+						<input type="text" id="" class="w110px"/>
+					</td>
+				</tr>
+				<tr>
+					<th>상호</th>
+					<td colspan="3" class="td_pd">
+						<input type="text" id="" readonly class="w84px"/><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="mr02" /></a><input type="text" id="" class="" style="width:171px;"/>
+					</td>
+					<th>업태</th>
+					<td>
+						<input type="text" id="" class="w110px"/>
+					</td>
+				</tr>
+				<tr>
+					<th>우편번호</th>
+					<td colspan="3" class="td_pd">
+						<input type="text" id="" readonly class="w84px"/><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="mr02" /></a><input type="text" id="" class="" style="width:171px;" />
+					</td>
+					<th>종목</th>
+					<td>
+						<input type="text" id="" class="w110px"/>
+					</td>
+				</tr>
+				<tr>
+					<th>주소</th>
+					<td colspan="5">
+						<input type="text" id="" style="width:347px;" />
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2">이메일</th>
+					<td colspan="5">
+						<input type="text" id="" style="width:320px;" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색"/></a>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="2">비고</th>
+					<td colspan="5">
+						<input type="text" id="" style="width:347px;" />
+					</td>
+				</tr>
+			</table>
+		</div>
+		
+		<!--S. XenaGrid -->   
+		<div component="xg-grid" class="w100" height="66"></div>
+		
+		<!-- 
+		<pre>
+		★그리드 들어오는 자리
+		그리드 세로 사이즈 조절이 안되는 관계로 넣지 않았습니다.
+		우측 테이블 세로길이를 고려해서 
+		그리드 세로사이즈는 Height:56px으로 지정해주시면 됩니다.(위 table bottom-margin:10px제외)		
+		그리드의 세로 길이를 늘여야 할 경우
+		우측 부가세 세부정보 테이블 셀을 수정해서 테이블 길이를 늘여야 할 듯 합니다.	
+		</pre>
+		 -->
+		<!--E. XenaGrid -->
+		
+	</div>
+	<!-- E.table -->
+		
+	<!-- S.table -->
+	<div class="w45pl">
+		<div class="board_view mb15">
+			<table>
+				<caption>부가세 세부정보</caption>
+				<colgroup>
+					<col style="width:90px;">
+					<col style="width:151px;">
+					<col style="width:80px;">
+					<col style="width:;">					
+				</colgroup>
+				<tr>
+					<th>발행일자</th>
+					<td>
+						<input type="text" id="" class="ta_c w120px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+					<th>전송일</th>
+					<td>
+						<input type="text" id="" class="ta_c w96px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+				</tr>
+				<tr>
+					<th>매입&#47;매출</th>
+					<td>
+						<select id="" class="req w100">
+							<option value="">제품/상품매출</option>
+						</select>
+					</td>
+					<th>매입&#47;매출</th>
+					<td>
+						<input type="radio" id="" class="req rao" />매출
+						<input type="radio" id="" class="rao" />매입
+					</td>
+				</tr>
+				<tr>
+					<th>증빙</th>
+					<td colspan="2">
+						<select id="" class="req w100">
+							<option value="">영세율기타</option>
+						</select>
+					</td>
+					<td>
+						<input type="radio" id="" class="rao" />전자
+						<input type="radio" id="" class="rao" />수기
+					</td>
+				</tr>
+				<tr>
+					<th>과세유형</th>
+					<td colspan="2">
+						<select id="" class="req w100">
+							<option value="">영세율수출(기타)</option>
+						</select>
+					</td>
+					<td>
+						<input type="radio" id="" class="rao" />영수
+						<input type="radio" id="" class="rao" />청구
+					</td>
+				</tr>
+				<tr>
+					<th>세부유형</th>
+					<td colspan="2">
+						<select id="" class="w100">
+							<option value=""></option>
+						</select>
+					</td>
+					<td>
+						<input type="radio" id="" class="rao" />정상
+						<input type="radio" id="" class="rao" />건수
+						<input type="radio" id="" class="rao" />제외
+					</td>
+				</tr>
+				<tr>
+					<th>원승인번호</th>
+					<td colspan="3">
+						<input type="checkbox" id="" class="chk" />수정
+						<input type="text" id="" style="width:185px;"/>
+					</td>
+				</tr>
+				<tr>
+					<th>수정사유</th>
+					<td colspan="3">
+						<select id="" style="width:226px;">
+							<option value="">수정사유</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>공급가액</th>
+					<td>
+						<input type="text" id="" class="ta_r w100" />
+					</td>
+					<th>부가세</th>
+					<td>
+						<input type="text" id="" class="ta_r w122px" />
+					</td>
+				</tr>
+				<tr>
+					<th>전표번호</th>
+					<td>
+						<select id="" class="w120px">
+							<option value="">20170522-00002</option>
+						</select
+						><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="" /></a>
+					</td>
+					<th>회계일자</th>
+					<td>
+						<input type="text" id="" class="ta_c w96px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" class="mr02"/></a>
+					</td>
+				</tr>
+				<tr>
+					<th>신용카드</th>
+					<td colspan="3">
+						<input type="text" id="" class="w120px" /><a href="#"><img src="../images/content/btn_search.gif" alt="" title="검색" class="mr02" /></a><input type="text" id="" class="ta_c" style="width:205px;"/>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>	
+	<!-- E.table -->
+	
+ <!-- S.searchTable -->
+	<div class="board_search mt15_mb15" >
+		<table class="board_search_line03">
+			<caption>부가세정보검색</caption>
+			<colgroup>
+				<col style="width:80px;"/>
+				<col style="width:120px;"/>
+				<col style="width:70px;"/>
+				<col style="width:250px;"/>
+				<col style="width:70px;"/>
+				<col style="width:210px;"/>
+				<col style="width:70px;"/>
+				<col style="width:;"/>
+			</colgroup>
+			<tr>
+				<th>사업장</th>
+				<td>
+					<select id="" class="w100">
+						<option value="">(주)웰크론</option>
+					</select>
+				</td>
+				<th>작성일자</th>
+				<td>
+					<input type="text" id="" class="w84px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>~<input type="text" id="" class="req w84px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>
+				</td>
+				<th>사용구분</th>
+				<td>
+					<span><input type="radio" id="" class="rao" />전체</span>
+					<span><input type="radio" id="" class="rao" />정상</span>
+					<span><input type="radio" id="" class="rao" />건수</span>
+					<span><input type="radio" id="" class="rao" />제외</span>
+				</td>
+				<th>전표승인</th>
+				<td>
+					<span><input type="radio" id="" class="rao" />전체</span>
+					<span><input type="radio" id="" class="rao" />승인</span>
+					<span><input type="radio" id="" class="rao" />미승인</span>
+					<span><input type="checkbox" id="" class="chk"/>전자</span>
+					<span><input type="checkbox" id="" class="chk"/>수기</span>
+				</td>
+			</tr>
+			<tr>
+				<th>매입&#47;매출</th>
+				<td>
+					<span><input type="radio" id="" class="rao" />매입</span>
+					<span><input type="radio" id="" class="rao" />매출</span>
+				</td>
+				<th>거래처</th>
+				<td>
+					<input type="text" id="" class="w84px" /><input type="text" id="" class="w84px" /><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a><input type="checkbox" id="" class="chk"/>특관자
+				</td>
+				<th>계산서번호</th>
+				<td>
+					<input type="text" id="" class="" />
+				</td>
+				<th>전표번호</th>
+				<td>
+					<input type="text" id="" class="" />
+				</td>
+			</tr>
+			<tr>
+				<th>증빙유형</th>
+				<td>
+					<select id="" class="w100">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<th>과세유형</th>
+				<td>
+					<select id="" class="w100">
+						<option value="">전체</option>
+					</select>
+				</td>
+				<th>비고</th>
+				<td colspan="3">
+					<input type="text" id="" class="" />
+				</td>
+			</tr>
+			
+		</table>
+	</div>
+	<!-- E.searchTable -->
+	
+	<!--S. XenaGrid -->
+	<div component="xg-grid" class="w100"></div>
+	<!--E. XenaGrid -->
+</div>
+	

@@ -1,0 +1,154 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">발령등록</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		 <!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">저장</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->		
+	</div>
+	
+	 <!-- S.searchTable -->		
+	<div class="board_search mb15">
+		<table class="board_search_line01">
+			<caption>검색조건</caption>
+			<colgroup>
+				<col style="width:90px" />
+				<col style="width:124px" />
+				<col style="width:90px" />
+				<col style="width:240px" />
+				<col style="width:90px" />
+				<col style="width:" />
+			</colgroup>
+			<tr>
+				<th>사업장</th>
+				<td>
+					<select id="" class="w120px">
+						<option value="">all</option>
+					</select>
+				</td>
+				<th>부서</th>
+				<td>
+					<input type="text" id="" readonly class="w84px"/><input type="text" id="" class="w96px"/><a href="#"><img src="../images/content/btn_search.gif" alt="" class="ml02" /></a>
+				</td>
+				<th>사번&#47;성명</th>
+				<td>
+					<input type="text" id="" readonly class="w84px"/><input type="text" id="" class="w96px"/><a href="#"><img src="../images/content/btn_search.gif" alt=""class="ml02" /></a>
+					<span><input type="checkbox" id="" class="chk" />퇴직자포함</span>
+				</td>
+			</tr>	
+		</table>
+	</div>	
+
+	<div class="w40fl">
+		<!--S. XenaGrid --> 
+		<div component="xg-grid" class="w100" height="617"></div>	
+		<!--E. XenaGrid -->
+	</div>
+	
+	<div class="w60pl">
+		<!-- S.table -->
+		<div class="board_view mb10">
+			<table>
+				<caption>발령등록 기본정보</caption>
+				<colgroup>
+					<col style="width:90px" />
+					<col style="width:175px" />
+					<col style="width:90px" />
+					<col style="width:" />
+				</colgroup>
+				<tr>
+					<th>사번&#47;성명</th>
+					<td class="td_pd">
+						<input type="text" id="" class="w84px" /><input type="text" id="" class="w84px" />
+					</td>
+					<th>근무상태</th>
+					<td>
+						<select name="" id="" class="w84px" >
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>발령일자</th>
+					<td>
+						<input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+					<th>발령명</th>
+					<td>
+						<select name="" id="" class="w84px" >
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>차기승진일자</th>
+					<td>
+						<input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+					<th>발령기간</th>
+					<td>
+						<input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a> ~ <input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+				</tr>
+				<tr>
+					<th>직위</th>
+					<td>
+						<select name="" id="" class="w84px" >
+							<option value=""></option>
+						</select>
+					</td>
+					<th>부서</th>
+					<td>
+						<input type="text" id="" class="w84px" /><input type="text" id="" class="w122px" /><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+					</td>
+				</tr>
+				<tr>
+					<th>직급</th>
+					<td>
+						<select name="" id="" class="w84px" >
+							<option value=""></option>
+						</select>
+					</td>
+					<th>직무</th>
+					<td>
+						<input type="text" id="" class="w84px" /><input type="text" id="" class="w122px" /><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+					</td>
+				</tr>
+				<tr>
+					<th>직책</th>
+					<td colspan="3">
+						<select name="" id="" class="w84px" >
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>발령사유</th>
+					<td colspan="3">
+						<textarea class="textarea"> 입력</textarea>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- E.table -->
+		
+		<!--S. XenaGrid --> 
+		<div component="xg-grid" class="w100"></div>	
+		<!--E. XenaGrid -->
+	</div>	
+</div>

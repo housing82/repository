@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<title>계정코드 조회</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="../cm/css/common.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../cm/css/popup.css" media="all">
+	<link rel="stylesheet" type="text/css" href="../cm/css/form.css" media="all">
+</head>
+<body>
+	<div id="popup_header">
+		<h1 class="ptitle">계정코드 조회</h1>
+		<span class="popup_btn"><img src="../images/content/btn_close.gif"  title="팝업닫기"/></span>
+	</div>
+	<!-- S.commonBtn -->
+	<div class="popup_btn_common">
+		<ul>
+			<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+			<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+			<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+			<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+		</ul>
+	</div>
+	<!-- E.commonBtn -->
+	
+	 <div class="popup_content">	 	
+		 <div class="popup_search  mb15">
+			<table class="popup_search_line01">
+				<caption>코드명조회</caption>
+				<colgroup>
+					<col style="width:90px"/>
+					<col style="width:"/>
+				</colgroup>
+				<tr>
+					<th>코드&#47;명</th>
+					<td>
+						<select id="" class="w120px">
+							<option value="">포함</option>
+						</select
+						><input type="text" id=""/><button component="xg-button" id="" class="btn_withform ">조회</button>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- viewTable -->
+		
+		<div class="popup_grid" style="height:300px; overflow:hidden; overflow-y:auto;">
+			<!--S. XenaGrid --> 
+			<div component="xg-grid" class="w100"  height="300"></div>
+			<!--E. XenaGrid -->	
+		</div> 
+	 </div>
+	 
+	 <div class="popup_bottom">
+		 <button component="xg-button" id="" class="btn_gray">확인</button>
+		 <button component="xg-button" id="" class="btn_gray">닫기</button>
+	 </div>
+ </body>
+</html>
+	<!-- 팝업창 사이즈 : 가로= 1000px 세로=그리드 사이즈 +169px -->

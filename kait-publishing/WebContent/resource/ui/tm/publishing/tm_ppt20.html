@@ -1,0 +1,103 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">근태신청현황</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		 <!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">저장</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->		
+	</div>
+	
+	 <!-- S.searchTable -->		
+	<div class="board_search mb15">
+		<table class="board_search_line02"}>
+			<caption>검색조건</caption>
+			<colgroup>
+				<col style="width:90px" />
+				<col style="width:124px" />
+				<col style="width:90px" />
+				<col style="width:210px" />
+				<col style="width:90px" />
+				<col style="width:220px" />
+				<col style="width:90px" />
+				<col style="width:" />
+			</colgroup>
+			<tr>
+				<th>사업장</th>
+				<td>
+					<select id="" class="w120px">
+						<option value="">(주)월크론</option>
+					</select>
+				</td>
+				<th>부서</th>
+				<td>
+					<input type="text" id="" readonly class="w84px" value="A050134" /><input type="text" id="" class="w84px" /><a href="#"><img src="../images/content/btn_search.gif" alt=""title="검색" /></a>
+				</td>
+				<th>신청일자</th>
+				<td>
+					<input type="text" id="" class="ta_c w84px"/>~<input type="text" id="" class="ta_c w84px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+				</td>
+				<th>근태구분</th>
+				<td>
+					<select id="" class="w100px">
+						<option value="">all</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<th>상태</th>
+				<td>
+					<select id="" class="w120px">
+						<option value="">all</option>
+					</select>
+				</td>
+				<th>사번&#47;성명</th>
+				<td>
+					<input type="text" id="" readonly class="w84px" value="" /><input type="text" id="" class="w84px" /><a href="#"><img src="../images/content/btn_search.gif" alt=""title="검색" /></a>
+				</td>
+				<th>근태일자</th>
+				<td>
+					<input type="text" id="" class="ta_c w84px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+				</td>
+				<th>근태상태구분</th>
+				<td>
+					<select id="" class="w100px readonly">
+						<option value="">all</option>
+					</select>
+				</td>
+			</tr>	
+		</table>
+	</div>
+	
+
+	<!-- S.tabMenu -->
+	<div class="tabmenuzone  mb15">
+		<div class="tabmenu">
+			<ul>
+				<li><a href="#"><span class="current_tabmenu">현황</span></a></li>
+				<li><a href="#"><span>달력</span></a></li>
+			</ul>
+		</div>
+	</div> 
+	<!-- E.tabMenu -->
+	
+	<div style="display:block;">
+		<!--S. XenaGrid --> 
+		<div component="xg-grid" class="w100"></div>	
+		<!--E. XenaGrid -->
+	</div>
+</div>

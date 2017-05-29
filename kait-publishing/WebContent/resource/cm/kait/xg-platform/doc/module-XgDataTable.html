@@ -1,0 +1,6045 @@
+<!DOCTYPE html>
+
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<title>Xg Platform Module: XgDataTable</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.united.css">
+
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="navbar navbar-fixed-top ">
+		<div class="navbar-inner">
+			<a class="brand" href="index.html">Xg Platform</a>
+			<ul class="nav">
+				
+				<li class="dropdown">
+					<a href="modules.list.html" class="dropdown-toggle" data-toggle="dropdown">Modules<b
+						class="caret"></b></a>
+					<ul class="dropdown-menu  ">
+						
+						<li>
+							<a href="module-XgCommon.html">XgCommon</a>
+						</li>
+						
+						<li>
+							<a href="module-XgDataAdapter.html">XgDataAdapter</a>
+						</li>
+						
+						<li>
+							<a href="module-XgDataSet.html">XgDataSet</a>
+						</li>
+						
+						<li>
+							<a href="module-XgDataTable.html">XgDataTable</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIButton.html">XgUIButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUICalendar.html">XgUICalendar</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIChart.html">XgUIChart</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUICheckBox.html">XgUICheckBox</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIComboBox.html">XgUIComboBox</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUICommon.html">XgUICommon</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIDateTimeInput.html">XgUIDateTimeInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIEditor.html">XgUIEditor</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIExcelButton.html">XgUIExcelButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIGrid.html">XgUIGrid</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIInput.html">XgUIInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIListBox.html">XgUIListBox</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIMaskedInput.html">XgUIMaskedInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUINumberInput.html">XgUINumberInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIPasswordInput.html">XgUIPasswordInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIProgress.html">XgUIProgress</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIRadioButton.html">XgUIRadioButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUISlider.html">XgUISlider</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUITab.html">XgUITab</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUITree.html">XgUITree</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIUploadFileButton.html">XgUIUploadFileButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIWindow.html">XgUIWindow</a>
+						</li>
+						
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="classes.list.html" class="dropdown-toggle" data-toggle="dropdown">Classes<b
+						class="caret"></b></a>
+					<ul class="dropdown-menu xg-class ">
+						
+						<li>
+							<a href="module-XgDataAdapter_XgDataAdapter.html">XgDataAdapter#XgDataAdapter</a>
+						</li>
+						
+						<li>
+							<a href="module-XgDataSet_XgDataSet.html">XgDataSet#XgDataSet</a>
+						</li>
+						
+						<li>
+							<a href="module-XgDataTable_XgDataTable.html">XgDataTable#XgDataTable</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIButton_XgUIButton.html">XgUIButton#XgUIButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUICalendar_XgUICalendar.html">XgUICalendar#XgUICalendar</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIChart_XgUIChart.html">XgUIChart#XgUIChart</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUICheckBox_XgUICheckBox.html">XgUICheckBox#XgUICheckBox</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIComboBox_XgUIComboBox.html">XgUIComboBox#XgUIComboBox</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIDateTimeInput_XgUIDateTimeInput.html">XgUIDateTimeInput#XgUIDateTimeInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIEditor_XgUIEditor.html">XgUIEditor#XgUIEditor</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIExcelButton_XgUIExcelButton.html">XgUIExcelButton#XgUIExcelButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIGrid_XgUIGrid.html">XgUIGrid#XgUIGrid</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIInput_XgUIInput.html">XgUIInput#XgUIInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIListBox_XgUIListBox.html">XgUIListBox#XgUIListBox</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIMaskedInput_XgUIMaskedInput.html">XgUIMaskedInput#XgUIMaskedInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUINumberInput_XgUINumberInput.html">XgUINumberInput#XgUINumberInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIPasswordInput_XgUIPasswordInput.html">XgUIPasswordInput#XgUIPasswordInput</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIProgress_XgUIProgress.html">XgUIProgress#XgUIProgress</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIRadioButton_XgUIRadioButton.html">XgUIRadioButton#XgUIRadioButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUISlider_XgUISlider.html">XgUISlider#XgUISlider</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUITab_XgUITab.html">XgUITab#XgUITab</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUITree_XgUITree.html">XgUITree#XgUITree</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIUploadFileButton_XgUIUploadFileButton.html">XgUIUploadFileButton#XgUIUploadFileButton</a>
+						</li>
+						
+						<li>
+							<a href="module-XgUIWindow_XgUIWindow.html">XgUIWindow#XgUIWindow</a>
+						</li>
+						
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="tutorials.list.html" class="dropdown-toggle" data-toggle="dropdown">Tutorials<b
+						class="caret"></b></a>
+					<ul class="dropdown-menu  ">
+						
+						<li>
+							<a href="tutorial-1.시작하기.html">1.시작하기(5분)</a>
+						</li>
+						
+						<li>
+							<a href="tutorial-2.사용자관리예제.html">2.사용자관리예제(30분)</a>
+						</li>
+						
+						<li>
+							<a href="tutorial-3.대쉬보드예제.html">3.대쉬보드예제(30분)</a>
+						</li>
+						
+					</ul>
+				</li>
+				
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						Examples
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu examples">
+						<li>
+							<a href="../examples/get-started/index.html">시작하기</a>
+						</li>
+						<li>
+							<a href="../examples/user-management/index.html">사용자관리</a>
+						</li>
+						<li>
+							<a href="../examples/dashboard/index.html">대쉬보드</a>
+						</li>
+
+						<!-- <li>
+							<a href="../examples/first-row/index.html">First Row</a>
+						</li> -->
+
+						<li>
+							<a class="js-xg-example">XgUIButton</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUICalendar</a>
+						</li>
+						<!-- <li>
+							<a class="js-xg-example">XgUIChart</a>
+						</li> -->
+						<li>
+							<a class="js-xg-example">XgUICheckBox</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIComboBox</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIDateTimeInput</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIEditor</a>
+						</li>
+						<li>
+							<a href="../examples/dashboard/index.html">XgUIExcelButton</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIGrid</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIInput</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIListBox</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIMaskedInput</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUINumberInput</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIPasswordInput</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIProgress</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUIRadioButton</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUISlider</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUITab</a>
+						</li>
+						<li>
+							<a class="js-xg-example">XgUITree</a>
+						</li>
+					</ul>
+				</li>
+				<!-- <li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						FAQ
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="#">준비 중</a>
+						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="http://218.234.186.169:8080/XG/server-api/main.html" target="_blank">
+						SERVER API
+					</a>
+				</li> -->
+			</ul>
+		</div>
+	</div>
+
+	<div class="row-fluid">
+
+		
+		<div class="span8">
+			
+				<div id="main">
+					
+
+
+	
+<section>
+
+<header>
+    <h2>
+        XgDataTable
+    
+    </h2>
+    
+
+</header>
+
+<article>
+    <div class="container-overview">
+
+    
+
+    
+        
+        
+            <div class="description"><p>데이터 테이블의 인스턴스 생성 및 관리 메서드를 제공한다.</p></div>
+        
+
+        
+            <h3 id="xg-data-table-deps" class="subsection-title dependencies">Dependencies</h3>
+            <table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="./module-XgCommon.html">XgCommon</a></td>
+<td>Xg Platform의 공통 상수 및 메서드를 제공한다.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+        
+
+        
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="module-XgDataTable_XgDataTable.html">XgDataTable</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        <dl>
+            
+<dt>
+    
+
+    <h4 class="name" id="addColumn"><span class="type-signature"></span>addColumn<span class="signature">(name, type, size, constraint)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>새로운 컬럼을 추가한다. (for xena)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 이름</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 타입 (xena)</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 크기</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>constraint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 제약조건</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.DATATYPE</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.addColumn(&#x27;age&#x27;, XgCommon.constant.DATATYPE[&#x27;int16&#x27;], 10, XgCommon.constant.CONSTRAINT.NOTNULL);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="addColumnForGauce"><span class="type-signature"></span>addColumnForGauce<span class="signature">(name, typeOfGauce, size, constraint)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>컬럼을 추가한다. (for gauce, innoxync)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 이름</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>typeOfGauce</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 타입(gauce)</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>size</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 크기</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>constraint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 제약조건</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.DATATYPE_GAUCE</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.addColumnForGauce(&#x27;userId&#x27;, XgCommon.constant.DATATYPE_GAUCE[&#x27;string&#x27;], 20, XgCommon.constant.CONSTRAINT.KEY);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="addRow"><span class="type-signature"></span>addRow<span class="signature">(rowData, <span class="optional">firstRowYn</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>로우 데이터를 추가한다. 추가된 로우는 데이터 테이블의 마지막 로우에 들어간다.
+rowData가 생략 되었을 경우 빈 배열이 추가된다. 배열의 크기는 데이터 테이블 헤더의 총 컬럼 수와 일치하여야 한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>로우 데이터 배열 또는 로우 데이터 배열이 들어있는 배열( multiple )</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>firstRowYn</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>firstRow를 통한 추가인지 여부</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// 단일 로우 추가xgDataTable.addRow([25, &#x27;foo&#x27;]);// 다중 로우 추가xgDataTable.addRow([[15, &#x27;bar&#x27;], [41, &#x27;hoo&#x27;]]);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="clearData"><span class="type-signature"></span>clearData<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable의 데이터( 로우 )만 초기화 한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.clearData();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="clearRowStatus"><span class="type-signature"></span>clearRowStatus<span class="signature">(rowIdx)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>특정 로우의 상태(status) 값을 초기화 한다.(STATUS.NORMAL)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.STATUS</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.clearRowStatus(0);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="deleteRow"><span class="type-signature"></span>deleteRow<span class="signature">(rowIdx)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>dataTable에서 지정된 로우를 삭제한다. 실제 데이터를 삭제하지 않고
+로우의 상태값만 변경 한다. 단 기존의 로우상태가 삭제였을 경우 warn 콘솔 메시지
+출력 후 작업은 수행하지 않는다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.deleteRow(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="find"><span class="type-signature"></span>find<span class="signature">(colIdx, value, <span class="optional">startRowIdx</span>)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable 특정 컬럼( colIdx )에서 value와 일치하는 최초 로우의
+인덱스를 반환한다. 일치하는 row가 없을 경우 -1을 반환한다. value 인자로 배열이
+전달된 경우 해당 배열요소 중에 컬럼의 값이 포함되어 있다면 해당 로우의 인덱스
+값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">unknown</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>찾을 값</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>startRowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>시작 로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>rowIdx          value값이 같은 컬럼의 로우 인덱스</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var findAge = xgDataTable.find(0, 30, 0);var findUserId = xgDataTable.find(1, [&#x27;foo&#x27;, &#x27;bar&#x27;], 1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="findAll"><span class="type-signature"></span>findAll<span class="signature">(colIdx, value, <span class="optional">startRowIdx</span>)</span><span class="type-signature"> &rarr; {array}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable 특정 컬럼( colIdx )에서 value와 일치하는 데이터의 로우 인덱스 배열을 반환한다.
+일치하는 컬럼이 없을 경우 빈 배열을 반환한다. value 인자로 배열이 전달된 경우 해당 배열요소 중에 컬럼의
+값이 포함되어 있다면 해당 로우의 인덱스 값도 포함해서 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">unknown</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>찾을 값</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>startRowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>시작 로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>arr             찾은 값 들의 로우 인덱스 배열</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">array</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var findAgeArray = xgDataTable.find(0, 30, 0);var findUserIdArray = xgDataTable.find(1, [&#x27;foo&#x27;, &#x27;bar&#x27;], 1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnConstraint"><span class="type-signature"></span>getColumnConstraint<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 제약조건 값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.CONSTRAINT</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>constraint  컬럼의 제약조건 값</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnConstraint = xgDataTable.getColumnConstraint(0);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnCount"><span class="type-signature"></span>getColumnCount<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable 헤더의 총 컬럼 개수를 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>columnCount 헤더의 총 컬럼 개수</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnCount = xgDataTable.getColumnCount();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnIndex"><span class="type-signature"></span>getColumnIndex<span class="signature">(colName)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>컬럼명이 같은 첫번째 컬럼의 인덱스를 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 이름</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>result  컬럼의 인덱스</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnIndex = xgDataTable.getColumnIndex(&#x27;age&#x27;);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnName"><span class="type-signature"></span>getColumnName<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 이름을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>colName 컬럼의 이름</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnName = xgDataTable.getColumnName(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnSize"><span class="type-signature"></span>getColumnSize<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 크기 값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>size    컬럼의 크기 값</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnSize = xgDataTable.getColumnSize(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnType"><span class="type-signature"></span>getColumnType<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 데이터 타입 값을 반환한다. (xena)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.DATATYPE</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>type    컬럼의 데이터 타입 값 (xena)</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnType = xgDataTable.getColumnType(0);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnTypeForGauce"><span class="type-signature"></span>getColumnTypeForGauce<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 데이터 타입의 값을 반환한다. (gauce, innoxync)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.DATATYPE_GAUCE</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>type    컬럼의 데이터 타입 값 (gauce, innoxync)</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnType = xgDataTable.getColumnTypeForGauce(0);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnTypeStr"><span class="type-signature"></span>getColumnTypeStr<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 데이터 타입 문자열 값을 반환한다. (xena)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.DATATYPE</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>type    컬럼의 데이터 타입 문자열 값 (xena)</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnTypeStr = xgDataTable.getColumnTypeStr(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getColumnTypeStrForGauce"><span class="type-signature"></span>getColumnTypeStrForGauce<span class="signature">(colIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>colIdx 번째 컬럼의 데이터 타입 문자열 값을 반환한다. (gauce, innoxync)</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>colIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.DATATYPE_GAUCE</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>type    컬럼의 데이터 타입 문자열 값 (gauce, innoxync)</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var columnTypeStr = xgDataTable.getColumnTypeStrForGauce(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getId"><span class="type-signature"></span>getId<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>아이디 값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>id</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var xgDataTableId = xgDataTable.getId();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getRow"><span class="type-signature"></span>getRow<span class="signature">(rowIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>rowIdx번째의 로우 데이터 배열을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>rowData 로우 데이터 배열</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var rowData = xgDataTable.getRow(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getRowCount"><span class="type-signature"></span>getRowCount<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable 로우의 총 수를 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>rowCount    로우의 총 수</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var rowCount = xgDataTable.getRowCount();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getRowPos"><span class="type-signature"></span>getRowPos<span class="signature">()</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable의 현재 선택된 로우의 인덱스를 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>rowIdx  로우의 인덱스</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var rowPos = xgDataTable.getRowPos();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getRowStatus"><span class="type-signature"></span>getRowStatus<span class="signature">(rowIdx)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>로우의 상태(status)값을 반환한다.
+[1: Normal, 2: Insert, 3: Update, 4: Delete]</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.STATUS</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>rowSatus    로우의 상태 값</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var rowStatus = xgDataTable.getRowStatus(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getRowStatusCode"><span class="type-signature"></span>getRowStatusCode<span class="signature">(status)</span><span class="type-signature"> &rarr; {string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>로우의 상태( status ) 코드 값을 반환한다.
+[0 - UN, 1 - N, 2 - C, 3 - U, 4 - D, 5 - S]</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 상태 값</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.STATUS</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>rowSatusCode    로우의 상태 코드</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var rowStatus = xgDataTable.getRowStatus(1);var rowStatusCode = xgDataTable.getRowStatusCode(rowStatus);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getUrl"><span class="type-signature"></span>getUrl<span class="signature">(<span class="optional">target</span>)</span><span class="type-signature"> &rarr; {object|string}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>데이터 테이블의 설정된 url 정보를 반환한다. 첫번째 인자값이 생략될 경우 오브젝트를 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>target</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>타겟 속성.<strong>['select', 'update'] 중 택일</strong></p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>urlInfo</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+|
+
+<span class="param-type">string</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// 전체 정보를 받을 경우var urlInfo = xgDataTable.getUrl();// &#x27;select&#x27; url을 요청 할 경우var selectUrl = xgDataTable.getUrl(&#x27;select&#x27;);// &#x27;update&#x27; url을 요청 할 경우var updateUrl = xgDataTable.getUrl(&#x27;update&#x27;);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getValue"><span class="type-signature"></span>getValue<span class="signature">(rowIdx, column)</span><span class="type-signature"> &rarr; {unknown}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>컬럼에 저장된 데이터 값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>column</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 이름 또는 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>value   컬럼의 데이터</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">unknown</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var value = xgDataTable.getValue(0, 1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="getValueSize"><span class="type-signature"></span>getValueSize<span class="signature">(rowIdx, column)</span><span class="type-signature"> &rarr; {number}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>컬럼 데이터의 사이즈를 반환한다.
+길이 속성이 없는 타입일 경우, 문자열로 변환하여 그 길이 값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>column</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 이름 또는 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>size    컬럼 데이터의 사이즈</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">number</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var ageSize = xgDataTable.getValueSize(0, 0);var userIdSize = xgDataTable.getValueSize(0, &#x27;userId&#x27;);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="insertRow"><span class="type-signature"></span>insertRow<span class="signature">(rowIdx, <span class="optional">rowData</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>로우를 rowIdx위치에 삽입한다. rowData가 생략 되었을 경우 빈 배열이 삽입된다.
+배열의 크기는 데이터 테이블 헤더의 총 컬럼 수와 일치하여야 한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>rowData</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>로우 데이터 배열</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.insertRow(0, [40, &#x27;bar&#x27;]);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="resetDataTable"><span class="type-signature"></span>resetDataTable<span class="signature">()</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>데이터(로우)와 헤더(컬럼) 정보를 초기화 한다.
+바인딩 컴포넌트 정보는 초기화 하지 않는다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.resetDataTable();</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="setBooleanColumn"><span class="type-signature"></span>setBooleanColumn<span class="signature">(arr)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>Server측에서 boolean 형식의 데이터를 보내줄 수 없어
+boolean 형태로 표현되어야 하는 컬럼의 정보를 설정한다. 이후 서버에서
+데이터 수신 시 해당 정보를 기준으로 boolean 형태로 설정된다.
+데이터를 설정 시 trueValue와 같지 않은 값은 모두 false로 설정된다. 단
+현재 표시되는 정보일 뿐이지 데이터가 변경되지 않으면 지정한 falseValue
+로 저장되지 않는다.</p>
+<p><b>해당 메서드는 서버 데이터가 동기화 되기 전에 설정하여야 반영된다.</b></p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>arr</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>boolean 형식으로 표현 할 컬럼 정보 배열</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">var booleanColumn = [    {        column: &#x27;age&#x27;,        trueValue: 30,        falseValue: 40    }];xgDataTable.setBooleanColumn(booleanColumn);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="setRowPos"><span class="type-signature"></span>setRowPos<span class="signature">(rowIdx)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>xgDataTable의 현재 선택된 로우의 인덱스를 변경한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.setRowPos(1);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="setRowStatus"><span class="type-signature"></span>setRowStatus<span class="signature">(rowIdx, status)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>로우의 상태(status) 값을 설정한다.
+[1 : Normal, 2 : Insert, 3 : Update, 4 : Delete]</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>status</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 상태값 (1-Normal,2-Insert,3-Update,4-Delete)</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+	<dt class="tag-see">See:</dt>
+	<dd class="tag-see">
+		<ul>
+			<li><p><a href="module-XgCommon.html#.constant">XgCommon.constant.STATUS</a></p></li>
+			</ul>
+	</dd>
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.setRowStatus(1, XgCommon.constant.STATUS.UPDATE);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="setUrl"><span class="type-signature"></span>setUrl<span class="signature">(<span class="optional">info</span>, <span class="optional">url</span>)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>데이터 테이블과 연동할 서버의 url을 설정한다. 첫번째 인자가 문자열인 경우 해당 속성의 url만 설정한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>info</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+|
+
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>url 정보 오브젝트 또는 타겟 속성</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>url</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>서버 측 url</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">// 오브젝트로 설정하는 경우xgDataTable.setUrl( { select: &#x27;./selectUrl&#x27;, update: &#x27;./updateUrl&#x27; } );// 각각 설정하는 경우xgDataTable.setUrl( &#x27;select&#x27;, &#x27;./anotherSelctUrl&#x27; );xgDataTable.setUrl( &#x27;update&#x27;, &#x27;./anotherUpdateUrl&#x27; );</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="setValue"><span class="type-signature"></span>setValue<span class="signature">(rowIdx, column, value)</span><span class="type-signature"> &rarr; {object}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>컬럼의 데이터 값을 변경한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>rowIdx</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>로우의 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>column</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>컬럼의 이름 또는 인덱스</p></td>
+        </tr>
+
+	
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>해당 셀의 값</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+        <h5>Example</h5>
+        
+    <pre class="sunlight-highlight-javascript">xgDataTable.setValue(0, &#x27;age&#x27;, 30);xgDataTable.setValue(0, 1, &#x27;taz&#x27;);</pre>
+
+
+    
+</dd>
+
+        
+            
+<dt>
+    
+
+    <h4 class="name" id="useOverrideColumn"><span class="type-signature"></span>useOverrideColumn<span class="signature">(<span class="optional">bool</span>)</span><span class="type-signature"> &rarr; {object|boolean}</span></h4>
+    
+    
+</dt>
+<dd>
+    
+    <div class="description">
+        <p>true로 설정하면 클라이언트 측에서 정의한 컬럼정보를 기준으로 사용한다. false로 설정시 클라이언트에서
+컬럼정보를 설정하더라도 서버응답의 헤더정보를 기준으로 사용된다. 설정후에는 자기 자신을 반환한다.<br/><br/>
+인자를 생략할 경우 현재 설정된 overrideColumn 값을 반환한다.</p>
+    </div>
+    
+
+    
+    
+    
+    
+    
+        <h5>Parameters:</h5>
+        
+
+<table class="params table">
+    <thead>
+	<tr>
+		
+		<th>Name</th>
+		
+
+		<th>Type</th>
+
+		
+		<th>Argument</th>
+		
+
+		
+
+		<th class="last">Description</th>
+	</tr>
+	</thead>
+
+	<tbody>
+	
+
+        <tr>
+            
+                <td class="name"><code>bool</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>클라이언트 컬럼정보를 기준으로 사용할지 여부</p></td>
+        </tr>
+
+	
+	</tbody>
+</table>
+
+    
+    <!-- 추가분 -->
+        
+    
+    
+<dl class="details">
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+
+
+	
+
+	
+
+	
+
+	
+</dl>
+
+    
+    
+
+    
+
+    
+    
+    
+    
+    
+    <h5>Returns:</h5>
+    
+            
+<div class="param-desc">
+    <p>xgDataTable | overrideColumnYn</p>
+</div>
+
+
+
+<dl>
+	<dt>
+		Type
+	</dt>
+	<dd>
+		
+<span class="param-type">object</span>
+|
+
+<span class="param-type">boolean</span>
+
+
+	</dd>
+</dl>
+
+
+        
+    
+    
+</dd>
+
+        </dl>
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+				</div>
+
+				<div class="clearfix"></div>
+				<footer>
+					
+					
+		<span class="copyright">
+		Copyright 2015 Shift Information & Communication co.,ltd All rights reserved.
+		</span>
+					<br />
+					
+				</footer>
+			</div>
+
+			
+			<div class="span3">
+				<div id="toc"></div>
+			</div>
+			
+			<br clear="both">
+		</div>
+
+	</div>
+	<!--<script src="scripts/sunlight.js"></script>-->
+	<script src="scripts/docstrap.lib.js"></script>
+	<script src="scripts/bootstrap-dropdown.js"></script>
+	<script src="scripts/toc.js"></script>
+	<script src="../xg-common.js"></script>
+	<script src="../xg-ui-common.js"></script>
+
+	<script>
+		$( function () {
+			$( "[id*='$']" ).each( function () {
+				var $this = $( this );
+
+				$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+			} );
+
+			// edit : scrollspy 기능과 함께 동작하는 경우 이상동작을 수행하여 highlightOnScroll를 비활성화
+			$( "#toc" ).toc( {
+				anchorName  : function ( i, heading, prefix ) {
+					return $( heading ).attr( "id" ) || ( prefix + i );
+				},
+				selectors   : "h1,h2,h3,h4",
+				highlightOnScroll: false
+			} );
+
+			$( "#toc>ul" ).addClass( "nav nav-pills nav-stacked" );
+			$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+			$( '.dropdown-toggle' ).dropdown();
+//			$( ".tutorial-section pre, .readme-section pre" ).addClass( "sunlight-highlight-javascript" ).addClass( "linenums" );
+
+			$( ".tutorial-section pre, .readme-section pre" ).each( function () {
+				var $this = $( this );
+
+				var example = $this.find( "code" );
+				exampleText = example.html();
+				var lang = /{@lang (.*?)}/.exec( exampleText );
+				if ( lang && lang[1] ) {
+					exampleText = exampleText.replace( lang[0], "" );
+					example.html( exampleText );
+					lang = lang[1];
+				} else {
+					lang = "javascript";
+				}
+
+				if ( lang ) {
+
+					$this
+						.addClass( "sunlight-highlight-" + lang )
+						.addClass( "linenums" )
+						.html( example.html() );
+
+				}
+			} );
+
+			Sunlight.highlightAll( {
+				lineNumbers : true,
+				showMenu : true,
+				enableDoclinks : true
+			} );
+
+			// add : 드랍다운 리스트의 컨텐츠가 Classes 목록인 경우 #모듈명 패턴을 삭제
+			$( 'ul.xg-class > li > a' ).each( function () {
+				text = $( this ).text();
+				if ( text.indexOf( '#' ) > -1 ) {
+					starts = text.indexOf( '#' );
+					text = text.substring( 0, starts );
+					$( this ).text( text );
+				}
+			} );
+		} );
+	 </script>
+
+	<!--Navigation and Symbol Display-->
+	
+	<script>
+		$( function () {
+			$( '#main' ).localScroll( {
+				offset : { top : 60 } //offset by the height of your header (give or take a few px, see what works for you)
+			} );
+			$( "dt.name" ).each( function () {
+				var $this = $( this ).find("h4");
+				var icon = $( "<i/>" ).addClass( "icon-plus-sign" ).addClass( "pull-right" ).addClass( "icon-white" );
+				var dt = $(this);
+				var children = dt.next( "dd" );
+
+				dt.prepend( icon ).css( {cursor : "pointer"} );
+				dt.addClass( "member-collapsed" ).addClass( "member" );
+
+				children.hide();
+
+				dt.children().on( "click", function () {
+
+					children = dt.next( "dd" );
+					
+					children.slideToggle( "fast", function () {
+
+						if ( children.is( ":visible" ) ) {
+							icon.addClass( "icon-minus-sign" ).removeClass( "icon-plus-sign" ).removeClass( "icon-white" );
+							dt.addClass( "member-open" ).animate( "member-collapsed" );
+						} else {
+							icon.addClass( "icon-plus-sign" ).removeClass( "icon-minus-sign" ).addClass( "icon-white" );
+							dt.addClass( "member-collapsed" ).removeClass( "member-open" );
+						}
+					} );
+				} );
+
+			} );
+
+			// add : 부트스트랩의 모든 테이블 관련 클래스를 오버라이딩 하기 힘들어 동작으로 테이블 관련 클래스 추가
+			$( "h5 + table:not(.params), p + table:not(.params)" ).each( function () {
+				var $this = $( this );
+				$this.addClass( 'params' );
+				$this.addClass( 'table' );
+			} );
+
+			$( "h3.dependencies + table" ).each( function () {
+				var $this = $( this );
+				$this.addClass( 'params' );
+				$this.addClass( 'table' );
+				$this.addClass( 'dependencies' );
+			} );
+
+			$( "section.readme-section table" ).each( function ( idx ) {
+				$( this ).addClass( 'table' );
+				$( this ).removeClass( 'params' );
+				if ( idx === 1 ) {
+					$( this ).addClass( 'browser-support' );
+				}
+			} );
+
+			$( ".sunlight-menu" ).remove();
+
+			$( "ul.examples a" ).click( function ( e ) {
+
+				var a = $( this );
+				var before = a.text().replace( 'XgUI', 'xgUi' );
+				var url = '';
+
+				if ( a.hasClass( 'js-xg-example' ) ) {
+					url = '../examples/' + XgUICommon.camelToDash( before ).toLowerCase() + '/index.html';
+				} else {
+					url = a.attr( 'href' );
+				}
+				
+				window.open( url );
+				e.preventDefault();
+
+			} );
+			
+		} );
+	</script>
+	
+
+
+	<!--Google Analytics-->
+	
+
+</body>
+</html>

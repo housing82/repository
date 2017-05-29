@@ -1,0 +1,278 @@
+@charset "UTF-8";
+/*******************************
+ * 파일명 :	content.css
+ *   설명 :	article영역, footer제외 
+ * 작성자 :	elliott
+ * 수정일 :	2017.05.26
+ ******************************/
+.mdi{
+	float:left;	
+	width:100%; min-width:1040px;
+	height:29px;
+	margin:0 10px 0 0;
+	border:#adacba solid; border-width:0 0 3px 0;
+	text-align:left;
+}
+.icontent{ 
+	position:absolute;
+	width:100%;
+	min-width:1013px;
+	padding:0 0px 0 0;
+	top:32px;
+	bottom:45px;
+	overflow:hidden;
+	overflow-y:auto; 
+ }
+
+/* MDI_TabMenu */
+.mditab{
+	float:left; 
+	overflow:hidden;
+	width:82%; height:32px; 
+	border:#ddd solid; border-width:0 0 0 1px ;
+	z-index:10;
+}
+.mditab ul li{	
+	position:relative;
+	float:left;
+	width:auto; max-width:170px;
+	height:28px;
+	margin:0;
+	font-size:1.2em; font-family: NanumGothicBold,나눔고딕Bold;
+	text-align:center;
+	border:#ddd solid; border-width:1px 1px 0 0;
+	border-bottom:#adacba solid 3px; 
+}
+
+.mditab a span{
+	display:inline-block;
+	height:28px;
+	padding:0 25px 0 25px;
+	line-height:1.9;
+	color:#4f4f4f; 
+}
+.mditab a span.current_mditab,
+.mditab a:hover span{
+	height:28px; width:auto;
+	color: #df151b; font-family: NanumGothicBold,나눔고딕Bold;
+	border-bottom:#df151b solid 3px !important;
+	z-index:100; overflow:visible !important;;
+}
+.mditab a span.arrow{ width: 22px; text-align: center; padding: 0; color:#ccc; background:none !important;}
+.mditab a:active span.arrow, 
+.mditab a:visited span.arrow {color:#ccc;}
+.mditab a:hover span.arrow{color:#df151b; }
+
+.mditab a span.tabclose{
+	position:absolute;
+	right:-20px; top:-8px;
+	display:inline-block;
+	margin:0;
+	color:#777; 
+	font-size:1em; 
+	vertical-align:top;
+	font-weight:normal !important;
+	background:none !important;
+	border:none !important; 
+}
+.mditab a:hover span.tabclose{border:none !important;font-family: NanumGothicBold,나눔고딕Bold; background:none !important;}
+.mditab a:hover span.tabclose,
+.mditab a span.current_tabclose{color:#ca1c37 !important; border:none !important; }
+
+.mditab a span.mymenu{
+	position:absolute;
+	display:inline-block; 
+	left:-20px; top:8px;
+	width:14px; height:14px;
+	vertical-align:middle;
+	border:none !important;
+	overflow:hidden;
+	}
+.mditab a:hover span.mymenu{
+	position:absolute;
+	display:inline-block; 
+	left:-20px; top:8px;
+	margin-top:-40px;
+	}
+	
+/* 우측화면분할아이콘*/
+.mdi_division {
+	float:right; 
+	width:170px;
+	text-align:right;
+	}
+.mdi_division ul li{float:left;	width:28px;	height:24px; text-align:center;}
+.mdi_division span{ height:24px; display:inline-block; vertical-align: middle; text-align:center;}
+
+/* TitleZone */
+.titlezone{float:left; 	width:100%;	min-width:1013px; height:27px; margin:10px 0 0 0;}
+.stitlezone{float:left; width:100%;	min-width:1013px; height:25px; padding:0; box-sizing:border-box;}
+
+h2.title{
+	float:left; 
+	display:inline-block;
+	width:auto;
+	padding:0; margin:0;
+	text-indent:20px; font-size:1.2em; font-family: NanumGothicBold,나눔고딕Bold;
+	background:url(../../images/content/bullet_title.gif) no-repeat 0px 0px !important;
+}
+h3.stitle{
+	float:left; 
+	display:inline-block;
+	width:auto; height:22px; background-color:#d0d;
+	padding:5px 10px 0 0; margin:0;
+	text-indent:14px; line-height:1; 
+	font-size:1.1em; font-family: NanumGothicBold,나눔고딕Bold;
+	background:url(../../images/content/bullet_stitle.gif) no-repeat 6px 8px !important;	
+}
+
+.btn_common{
+	float:left;
+	display:inline-block;
+	width:auto;	
+}
+.btn_common ul{padding:0 0 0 10px !important;}
+.btn_common ul li{float:left; width:24px; height:14px;}
+.btn_common ul li{text-align:center; vertical-align:middle;	border:#d5d6da dotted; border-width:0 0 0 1px;}
+.btn_common span.border_none{border:none !important;}
+
+/*Button*/
+.btngroup{float:right;width:auto;}
+.btngroup ul li{float:left;}
+
+/* TabMenu */
+.tabmenuzone{	
+	float: left;
+	width: 100%; min-width: 1040px;	height: 29px;
+	background: #f2f3f7 url(../../images/common/bg_tabmenu02.gif) repeat-x 0px 0px !important;
+}
+.tabmenu{
+	float:left;
+	width:90%;height:29px;
+	overflow:hidden;
+}
+.tabmenu ul li{	
+	float:left;
+	width:auto; height:29px;
+	font-size:1.1em;text-align:center;
+}
+
+.tabmenu span {
+	display:inline-block;
+	height:28px;
+	padding:0 29px;
+	line-height:1.9;
+	color:#4f4f4f;
+	border:#d2d4d9 solid; border-width: 0 1px 0 0;
+}
+.tabmenu a span.current_tabmenu,
+.tabmenu a:hover span{
+	height:29px; 
+	color:#4AA5DD;
+	font-family: NanumGothicBold,나눔고딕Bold;
+	border:#3c404a solid 1px;
+	background-color:#fff;
+	border-bottom:#fff solid 1px; 
+}
+
+table{
+border:0; border-collapse:collapse; border-spacing:0; /*border-collapse:collapse;*/
+table-layout:fixed; empty-cells:show; 
+font-size:1em;
+}
+table caption{display:none;}
+
+/* 나중에삭제 */
+.board{width:100%;  margin:0; padding:0;}
+.board table	{width:100%;}
+.board th		{padding:5px 0 5px 10px; line-height:1.2em; text-align:center; font-family: NanumGothicBold,나눔고딕Bold; border:#d2d2d2 solid 1px;   border-top:#757984 solid 1px;  background-color:#edeef3; }
+.board td		{padding:5px 0 5px 4px; line-height:1.2em; border:#d2d2d2 solid; border-width:1px; background:none;}
+
+.board input.chk{margin:0 0 0 2px; vertical-align:middle;}
+.board .textarea{width:97%; margin:0; padding:5px; border:#ddd solid 1px;}
+.board input.file{width:90%;}
+.board input.txt{width:90px;}
+.board input.readonly{border:#e5e0d9 solid 1px; background:#f7f2eb;}
+.board img{cursor:pointer;}
+.board img.calender {margin:2px 0 0 3px; vertical-align:middle;}
+span.text{font-size:0.9em; line-height:1.8;}
+
+/* search */
+.board_search{width:100%;}
+.board_search table	{width:100%; border:#c2ccd6 solid 1px; }
+.board_search th{
+	padding: 0 2px; 
+	box-sizing:border-box !important;	
+	line-height:1.2em; text-align:right; 
+	font-family: NanumGothicBold,나눔고딕Bold; 
+	background-color:#dce8f6; 
+}
+.board_search td{
+	padding: 2px 0px; 
+	line-height:1.2em; 
+	box-sizing:border-box !important;
+	background-color:#DCE8F6;
+}
+.board_search table td ul li{display:inline-block; margin:0 10px 0 0;}
+.board_search table td span{display:inline-block; margin:0 10px 0 0;}
+.board_search table td span.space{width:50px;}
+.board_search input.chk{margin:0 2px; padding:0; vertical-align:middle;}
+.board_search input.rao{margin:0 2px; vertical-align:middle;}
+.board_search img{margin:0 2px 0 0 !important;}
+.board_search_line01{height:40px;}/*검색박스 한 줄*/
+.board_search_line02{height:56px;}/*검색박스 두 줄*/
+.board_search_line03{height:76px;}/*검색박스 세 줄*/
+
+/* board_View */
+.board_view{width:100%;}
+.board_view table	{width:100%;}
+.board_view th{
+	padding: 5px 0; 
+	line-height:1.2em; text-align:center; 
+	font-family: NanumGothicBold,나눔고딕Bold; 
+	border:#d2d2d2 solid 1px; 
+	box-sizing:border-box !important;
+	background-color:#edeef3; 
+}
+.board_view td{
+	padding: 2px; 
+	line-height:1.2em; 
+	border:#d2d2d2 solid; border-width:1px; 
+	box-sizing:border-box !important;
+	background:none;
+}
+.board_view td.td_pd{padding: 2px 0 2px 2px !important; }
+.board_view .caption{
+	display:inline-block;
+	width:90%; height:20px;
+	padding:5px 0 0 0; margin:0;
+	text-indent:14px; line-height:1; text-align:left;
+	font-size:1.1em; font-family: NanumGothicBold,나눔고딕Bold;
+	background:url(../../images/content/bullet_stitle.gif) no-repeat 6px 8px !important;	
+}
+.board_view table td ul li{display:inline-block;}
+.board_view table td span{display:inline-block; margin:0 10px 0 0; }
+.board_view input.chk{margin:0 0 0 2px; padding:0 !important; vertical-align:middle; background-color:#dfd;}
+.board_view input.rao{margin:0 0 0 2px; vertical-align:middle;}
+.board_view .caption{display:block !important; height:20px; font-size:1.2em;  font-family: NanumGothicBold,나눔고딕Bold; background-color:#ef3}
+.board_view .textarea{margin:0 0 0px 0; border:#ddd solid 1px; box-sizing:border-box;}
+
+
+/*
+.board_view input.file{width:90%;}
+.board_view input{input[type="text"]:focus{border:#3878D8 solid 1px !important; }}
+.board_view input{border:#e5e0d9 solid 1px; background:#f7f2eb;} */
+.board_view img{cursor:pointer;}
+
+/* 그리드 안에 타이틀이나 버튼이 올 경우 */
+.grid_top{height: 25px;  }
+.grid_top ul li{float:left;}
+/* 그리드나 테이블 위 사용자 도움말  */
+span.text_note{
+	font-size:0.9em; text-indent:10px;
+	color: #525252; /* #ed1c24 */ 
+	margin:8px 0 0 0; 
+	background:url(../../images/content/bullet_note02.gif) no-repeat 2px 3px;
+}
+.print{overflow:;}
+

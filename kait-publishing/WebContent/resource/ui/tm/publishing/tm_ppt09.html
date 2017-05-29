@@ -1,0 +1,105 @@
+			<div>
+				<div class="titlezone">
+					<h2 class="title">보고서 산식</h2> 
+					<div class="btn_common">
+						<ul>
+							<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+							<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+							<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+							<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+							<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+						</ul>
+					 </div>
+					<!-- S.content > btnGroup_Right -->
+					 <div class="btngroup">
+						<ul>
+							<li><button component="xg-button" type="button" class="btn_gray">조회</button></li>
+							<li><button component="xg-button" type="button" class="btn_gray">저장</button></li>
+						</ul>			 
+					 </div>
+				</div>
+				
+				<!-- S.tabMenu -->
+				<div class="tabmenuzone  mb15">
+					<div class="tabmenu">
+						<ul>
+							<li><a href="#"><span class="current_tabmenu">등록</span></a></li>
+							<li><a href="#"><span>조회</span></a></li>
+						</ul>
+					</div>
+				</div> 
+				<!-- E.tabMenu -->
+				
+				<div class="w100fl" >
+					<h3 class="stitle">기본내역</h3>
+					<div class="board_view mb15">
+						<table>
+							<caption >기본 내역</caption>
+							<colgroup>
+								<col style="width:90px;" />
+								<col style="width:120px;" />
+								<col style="width:90px" />
+								<col style="width:120px" />
+								<col style="width:90px" />
+								<col style="width:;" />						
+							</colgroup>
+							<tr>
+								<th>보고서코드</th>
+								<td>
+									<input type="text" id="" readonly class="w100"/>
+								</td>
+								<th>보고서구분</th>
+								<td>
+									<select id="" class="w100">
+										<option value=""></option>
+									</select>
+								</td>
+								<th>보고서명</th>
+								<td><input type="text" id="" class="w240px" /></td>
+							</tr>
+							<tr>
+								<th>보고서설명</th>
+								<td colspan="5">
+									<input type="text" id="" style="width:578px;"/><button component="xg-button" type="button" class="btn_table">보고서복사</button>
+								</td>
+							</tr>
+						</table>					
+					</div>
+					
+					<div class="w20fl">	
+						<!-- S.btnGroup-->
+						<div class="grid_top">
+							<ul>
+								<li><button component="xg-button" id="" class="btn_edit00">+</button></li>
+								<li><button component="xg-button" id="" class="btn_edit00">&#8722;</button></li>
+							</ul>			 
+						 </div>
+						 
+					 <!-- E.btnGroup -->					
+						<!--S. XenaGrid -->   
+						<div component="xg-grid" class="w100"></div>
+						<!--E. XenaGrid -->		
+					</div>
+					
+					<div class="w50pl">	
+						<div class="grid_top">
+							<button component="xg-button" id="" class="btn_grid fl_r">행추가</button>	
+						</div>				
+						<!--S. XenaGrid -->   
+						<div component="xg-grid" class="w100"></div>
+						<!--E. XenaGrid -->		
+					</div>
+					
+					<div class="w30pl">	
+						<div class="grid_top">
+							<h3 class="stitle">전표계정</h3>
+							 <div class="btngroup">
+								<button component="xg-button" id="" class="btn_grid">계정추가</button>
+							</div>
+						</div>					
+						<!--S. XenaGrid -->   
+						<div component="xg-grid" class="w100"></div>
+						<!--E. XenaGrid -->		
+					</div>
+				</div>
+			</div>

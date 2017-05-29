@@ -1,0 +1,63 @@
+/* mdi 화면구성 */
+#police-logo > img {
+	width: 250px;
+	height: 69px;
+	margin : 0 20px;
+	margin-top: -5px;
+}
+
+#topMenu {
+	height: 30px;
+	width: 100%;
+	margin-top: -10px;
+	display: block;
+	position:relative;
+}
+
+#topMenu ul {
+	list-style-type: none;
+	padding: 0px;
+	margint: 0px;
+}
+#topMenu ul li {
+	color: #2d2d2d;
+	float: left;
+	line-height: 30px;
+	font-weight: bold;
+	vertical-align: middle;
+	text-align: center;
+	position: relative;
+}
+
+.menuLink {
+	text-decoration:none;
+	display: block;
+	width: 150px;
+	color: #2d2d2d;
+	font-size: 18px;
+}
+.menuLink:hover {
+	color: red;
+	text-decoration: underline;
+	text-decoration-color: red;
+	text-decoration-position: below;
+}
+
+/* splitbar 버튼 색상 */
+.jqx-splitter-collapse-button-horizontal {
+	background-color: #0b7dcb;
+}
+.jqx-splitter-collapse-button-vertical{
+	background-color: #0b7dcb;
+}
+
+/* xgTree */
+.jqx-tree-dropdown-root {
+	margin-top: 20px;
+	margin-left: 5px;
+}
+
+.ui-dialog .ui-dialog-content {
+	overflow: hidden !important;
+	padding: 0 !important;
+}

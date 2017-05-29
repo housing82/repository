@@ -1,0 +1,63 @@
+.jqx-grid-pager .jqx-button {
+	padding: 0px;
+	margin-right: 3px;
+	width: 27px;
+	float: left;
+}
+
+.jqx-grid-pager .jqx-number-block {
+	float: left;
+}
+
+.jqx-grid-pager .jqx-first-button {
+	margin-left: 3px;
+}
+
+.jqx-grid-pager .jqx-icon-arrow-left {
+	margin-left: 6px;
+	width: 15px;
+	height: 15px;
+}
+
+.jqx-grid-pager .jqx-icon-arrow-right {
+	margin-left: 6px;
+	width: 15px;
+	height: 15px;;
+}
+
+.jqx-grid-pager .jqx-icon-arrow-first {
+	margin-left: 6px;
+	width: 15px;
+	height: 15px;
+}
+
+.jqx-grid-pager .jqx-icon-arrow-last {
+	margin-left: 6px;
+	width: 15px;
+	height: 15px;
+}
+
+.jqx-file-upload-loader {
+    padding-right: 0px;
+    background-image: url('../lib/swidgets/styles/images/loader-small.gif');
+    background-position: 50% 50%;
+    background-repeat: no-repeat;  
+    z-index: 9999;
+    display: block;
+}
+
+.xg-grid-status-unknown:before{
+	content: '?';
+}
+.xg-grid-status-normal:before{
+	content: '-';
+}
+.xg-grid-status-insert:before{
+	content: '◀';
+}
+.xg-grid-status-update:before{
+	content: '△';
+}
+.xg-grid-status-delete:before{
+	content: 'X';
+}

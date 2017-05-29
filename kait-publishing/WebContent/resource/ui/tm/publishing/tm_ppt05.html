@@ -1,0 +1,105 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">일반전표 조회</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray btn_txt02">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표발행</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">전표취소</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div>
+	
+	<div class="board_search mb15">
+		<table class="board_search_line03">
+			<caption></caption>
+			<colgroup>
+				<col style="width:90px"/>
+				<col style="width:" />
+				<col style="width:90px"/>
+				<col style="width:" />
+				<col style="width:90px"/>
+				<col style="width:" />			
+				<col style="width:96px"/>
+				<col style="width:240px"/>
+			</colgroup>
+			<tr>
+				<th>전표일자</th>
+				<td>
+					<input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>
+					 ~ <input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>			
+				</td>
+				<th>회계일자</th>
+				<td>
+					<input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>
+					 ~ <input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>
+				</td>
+				<th>작성일자</th>
+				<td>
+					<input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>
+					 ~ <input type="text" id="" class="ta_c w84px" /><a href="#"><img src="../images/content/btn_calendar.gif" alt="" /></a>
+				</td>
+				<td colspan="2" class="ta_l">
+					<button component="xg-button" id="" class="btn_table ml_10">일괄전표출력</button>
+					<span><input type="checkbox" id="" class="chk" />지급완료체크</span>
+				</td>
+			</tr>
+			<tr>
+				<th>전표종류</th>
+				<td>
+					<select id="" class="w110px">
+						<option value=""></option>
+					</select>
+				</td>
+				<th>전표번호</th>
+				<td>
+					<input type="text" id="" class="w110px" />
+				</td>
+				<th>적요</th>
+				<td>
+					<input type="text" id="" class="w110px" />
+				</td>
+				<th>전표금액</th>
+				<td>
+					<input type="text" id="" class="ta_r w84px" />~<input type="text" id="" class="ta_r w84px" />
+				</td>
+			</tr>
+			<tr>
+				<th>작성자</th>
+				<td>
+					<input type="text" id="" class="w84px" /><a href="#"><img src="../images/content/btn_search.gif" alt="" /></a><input type="text" id="" class="w110px" />
+				</td>
+				<th>작성부서</th>
+				<td>
+					<input type="text" id="" class="w84px" /><a href="#"><img src="../images/content/btn_search.gif" alt="" /></a><input type="text" id="" class="w110px" />
+				</td>
+				<th>확정자</th>
+				<td>
+					<input type="text" id="" class="w84px" /><a href="#"><img src="../images/content/btn_search.gif" alt="" /></a><input type="text" id="" class="w110px" />
+				</td>
+				<th>복사할전표일자</th>
+				<td>
+					<input type="text" id="" class="w84px" /><button component="xg-button" id="" class="btn_table">전표복사</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<!--S. XenaGrid --> 
+	<div component="xg-grid" class="w100"></div>
+	<!--E. XenaGrid -->
+
+</div>

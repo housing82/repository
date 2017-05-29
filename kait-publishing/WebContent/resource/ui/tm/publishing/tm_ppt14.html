@@ -1,0 +1,222 @@
+<div>
+	<div class="titlezone">
+		<h2 class="title">계정코드</h2> 
+		<!-- S.commonBtn -->
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		 <!-- E.commonBtn -->
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button component="xg-button" id="" class="btn_gray">조회</button></li>
+				<li><button component="xg-button" id="" class="btn_gray">저장</button></li>
+			</ul>			 
+		 </div>
+		 <!-- E.btnGroup_Right -->
+	</div>	
+
+	<!-- S.tabMenu -->
+	<div class="tabmenuzone  mb15">
+		<div class="tabmenu">
+			<ul>
+				<li><a href="#"><span class="current_tabmenu">등록</span></a></li>
+				<li><a href="#"><span>조회</span></a></li>
+			</ul>
+		</div>
+	</div> 
+	<!-- E.tabMenu -->
+	
+	<div class="w100fl" style="display:block;">
+	<!-- S.table -->
+		<div class="board_view mb15">
+			<h3 class="stitle">기본내역</h3>
+			<table>
+				<caption>기본내역</caption>
+				<colgroup>
+					<col style="width:120px;">
+					<col style="width:200px;">
+					<col style="width:90px;">
+					<col style="width:21%;">
+					<col style="width:90px;">
+					<col style="width:;">
+				</colgroup>
+				<tr>
+					<th>계정코드</th>
+					<td>
+						<input type="text" id="" class="w100"/>						
+					</td>
+					<th>계정구분</th>
+					<td>
+						<input type="text" id="" class="w100"/>	
+					</td>
+					<th>대표계정명</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>계정과목명(한글)</th>
+					<td>
+						<input type="text" id="" class="w100"/>						
+					</td>
+					<th>영문</th>
+					<td>
+						<input type="text" id="" class="w100"/>	
+					</td>
+					<th>계정유형</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>계정항목명(한글)</th>
+					<td>
+						<input type="text" id="" class="w100"/>						
+					</td>
+					<th>(영문)</th>
+					<td>
+						<input type="text" id="" class="w100"/>	
+					</td>
+					<th>기타구분</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>계정세목명(한글)</th>
+					<td>
+						<input type="text" id="" class="w100"/>						
+					</td>
+					<th>(영문)</th>
+					<td>
+						<input type="text" id="" class="w100"/>	
+					</td>
+					<th>원가구분</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>전표발행</th>
+					<td>
+						<span><input type="radio" id="" class="rao"/>발생</span><span><input type="radio" id="" class="rao"/>미발생</span>						
+					</td>
+					<th>차대구분</th>
+					<td>
+						<span><input type="radio" id="" class="rao"/>차변</span><span><input type="radio" id="" class="rao"/>대변</span>	
+					</td>
+					<th>비용구분</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>관리구분</th>
+					<td>
+						<span><input type="checkbox" id="" class="chk"/>잔액체크</span><span><input type="checkbox" id="" class="chk"/>상계체크</span>				
+					</td>
+					<th>거래처</th>
+					<td>
+						<span><input type="checkbox" id="" class="chk"/>거래처관리</span><span><input type="checkbox" id="" class="chk"/>거래처별구분관리</span>
+					</td>
+					<th>자산구분코드</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>계정설명</th>
+					<td colspan="3">
+						<input type="text" id="" class="w100"/>					
+					</td>
+					<th>거래처종류</th>
+					<td>
+						<select name="" id="" class="w200px">
+							<option value=""></option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<!-- E.table -->
+		
+		<!-- S.차변관리항목 -->
+		<div class="w25fl">
+			<div class="grid_top">
+				<h3 class="stitle">차변관리항목</h3>
+				<div class="btngroup">
+					<button component="xg-button" id="" class="btn_grid">▲</button>
+					<button component="xg-button" id="" class="btn_grid">▼</button>
+					<button component="xg-button" id="" class="btn_grid">&#8722;</button>
+				</div>
+			</div>
+			<!--S. XenaGrid --> 
+			<div component="xg-grid" class="w100"></div>	
+			<!--E. XenaGrid -->
+		</div>
+		<!-- E.차변관리항목 -->
+		
+		<!-- S.대변관리항목 -->
+		<div class="w25pl">
+			<div class="grid_top">
+				<h3 class="stitle">대변관리항목</h3>
+				<div class="btngroup">
+					<button component="xg-button" id="" class="btn_grid">▲</button>
+					<button component="xg-button" id="" class="btn_grid">▼</button>
+					<button component="xg-button" id="" class="btn_grid">&#8722;</button>
+				</div>
+			</div>
+			<!--S. XenaGrid --> 
+			<div component="xg-grid" class="w100"></div>	
+			<!--E. XenaGrid -->
+		</div>
+		<!-- E.대변관리항목 -->
+		
+		<!-- S.잔액관리 -->
+		<div class="w20pl">
+			<div class="grid_top">
+				<h3 class="stitle">잔액관리</h3>
+				<div class="btngroup">
+					<button component="xg-button" id="" class="btn_grid">▲</button>
+					<button component="xg-button" id="" class="btn_grid">▼</button>
+					<button component="xg-button" id="" class="btn_grid">&#8722;</button>
+				</div>
+			</div>
+			<!--S. XenaGrid --> 
+			<div component="xg-grid" class="w100"></div>	
+			<!--E. XenaGrid -->
+		</div>
+		<!-- E.잔액관리 -->
+		
+		<!-- S.관리항목 -->
+		<div class="w30pl">
+			<div class="grid_top">
+				<h3 class="stitle">관리항목</h3>
+			</div>
+			
+			<!--S. XenaGrid --> 
+			<div component="xg-grid" class="w100"></div>	
+			<!--E. XenaGrid -->
+		</div>
+		<!-- E.관리항목 -->		
+	</div>
+</div>
