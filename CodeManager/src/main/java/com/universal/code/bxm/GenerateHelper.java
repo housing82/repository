@@ -274,4 +274,12 @@ public class GenerateHelper {
 		return out.toString();
 	}
 
+	boolean createOmmFile(OmmDTO ommDTO) {
+		boolean out = false;
+		
+		
+		
+		return out;
+	}
+	
 }
