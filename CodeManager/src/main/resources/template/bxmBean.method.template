@@ -5,11 +5,17 @@
 		/** ### Output Variable ### */
 		#{rvOutputType} #{rvOutputVariable} = null;
 		
-		/** ### DBIO Initialize ### */
-		#{rvDbioInit}
+		/** ### Callee Initialize ### */
+		#{rvCalleeInit}
+
+		/** ### Callee Input Setting ### */
+		#{rvCelleeInputSetting}
 		
-		/** ### Bussiness Code ### */
+		/** ### Execute Callee ### */
 		#{rvBizCode}
+		
+		/** ### Caller Output Setting ### */
+		#{rvCellerOutputSetting}
 		
 		logger.debug("[END] #{rvMethodName}: {}", #{rvOutputVariable});
 		return #{rvOutputVariable};

@@ -204,36 +204,74 @@ public class GenerateHelper {
 			if(line.startsWith("OMM")) {
 				//first line
 				ommType = line.substring("OMM".length()).trim();
-				logger.debug("ommType: {}", ommType);
+				//logger.debug("ommType: {}", ommType);
 				out.setOmmType(ommType);
 			}
 			else if(line.startsWith("<description=\"")) {
 				ommDesc = line.substring("<description=\"".length(), line.length() - 2);
-				logger.debug("ommDesc: {}", ommDesc);
+				//logger.debug("ommDesc: {}", ommDesc);
 				out.setOmmDesc(ommDesc);
 			}
 			else if(line.equals("{") || line.equals("}")){
 				continue;
 			}
 			else {
-				//logger.debug("line field: {}", line);
+				//logger.debug("\n\nline field: {}", line);
 				ommFieldDTO = new OmmFieldDTO();
 			
 				String type = line.substring(0, line.indexOf(" ")).trim();
 				String name = line.substring(line.indexOf(" "), line.indexOf("<")).trim();
-				String info = line.substring(line.indexOf("<") + "<".length(), line.lastIndexOf(">")).trim();
+				String info = line.substring(line.indexOf("<") + "<".length(), line.lastIndexOf(">"));
 				String length = info.substring(info.indexOf("length=") + "length=".length(), info.indexOf(" ") + " ".length());
-								
+				String description = info.substring(info.indexOf("description=\"") + "description=\"".length());
+				description = description.substring(0, description.indexOf("\" ")).trim();
+				
 				ommFieldDTO.setType(type);
 				ommFieldDTO.setName(name);
 				ommFieldDTO.setLength(length);
-
-				logger.debug(ommFieldDTO.toString());
-				logger.debug("info: {}", info);
+				ommFieldDTO.setDescription(description);
+				
+				//logger.debug(ommFieldDTO.toString());
+				
+				out.addOmmFields(ommFieldDTO);
 			}
 		}
 		
 		return out;
 	}
 	
+	String getSetterString(String setOmmVarName, OmmFieldDTO setOmmFieldDTO, String getOmmVarName, OmmFieldDTO getOmmFieldDTO, String closeCode) {
+		StringBuilder out = new StringBuilder();
+		
+		out.append(setOmmVarName);
+		out.append(".");
+		out.append("set");
+		out.append(stringUtil.getFirstCharUpperCase(setOmmFieldDTO.getName()));
+		out.append("(");
+		out.append(getGetterString(getOmmVarName, getOmmFieldDTO, ""));
+		out.append(")");
+		out.append(closeCode);
+		
+		
+		return out.toString();
+	}
+	
+	String getGetterString(String ommVarName, OmmFieldDTO ommFieldDTO, String closeCode) {
+		StringBuilder out = new StringBuilder();
+		
+		if(StringUtil.isEmpty(ommVarName)) {
+			out.append(ommFieldDTO.getName());
+		}
+		else {
+			out.append(ommVarName);
+			out.append(".");
+			out.append("get");
+			out.append(stringUtil.getFirstCharUpperCase(ommFieldDTO.getName()));
+			out.append("()");	
+		}
+		out.append(closeCode);
+		
+		return out.toString();
+	}
+
 }

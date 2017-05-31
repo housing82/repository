@@ -62,7 +62,7 @@ public class GenerateRun {
 		SOURCE_ROOT = "C:/Developer/BXMWorkspace/HD-onl/src";
 
 		// 프로그램 설계 엑셀 파일경로
-		EXCEL_PATH = "N:/03.프로잭트/11.뱅크웨어/01.한국자산신탁/06.프로그램설계";
+		//EXCEL_PATH = "N:/03.프로잭트/11.뱅크웨어/01.한국자산신탁/06.프로그램설계";
 		
 		// 클라우드 접속이 안되었을경우 로컬에 있는 파일을 봄
 		//if(!new File(EXCEL_PATH).exists()) {
@@ -90,11 +90,11 @@ public class GenerateRun {
 		
 		//dbioGenerate();
 
-		//bxmBeanGenerate(); 
+		bxmBeanGenerate(); 
 		
 		//parseJavaMethodToExcel();
 		
-		testOmmParser();
+		//testOmmParser();
 		
 	}
 	

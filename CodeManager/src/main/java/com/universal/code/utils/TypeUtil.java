@@ -30,7 +30,9 @@ public class TypeUtil  {
 	
 	private static Set<Class<?>> primitiveWrapper = null;
 	
-	private static Map<String, String> primitiveWrapperValueMap = null;
+	private static Map<String, String> primitiveWrapperInitValueMap = null;
+	
+	private static Map<String, String> primitiveWrapperDefaultLengthMap = null;
 	
 	private static Map<String, String> dataBaseType4j = new HashMap<String, String>();
 	
@@ -72,37 +74,63 @@ public class TypeUtil  {
 	}
 
 	static {
-		primitiveWrapperValueMap = new HashMap<String, String>();
-		primitiveWrapperValueMap.put(java.math.BigDecimal.class.getSimpleName(), "BigDecimal.ZERO");
-		primitiveWrapperValueMap.put(java.math.BigInteger.class.getSimpleName(), "BigInteger.ZERO");
-		primitiveWrapperValueMap.put(Boolean.TYPE.getSimpleName(), "false");
-		primitiveWrapperValueMap.put(java.lang.Boolean.class.getSimpleName(), "false");
-		primitiveWrapperValueMap.put(Byte.TYPE.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.lang.Byte.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(Character.TYPE.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.lang.Character.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.lang.Class.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(Double.TYPE.getSimpleName(), "0D");
-		primitiveWrapperValueMap.put(java.lang.Double.class.getSimpleName(), "0D");
-		primitiveWrapperValueMap.put(Float.TYPE.getSimpleName(), "0F");
-		primitiveWrapperValueMap.put(java.lang.Float.class.getSimpleName(), "0F");
-		primitiveWrapperValueMap.put(Integer.TYPE.getSimpleName(), "0");
-		primitiveWrapperValueMap.put(java.lang.Integer.class.getSimpleName(), "0");
-		primitiveWrapperValueMap.put(Long.TYPE.getSimpleName(), "0L");
-		primitiveWrapperValueMap.put(java.lang.Long.class.getSimpleName(), "0L");
-		primitiveWrapperValueMap.put(Short.TYPE.getSimpleName(), "0");
-		primitiveWrapperValueMap.put(java.lang.Short.class.getSimpleName(), "0");
-		primitiveWrapperValueMap.put(java.lang.String.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.sql.Date.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.sql.Time.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.sql.Timestamp.class.getSimpleName(), "null");
-		primitiveWrapperValueMap.put(java.util.List.class.getSimpleName(), "null");
-		
+		primitiveWrapperInitValueMap = new HashMap<String, String>();
+		primitiveWrapperInitValueMap.put(java.math.BigDecimal.class.getSimpleName(), "BigDecimal.ZERO");
+		primitiveWrapperInitValueMap.put(java.math.BigInteger.class.getSimpleName(), "BigInteger.ZERO");
+		primitiveWrapperInitValueMap.put(Boolean.TYPE.getSimpleName(), "false");
+		primitiveWrapperInitValueMap.put(java.lang.Boolean.class.getSimpleName(), "false");
+		primitiveWrapperInitValueMap.put(Byte.TYPE.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.lang.Byte.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(Character.TYPE.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.lang.Character.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.lang.Class.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(Double.TYPE.getSimpleName(), "0D");
+		primitiveWrapperInitValueMap.put(java.lang.Double.class.getSimpleName(), "0D");
+		primitiveWrapperInitValueMap.put(Float.TYPE.getSimpleName(), "0F");
+		primitiveWrapperInitValueMap.put(java.lang.Float.class.getSimpleName(), "0F");
+		primitiveWrapperInitValueMap.put(Integer.TYPE.getSimpleName(), "0");
+		primitiveWrapperInitValueMap.put(java.lang.Integer.class.getSimpleName(), "0");
+		primitiveWrapperInitValueMap.put(Long.TYPE.getSimpleName(), "0L");
+		primitiveWrapperInitValueMap.put(java.lang.Long.class.getSimpleName(), "0L");
+		primitiveWrapperInitValueMap.put(Short.TYPE.getSimpleName(), "0");
+		primitiveWrapperInitValueMap.put(java.lang.Short.class.getSimpleName(), "0");
+		primitiveWrapperInitValueMap.put(java.lang.String.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.sql.Date.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.sql.Time.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.sql.Timestamp.class.getSimpleName(), "null");
+		primitiveWrapperInitValueMap.put(java.util.List.class.getSimpleName(), "null");
 	}
 	
-	public String getPrimitiveWrapperDefaultValue(String simpleName) {
-		String value = primitiveWrapperValueMap.get(simpleName);
-		return value;
+	
+	static {
+		
+		
+		
+		primitiveWrapperDefaultLengthMap = new HashMap<String, String>();
+		primitiveWrapperDefaultLengthMap.put(java.math.BigDecimal.class.getSimpleName(), "22");
+		primitiveWrapperDefaultLengthMap.put(java.math.BigInteger.class.getSimpleName(), "22");
+		primitiveWrapperDefaultLengthMap.put(Boolean.TYPE.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Boolean.class.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(Byte.TYPE.getSimpleName(), "3");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Byte.class.getSimpleName(), "3");
+		primitiveWrapperDefaultLengthMap.put(Character.TYPE.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Character.class.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Class.class.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(Double.TYPE.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Double.class.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(Float.TYPE.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Float.class.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(Integer.TYPE.getSimpleName(), "9");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Integer.class.getSimpleName(), "9");
+		primitiveWrapperDefaultLengthMap.put(Long.TYPE.getSimpleName(), "22");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Long.class.getSimpleName(), "22");
+		primitiveWrapperDefaultLengthMap.put(Short.TYPE.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.Short.class.getSimpleName(), "0");
+		primitiveWrapperDefaultLengthMap.put(java.lang.String.class.getSimpleName(), "10");
+		primitiveWrapperDefaultLengthMap.put(java.sql.Date.class.getSimpleName(), "10");
+		primitiveWrapperDefaultLengthMap.put(java.sql.Time.class.getSimpleName(), "10");
+		primitiveWrapperDefaultLengthMap.put(java.sql.Timestamp.class.getSimpleName(), "20");
+		primitiveWrapperDefaultLengthMap.put(java.util.List.class.getSimpleName(), "0");
 	}
 	
 	static {
@@ -150,6 +178,17 @@ public class TypeUtil  {
     }
     
 
+	public String getPrimitiveWrapperDefaultValue(String simpleName) {
+		String value = primitiveWrapperInitValueMap.get(simpleName);
+		return value;
+	}
+	
+	public String getPrimitiveWrapperDefaultLengthMap(String simpleName) {
+		String value = primitiveWrapperDefaultLengthMap.get(simpleName);
+		return value;
+	}
+	
+	
     
  	public String getDataBaseType4j(String dataBaseType){
  	
