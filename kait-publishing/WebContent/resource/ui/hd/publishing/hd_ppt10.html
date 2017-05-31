@@ -26,36 +26,42 @@
 	</div>
 
 	<div class="w50 fl_l">
-		<!-- S.searchbox -->
-		<div class="in_searchbox mb15">
-			<fieldset>
-			<legend>검색</legend>
-				<ul>
-					<li><label class="label">찾기구분 </label></li>
-					<li class="form">
-						<select name="" id="" class="w100px">
+		<!-- S.searchTable -->
+		<div class="board_search mb15">
+			<table class="board_search_line01">
+			<caption>검색</caption>
+				<colgroup>
+					<col style="width:90px" />
+					<col style="width:200px" />
+					<col style="width:90px" />
+					<col style="width:" />
+				</colgroup>
+				<tr>
+					<th>찾기구분</th>
+					<td>
+						<select name="" id="" class="w96px">
+							<option value=""></option>
+							<option value=""></option>
 						</select>
-					<li class="form">
+						<input type="text" class="w96px"/>
+					</td>
+					<th>진행여부</th>
+					<td>
 						<input type="text" class="w100px"/>
-					</li>
-					<li><label class="label">진행여부 </label></li>
-					<li class="form">
-						<select name="" id="" class="w100px">
-						</select>
-					</li>
-				</ul>
-				
-			</fieldset>
+					</td>
+				</tr>
+			</table>	
 		</div>				
-		<!-- E.searchboxs -->
+		<!-- E.searchTable -->
+		
 		<!--S. XENA Grid -->
-		<div component="xg-grid" id="" class="fl_l w99"></div>
+		<div component="xg-grid" id="" class="w100fl"></div>
 		<!--E. XENA Grid -->			
 	</div>
 	
-	<div class="w50pl10">
+	<div class="w50pl">
 		<!-- S.view -->
-		<div class="board_view">
+		<div class="board_view">		
 			<table>
 				<caption>기본정보</caption>
 				<colgroup>
@@ -67,10 +73,8 @@
 				<tr>
 					<th>*현장코드</th>
 					<td colspan="3">
-						<input component="xg-radio" type="radio" value="ko" checked/><label>ko</label>
-						<input component="xg-radio" type="radio" value="jp"/><label>jp</label>
-						<input component="xg-radio" type="radio" value="en"/><label>en</label>
-						</td>
+						<input type="text" class="w100px" /><input type="text" class="w100px" />
+					</td>
 				</tr>
 				<tr>
 					<th>*현장명</th>
@@ -79,25 +83,39 @@
 				<tr>
 					<th>*물건종류</th>
 					<td>
-						<!-- jqx-listbox jqx-reset jqx-rc-all jqx-widget jqx-widget-content jqx-disableselect -->
-						<div component="xg-listbox" autoOpen="true" cdGrpCd="00001">
-							<param valueMember="cd"/>
-							<param displayMember="nm"/>
-							<param dataid="dt_CodeList2"/>
-						</div>
+						<select name="" id="" class="w96px">
+							<option value=""></option>
+							<option value=""></option>
+						</select>
 					</td>
 					<th>*완료여부</th>
-					<td></td>
+					<td>
+						<input type="radio" name="" id=""  class="rao"/>진행
+						<input type="radio" name="" id=""  class="rao"/>완료
+					</td>
 				</tr>
 				<tr>
 					<th>전화번호 </th>
 					<td></td>
 					<th>*세금계산기준</th>
-					<td></td>
+					<td>
+						<select name="" id="" class="w96px">
+							<option value=""></option>
+							<option value=""></option>
+						</select>
+					</td>
 				</tr>
 				<tr>
-					<th>주소</th>
-					<td colspan="3"><input type="text" class="w40px" title="우편번호"/>검색<input type="text" class="w150px ml02" title="시·도 + 시·군·구"/><input type="text" class="w100px ml02" title="읍·면"/> <input type="text" class="w120px" title="도로명건물본·부번"/> </td>
+					<th rowspan="2">주소</th>
+					<td colspan="3">
+						<input type="text" class="w48px" title="우편번호"/><button type="button" class="btn_table">우편번호검색</button>
+						<input type="text" class="w150px" title="시·도 + 시·군·구"/><input type="text" class="w100px ml02" title="읍·면"/>
+					 </td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<input type="text" class="w120px" title="도로명건물본·부번"/>
+					 </td>
 				</tr>
 				<tr>
 					<th>회신번호</th>
@@ -106,7 +124,9 @@
 					<td><input type="text" name="" id="" class=""/></td>
 				</tr>
 			</table>
-
+			
+			<!-- S.대표시행사 -->
+			<h3 class="stitle">대표시행사</h3>
 			<table class="mt10_mb10">
 				<caption>대표시행사</caption>
 				<colgroup>
@@ -117,7 +137,9 @@
 				</colgroup>
 				<tr>
 					<th>거래처</th>
-					<td><input type="text" name="" id="" />시행사버튼</td>
+					<td>
+						<input type="text" name="" id="" /><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+					</td>
 					<th>상호</th>
 					<td><input type="text" name="" id="" /></td>
 				</tr>
@@ -129,14 +151,67 @@
 				</tr>
 				<tr>
 					<th>대표자</th>
-					<td colspan="2"><input type="text" name="" id="" /></td>
+					<td colspan="2">
+						<input type="text" name="" id="" />
+					</td>
 				</tr>
 				<tr>
 					<th>주소</th>
-					<td colspan="3"><input type="text" class="w40px" title="우편번호"/>검색<input type="text" class="w150px ml02" title="시·도 + 시·군·구"/><input type="text" class="w100px ml02" title="읍·면"/> <input type="text" class="w120px" title="도로명건물본·부번"/> </td>
+					<td colspan="3">
+					</td>
+					</tr>
+			</table>
+			<!-- E.대표시행사 -->
+			
+			<!-- S.시공사 -->
+			<h3 class="stitle">시공사</h3>
+			<table class="mt10_mb10">
+				<caption>시공사</caption>
+				<colgroup>
+					<col style="width: 90px;" />
+					<col style="width:" />
+					<col style="width: 90px;" />
+					<col style="width:" />						
+				</colgroup>
+				<tr>
+					<th>시공사명</th>
+					<td>
+						<input type="text" name="" id="" /><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+					</td>
+					<th>대표자</th>
+					<td><input type="text" name="" id="" /></td>
+				</tr>
+				<tr>
+					<th>담당자</th>
+					<td></td>
+					<th>전화번호</th>
+					<td></td>
 				</tr>
 			</table>
+			<!-- E.시공사 -->
+			
+			<!-- S.모델하우스 -->
+			<h3 class="stitle">모델하우스</h3>
+			<table class="mt10_mb10">
+				<caption>모델하우스</caption>
+				<colgroup>
+					<col style="width: 90px;" />
+					<col style="width:" />
+					<col style="width: 90px;" />
+					<col style="width:" />						
+				</colgroup>
+				<tr>
+					<th>주소</th>
+					<td>
+						<input type="text" name="" id="" /><a href="#"><img src="../images/content/btn_search.gif" alt=""/></a>
+					</td>
+					<th></th>
+					<td><input type="text" name="" id="" /></td>
+				</tr>
+			</table>
+			<!-- E.모델하우스 -->
 		</div>				
 		<!-- E.view -->	
 	</div>
-</div>			
+</div>
+	

@@ -3,7 +3,7 @@
  * 파일명 :	content.css
  *   설명 :	article영역, footer제외 
  * 작성자 :	elliott
- * 수정일 :	2017.05.26
+ * 수정일 :	2017.05.30
  ******************************/
 .mdi{
 	float:left;	
@@ -263,6 +263,8 @@ span.text{font-size:0.9em; line-height:1.8;}
 .board_view input{input[type="text"]:focus{border:#3878D8 solid 1px !important; }}
 .board_view input{border:#e5e0d9 solid 1px; background:#f7f2eb;} */
 .board_view img{cursor:pointer;}
+
+.weditor{ width:100%; border:#d2d2d2 solid 1px; box-sizing:border-box;}
 
 /* 그리드 안에 타이틀이나 버튼이 올 경우 */
 .grid_top{height: 25px;  }
