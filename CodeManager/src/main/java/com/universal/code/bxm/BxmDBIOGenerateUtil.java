@@ -328,37 +328,24 @@ public class BxmDBIOGenerateUtil {
 						}
 					}
 					
-					javaBd.append(methodCode
-						.replace(rvMethodName, dsMethodName)
-						.replace(rvMethodDescription, dsMethodDescription)
-						.replace(rvLogicalName, dsLogicalName)
-						.replace(rvDescription, dsLogicalName)
-						.replace(rvOutputType, dsOutputType)
-						.replace(rvInputType, dsInputType)
-						.replace(rvInputVariable, dsInputVariable)
-						.replace(rvTestValues, dsTestValues)
-					);
-					
-					javaBd.append(SystemUtil.LINE_SEPARATOR);
+
 					
 					//마이바티스 SQL (XML)
 					
 					/*
-					methodMap.put("insert", "등록");
-					methodMap.put("select", "단건조회");
-					methodMap.put("selectList", "목록조회");
-					methodMap.put("update", "수정");
-					methodMap.put("merge", "병합");
-					methodMap.put("delete", "삭제");
-					
-					
-					xmlDeleteTemplateDbio
-					xmlInsertTemplateDbio
-					xmlSelectTemplateDbio
-					xmlSelectListTemplateDbio
-					xmlTemplateDbio
-					xmlUpdateMergeTemplateDbio
-
+						methodMap.put("insert", "등록");
+						methodMap.put("select", "단건조회");
+						methodMap.put("selectList", "목록조회");
+						methodMap.put("update", "수정");
+						methodMap.put("merge", "병합");
+						methodMap.put("delete", "삭제");
+						
+						xmlDeleteTemplateDbio
+						xmlInsertTemplateDbio
+						xmlSelectTemplateDbio
+						xmlSelectListTemplateDbio
+						xmlTemplateDbio
+						xmlUpdateMergeTemplateDbio
 					*/
 					if(entry.getKey().equals("insert")) {
 						sqlCode = xmlInsertTemplateDbio;
@@ -374,7 +361,7 @@ public class BxmDBIOGenerateUtil {
 						sqlCode = xmlSelectTemplateDbio;
 						
 						dsSql = selectCount(tableList, columnList, foreignColumnList, dsInputVariable); // <-- SQL
-					}					
+					}
 					else if(entry.getKey().equals("selectList")) {
 						sqlCode = xmlSelectListTemplateDbio;
 						
@@ -402,22 +389,39 @@ public class BxmDBIOGenerateUtil {
 					/***********************************
 					 * 테이블당 스테이트먼트에 맞는 SQL생성
 					 */
-
-					
-					xmlBd.append(sqlCode
-						.replace(rvMethodName, dsMethodName)
-						.replace(rvInputType, dsInputType)
-						.replace(rvOutputType, dsOutputType)
-						.replace(rvSql, dsSql)
-					);
-					 
-					xmlBd.append(SystemUtil.LINE_SEPARATOR);
+	  
+					//테이블에 pk or fk 가 없을경우 merge sql은 생성하지 않는다. 
+					//이러할 경우 dsSql는 empty이다.
+					if(StringUtil.isNotEmpty(dsSql)) {
+						
+						//MyBatis Interface Java Code
+						javaBd.append(methodCode
+								.replace(rvMethodName, dsMethodName)
+								.replace(rvMethodDescription, dsMethodDescription)
+								.replace(rvLogicalName, dsLogicalName)
+								.replace(rvDescription, dsLogicalName)
+								.replace(rvOutputType, dsOutputType)
+								.replace(rvInputType, dsInputType)
+								.replace(rvInputVariable, dsInputVariable)
+								.replace(rvTestValues, dsTestValues)
+							);
+							
+						javaBd.append(SystemUtil.LINE_SEPARATOR);
+						
+						//MyBatis Mapper XML Code
+						xmlBd.append(sqlCode
+								.replace(rvMethodName, dsMethodName)
+								.replace(rvInputType, dsInputType)
+								.replace(rvOutputType, dsOutputType)
+								.replace(rvSql, dsSql));
+						
+						xmlBd.append(SystemUtil.LINE_SEPARATOR);						
+					}
 				}
 				// 인터페이스 최종 코드
 				javaFinal = javaFinal.replace(rvBody, javaBd.toString());
 				// 메퍼 최종 코드
 				xmlFinal = xmlFinal.replace(rvBody, xmlBd.toString());
-				
 				
 				logger.debug("[javaFinal]\n{}", javaFinal);
 				logger.debug("[xmlFinal]\n{}", xmlFinal);

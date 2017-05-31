@@ -28,6 +28,7 @@ import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.PropertyUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
+import com.universal.code.utils.TypeUtil;
 
 public class BxmBeanGenerateUtil {
 
@@ -39,6 +40,7 @@ public class BxmBeanGenerateUtil {
 	private PropertyUtil propertyUtil;
 	private GenerateHelper generateHelper;
 	private ASTVisitor visitor;
+	private TypeUtil typeUtil;
 	
 	private final static String EXCEL_START_FIRST_CELL;
 	private final static String EXCEL_END_FIRST_CELL;
@@ -101,6 +103,7 @@ public class BxmBeanGenerateUtil {
 		fileUtil = new FileUtil();
 		generateHelper = new GenerateHelper();
 		propertyUtil = new PropertyUtil();
+		typeUtil = new TypeUtil();
 		
 		//bean template
 		bxmBeanMethodTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmBean.method.template"));
@@ -278,6 +281,7 @@ public class BxmBeanGenerateUtil {
 		String dsMethodLogicalName = null;
 		String dsMethodDescription = null;
 		StringBuilder dsBizCode = null;
+		StringBuilder celleeInputVar = null;
 		
 		// bxmBeanSaveMethodTemplate
 		String dsInputVariableFirstUpper = null;
@@ -299,10 +303,12 @@ public class BxmBeanGenerateUtil {
 		ProgramDesignDTO designRow = null;
 		String currentBasePackage = null;
 		String bcOmmName = null;
+		String javaPath = null;
 		String compareClasStr = "";
 		String compareMetdStr = "";
 		String bcMetdNm = "";
-		for(int i = 0; i < programDesignList.size(); i++) { 
+		
+		for(int i = 0; i < programDesignList.size(); i++) {
 			designRow = programDesignList.get(i); 
 			logger.debug(designRow.toString());
 			if(designRow.getDataKind().equalsIgnoreCase("N")) {
@@ -329,7 +335,6 @@ public class BxmBeanGenerateUtil {
 					logger.debug(currentDesign.toString());
 					//logger.debug("[dsImportsSet]\n{}", dsImportsSet);
 
-					
 					for(Entry<String, Map<String, Object>> entry : currentDesign.getCalleeMap().entrySet()) {
 						String bcMethodName = entry.getKey();
 						Map<String, Object> calleeMap = entry.getValue(); 
@@ -345,7 +350,7 @@ public class BxmBeanGenerateUtil {
 						dsOutputType = bcOmmName.concat("Out");
 						dsImportsSet.add(dsPackage.concat(".dto.").concat(dsOutputType)); // -> dsImportsSet.add
 						logger.debug("bcOmmName: {} > {}", bcOmmName, dsPackage.concat(".dto.").concat(dsOutputType));
-						dsOutputVariable = "out";
+						dsOutputVariable = IOperateCode.ELEMENT_OUT;
 						
 						//method name
 						dsMethodName = bcMetdDesign.getBcMetdPref().concat(stringUtil.getFirstCharUpperCase(bcMetdDesign.getBcMetdBody()));
@@ -360,7 +365,9 @@ public class BxmBeanGenerateUtil {
 						dsDbioInit = new StringBuilder();
 						//callee biz code
 						dsBizCode = new StringBuilder();
-
+						//caller method input field
+						celleeInputVar = new StringBuilder();
+						
 						logger.debug("-- dsMethodLogicalName: {}", dsMethodLogicalName);
 						logger.debug("-- bcMethodName: {}", bcMethodName);
 						
@@ -374,19 +381,19 @@ public class BxmBeanGenerateUtil {
 							String calleeMethodName = calleeTypeFullName.substring(calleeTypeFullName.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 							
 							dsDbioInit
-							.append("		")
-							.append(calleeVarName)
-							.append(" = DefaultApplicationContext.getBean(")
-							.append(calleeVarName)
-							.append(", ")
-							.append(calleeSimpleName)
-							.append(".class);")
-							.append(SystemUtil.LINE_SEPARATOR);
+								.append("		")
+								.append(calleeVarName)
+								.append(" = DefaultApplicationContext.getBean(")
+								.append(calleeVarName)
+								.append(", ")
+								.append(calleeSimpleName)
+								.append(".class);")
+								.append(SystemUtil.LINE_SEPARATOR);
 							
 							logger.debug("---- calleeTypeFullName: {}", calleeTypeFullName);
 							logger.debug("  ----- calleeTypeName: {}", calleeTypeName);
 							
-							String javaPath = new StringBuilder().append(getSourceRoot()).append("/").append(calleeTypeName.replace(IOperateCode.STR_DOT, "/")).append(".java").toString();
+							javaPath = new StringBuilder().append(getSourceRoot()).append("/").append(calleeTypeName.replace(IOperateCode.STR_DOT, "/")).append(".java").toString();
 							logger.debug(" + + parse javaPath: {}", javaPath);
 							List<Map<String, Object>> ast = visitor.execute(javaPath, ASTVisitor.VISIT_METHOD_NODE, false);
 							boolean findMethod = false;
@@ -399,75 +406,93 @@ public class BxmBeanGenerateUtil {
 
 										List<Parameter> parameters = (List<Parameter>) descMap.get("parameters");
 										Type calleeReturnType = (Type) descMap.get("returnType");
-
-										StringBuilder celleeInputVar = new StringBuilder();
+										
 										StringBuilder methodInputExpr = new StringBuilder();
 										Map<String, Integer> methodVarMap = new HashMap<String, Integer>();
 										
 										for(Parameter parameter : parameters) {
-											dsImportsSet.add(parameter.getType().toString()); // -> dsImportsSet.add
-											logger.debug("parameter -> {}: {}", parameter.getType().toString(), parameter.getId().toString());
+											String inputTypeString = parameter.getType().toString();
 											
-											String calleeInTypeSimpleName = parameter.getType().toString().substring(parameter.getType().toString().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+											dsImportsSet.add(inputTypeString); // -> dsImportsSet.add
+											logger.debug("parameter -> {}: {}", inputTypeString, parameter.getId().toString());
+											
+											String calleeInTypeSimpleName = inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 											celleeInputVar.append("		");
 											celleeInputVar.append(calleeInTypeSimpleName);
 											celleeInputVar.append(" ");
 											
 											//중복 체크
-											String lowerInTypeSimpleName = stringUtil.getFirstCharLowerCase(calleeInTypeSimpleName);
+											String lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
 											Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
 											if(varCnt != null) {
-												// 증가
-												lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0")); 
+												// plus
+												varCnt = varCnt + 1;
+												// make
+												// 중복되는 메소드 지역변수 명은 시퀀스를 01 부터 붙인다. 
+												lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt - 1), 2, "0")); 
 											}
 											else {
-												// 01
-												lowerInTypeSimpleName = lowerInTypeSimpleName.concat("01");
+												// init
+												varCnt = 1;
+												// set
+												methodVarMap.put(lowerInTypeSimpleName, varCnt);
+												// make
+												// lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0"));
+												// 첫번째 메소드 지역변수 명은 시퀀스를 붙이지 않는다. 
 											}
+											
 											//method inner variable name  
 											celleeInputVar.append(lowerInTypeSimpleName);
 											celleeInputVar.append(" = ");
 											
-											//omm일 경우
-											celleeInputVar.append("new ");
-											celleeInputVar.append(calleeInTypeSimpleName);
-											celleeInputVar.append("();");
-											
-											celleeInputVar.append(SystemUtil.LINE_SEPARATOR);
-											
 											//OMM 분석
-											String ifOmmPath = new StringBuilder().append(getSourceRoot()).append("/").append(parameter.getType().toString().replace(IOperateCode.STR_DOT, "/")).append(".omm").toString();
+											String ifOmmPath = new StringBuilder().append(getSourceRoot()).append("/").append(inputTypeString.replace(IOperateCode.STR_DOT, "/")).append(".omm").toString();
 											logger.debug("ifOmmPath: {}", ifOmmPath);
-											if(new File(ifOmmPath).exists()) {
+											File ommFile = new File(ifOmmPath); 
+											if(ommFile.exists()) {
 												// OMM 파일이 존재하면 분석 실행
-
+												// omm일 경우
+												celleeInputVar.append("new ");
+												celleeInputVar.append(calleeInTypeSimpleName);
+												celleeInputVar.append("();");
+												
+												// omm 분석 실행
+												logger.debug("[Parse OMM Path]: {}", ifOmmPath);
 												
 												
+												Object parseData = generateHelper.getOmmProperty(ommFile);
 											}
-											else if(parameter.getType().toString().contains(".")){
+											else if(inputTypeString.contains(".")){
 												//omm 파일이 존재하지 않고 패키지가 존재할 경우
 												
+												logger.debug("★★★★★★★★★★★★★★★★★★★★★★★★★");
+												logger.debug(inputTypeString);
 												
-												
+												celleeInputVar.append(typeUtil.getPrimitiveWrapperDefaultValue(inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length())));
+												celleeInputVar.append(";");
 											}
 											else {
 												//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
 												
+												logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※※");
+												logger.debug(inputTypeString);
 												
-												
+												celleeInputVar.append(typeUtil.getPrimitiveWrapperDefaultValue(inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length())));
+												celleeInputVar.append(";");
 											}
+											
+											celleeInputVar.append(SystemUtil.LINE_SEPARATOR);
 											
 											//메소드의 입력 표현식
 											if(StringUtil.isNotEmpty(methodInputExpr.toString())) {
 												methodInputExpr.append(", ");
 											}
-											methodInputExpr.append(stringUtil.getFirstCharLowerCase(calleeInTypeSimpleName));
+											methodInputExpr.append(lowerInTypeSimpleName);
 										}
 										
-										
+										logger.debug("celleeInputVar: {}", celleeInputVar.toString());
 										logger.debug("methodInputExpr: {}", methodInputExpr.toString());
 										logger.debug("calleeReturnType: {}", calleeReturnType.toString());
-										
 										
 										String celleeOutType = calleeReturnType.toString();
 										if(celleeOutType.contains(".")) {
@@ -475,7 +500,6 @@ public class BxmBeanGenerateUtil {
 										}
 										String celleeOutVarName = stringUtil.getFirstCharLowerCase(celleeOutType);
 
-										
 										findMethod = true;
 										dsBizCode
 											.append("		")
@@ -499,6 +523,8 @@ public class BxmBeanGenerateUtil {
 						}
 						
 						logger.debug("[dsDbioInit]\n{}", dsDbioInit.toString());
+						
+						logger.debug("[celleeInputVar]\n{}", celleeInputVar.toString());
 						
 						logger.debug("[dsBizCode]\n{}", dsBizCode.toString());
 						
@@ -533,7 +559,6 @@ public class BxmBeanGenerateUtil {
 				
 				currentDesign = new ProgramDesignDTO(); 
 				
-
 				propertyUtil.copyProperty(designRow, currentDesign, copyTarget);
 				currentDesign.setBasePack(currentBasePackage);
 				

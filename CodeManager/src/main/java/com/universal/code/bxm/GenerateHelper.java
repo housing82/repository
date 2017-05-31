@@ -1,17 +1,23 @@
 package com.universal.code.bxm;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.universal.code.constants.JavaReservedWordConstants;
+import com.universal.code.dto.OmmDTO;
+import com.universal.code.dto.OmmFieldDTO;
 import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
+import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.StringUtil;
+import com.universal.code.utils.SystemUtil;
 
 public class GenerateHelper {
 
@@ -146,6 +152,88 @@ public class GenerateHelper {
 	
 	public String getCamelCaseFieldName(String str) {
 		return JavaReservedWordConstants.get(stringUtil.getCamelCaseString(StringUtil.NVL(str)));
+	}
+	
+/*	
+	OMM kait.hd.hda.onl.dao.dto.DHdCodeSihang01IO
+
+	<description="HD_코드_시행사 ( HD_CODE_SIHANG )">
+	{
+		String deptCode<length=12 description="사업코드 [SYS_C0025340(C),SYS_C0025342(P) SYS_C0025342(UNIQUE)]"  >;
+		Long seq<length=22 description="순번 [SYS_C0025341(C),SYS_C0025342(P) SYS_C0025342(UNIQUE)]"  >;
+		String sihangVendor<length=20 description="시행사사업자코드"  >;
+		String sihangDepyo<length=40 description="시행사대표자명"  >;
+		String sihangUpte<length=40 description="시행사업태"  >;
+		String sihangUpjong<length=40 description="시행사업종"  >;
+		String sihangZip<length=6 description="시행사우편번호"  >;
+		String sihangAddr1<length=100 description="시행사주소1"  >;
+		String sihangAddr2<length=100 description="시행사주소2"  >;
+		String inputDutyId<length=12 description="입력담당"  >;
+		String inputDate<length=14 description="입력일시"  >;
+		String chgDutyId<length=12 description="수정담당"  >;
+		String sihangName<length=60 description="시행사상호명"  >;
+		String chgDate<length=14 description="수정일시"  >;
+		String sihangZipOrg<length=6 description=""  >;
+		String sihangAddr1Org<length=100 description=""  >;
+		String sihangAddr2Org<length=100 description=""  >;
+		String sihangAddrTag<length=1 description=""  >;
+	}
+	*/
+	public OmmDTO getOmmProperty(File ommFile) {
+		OmmDTO out = null;
+		if(ommFile.exists()) {
+			out = new OmmDTO();
+		}
+		else {
+			throw new ApplicationException("OMM 파일이 존재하지 않습니다. 파일: {}", ommFile.getPath());
+		}
+		
+		FileUtil fileUtil = new FileUtil();
+		
+		String ommContents = fileUtil.getTextFileContent(ommFile); 
+		
+		StringTokenizer lines = new StringTokenizer(ommContents, SystemUtil.LINE_SEPARATOR);
+		String line = null;
+		
+		String ommType = null;
+		String ommDesc = null;
+		OmmFieldDTO ommFieldDTO = null;
+		while(lines.hasMoreElements()) {
+			line = lines.nextElement().toString().trim();
+			
+			if(line.startsWith("OMM")) {
+				//first line
+				ommType = line.substring("OMM".length()).trim();
+				logger.debug("ommType: {}", ommType);
+				out.setOmmType(ommType);
+			}
+			else if(line.startsWith("<description=\"")) {
+				ommDesc = line.substring("<description=\"".length(), line.length() - 2);
+				logger.debug("ommDesc: {}", ommDesc);
+				out.setOmmDesc(ommDesc);
+			}
+			else if(line.equals("{") || line.equals("}")){
+				continue;
+			}
+			else {
+				//logger.debug("line field: {}", line);
+				ommFieldDTO = new OmmFieldDTO();
+			
+				String type = line.substring(0, line.indexOf(" ")).trim();
+				String name = line.substring(line.indexOf(" "), line.indexOf("<")).trim();
+				String info = line.substring(line.indexOf("<") + "<".length(), line.lastIndexOf(">")).trim();
+				String length = info.substring(info.indexOf("length=") + "length=".length(), info.indexOf(" ") + " ".length());
+								
+				ommFieldDTO.setType(type);
+				ommFieldDTO.setName(name);
+				ommFieldDTO.setLength(length);
+
+				logger.debug(ommFieldDTO.toString());
+				logger.debug("info: {}", info);
+			}
+		}
+		
+		return out;
 	}
 	
 }

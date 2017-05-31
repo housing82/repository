@@ -1,29 +1,21 @@
 package com.universal.runner;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.universal.code.ast.java.ASTVisitor;
 import com.universal.code.bxm.BxmBeanGenerateUtil;
 import com.universal.code.bxm.BxmDBIOGenerateUtil;
 import com.universal.code.bxm.BxmDBIOmmGenerateUtil;
+import com.universal.code.bxm.GenerateHelper;
 import com.universal.code.coder.URLCoder;
-import com.universal.code.constants.IOperateCode;
-import com.universal.code.excel.ExcelWriterUtil;
-import com.universal.code.excel.dto.WorkBookDTO;
-import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.ASTMethodToExcelUtil;
-import com.universal.code.utils.FileUtil;
-import com.universal.code.utils.StringUtil;
 
 
 public class GenerateRun {
@@ -98,9 +90,18 @@ public class GenerateRun {
 		
 		//dbioGenerate();
 
-		bxmBeanGenerate(); 
+		//bxmBeanGenerate(); 
 		
 		//parseJavaMethodToExcel();
+		
+		testOmmParser();
+		
+	}
+	
+	private void testOmmParser() throws Exception {
+		
+		File ommFile = new File("C:/Developer/BXMWorkspace/HD-onl/src/kait/hd/hda/onl/dao/dto/DHdCodeSihang01IO.omm");
+		new GenerateHelper().getOmmProperty(ommFile);
 	}
 	
 	private void parseJavaMethodToExcel() throws Exception {
