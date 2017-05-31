@@ -1,48 +1,113 @@
 <div>
-			<div class="titlezone">
-				<h2 class="title">기간별분양현황 2</h2> 
-				<div class="btn_common">
-					<ul>
-						<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
-						<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
-						<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
-						<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
-						<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
-					</ul>
-				 </div>
-				<!-- S.content > btnGroup_Right -->
-				 <div class="btngroup">
-					<ul>
-						<li><button type="button" class="btn_gray">개인정보</button></li>
-						<li><button type="button" class="btn_gray">조회</button></li>
-						<li><button type="button" class="btn_gray">전표발행</button></li>
-						<li><button type="button" class="btn_gray">전표취소</button></li>
-					</ul>			 
-				 </div>
-			</div>
-		
-			<!-- S.tabMenu -->
-			<div class="tabmenuzone  mb15">
-				<div class="tabmenu">
-					<ul>
-						<li><a href="#"><span class="current_tabmenu">미분양현황</span></a></li>
-						<li><a href="#"><span>동(층)별분양및입금현황</span></a></li>
-						<li><a href="#"><span>면적별입금및미수현황</span></a></li>
-						<li><a href="#"><span>면적별분양및입금현황</span></a></li>
-						<li><a href="#"><span>분양대금입금내역</span></a></li>
-						<li><a href="#"><span>분양금납부확인서</span></a></li>
-						<li><a href="#"><span>분양계약수정</span></a></li>
-					</ul>
-				</div>
-			</div> 
+	<div class="titlezone">
+		<h2 class="title">지체보상금</h2> 
+		<div class="btn_common">
+			<ul>
+				<li class="border_none"><a href="#"><img src="../images/common/icon_01.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_02.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_03.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_04.gif" alt="" /></a></li>
+				<li><a href="#"><img src="../images/common/icon_05.gif" alt="" /></a></li>
+			</ul>
+		 </div>
+		<!-- S.btnGroup_Right -->
+		 <div class="btngroup">
+			<ul>
+				<li><button type="button" class="btn_gray">자료올리기</button></li>
+				<li><button type="button" class="btn_gray">집계</button></li>
+				<li><button type="button" class="btn_gray">이체</button></li>
+				<li><button type="button" class="btn_gray">조회</button></li>
+				<li><button type="button" class="btn_gray">추가</button></li>
+				<li><button type="button" class="btn_gray">삭제</button></li>
+				<li><button type="button" class="btn_gray">저장</button></li>
+				<li><button type="button" class="btn_gray">도움</button></li>
+				<li><button type="button" class="btn_gray">닫기</button></li>
+			</ul>			 
+		 </div><!-- E.btnGroup_Right -->
+	</div>
+	
+	
+	<!-- S.searchTable -->
+	<div class="board_search">
+			<table class="board_search_line01">
+			<caption>검색</caption>
+				<colgroup>
+					<col style="width:90px" />
+					<col style="width:240px" />
+					<col style="width:90px" />
+					<col style="width:" />
+				</colgroup>
+				<tr>
+					<th>현장</th>
+					<td>
+						<input type="text" class="w100px"/><input type="text" class="w120px"/>
+					</td>
+					<th>분양구분</th>
+					<td>
+						<input type="text" class="w100px"/>
+					</td>
+				</tr>
+			</table>	
+	</div>
+	<!-- E.searchTable -->
+	
+	<!-- S.ViewTable -->
+	<div class="board_view mt15">
+		<table>
+			<caption>검색</caption>
+				<colgroup>
+					<col style="width:90px" />
+					<col style="width:300px" />
+					<col style="width:90px" />
+					<col style="width:" />
+					<col style="width:90px" />
+					<col style="width:" />
+					<col style="width:90px" />
+					<col style="width:" />
+				</colgroup>
+				<tr>
+					<th>대상동호</th>
+					<td>
+						<input type="text" class="w48px"/>동<input type="text" class="w48px"/>호 ~
+						<input type="text" class="w48px"/>동<input type="text" class="w48px"/>호
+					</td>
+					<th>입주예정일</th>
+					<td>
+						<input type="text" class="w96px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>
+					</td>
+					<th>입주확정일</th>
+					<td colspan="3">
+						<input type="text" class="w96px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a> 0일 지체
+					</td>					
+				</tr>
+				<tr>
+					<th>지체상금대상자</th>
+					<td>
+						<input type="text" class="w48px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>이전계약자
+					</td>
+					<th>지체대상금계산</th>
+					<td>
+						<input type="text" class="w96px"/><a href="#"><img src="../images/content/btn_calendar.gif" alt=""/></a>이전입금액
+					</td>
+					<th>지체상금 년이율</th>
+					<td>
+						<input type="text" class="w96px"/>%
+					</td>	
+					<th>입금구분</th>
+					<td>
+						<select name="" id="" class="">
+							<option value="">납입금</option>
+							<option value=""></option>
+						</select>
+					</td>				
+				</tr>
+			</table>	
+	</div>
+	<!-- E.ViewTable -->
+	
+	<!--S. XENA Grid -->
+	<div component="xg-grid" id="" class="w100fl  mt15"></div>
+	<!--E. XENA Grid -->			
 
-			<!--S. XENA Grid -->   
-			<div class="w100 fl_l">
-				<div component="xg-grid" class="w100"></div>
-			</div>
-			<!--E. XENA Grid -->
-			
-			<div class="fl_l" style="background-color:#ddd; border:#f00 solid 1px; width:99.6%; height:200px  ">
-			</div>
-		
-		</div>
+</div>
+	

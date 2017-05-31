@@ -156,6 +156,7 @@ button:active{outline:none !important;}
 .ml10{margin-left:10px !important;}
 
 .mt15_mb15{margin:15px 0;}
+.mt10_mb05{margin:10px 0 5px 0;}
 .ml_05{margin-left:-10px !important;}/*일괄전표출력*/
 
 /* padding */
@@ -191,7 +192,7 @@ button:active{outline:none !important;}
 .w65pl{width:65% !important; padding-left:10px; float:left; box-sizing:border-box;}
 .w70pl{width:70% !important; padding-left:10px; float:left; box-sizing:border-box;}
 .w75pl{width:75% !important; padding-left:10px; float:left; box-sizing:border-box;}
-
+.w80pl{width:80% !important; padding-left:10px; float:left; box-sizing:border-box;}
 
 .w20{ width:20% !important;}
 .w25{ width:25% !important;}
