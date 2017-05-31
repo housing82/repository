@@ -30,7 +30,7 @@ public class GenerateRun {
 	
 	private static String READ_EXCEL_NAME;
 	
-	private static String WRITE_EXCEL_NAME;
+	private static String WRITE_EXCEL_NAME; 
 	
 	private static String EXCEL_VERSION_DATE_FORMAT;
 	
