@@ -58,7 +58,7 @@ public class ExecuteDumpPbl {
 			
 			StringBuilder successStb = new StringBuilder();
 			for(String successFile : successFiles) {
-				logger.debug("successFile: {}", successFile);
+				//logger.debug("successFile: {}", successFile);
 				successStb.append(successFile).append(SystemUtil.LINE_SEPARATOR);
 			}
 			
@@ -76,26 +76,20 @@ public class ExecuteDumpPbl {
 			fileUtil.mkfile(PBL_ROOT_PATH.concat("/dump_status"), "dump_success_list.".concat(DateUtil.getFastDate("yyyyMMddHHmmss")).concat(".txt"), successStb.toString(), IOperateCode.ENCODING_UTF8, false, true);
 			fileUtil.mkfile(PBL_ROOT_PATH.concat("/dump_status"), dumpResult.concat(" ").concat(DateUtil.getFastDate("yyyyMMddHHmmss")), dumpResult, IOperateCode.ENCODING_UTF8, false, true);
 			
-			/*
-			String dumpdir = null;
-			String fileName = null;
-			String tempFile = null;
-			
-			for(File file : fileList) {
-				
-				dumpdir = file.getCanonicalPath();
-				dumpdir = dumpdir.substring(0, dumpdir.lastIndexOf("."));
-				fileName = file.getCanonicalPath().substring(file.getCanonicalPath().lastIndexOf(File.separator) + File.separator.length());
-				tempFile =  dumpdir.concat(File.separator).concat(fileName);
-				logger.debug("dumpdir: {}", dumpdir);
-				//파일의 덤프를 생성할 디렉토리 생성
-				fileUtil.mkdir(dumpdir, true);
-				//파일 복사
-				fileUtil.copyFile(file.getCanonicalPath(), tempFile);
-				
-				execDump("C:/Developer/pbldump-1.3.1stable/PblDump -esu ".concat(tempFile).concat(" *.*"), tempFile);
+			try {
+				File originDir = new File(BASE_DUMP_FILE_TEMP);
+				if (originDir.exists()) {
+					for (File file : originDir.listFiles()) {
+						if (file.isFile() && (
+							file.getCanonicalPath().endsWith(".srd") || file.getCanonicalPath().endsWith(".srw")
+						)) {
+							file.delete();
+						}
+					}
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			*/
 		}
 		else {
 			throw new ApplicationException("파워빌더 루트 디렉토리가 존재하지 않거나 디렉토리가 아닙니다.");

@@ -13,6 +13,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
@@ -962,24 +963,43 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
     }
 
     public String getTextFileContent(String path) {
-        return getTextFileContent(new File(getRealPath(path)));
+        return getTextFileContent(new File(getRealPath(path)), null);
     }
 
+    public String getTextFileContent(String path, String encoding) {
+        return getTextFileContent(new File(getRealPath(path)), encoding);
+    }
+    
     public String getTextFileContent(File files) {
+    	return getTextFileContent(files, null);
+    }
+    
+    public String getTextFileContent(File files, String encoding) {
 
         StringBuffer contents = new StringBuffer();
         FileReader fileReader = null;
         BufferedReader bufferedReader = null;
         File fileStore = files;
+        FileInputStream inputStream = null;
+        InputStreamReader inputStreamReader = null;
         
+
+    	
         try {
             if(fileStore == null || !fileStore.exists()) {
             	throw new FileNotFoundException(CommonUtil.addString(fileStore, " 파일이 존재하지 않습니다."));
             }
 
-            fileReader = new FileReader(fileStore);
-            bufferedReader = new BufferedReader(fileReader);
-
+            if(StringUtil.isEmpty(encoding)) {
+                fileReader = new FileReader(fileStore);
+                bufferedReader = new BufferedReader(fileReader);            	
+            }
+            else {
+            	inputStream = new FileInputStream( files );
+            	inputStreamReader = new InputStreamReader(inputStream, encoding);
+            	bufferedReader = new BufferedReader(inputStreamReader);	
+            }
+            
             String read;
             while((read = bufferedReader.readLine()) != null) {
             	contents.append((new StringBuilder(String.valueOf(read))).append(SystemUtil.LINE_SEPARATOR).toString());
@@ -999,6 +1019,21 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
 					throw new ApplicationException(e);
 				}
         	}
+        	if(inputStream != null) {
+        		try {
+        			inputStream.close();
+    			} catch (IOException e) {
+    				throw new ApplicationException(e);
+    			}
+        	}
+        	
+        	if(inputStreamReader != null) {
+        		try {
+        			inputStreamReader.close();
+    			} catch (IOException e) {
+    				throw new ApplicationException(e);
+    			}
+        	}        	
         	if(bufferedReader != null) {
         		try {
         			bufferedReader.close();
@@ -1504,4 +1539,17 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
 		return out;
 	}
 	
+	public void addFileList(List<File> fileList, File file, String targetExt) {
+		
+		File[] files = file.listFiles();
+		
+		for(File item : files) {
+			if(item.isFile() && (item.getPath().endsWith(targetExt) || item.getPath().endsWith(targetExt.toUpperCase()))) {
+				fileList.add(item);
+			}
+			else if(item.isDirectory()) {
+				addFileList(fileList, item, targetExt);
+			}
+		}
+	}
 }
