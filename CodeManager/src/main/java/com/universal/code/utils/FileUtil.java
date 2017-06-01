@@ -1096,7 +1096,7 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
      * @param targetFilePath
      * @throws IOException
      */
-    public static void copyFile(String sourceFilePath, String targetFilePath) throws IOException {
+    public void copyFile(String sourceFilePath, String targetFilePath) throws IOException {
     	
     	DataInputStream in = null;
     	DataOutputStream out = null;
