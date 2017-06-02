@@ -237,28 +237,32 @@ public class PropertyUtil {
     	return excludeNames;
     }
     
-    public String out(Object bean) {
+    public Object getObjectList(Object bean, Class<?> extractType, String[] excludeMethods, boolean isLogging) {
+    	return out(bean, extractType, excludeMethods, isLogging, new Throwable().getStackTrace() , 0, true);
+    }
+    
+    public Object out(Object bean) {
     	return out(bean, false, true);
     }
     
-    public String out(Object bean, boolean childExtract) {
+    public Object out(Object bean, boolean childExtract) {
     	return out(bean, false, childExtract);
     }
     
-    public String out(Object bean, boolean childExtract, String... excludeMethods) {
+    public Object out(Object bean, boolean childExtract, String... excludeMethods) {
     	return out(bean, excludeMethods, false, childExtract);
     }
     
-    public String out(Object bean, boolean isLogging, boolean childExtract) {
+    public Object out(Object bean, boolean isLogging, boolean childExtract) {
     	return out(bean, null, isLogging, childExtract, new Throwable().getStackTrace());
     }
     
-    public String out(Object bean, String[] excludeMethods, boolean isLogging, boolean childExtract) {
+    public Object out(Object bean, String[] excludeMethods, boolean isLogging, boolean childExtract) {
     	return out(bean, excludeMethods, isLogging, childExtract, new Throwable().getStackTrace());
     }
     
-    public String out(Object bean, String[] excludeMethods, boolean isLogging, boolean childExtract, StackTraceElement[] stacks) {
-    	return out(bean, excludeMethods, isLogging, (stacks == null ? new Throwable().getStackTrace() : stacks) , 0, childExtract);
+    public Object out(Object bean, String[] excludeMethods, boolean isLogging, boolean childExtract, StackTraceElement[] stacks) {
+    	return out(bean, null, excludeMethods, isLogging, (stacks == null ? new Throwable().getStackTrace() : stacks) , 0, childExtract);
     }
     
 
@@ -270,9 +274,11 @@ public class PropertyUtil {
      * @throws InvocationTargetException
      * @throws NoSuchMethodException
      */
-    private String out(Object bean, String[] excludeMethods, boolean isLogging, StackTraceElement[] stacks, int level, boolean childExtract) {
+    private Object out(Object bean, Class<?> extractType, String[] excludeMethods, boolean isLogging, StackTraceElement[] stacks, int level, boolean childExtract) {
 
     	StringBuffer message = new StringBuffer();
+    	
+    	List<Object> extractList = new ArrayList<Object>();
     	
     	List<String> excludeNames = getExcludeNames(excludeMethods);
     	    	
@@ -388,18 +394,38 @@ public class PropertyUtil {
             	message.append(propertyValue);
             	message.append(SystemUtil.LINE_SEPARATOR);
             	
+            	if(extractType != null) {
+                	if(extractType.isAssignableFrom(property.getPropertyType())) {
+                		extractList.add(propertyValue);            		
+                	}
+            	}
+
+            	
             	if(childExtract) {
 	            	if(propertyValue != null && Collection.class.isAssignableFrom(property.getPropertyType()) && Collection.class.isAssignableFrom(propertyValue.getClass())) {
 	    				if(logger.isDebugEnabled()) {
 	    					//logger.debug(CommonUtil.addString("propertyValue is collection ParameterizedType!! "));
 	    				}
-						message.append(getDataTransferCollectionObjectContents(propertyValue, excludeMethods, isLogging, stacks, level ));
+						
+						if(extractType != null) {
+	                		extractList.addAll((Collection<? extends Object>) getDataTransferCollectionObjectContents(propertyValue, extractType, excludeMethods, isLogging, stacks, level ));
+	                	}
+	                	else {
+	                		message.append(getDataTransferCollectionObjectContents(propertyValue, extractType, excludeMethods, isLogging, stacks, level ));
+	                	}
 	            	}
 	            	else if(!typeUtil.isGeneralType(property.getPropertyType())) {
 	            		if(logger.isDebugEnabled()) {
 	    					//logger.debug(CommonUtil.addString("propertyValue is not GeneralType!! "));
 	    				}
-	            		message.append(getDataTransferObjectContents(property, propertyValue, excludeMethods, isLogging, stacks, level ));
+	            		
+	                	if(extractType != null) {
+	                		extractList.addAll((Collection<? extends Object>) getDataTransferObjectContents(property, extractType, propertyValue, excludeMethods, isLogging, stacks, level ));
+	                	}
+	                	else {
+	                		message.append(getDataTransferObjectContents(property, extractType, propertyValue, excludeMethods, isLogging, stacks, level ));
+	                	}
+	            		
 	            	}
             	}
             }
@@ -430,25 +456,45 @@ public class PropertyUtil {
     		}
     	}
     	
-    	return message.toString();
+    	if(extractType != null) {
+    		return extractList;
+    	}
+    	else {
+    		return message.toString();
+    	}
     }
     
-    private String getDataTransferObjectContents(PropertyDescriptor property, Object propertyValue, String[] excludeMethods, boolean isLogging, StackTraceElement[] stacks, int level  ) {
+    private Object getDataTransferObjectContents(PropertyDescriptor property, Class<?> extractType, Object propertyValue, String[] excludeMethods, boolean isLogging, StackTraceElement[] stacks, int level  ) {
     	
     	StringBuffer message = new StringBuffer();
+    	
+    	List<Object> extractList = new ArrayList<Object>();
     	
     	if( propertyValue != null && typeUtil.isSupportedReferenceType(propertyValue.getClass().getCanonicalName()) ) {
-    		message.append(SystemUtil.LINE_SEPARATOR);
-    		message.append(out(propertyValue, excludeMethods, isLogging, stacks, level + 1, true));
+    		
+        	if(extractType != null) {
+        		extractList.addAll((Collection<? extends Object>) out(propertyValue, extractType, excludeMethods, isLogging, stacks, level + 1, true));
+        	}
+        	else {
+        		message.append(SystemUtil.LINE_SEPARATOR);
+        		message.append(out(propertyValue, extractType, excludeMethods, isLogging, stacks, level + 1, true));
+        	}
     	}
     	
-    	return message.toString();
+    	if(extractType != null) {
+    		return extractList;
+    	}
+    	else {
+    		return message.toString();
+    	}
     }
     
     
-    private String getDataTransferCollectionObjectContents(Object propertyValue, String[] excludeMethods, boolean isLogging, StackTraceElement[] stacks, int level ) {
+    private Object getDataTransferCollectionObjectContents(Object propertyValue, Class<?> extractType, String[] excludeMethods, boolean isLogging, StackTraceElement[] stacks, int level ) {
     	
     	StringBuffer message = new StringBuffer();
+    	
+    	List<Object> extractList = new ArrayList<Object>();
     	
 		for(Object collectionValues : (Collection<?>) propertyValue) {
 			
@@ -456,7 +502,13 @@ public class PropertyUtil {
 				if(logger.isDebugEnabled()) {
 					//logger.debug(CommonUtil.addString("collectionValues is ParameterizedType!! < recall getDataTransferCollectionObjectContents [ ", collectionValues.getClass().getCanonicalName(), " ] >"));
 				}
-				message.append(getDataTransferCollectionObjectContents(collectionValues, excludeMethods, isLogging, stacks, level + 1));
+				
+		    	if(extractType != null) {
+		    		extractList.addAll((Collection<? extends Object>) getDataTransferCollectionObjectContents(collectionValues, extractType, excludeMethods, isLogging, stacks, level + 1));
+		    	}
+		    	else {
+		    		message.append(getDataTransferCollectionObjectContents(collectionValues, extractType, excludeMethods, isLogging, stacks, level + 1));
+		    	}
 			}
 			else if( /*typeUtil.isSupportedReferenceType(collectionValues.getClass().getCanonicalName()) &&*/
 				!(collectionValues instanceof WildcardType) 
@@ -466,13 +518,26 @@ public class PropertyUtil {
 				if(logger.isDebugEnabled()) {
 					//logger.debug(CommonUtil.addString("collectionValues is self object < recall out [ ", collectionValues.getClass().getCanonicalName(), " ] >"));
 				}
+				
 				// user self dto 이면 제귀 호출
-	    		message.append(SystemUtil.LINE_SEPARATOR);
-	    		message.append(out(collectionValues, excludeMethods, isLogging, stacks, level + 1, true));
+		    	if(extractType != null) {
+		    		extractList.addAll((Collection<? extends Object>) out(collectionValues, extractType, excludeMethods, isLogging, stacks, level + 1, true));
+		    	}
+		    	else {
+		    		message.append(SystemUtil.LINE_SEPARATOR);
+		    		message.append(out(collectionValues, extractType, excludeMethods, isLogging, stacks, level + 1, true));
+		    	}
+		    	
+
 			}
 		}
 		
-		return message.toString();
+    	if(extractType != null) {
+    		return extractList;
+    	}
+    	else {
+    		return message.toString();
+    	}
     }
 
     /**
