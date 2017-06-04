@@ -49,6 +49,14 @@ public interface IUniversalPattern {
 
     public static final String REGISTER_NUMBER = "(\\d{6})([- 　\\t\\n\\x0B\\f\\r]+)?[1234]\\d{6}";
 
+    public static final String NUMBER_PATTERN01 = "^[1-9][0-9]*$"; 			// 는 자연수를 표시할수 있다. 
+    public static final String NUMBER_PATTERN02 = "^(0|[1-9][0-9]*)$"; 		//  는 0을 포함하는 자연수 
+	public static final String NUMBER_PATTERN03 = "^(0|-?[1-9][0-9]*)$"; 	//  정수표시 
+	public static final String NUMBER_PATTERN04 = "^[0-9]+(.[0-9]+)?$"; 	//  소숫점 표시 
+	public static final String NUMBER_PATTERN05 = "^[0-9]+(.[0-9])?$"; 		//  소수점 둘째자리 까지 
+	public static final String NUMBER_PATTERN06 = "^[0-9]+(.[0-9]{1,2})?$"; //  소수점 둘째자리나 첫째자리 
+	public static final String NUMBER_PATTERN07 = "^[0-9]{1,3}(,[0-9])*(.[0-9]{1,2})?$"; //  돈의 표시... 
+    		
     /**
      * 파일명에 들어갈수 없는 특수문자
      */

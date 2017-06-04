@@ -2,8 +2,11 @@ package com.universal.code.utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+
+import jregex.Matcher;
+import jregex.Pattern;
+import jregex.REFlags;
+import jregex.Replacer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +17,10 @@ import com.universal.code.constants.IUniversalPattern;
 import com.universal.code.constants.IXSSPattern;
 
 @Component
-public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionPattern {
+public class JRegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionPattern {
 
-	protected static final Logger logger = LoggerFactory.getLogger(RegexUtil.class);
+	protected static final Logger logger = LoggerFactory.getLogger(JRegexUtil.class);
 
-	public static final int DEFAULT_FLAGS = Pattern.CASE_INSENSITIVE | Pattern.DOTALL; 
-	
 	
 	/**
 	 * 주어진 패턴컴파일, Matcher 실행 및 Matcher 리턴
@@ -27,21 +28,16 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
 	 * @param pattern
 	 * @return
 	 */
-	public Matcher match(String contents , String pattern, int flags) {
+	public Matcher match(String contents , String pattern) {
 		String contentStr = StringUtil.NVL(contents);
-		String patternStr = StringUtil.NVL(pattern);
-		Pattern regex = null;
-		if(flags == -1) {
-			regex = Pattern.compile(patternStr);
-		}
-		else {
-			regex = Pattern.compile(patternStr, flags);
-		}
-		return regex.matcher(contentStr);
+		Pattern pa = pattern(pattern);
+		
+		return pa.matcher(contentStr);
 	}
 
-	public boolean testPattern(String objectStr, String patternStr) {
-		return testPattern(objectStr, patternStr, DEFAULT_FLAGS);
+	public Pattern pattern(String pattern) {
+		String patternStr = StringUtil.NVL(pattern);
+		return new Pattern(patternStr, REFlags.MULTILINE);
 	}
 	
     /**
@@ -50,7 +46,7 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
      * @param patternStr : 정규패턴
      * @return
      */
-	public boolean testPattern(String objectStr, String patternStr, int flags) {
+	public boolean testPattern(String objectStr, String patternStr) {
 		
 		//if(logger.isDebugEnabled()) {
 		//	logger.debug(CommonUtil.mergeObjectString(new Object[]{" *- matcherPatternFind -* objectStr :  " , objectStr , ", patternStr : " , patternStr}));
@@ -58,23 +54,19 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
 		
 		boolean findMatcher = false;
 		if(StringUtil.isNotEmptyStringArray(new String[]{objectStr, patternStr})){
-			Matcher matcher = match(objectStr, patternStr, flags);
+			Matcher matcher = match(objectStr, patternStr);
 			findMatcher = matcher.find();
 		}
 		return findMatcher;
 	}
 
-	public List<String> findPatternToList(String targetString, String patternString){
-		return findPatternToList(targetString, patternString, DEFAULT_FLAGS);
-	}
-	
 	/**
 	 * 대상문자열중 패턴에 해당하는 문자열중 "" 이 아닌 값을 리스트에 담아 리턴하여줍니다.
 	 * @param targetString : 대상문자열
 	 * @param patternString : 패턴
 	 * @return
 	 */
-	public List<String> findPatternToList(String targetString, String patternString, int flags){
+	public List<String> findPatternToList(String targetString, String patternString){
 
 		List<String> patternSet = new ArrayList<String>();
 
@@ -85,26 +77,16 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
         	return patternSet;
         }
 
-  		Matcher matcher = match(targetStr, patternStr, flags);
+  		Matcher matcher = match(targetStr, patternStr);
 
-  		int count = 0;
-  		String matchStr = "";
   		while(matcher.find()){
-  			matchStr = matcher.group().trim();
-  			if(!matchStr.equals("")){
-  				//if(logger.isDebugEnabled()) {
-				//    logger.debug(CommonUtil.mergeObjectString(new Object[]{" Match Count [", (count++), "] ", matchStr}));
-		    	//}
-			    patternSet.add(matchStr);
-  			}
+  			patternSet.add(matcher.toString());
   		}
+  		
   		return patternSet;
 	}
-	
-	public String replaceAllPattern(String sentenceString, String patternString, String switchString){
-		return replaceAllPattern(sentenceString, patternString, switchString, DEFAULT_FLAGS);
-	}
-	
+
+
 	/**
 	 * 대상문자열중 패턴에 해당하는 문자를 switchString 으로 모두 치환하여 리턴하여 줍니다.
 	 * @param sentenceString
@@ -112,7 +94,7 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
 	 * @param switchString
 	 * @return
 	 */
-	public String replaceAllPattern(String sentenceString, String patternString, String switchString, int flags){
+	public String replaceAllPattern(String sentenceString, String patternString, String switchString){
 
     	String sentenceStr = sentenceString;
     	String patternStr = patternString;
@@ -122,19 +104,17 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
         	return sentenceStr;
         }else{
         	patternStr = "("+patternStr+")";
-    		Matcher matcher = match(sentenceStr, patternStr, flags);
+    		Matcher matcher = match(sentenceStr, patternStr);
+    		
     		if(matcher.find()) {
-    			sentenceStr = matcher.replaceAll(switchStr);
+    			Replacer replacer = pattern(patternStr).replacer(switchStr);
+    			sentenceStr = replacer.replace(sentenceStr);
     		}
     	}
 
 		return sentenceStr;
 	}
 
-	
-	public String replaceAllPatternWrap(String sentenceString, String patternString, String postfixString, String prefixString){
-		return replaceAllPatternWrap(sentenceString, patternString, postfixString, prefixString, DEFAULT_FLAGS);
-	}
 	
 	/**
 	 * 대상문자열중 패턴에 해당하는 문자의 앞과 뒤를 postfixStr {patternString} prefixStr 형태로 모두 치환하여 리턴하여줍니다.
@@ -144,7 +124,7 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
 	 * @param prefixStr
 	 * @return
 	 */
-	public String replaceAllPatternWrap(String sentenceString, String patternString, String postfixString, String prefixString, int flags){
+	public String replaceAllPatternWrap(String sentenceString, String patternString, String postfixString, String prefixString){
 
     	String sentenceStr = sentenceString;
     	String patternStr  = patternString;
@@ -155,9 +135,10 @@ public class RegexUtil implements IUniversalPattern, IXSSPattern, ISQLInjectionP
         	return sentenceStr;
         }else{
         	patternStr = "("+patternStr+")";
-    		Matcher matcher = match(sentenceStr, patternStr, flags);
+    		Matcher matcher = match(sentenceStr, patternStr);
     		if(matcher.find()) {
-    			sentenceStr = matcher.replaceAll(postfixStr+"$1"+prefixStr);
+    			Replacer replacer = pattern(patternStr).replacer(postfixStr+"$1"+prefixStr);
+    			sentenceStr = replacer.replace(sentenceStr);
     		}
     	}
 

@@ -28,6 +28,9 @@ public class ExecutePowerbuilderSrdSqlParser {
 	private JSQLParser jsqlParser;
 	
 	private final static String PBL_ROOT_PATH;
+	private final static String PBL_PROJECT_PATH;
+	
+	private final static String PBL_RESOURCE_PATH;
 	private final static String TARGET_EXT;
 	public final static String SPECIAL_CHARACTER;
 	public final static String PATTERN_STRING;
@@ -37,11 +40,15 @@ public class ExecutePowerbuilderSrdSqlParser {
 	//당용한자(간지) : 亜-穏下-懇左-損丼-他濃-那把-盆問-麻冶-翼拉-論和-腕
 	
 	static {
-		PBL_ROOT_PATH = "C:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl/hd";
+		PBL_ROOT_PATH = "C:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
+		PBL_PROJECT_PATH = "/hd";
+		
+		PBL_RESOURCE_PATH = PBL_ROOT_PATH.concat(PBL_PROJECT_PATH);
 		TARGET_EXT = ".srd";
 		
 		SPECIAL_CHARACTER = "[$][*][+][|]\\(\\)\\[\\]\\{\\}\\<\\>\\^\\-?;:~!=@#%&\\_/\\\\,\\.　`'！＇，．／：；？＾＿｀｜￣、。·‥…¨〃―∥＼∼´～ˇ˘˝˚˙¸˛¡¿ː＂（）［］｛｝‘’“”〔〕〈〉《》「」『』【】＋－＜＝＞±×÷≠≤≥∞∴♂♀∠⊥⌒∂∇≡≒≪≫√∽∝∵∫∬∈∋⊆⊇⊂⊃∪∩∧∨￢⇒⇔∀∃∮∑∏＄％￦Ｆ′″℃Å￠￡￥¤℉‰€㎕㎖㎗ℓ㎘㏄㎣㎤㎥㎦㎙㎚㎛㎜㎝㎞㎟㎠㎡㎢㏊㎍㎎㎏㏏㎈㎉㏈㎧㎨㎰㎱㎲㎳㎴㎵㎶㎷㎸㎹㎀㎁㎂㎃㎄㎺㎻㎼㎽㎾㎿㎐㎑㎒㎓㎔Ω㏀㏁㎊㎋㎌㏖㏅㎭㎮㎯㏛㎩㎪㎫㎬㏝㏐㏓㏃㏉㏜㏆＃＆＊＠§※☆★○●◎◇◆□■△▲▽▼→←↑↓↔〓◁◀▷▶♤♠♡♥♧♣⊙◈▣◐◑▒▤▥▨▧▦▩♨☏☎☜☞¶†‡↕↗↙↖↘♭♩♪♬㉿㈜№㏇™㏂㏘℡®ªº─│┌┐┘└├┬┤┴┼━┃┏┓┛┗┣┳┫┻╋┠┯┨┷┿┝┰┥┸╂┒┑┚┙┖┕┎┍┞┟┡┢┦┧┩┪┭┮┱┲┵┶┹┺┽┾╀╁╃╄╅╆╇╈╉╊㉠㉡㉢㉣㉤㉥㉦㉧㉨㉩㉪㉫㉬㉭㉮㉯㉰㉱㉲㉳㉴㉵㉶㉷㉸㉹㉺㉻㈀㈁㈂㈃㈄㈅㈆㈇㈈㈉㈊㈋㈌㈍㈎㈏㈐㈑㈒㈓㈔㈕㈖㈗㈘㈙㈚㈛ⓐⓑⓒⓓⓔⓕⓖⓗⓘⓙⓚⓛⓜⓝⓞⓟⓠⓡⓢⓣⓤⓥⓦⓧⓨⓩ①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⒜⒝⒞⒟⒠⒡⒢⒣⒤⒥⒦⒧⒨⒩⒪⒫⒬⒭⒮⒯⒰⒱⒲⒳⒴⒵⑴⑵⑶⑷⑸⑹⑺⑻⑼⑽⑾⑿⒀⒁⒂０１２３４５６７８９ⅰⅱⅲⅳⅴⅵⅶⅷⅸⅹⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩ½⅓⅔¼¾⅛⅜⅝⅞¹²³⁴ⁿ₁₂₃₄ㄱㄲㄳㄴㄵㄶㄷㄸㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅃㅄㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣㅥㅦㅧㅨㅩㅪㅫㅬㅭㅮㅯㅰㅱㅲㅳㅴㅵㅶㅷㅸㅹㅺㅻㅼㅽㅾㅿㆀㆁㆂㆃㆄㆅㆆㆇㆈㆉㆊㆋㆌㆍㆎＡBCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψωÆÐĦĲĿŁØŒÞŦŊæđðħıĳĸŀłøœßŧŋŉぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんァアィイゥウェエォオカガキギクグケゲコゴサザシジスズセゼソゾタダチヂッツヅテデトドナニヌネノハバパヒビピフブプヘベペホボポマミムメモャヤュユョヨラリルレロヮワヰヱヲンヵヶАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюВ";
 		PATTERN_STRING = "retrieve=\"([a-zA-Zㄱ-ㅎ가-힣0-9ァ-ンあ-ん亜-穏下-懇左-損丼-他濃-那把-盆問-麻冶-翼拉-論和-腕"+SPECIAL_CHARACTER+" 	\r\n\t]+)\"";
+		
 	}
 	
 	public ExecutePowerbuilderSrdSqlParser() {
@@ -107,7 +114,7 @@ public class ExecutePowerbuilderSrdSqlParser {
 	@Test
 	public void execute() throws IOException {
 		
-		File basePath = new File(PBL_ROOT_PATH);
+		File basePath = new File(PBL_RESOURCE_PATH);
 		StringBuilder sqlStb = null;
 		List<String> sqlList = null;
 		Map<String, Object> reseut = null;
@@ -161,9 +168,14 @@ public class ExecutePowerbuilderSrdSqlParser {
 						//logger.debug("[sql]\n{}", sql);
 						sql = sql.trim();
 						sql = sql.substring("retrieve=\"".length(), sql.length() - "\"".length());
+						
+						sqlStb.append("★ Sql From : ");
+						sqlStb.append(getQualifiedName(file.getPath(), PBL_ROOT_PATH));
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						sqlStb.append(sql);
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
-						sqlStb.append("########################## SEPARATOR ##########################");
+						sqlStb.append("■■■■■■■■■■■■ < PARSE IN/OUT COLUMN & TABLE > ■■■■■■■■■■■■");
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 
 						logger.debug("■[START SQL]■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
@@ -174,23 +186,43 @@ public class ExecutePowerbuilderSrdSqlParser {
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						
 						if( reseut.get(JSQLParser.STATEMENT) != null ) {
-							logger.debug("SQL Statement type : " + reseut.get(JSQLParser.STATEMENT));
+							logger.debug("SQL Statement type: {}", reseut.get(JSQLParser.STATEMENT));
+							
+							sqlStb.append("#SQL Statement type: ");
+							sqlStb.append(reseut.get(JSQLParser.STATEMENT));
+							sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						}
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						
 						if( reseut.get(JSQLParser.INPUT_KEY) != null ) {
 							for(String item : (List<String>) reseut.get(JSQLParser.INPUT_KEY) ){
-								logger.debug("INPUT Col : " + item);
+								logger.debug("INPUT Parameter: {}", item);
+								
+								sqlStb.append("INPUT Parameter: ");
+								sqlStb.append(item);
+								sqlStb.append(SystemUtil.LINE_SEPARATOR);
 							}
 						}
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+						
 						
 						if( reseut.get(JSQLParser.OUTPUT_KEY) != null ) {
 							for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.OUTPUT_KEY) ){
-								logger.debug("OUTPUT Col : " + item);
+								logger.debug("OUTPUT ColumnInfo: {}", item);
+								
+								sqlStb.append("OUTPUT ColumnInfo: ");
+								sqlStb.append(item);
+								sqlStb.append(SystemUtil.LINE_SEPARATOR);
 							}
 						}
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+						
+						sqlStb.append("■■■■■■■■■■■■■■■■■■■■■■■■■■■ < SEPARATOR > ■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 					}
 					
 					logger.debug("checkCnt: {}, sqlList.size(): {}", checkCnt, sqlList.size());
@@ -204,6 +236,17 @@ public class ExecutePowerbuilderSrdSqlParser {
 		}
 	}
 	
+	
+	private String getQualifiedName(String resourcePath, String removeString) {
+		
+		String removeStr = removeString.replace("/", ".").replace("\\", ".");
+		String resource = resourcePath.replace("/", ".").replace("\\", ".").replace(removeStr, "").trim();
+		if(resource.startsWith(".")) {
+			resource = resource.substring(".".length());
+		}
+		
+		return resource;
+	}
 	
 	//@Test
 	public void extractTest() {
@@ -269,7 +312,7 @@ public class ExecutePowerbuilderSrdSqlParser {
 		sql.append(SystemUtil.LINE_SEPARATOR);
 		sql.append("\" arguments=((\"as_company\", string),(\"as_fyyyy\", string),(\"as_tyyyy\", string))  sort=\"acode A bcode A \" )");
 		sql.append(SystemUtil.LINE_SEPARATOR);
-		
+		 
 		logger.debug(PATTERN_STRING);
 		
 		for(String item : regexUtil.findPatternToList(sql.toString(), PATTERN_STRING)) {
