@@ -132,7 +132,10 @@ public class JSQLParser {
 	private boolean devTest = true;
 	
 	/** REGEX PATTERN */
-	private final String PTN_NAMED_PARAMETER = ":([_a-zA-Z0-9가-힣]+)";
+	private final String PTN_NAMED_PLUS_PARAMETER = "(([\\s]+)?[+]([\\s]+)?([_a-zA-Z0-9가-힣.]+)([\\s]+)?[+]([\\s]+)?)";
+	
+	private final String PTN_NAMED_PARAMETER = "(:([_a-zA-Z0-9가-힣]+))|".concat(PTN_NAMED_PLUS_PARAMETER);
+	
 	//SOURCE FILTER ONLY
 	private final String PTN_FILTER_CLASS_NAME = "(?i)(EqualsTo|InExpression|LikeExpression|Function|Between|PlainSelect)";
 	//SOURCE DATA EXTRACT
@@ -145,6 +148,7 @@ public class JSQLParser {
 	public static final String INPUT_KEY = "INPUT";
 	public static final String TABLE_KEY = "TABLE";
 	public static final String STATEMENT = "STATEMENT";
+	public static final String WHERE_KEY = "WHERE";
 	
 	public JSQLParser(){
 		
@@ -208,6 +212,17 @@ public class JSQLParser {
 		
 	}
 	
+	private boolean filterKey(List<Map<String, Object>> inputParams, Map<String, Object> inputParam) {
+		boolean out = true;
+		
+		if(inputParams.indexOf(inputParam) > -1) {
+			out = false;
+		}
+		
+		return out;
+	}
+	
+	
 	private Map<String, Object> parseSQL(Statement stmt, String sql){
 		if( logger.isDebugEnabled() ) {
 			logger.debug("[START] parseSQL");
@@ -221,7 +236,7 @@ public class JSQLParser {
 		
 		long startTime = SystemUtil.currentTimeMillis();
 		Map<String, Object> inoutColumns = new HashMap<String, Object>();
-		
+		List<Map<String, Object>> inputItemList = null;
 		
 		if( logger.isDebugEnabled() ) {
 			logger.debug("#Statement : " + stmt.toString());
@@ -232,8 +247,15 @@ public class JSQLParser {
 		Map<String, Object> inputParam = null;
 		for(String param : regexUtil.findPatternToList(sql, PTN_NAMED_PARAMETER)) {
 			inputParam = new LinkedHashMap<String, Object>();
+			param = param.trim();
+			if(regexUtil.testPattern(param, PTN_NAMED_PLUS_PARAMETER)) {
+				param = param.substring(param.indexOf("+") + "+".length(), param.lastIndexOf("+")).trim();
+			}
+			inputParam.put("TYPE", JdbcParameter.class.getSimpleName());
 			inputParam.put(param, null);
-			inputParams.add(inputParam);
+			if(filterKey(inputParams, inputParam)) {
+				inputParams.add(inputParam);
+			}
 		}
 		inoutColumns.put(INPUT_KEY, inputParams);
 		
@@ -256,6 +278,8 @@ public class JSQLParser {
 			// parseSubSQL 
 			parseSubSQL(subSelectBodyList, readColumns);
 			
+			List<Map<String, Object>> selectTables = new ArrayList<Map<String, Object>>();
+			Map<String, Object> selectTable = new LinkedHashMap<String, Object>();
 			//[OUTPUT] 추출 완료된 조회 컬럼
 			for(Map<String, Object> read : readColumns) {
 				
@@ -269,12 +293,23 @@ public class JSQLParser {
 					}
 				}
 				*/
+				if(read.get("TABLE_NAME") != null) {
+					
+					selectTable = new LinkedHashMap<String, Object>();
+					selectTable.put("TABLE_NAME", read.get("TABLE_NAME"));
+					selectTable.put("TABLE_ALIAS", read.get("TABLE_ALIAS"));
+					selectTable.put("TABLE_ON_EXPR", read.get("TABLE_ON_EXPR"));
+					selectTable.put("PARSER_CLASS", read.get("PARSER_CLASS"));
+					if(selectTables.indexOf(selectTable) == -1) {
+						selectTables.add(selectTable);
+					}
+				}
 				
 				columns.add(read);
 			}
-			
+						
 			inoutColumns.put(OUTPUT_KEY, columns);
-			
+			inoutColumns.put(TABLE_KEY, selectTables);
 		}
 		else if( stmt instanceof Insert ) {
 			if( logger.isDebugEnabled() ) {
@@ -283,7 +318,7 @@ public class JSQLParser {
 			Insert insert = (Insert) stmt;
 			
 			//S. PARSER START
-			logger.debug("[INSERT]\n{}", propertyUtil.out(insert));
+			logger.debug("[INSERT]\n" /*, propertyUtil.out(insert)*/);
 
 			List<Map<String, Object>> insertTables = new ArrayList<Map<String, Object>>();
 			Map<String, Object> insertTable = new LinkedHashMap<String, Object>();
@@ -313,6 +348,9 @@ public class JSQLParser {
 					insertCol.put("TABLE_SCHEMA_NAME", column.getTable().getSchemaName());
 					insertCol.put("TABLE_NAME", column.getTable().getName());
 					insertCol.put("TABLE_FULLY_QUALIFIED_NAME", column.getTable().getFullyQualifiedName());
+					if(column.getTable().getAlias() != null) {
+						insertCol.put("TABLE_ALIAS", column.getTable().getAlias().getName());
+					}
 					
 					if(column.getTable().getName() == null) {
 						insertCol.putAll(insertTable);
@@ -328,14 +366,24 @@ public class JSQLParser {
 			ExpressionList itemsList = (ExpressionList) insert.getItemsList();
 			//가 있으면 insertColumns에 담는다. 
 			logger.debug("[INSERT] itemsList: {}", itemsList);
-			for(Expression expr : itemsList.getExpressions()) {
-				logger.debug("[INSERT] expr: {}, class: {}", expr.toString(), expr.getClass());
+			if(itemsList != null && itemsList.getExpressions() != null) {
 				
-				insertCol = new LinkedHashMap<String, Object>();
-				insertCol.put("TYPE", expr.getClass().getSimpleName());
-				insertCol.put("INPUT_NAME", expr.toString());
-				
-				insertColumns.add(insertCol);
+				for(Expression expr : itemsList.getExpressions()) {
+					logger.debug("[INSERT] expr: {}, class: {}", expr.toString(), expr.getClass());
+					
+					insertCol = new LinkedHashMap<String, Object>();
+					insertCol.put("TYPE", expr.getClass().getSimpleName());
+					insertCol.put("INPUT_NAME", expr.toString());
+					
+					insertColumns.add(insertCol);
+				}
+			}
+			else {
+				if(inoutColumns.get(INPUT_KEY) != null) {
+
+					inputItemList = ((List<Map<String, Object>>) inoutColumns.get(INPUT_KEY));
+					insertColumns.addAll(inputItemList);	
+				}	
 			}
 			
 			//다른테이블의 데이터를 조회하여 입력할 경우
@@ -359,7 +407,7 @@ public class JSQLParser {
 			//E. PARSER END
 			
 			inoutColumns.put(TABLE_KEY, insertTables);
-			inoutColumns.put(INPUT_KEY, insertColumns);
+			inoutColumns.put(INPUT_KEY, insertColumns);	
 			inoutColumns.put(OUTPUT_KEY, readColumns);
 		}
 		else if( stmt instanceof Update ) {
@@ -374,22 +422,151 @@ public class JSQLParser {
 			Map<String, Object> updateCol = null;
 			List<Map<String, Object>> readColumns = new ArrayList<Map<String, Object>>();
 			Map<String, Object> readCol = null;
+			String tableAlais = null;
+			String columnTableAlais = null;
 			
-			/*
-			update.getTables()
-			update.getFromItem()
-			update.getJoins()
 			
-			update.getColumns()
+			logger.debug("[UPDATE] getTables: {}", update.getTables());
+			for(Table table : update.getTables()) {
+				updateTable = new LinkedHashMap<String, Object>();
+				updateTable.put("TABLE_NAME", table.getName());
+				updateTable.put("TABLE_FULLY_QUALIFIED_NAME", table.getFullyQualifiedName());
+				if(table.getAlias() != null) {
+					updateTable.put("TABLE_ALIAS", table.getAlias().getName());
+				}
+				
+				updateTables.add(updateTable);
+			}
 			
-			update.getSelect()
+			logger.debug("[UPDATE] getFromItem: {}", update.getFromItem());
+			if(update.getFromItem() != null) {
+				
+				updateTable = new LinkedHashMap<String, Object>();
+				updateTable.put("TABLE_NAME", update.getFromItem().toString());
+				updateTable.put("TABLE_FULLY_QUALIFIED_NAME", update.getFromItem().toString());
+				if(update.getFromItem().getAlias() != null) {
+					updateTable.put("TABLE_ALIAS", update.getFromItem().getAlias().getName());
+				}
+				
+				updateTables.add(updateTable);
+			}
 			
-			update.getWhere()
-			*/
+			logger.debug("[UPDATE] getJoins: {}", update.getJoins());
+			if(update.getJoins() != null) {
+				
+				for(Join join : update.getJoins()) {
+					
+					updateTable = new LinkedHashMap<String, Object>();
+					updateTable.put("TABLE_NAME", join.getRightItem().toString());
+					updateTable.put("TABLE_ALIAS", (join.getRightItem().getAlias() != null ? join.getRightItem().getAlias().getName() : ""));
+					updateTable.put("TABLE_ON_EXPR", (join.getOnExpression() != null ? join.getOnExpression().toString() : ""));
+					updateTable.put("PARSER_CLASS", join.getRightItem().getClass().getCanonicalName());
+					updateTables.add(updateTable);
+
+				}
+			}
+			
+			logger.debug("[UPDATE] getColumns: {}", update.getColumns());
+			List<Column> updColumns = update.getColumns();
+			
+			for(Column column : updColumns) {
+				
+				updateCol = new LinkedHashMap<String, Object>();
+				updateCol.put("TYPE", column.getClass().getSimpleName());
+				updateCol.put("COLUMN_NAME", column.getColumnName());
+				updateCol.put("FULLY_QUALIFIED_NAME", column.getFullyQualifiedName()); 
+				
+				logger.debug("[UPDATE_COL_INFO]\n{}", propertyUtil.out(column));
+				
+				// SQL: UPDATE 대상 컬럼에 테이블 정보가 있을경우
+				if(column.getTable() != null) {
+					updateCol.put("TABLE_SCHEMA_NAME", column.getTable().getSchemaName());
+					updateCol.put("TABLE_NAME", column.getTable().getName());
+					updateCol.put("TABLE_FULLY_QUALIFIED_NAME", column.getTable().getFullyQualifiedName());
+					if(column.getTable().getAlias() != null) {
+						updateCol.put("TABLE_ALIAS", column.getTable().getAlias().getName());
+					}
+					
+					if(column.getTable().getName() == null) {
+						if(updateTables != null && updateTables.size() == 1) {
+							updateCol.putAll(updateTables.get(0));
+						}
+						else {
+							for(Map<String, Object> table : updateTables) {
+								tableAlais = StringUtil.NVL((String) table.get("TABLE_ALIAS"));
+								columnTableAlais = StringUtil.NVL((String) updateCol.get("TABLE_ALIAS"));
+								
+								if(tableAlais.equals(columnTableAlais)) {
+									updateCol.putAll(table);
+									break;
+								}
+							}
+						}
+					}
+				}
+				else {
+					// SQL: UPDATE 대상 컬럼에 테이블 정보가 없을경우
+					if(updateTables != null && updateTables.size() == 1) {
+						updateCol.putAll(updateTables.get(0));
+					}
+					else {
+						for(Map<String, Object> table : updateTables) {
+							tableAlais = StringUtil.NVL((String) table.get("TABLE_ALIAS"));
+							columnTableAlais = StringUtil.NVL((String) updateCol.get("TABLE_ALIAS"));
+							
+							if(tableAlais.equals(columnTableAlais)) {
+								updateCol.putAll(table);
+								break;
+							}
+						}
+					}
+				}
+				logger.debug("[UPDATE] updateCol: {}", updateCol);
+				updateColumns.add(updateCol);
+			}
+			
+			if(inoutColumns.get(INPUT_KEY) != null) {
+
+				inputItemList = ((List<Map<String, Object>>) inoutColumns.get(INPUT_KEY));
+				updateColumns.addAll(inputItemList);	
+			}	
+			
+			logger.debug("[UPDATE] getSelect: {}", update.getSelect());
+			Select select = update.getSelect();
+			if(select != null) {
+				// select가있으면 SelectBody을 추출 하여 분석한다.
+				List<Map<String, Object>> readColumnData = new ArrayList<Map<String, Object>>();
+				List<SelectBody> subSelectBodyList = (List<SelectBody>) propertyUtil.getObjectList(select, SelectBody.class, new String[]{}, false);
+				// parseSubSQL 
+				parseSubSQL(subSelectBodyList, readColumnData);
+				
+				//[OUTPUT] 추출 완료된 조회 컬럼
+				for(Map<String, Object> read : readColumnData) {
+					readColumns.add(read);
+				}
+			}
+			
+			logger.debug("[UPDATE] getWhere: {}", update.getWhere());
+			Expression where = update.getWhere();
+			if(where != null) {
+				// select가있으면 SelectBody을 추출 하여 분석한다.
+				List<Map<String, Object>> readColumnData = new ArrayList<Map<String, Object>>();
+				List<SelectBody> subSelectBodyList = (List<SelectBody>) propertyUtil.getObjectList(where, SelectBody.class, new String[]{}, false);
+				// parseSubSQL 
+				parseSubSQL(subSelectBodyList, readColumnData);
+				
+				//[OUTPUT] 추출 완료된 조회 컬럼
+				for(Map<String, Object> read : readColumnData) {
+					readColumns.add(read);
+				}
+			}
+			
 			
 			inoutColumns.put(TABLE_KEY, updateTables);
 			inoutColumns.put(INPUT_KEY, updateColumns);
 			inoutColumns.put(OUTPUT_KEY, readColumns);
+			inoutColumns.put(WHERE_KEY, (update.getWhere() != null ? update.getWhere().toString() : ""));
+			
 		}
 		else if( stmt instanceof Delete ) {
 			if( logger.isDebugEnabled() ) {
@@ -399,20 +576,38 @@ public class JSQLParser {
 
 			List<Map<String, Object>> deleteTables = new ArrayList<Map<String, Object>>();
 			Map<String, Object> deleteTable = new LinkedHashMap<String, Object>();
-			List<Map<String, Object>> deleteColumns = new ArrayList<Map<String, Object>>();
-			Map<String, Object> deleteCol = null;
+			List<Map<String, Object>> deleteParams = new ArrayList<Map<String, Object>>();
+			Map<String, Object> deleteParam = null;
 			List<Map<String, Object>> readColumns = new ArrayList<Map<String, Object>>();
 			Map<String, Object> readCol = null;
 			
-			/*
-			delete.getTable()
-			
-			delete.getWhere()
-			*/
+			Table table = delete.getTable();
+			deleteTable.put("TABLE_NAME", table.getName());
+			deleteTable.put("TABLE_FULLY_QUALIFIED_NAME", table.getFullyQualifiedName());
+			if(table.getAlias() != null) {
+				deleteTable.put("TABLE_ALIAS", table.getAlias().getName());
+			}
+			logger.debug("[DELETE] deleteTable: {}", deleteTable);
+			deleteTables.add(deleteTable);
+	
+			Expression where = delete.getWhere();
+			if(where != null) {
+				
+				// select가있으면 SelectBody을 추출 하여 분석한다.
+				List<Map<String, Object>> readColumnData = new ArrayList<Map<String, Object>>();
+				List<SelectBody> subSelectBodyList = (List<SelectBody>) propertyUtil.getObjectList(where, SelectBody.class, new String[]{}, false);
+				// parseSubSQL 
+				parseSubSQL(subSelectBodyList, readColumnData);
+				
+				//[OUTPUT] 추출 완료된 조회 컬럼
+				for(Map<String, Object> read : readColumnData) {
+					readColumns.add(read);
+				}
+			}
 			
 			inoutColumns.put(TABLE_KEY, deleteTables);
-			inoutColumns.put(INPUT_KEY, deleteColumns);
 			inoutColumns.put(OUTPUT_KEY, readColumns);
+			inoutColumns.put(WHERE_KEY, (delete.getWhere() != null ? delete.getWhere().toString() : ""));
 		}
 		else if( stmt instanceof Merge ) {
 			if( logger.isDebugEnabled() ) {

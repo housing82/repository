@@ -3,6 +3,7 @@ package com.universal.runner.srd;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,10 +28,12 @@ public class ExecutePowerbuilderSrdSqlParser {
 	
 	private JSQLParser jsqlParser;
 	
+	private SqlParserHelper sqlParserHelper;
+	
 	private final static String PBL_ROOT_PATH;
 	private final static String PBL_PROJECT_PATH;
 	
-	private final static String PBL_RESOURCE_PATH;
+	public final static String PBL_RESOURCE_PATH;
 	private final static String TARGET_EXT;
 	public final static String SPECIAL_CHARACTER;
 	public final static String PATTERN_STRING;
@@ -55,67 +58,28 @@ public class ExecutePowerbuilderSrdSqlParser {
 		fileUtil = new FileUtil(); 
 		regexUtil = new RegexUtil();
 		jsqlParser = new JSQLParser();
-	}
-	
-	//@Test
-	public void parser() {
-		
-		StringBuilder sql = new StringBuilder();
-		
-		
-		sql.append("SELECT * FROM (");
-		sql.append("SELECT A.DEPT_CODE,	\n");
-		sql.append("	B.DEPT_NAME,	\n");
-		sql.append("	A.HOUSETAG, C.NM,	\n");
-		sql.append("	(SELECT COLUMN_K FROM TEST_TABLE WHERE A = 1) SDATA	\n");
-		sql.append("FROM HD_CODE_HOUSE A,	\n");
-		sql.append("	HD_CODE_DEPT B,	\n");
-		sql.append("	HD_CODE_COMM C	\n");
-		sql.append("WHERE A.DEPT_CODE = B.DEPT_CODE	\n");
-		sql.append("	AND A.HOUSETAG = C.CODE	\n");
-		sql.append("	AND C.GUBUN    = '03'	\n");
-		sql.append("	AND EXISTS (SELECT E.PROJ_CODE	\n");
-		sql.append("FROM SM_AUTH_USER D,	\n");
-		sql.append("      SM_AUTH_PROJECT E	\n");
-		sql.append("WHERE D.GROUP_CODE   = E.GROUP_CODE	\n");
-		sql.append("  AND D.COMPANY_CODE = E.COMPANY_CODE	\n");
-		sql.append("  AND E.PROJ_CODE    = A.DEPT_CODE	\n");
-		sql.append("  AND D.USER_ID      = :as_emp	\n");
-		sql.append(")	\n");
-		sql.append("AND NVL(B.LISTTAG, '1') <> '2'	\n");		
-		sql.append(")	\n");
-		
-		
-		Map<String, Object> reseut = jsqlParser.parseSQL(sql.toString());
-		
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		
-		if( reseut.get(JSQLParser.STATEMENT) != null ) {
-			logger.debug("SQL Statement type : " + reseut.get(JSQLParser.STATEMENT));
-		}
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		
-		if( reseut.get(JSQLParser.INPUT_KEY) != null ) {
-			for(String item : (List<String>) reseut.get(JSQLParser.INPUT_KEY) ){
-				logger.debug("INPUT Col : " + item);
-			}
-		}
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		
-		if( reseut.get(JSQLParser.OUTPUT_KEY) != null ) {
-			for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.OUTPUT_KEY) ){
-				logger.debug("OUTPUT Col : " + item);
-			}
-		}
-		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-		
+		sqlParserHelper = new SqlParserHelper();
 	}
 	
 	@Test
-	public void execute() throws IOException {
+	public void parsePblDumpSql() throws IOException {
+		parsePblDumpSql(null, null, null, null);
+	}
+	
+	
+	
+	public String parsePblDumpSql(String baseDir, Map<String, Integer> hdAllTables,	Map<String, Integer> hdAllFunctions, Map<String, Integer> hdAllProcedures) throws IOException {
 		
 		File basePath = new File(PBL_RESOURCE_PATH);
+		if(baseDir != null) {
+			basePath = new File(baseDir);
+		}
+		else {
+			basePath = new File(PBL_RESOURCE_PATH);
+		}
+		
 		StringBuilder sqlStb = null;
+		StringBuilder sqlAllStb = new StringBuilder();
 		List<String> sqlList = null;
 		Map<String, Object> reseut = null;
 		
@@ -139,15 +103,15 @@ public class ExecutePowerbuilderSrdSqlParser {
 						fileName = currentDir.getPath().substring(currentDir.getPath().lastIndexOf(File.separator)).concat(".extract.sql");
 						fileUtil.mkfile(currentDir.getPath(), fileName, sqlStb.toString(), IOperateCode.ENCODING_UTF8, false, true);
 						
+						sqlAllStb.append(sqlStb.toString());
+						sqlAllStb.append(SystemUtil.LINE_SEPARATOR);
 					}
 					
 					currentDir = file.getParentFile();
 					sqlStb = new StringBuilder();
 					logger.debug("* 디렉토리 변경: {}", currentDir.getPath());
 				}
-				
-
-				
+								
 				fileContents = fileUtil.getTextFileContent(file, "UTF-16LE");
 				
 				if(fileContents.contains("retrieve=")) {
@@ -193,17 +157,39 @@ public class ExecutePowerbuilderSrdSqlParser {
 							sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						}
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
+						
+						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+						
+						if( reseut.get(JSQLParser.TABLE_KEY) != null ) {
+							for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.TABLE_KEY) ){
+								logger.debug("TABLE : {}", item);
+								
+								sqlStb.append("TABLE : ");
+								sqlStb.append(item);
+								sqlStb.append(SystemUtil.LINE_SEPARATOR);
+								
+								if((String) item.get("TABLE_NAME") != null && !((String) item.get("TABLE_NAME")).startsWith("(")) {
+									sqlParserHelper.setMapKeySequnceValue(hdAllTables, (String) item.get("TABLE_NAME"));
+								}
+							}
+						}
+						sqlStb.append(SystemUtil.LINE_SEPARATOR);
+						
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						
 						if( reseut.get(JSQLParser.INPUT_KEY) != null ) {
-							for(String item : (List<String>) reseut.get(JSQLParser.INPUT_KEY) ){
+							for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.INPUT_KEY) ){
 								logger.debug("INPUT Parameter: {}", item);
 								
 								sqlStb.append("INPUT Parameter: ");
 								sqlStb.append(item);
 								sqlStb.append(SystemUtil.LINE_SEPARATOR);
+								
+								if((String) item.get("TYPE") != null && ((String) item.get("TYPE")).equals("Function")) {
+									sqlParserHelper.setMapKeySequnceValue(hdAllFunctions, (String) item.get("FUNCTION_NAME"));
+								}
 							}
-						}
+						}						
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						
@@ -215,6 +201,10 @@ public class ExecutePowerbuilderSrdSqlParser {
 								sqlStb.append("OUTPUT ColumnInfo: ");
 								sqlStb.append(item);
 								sqlStb.append(SystemUtil.LINE_SEPARATOR);
+								
+								if((String) item.get("TYPE") != null && ((String) item.get("TYPE")).equals("Function")) {
+									sqlParserHelper.setMapKeySequnceValue(hdAllFunctions, (String) item.get("FUNCTION_NAME"));
+								}
 							}
 						}
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
@@ -233,7 +223,30 @@ public class ExecutePowerbuilderSrdSqlParser {
 				}
 
 			} //E. for fileList 
+			
+			if(currentDir != null /*|| !currentDir.getPath().equals(file.getParentFile().getPath())*/) {
+				//디렉토리가 변경되면 이전에 추출한 내용을 파일에 저장한다.
+				//디렉토리 1개당 처리					
+				if(sqlStb != null) {
+					logger.debug(sqlStb.toString());
+					fileName = currentDir.getPath().substring(currentDir.getPath().lastIndexOf(File.separator)).concat(".extract.sql");
+					fileUtil.mkfile(currentDir.getPath(), fileName, sqlStb.toString(), IOperateCode.ENCODING_UTF8, false, true);
+					sqlAllStb.append(sqlStb.toString());
+					sqlAllStb.append(SystemUtil.LINE_SEPARATOR);
+				}
+
+				logger.debug("* 마지막 라인 처리: {}", currentDir.getPath());
+			}
+			
+			if(baseDir == null) {
+				fileUtil.mkfile(PBL_RESOURCE_PATH, "all_sql_extract.sql", sqlAllStb.toString(), IOperateCode.ENCODING_UTF8, false, true);
+			}
 		}
+		else {
+			throw new ApplicationException("파일이 존재하지 않거나 디렉토리가 아닙니다. 경로: {}", basePath.getPath());
+		}
+		
+		return sqlAllStb.toString();
 	}
 	
 	
@@ -319,4 +332,60 @@ public class ExecutePowerbuilderSrdSqlParser {
 			logger.debug("[sql]\n{}", item);
 		}
 	}
+	
+
+	//@Test
+	public void parser() {
+		
+		StringBuilder sql = new StringBuilder();
+		
+		
+		sql.append("SELECT * FROM (");
+		sql.append("SELECT A.DEPT_CODE,	\n");
+		sql.append("	B.DEPT_NAME,	\n");
+		sql.append("	A.HOUSETAG, C.NM,	\n");
+		sql.append("	(SELECT COLUMN_K FROM TEST_TABLE WHERE A = 1) SDATA	\n");
+		sql.append("FROM HD_CODE_HOUSE A,	\n");
+		sql.append("	HD_CODE_DEPT B,	\n");
+		sql.append("	HD_CODE_COMM C	\n");
+		sql.append("WHERE A.DEPT_CODE = B.DEPT_CODE	\n");
+		sql.append("	AND A.HOUSETAG = C.CODE	\n");
+		sql.append("	AND C.GUBUN    = '03'	\n");
+		sql.append("	AND EXISTS (SELECT E.PROJ_CODE	\n");
+		sql.append("FROM SM_AUTH_USER D,	\n");
+		sql.append("      SM_AUTH_PROJECT E	\n");
+		sql.append("WHERE D.GROUP_CODE   = E.GROUP_CODE	\n");
+		sql.append("  AND D.COMPANY_CODE = E.COMPANY_CODE	\n");
+		sql.append("  AND E.PROJ_CODE    = A.DEPT_CODE	\n");
+		sql.append("  AND D.USER_ID      = :as_emp	\n");
+		sql.append(")	\n");
+		sql.append("AND NVL(B.LISTTAG, '1') <> '2'	\n");		
+		sql.append(")	\n");
+		
+		
+		Map<String, Object> reseut = jsqlParser.parseSQL(sql.toString());
+		
+		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		
+		if( reseut.get(JSQLParser.STATEMENT) != null ) {
+			logger.debug("SQL Statement type : " + reseut.get(JSQLParser.STATEMENT));
+		}
+		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		
+		if( reseut.get(JSQLParser.INPUT_KEY) != null ) {
+			for(String item : (List<String>) reseut.get(JSQLParser.INPUT_KEY) ){
+				logger.debug("INPUT Col : " + item);
+			}
+		}
+		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		
+		if( reseut.get(JSQLParser.OUTPUT_KEY) != null ) {
+			for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.OUTPUT_KEY) ){
+				logger.debug("OUTPUT Col : " + item);
+			}
+		}
+		logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
+		
+	}
+	
 }
