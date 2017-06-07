@@ -12,6 +12,7 @@ public class SqlParserHelper {
 		}
 		
 		if(key != null) {
+			key = key.toUpperCase();
 			
 			if(map.get(key) != null) {
 				map.put(key, ((Integer) map.get(key)) + 1);

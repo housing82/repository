@@ -314,6 +314,13 @@ public class BxmBeanGenerateUtil {
 		
 		OmmDTO bcInOmmDTO = null;
 		OmmDTO bcOutOmmDTO = null;
+
+		String bcInOmmType = null;
+		String bcInOmmFieldName = null;
+		String bcOutOmmType = null;
+		String bcOutOmmFieldName = null;
+		OmmFieldDTO bcInOmmField = null;
+		OmmFieldDTO bcOutOmmField = null;
 		
 		// copyTarget
 		List<String> copyTarget = new ArrayList<String>();
@@ -530,6 +537,20 @@ public class BxmBeanGenerateUtil {
 												parseOmm = generateHelper.getOmmProperty(ommFile);
 												logger.debug("parseInOmm: \n{}", parseOmm.toString());
 												
+												bcInOmmType = ifInOmmPath.substring(0, ifInOmmPath.lastIndexOf(IOperateCode.STR_DOT)).replace(getSourceRoot(), "").replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+												bcInOmmFieldName = stringUtil.getFirstCharLowerCase(bcInOmmType);
+												
+												//OMM Field
+												bcInOmmField = new OmmFieldDTO();
+												bcInOmmField.setType(bcInOmmType);
+												bcInOmmField.setName(bcInOmmFieldName);
+												bcInOmmField.setLength("0");
+												bcInOmmField.setDescription(parseOmm.getOmmDesc());
+												bcInOmmDTO.addOmmFields(bcInOmmField);
+												
+												logger.debug("In OMM Type: {}", bcInOmmField.getType());
+												
+												/*
 												if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
 													for(OmmFieldDTO calleeInOmmField : parseOmm.getOmmFields()) {
 														inOmmPropertySetGetter.append("		");
@@ -539,6 +560,7 @@ public class BxmBeanGenerateUtil {
 														bcInOmmDTO.addOmmFields(calleeInOmmField);
 													}
 												}
+												*/
 											}
 											else {
 												//패키지가 존재하지 않는 타입이거나 primitive 타입일경우

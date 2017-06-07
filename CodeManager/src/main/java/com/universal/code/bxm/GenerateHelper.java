@@ -221,10 +221,19 @@ public class GenerateHelper {
 			
 				String type = line.substring(0, line.indexOf(" ")).trim();
 				String name = line.substring(line.indexOf(" "), line.indexOf("<")).trim();
+				logger.debug("#type: {}, name: {}", type, name);
 				String info = line.substring(line.indexOf("<") + "<".length(), line.lastIndexOf(">"));
+				logger.debug("#info: {}", info);
 				String length = info.substring(info.indexOf("length=") + "length=".length(), info.indexOf(" ") + " ".length());
-				String description = info.substring(info.indexOf("description=\"") + "description=\"".length());
-				description = description.substring(0, description.indexOf("\" ")).trim();
+				logger.debug("#length: {}", length);
+				
+				String description = null;
+				if(info.indexOf("description=\"") > -1) {
+					description = info.substring(info.indexOf("description=\"") + "description=\"".length());
+					logger.debug("#description(1): {}", description);
+					description = description.substring(0, description.indexOf("\"")).trim();
+					logger.debug("#description(2): {}", description);
+				}
 				
 				ommFieldDTO.setType(type);
 				ommFieldDTO.setName(name);
