@@ -538,6 +538,9 @@ public class BxmBeanGenerateUtil {
 												logger.debug("parseInOmm: \n{}", parseOmm.toString());
 												
 												bcInOmmType = ifInOmmPath.substring(0, ifInOmmPath.lastIndexOf(IOperateCode.STR_DOT)).replace(getSourceRoot(), "").replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+												if(bcInOmmType.startsWith(IOperateCode.STR_DOT)) {
+													bcInOmmType = bcInOmmType.substring(IOperateCode.STR_DOT.length());
+												}
 												bcInOmmFieldName = stringUtil.getFirstCharLowerCase(bcInOmmType);
 												
 												//OMM Field
