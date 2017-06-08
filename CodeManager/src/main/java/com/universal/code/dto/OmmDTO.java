@@ -9,6 +9,7 @@ import com.universal.code.extend.IDataTransferObject;
 
 public class OmmDTO extends CommonObject implements IDataTransferObject, Serializable {
 
+	private String sourceRoot;
 	private String ommType;
 	private String ommDesc;
 	private List<OmmFieldDTO> ommFields;
@@ -19,9 +20,20 @@ public class OmmDTO extends CommonObject implements IDataTransferObject, Seriali
 	
 	private void reset() {
 		
+		sourceRoot = null;
 		ommType = null;
 		ommDesc = null;
 		ommFields = new ArrayList<OmmFieldDTO>();
+	}
+
+	
+	
+	public String getSourceRoot() {
+		return sourceRoot;
+	}
+
+	public void setSourceRoot(String sourceRoot) {
+		this.sourceRoot = sourceRoot;
 	}
 
 	public String getOmmType() {

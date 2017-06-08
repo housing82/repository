@@ -26,7 +26,7 @@ import bxm.dft.context.DefaultApplicationContext;
  * @since #{rvDate}
  * @version 3.0.0
  * @author Developer
- * @see "BXM User Guide"
+ * @see "BXM Bean"
  */
 @BxmBean
 @BxmCategory(type = "BC", logicalName = "#{rvLogicalName}", description = "#{rvDescription}")

@@ -30,6 +30,8 @@ public class TypeUtil  {
 	
 	private static Set<Class<?>> primitiveWrapper = null;
 	
+	private static Map<String, Class<?>> primitiveConvertWrapper = null;
+	
 	private static Map<String, String> primitiveWrapperInitValueMap = null;
 	
 	private static Map<String, String> primitiveWrapperDefaultLengthMap = null;
@@ -73,6 +75,18 @@ public class TypeUtil  {
 		//primitiveWrapper.add(java.net.URL.class);
 	}
 
+	static {
+		primitiveConvertWrapper = new HashMap<String, Class<?>>();
+		primitiveConvertWrapper.put(Boolean.TYPE.toString(), java.lang.Boolean.class);
+		primitiveConvertWrapper.put(Byte.TYPE.toString(), java.lang.Byte.class);
+		primitiveConvertWrapper.put(Character.TYPE.toString(), java.lang.Character.class);
+		primitiveConvertWrapper.put(Double.TYPE.toString(), java.lang.Double.class);
+		primitiveConvertWrapper.put(Float.TYPE.toString(), java.lang.Float.class);
+		primitiveConvertWrapper.put(Integer.TYPE.toString(), java.lang.Integer.class);
+		primitiveConvertWrapper.put(Long.TYPE.toString(), java.lang.Long.class);
+		primitiveConvertWrapper.put(Short.TYPE.toString(), java.lang.Short.class);
+	}
+	
 	static {
 		primitiveWrapperInitValueMap = new HashMap<String, String>();
 		primitiveWrapperInitValueMap.put(java.math.BigDecimal.class.getSimpleName(), "BigDecimal.ZERO");
@@ -188,6 +202,19 @@ public class TypeUtil  {
 		return value;
 	}
 	
+	
+	public String getPrimitiveConvertWrapper(String primitiveType) {
+		//logger.debug("primitiveConvertWrapper: {} > {}",primitiveType, primitiveConvertWrapper);
+		
+		Class<?> prtv = primitiveConvertWrapper.get(primitiveType);
+		
+		if(prtv != null) {
+			return prtv.getSimpleName();
+		}
+		else {
+			return primitiveType;
+		}
+	}
 	
     
  	public String getDataBaseType4j(String dataBaseType){

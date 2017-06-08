@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.universal.code.constants.IOperateCode;
 import com.universal.code.constants.JavaReservedWordConstants;
 import com.universal.code.dto.OmmDTO;
 import com.universal.code.dto.OmmFieldDTO;
@@ -24,6 +25,8 @@ public class GenerateHelper {
 	private final static Logger logger = LoggerFactory.getLogger(GenerateHelper.class);
 	
 	private StringUtil stringUtil;
+	
+	private FileUtil fileUtil;
 	
 	private static GenerateHelper INSTANCE;
 	
@@ -43,6 +46,8 @@ public class GenerateHelper {
 	
 	final static Map<String, String> METHOD_VERB;
 	
+	final static String OMM_EXT;
+	
 	static {
 		JAVA_PREFIX = new HashMap<String, String>();
 		
@@ -57,6 +62,7 @@ public class GenerateHelper {
 		METHOD_VERB.put("modify", "수정");
 		METHOD_VERB.put("remove", "삭제");
 		
+		OMM_EXT = ".omm";
 		
 		INSTANCE = new GenerateHelper();
 		javaDataMap = new HashMap<String, Integer>();
@@ -78,6 +84,7 @@ public class GenerateHelper {
 	
 	public GenerateHelper() {
 		stringUtil = new StringUtil();
+		fileUtil = new FileUtil();
 	}
 	
 	public static void setExcelData(String excelPath, Map<String, List<ExcelDTO>> sheetData) {
@@ -221,24 +228,24 @@ public class GenerateHelper {
 			
 				String type = line.substring(0, line.indexOf(" ")).trim();
 				String name = line.substring(line.indexOf(" "), line.indexOf("<")).trim();
-				logger.debug("#type: {}, name: {}", type, name);
+				//logger.debug("#type: {}, name: {}", type, name);
 				String info = line.substring(line.indexOf("<") + "<".length(), line.lastIndexOf(">"));
-				logger.debug("#info: {}", info);
+				//logger.debug("#info: {}", info);
 				
 				String length = null;
 				String description = null;
 				if(info.indexOf("description=\"") > -1) {
 					length = info.substring(info.indexOf("length=") + "length=".length(), info.indexOf(" ") + " ".length());
-					logger.debug("#length: {}", length);
+					//logger.debug("#length: {}", length);
 					
 					description = info.substring(info.indexOf("description=\"") + "description=\"".length());
-					logger.debug("#description(1): {}", description);
+					//logger.debug("#description(1): {}", description);
 					description = description.substring(0, description.indexOf("\"")).trim();
-					logger.debug("#description(2): {}", description);
+					//logger.debug("#description(2): {}", description);
 				}
 				else {
 					length = info.substring(info.indexOf("length=") + "length=".length());
-					logger.debug("#length: {}", length);
+					//logger.debug("#length: {}", length);
 				}
 				
 				ommFieldDTO.setType(type);
@@ -289,10 +296,60 @@ public class GenerateHelper {
 		return out.toString();
 	}
 
-	boolean createOmmFile(OmmDTO ommDTO) {
+	boolean createOmmFile(OmmDTO ommDTO, boolean makeFile) {
 		boolean out = false;
+		logger.debug("[createOmmFile]\n"/*, ommDTO*/);
+		if(ommDTO.getOmmFields() == null || ommDTO.getOmmFields().size() == 0) {
+			//throw new ApplicationException("OMM 필드가 설정되지 않았습니다.");
+			return out;
+		}
 		
+		String fileName = null;
+		String ommPath = ommDTO.getSourceRoot().replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
+		if(!ommPath.endsWith(IOperateCode.STR_SLASH)) {
+			ommPath = ommPath.concat(IOperateCode.STR_SLASH);
+		}
+		ommPath = ommPath.concat(ommDTO.getOmmType().replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH));
+		fileName = ommPath.substring(ommPath.lastIndexOf(IOperateCode.STR_SLASH) + IOperateCode.STR_SLASH.length());
+		ommPath = ommPath.substring(0, ommPath.length() - (fileName.length() + IOperateCode.STR_SLASH.length()));
+
+		logger.debug("ommPath: {}, fileName: {}", ommPath, fileName);
 		
+		StringBuilder strbd = new StringBuilder();
+		
+		strbd = new StringBuilder();
+		strbd.append("OMM ");
+		strbd.append(ommDTO.getOmmType());
+		strbd.append(SystemUtil.LINE_SEPARATOR);
+		strbd.append(SystemUtil.LINE_SEPARATOR);
+		
+		strbd.append("<description=\"");
+		strbd.append(ommDTO.getOmmDesc());
+		strbd.append("\">");
+		strbd.append(SystemUtil.LINE_SEPARATOR);
+		strbd.append("{");
+		strbd.append(SystemUtil.LINE_SEPARATOR);
+		
+		for(OmmFieldDTO ommField : ommDTO.getOmmFields()) {
+			
+			strbd.append("	");
+			strbd.append(ommField.getType());
+			strbd.append(" ");
+			strbd.append(ommField.getName());
+			strbd.append("<");
+			strbd.append("length=");
+			strbd.append(ommField.getLength());
+			strbd.append(" description=\"");
+			strbd.append(ommField.getDescription());
+			strbd.append("\"  >;");
+			strbd.append(SystemUtil.LINE_SEPARATOR);
+		}
+		strbd.append("}");
+		
+		if(makeFile)
+			fileUtil.mkfile(ommPath, fileName.concat(OMM_EXT),
+					strbd.toString(), IOperateCode.DEFAULT_ENCODING, 
+					false, true);
 		
 		return out;
 	}

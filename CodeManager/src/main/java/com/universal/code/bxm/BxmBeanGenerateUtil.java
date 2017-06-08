@@ -287,7 +287,7 @@ public class BxmBeanGenerateUtil {
 		String dsDescription = null;
 		String dsClassName = null;
 		StringBuilder dsVariables = null;
-		String dsBody = null;
+		StringBuilder dsBody = null;
 		
 		// bxmBeanMethodTemplate
 		String dsOutputType = null;
@@ -381,6 +381,9 @@ public class BxmBeanGenerateUtil {
 						
 						ProgramDesignDTO bcMetdDesign = currentDesign.getMethodDesignMap(bcMethodName);
 						bcOmmName = bcMetdDesign.getBcNm().concat(getMethodSeq(bcMetdDesign.getBcNm()));
+
+						logger.debug(">bcMethodName: {}.{}", bcMetdDesign.getBcNm(), bcMethodName);
+						
 						// BC 메소드 내용
 						dsMethodLogicalName = new StringBuilder().append(bcMetdDesign.getBcMetdLogc()).append(" ").append(GenerateHelper.getMethodVerb(bcMetdDesign.getBcMetdPref())).toString();
 						dsMethodDescription = dsMethodLogicalName;
@@ -392,6 +395,8 @@ public class BxmBeanGenerateUtil {
 						dsImportsSet.add(outputOmmPullType); // -> dsImportsSet.add
 						dsOutputVariable = IOperateCode.ELEMENT_OUT;
 						logger.debug("[OUTPUT] BC Output Name: {} > return: {}, variable: {}", bcOmmName, outputOmmPullType, dsOutputVariable);
+						
+
 						
 						//Output Type OMM은 생성대상 OMM임 ####################################
 						String newBcOutOmmPath = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(outputOmmPullType.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).append(".omm").toString();
@@ -420,13 +425,24 @@ public class BxmBeanGenerateUtil {
 						//caller method output field
 						dsCellerOutputSetting = new StringBuilder();
 						
+						//output omm init
+						dsCellerOutputSetting.append("		");
+						dsCellerOutputSetting.append(dsOutputVariable);
+						dsCellerOutputSetting.append(" = ");
+						dsCellerOutputSetting.append("new ");
+						dsCellerOutputSetting.append(dsOutputType);
+						dsCellerOutputSetting.append("();");
+						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+						
 						//new bc in omm
 						bcInOmmDTO = new OmmDTO();
+						bcInOmmDTO.setSourceRoot(getSourceRoot());
 						bcInOmmDTO.setOmmType(inputOmmPullType);
 						bcInOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(BC_SIGNATURE_IN));
 						
 						//new bc out omm
 						bcOutOmmDTO = new OmmDTO();
+						bcOutOmmDTO.setSourceRoot(getSourceRoot());
 						bcOutOmmDTO.setOmmType(outputOmmPullType);
 						bcOutOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(BC_SIGNATURE_OUT));
 						
@@ -487,17 +503,37 @@ public class BxmBeanGenerateUtil {
 										
 										for(Parameter parameter : parameters) {
 											String inputTypeString = parameter.getType().toString();
+											String inputVarString = parameter.getId().toString();
 											
-											dsImportsSet.add(inputTypeString); // -> dsImportsSet.add
-											logger.debug("parameter -> {}: {}", inputTypeString, parameter.getId().toString());
+											if(typeUtil.getPrimitiveConvertWrapper(inputTypeString).equals(inputTypeString)) {
+												dsImportsSet.add(inputTypeString); // -> dsImportsSet.add	
+											}
+											else if(inputTypeString.contains(List.class.getCanonicalName())) {
+												dsImportsSet.add(List.class.getCanonicalName());
+												if(inputTypeString.contains("<") && inputTypeString.contains(">")) {
+													String listParam = inputTypeString.substring(inputTypeString.indexOf("<") + "<".length(), inputTypeString.lastIndexOf(">"));
+													if(!listParam.equals("?") && typeUtil.getPrimitiveConvertWrapper(listParam).equals(listParam)) {
+														dsImportsSet.add(listParam);	
+													}
+												}
+											}
+											
+											logger.debug("parameter -> {}: {}", inputTypeString, inputVarString);
 											
 											String calleeInTypeSimpleName = inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 											dsCelleeInputSetting.append("		");
 											dsCelleeInputSetting.append(calleeInTypeSimpleName);
 											dsCelleeInputSetting.append(" ");
 											
+											String lowerInTypeSimpleName = null;
 											//중복 체크
-											String lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
+											if(inputVarString.equalsIgnoreCase("in")) {
+												lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
+											}
+											else {
+												lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
+											}
+											
 											Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
 											if(varCnt != null) {
 												// plus
@@ -522,18 +558,12 @@ public class BxmBeanGenerateUtil {
 											
 											//OMM 분석
 											String ifInOmmPath = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(inputTypeString.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).append(".omm").toString();
-											logger.debug("ifInOmmPath: {}", ifInOmmPath);
+											
 											File ommFile = new File(ifInOmmPath); 
 											if(ommFile.exists()) {
+												logger.debug("Exists InOmmPath: {}", ifInOmmPath);
+												
 												// OMM 파일이 존재하면 분석 실행
-												// omm일 경우
-												dsCelleeInputSetting.append("new ");
-												dsCelleeInputSetting.append(calleeInTypeSimpleName);
-												dsCelleeInputSetting.append("();");
-												
-												// omm 분석 실행
-												logger.debug("[Parse In OMM Path]: {}", ifInOmmPath);
-												
 												parseOmm = generateHelper.getOmmProperty(ommFile);
 												logger.debug("parseInOmm: \n{}", parseOmm.toString());
 												
@@ -541,17 +571,15 @@ public class BxmBeanGenerateUtil {
 												if(bcInOmmType.startsWith(IOperateCode.STR_DOT)) {
 													bcInOmmType = bcInOmmType.substring(IOperateCode.STR_DOT.length());
 												}
-												bcInOmmFieldName = stringUtil.getFirstCharLowerCase(bcInOmmType);
+												bcInOmmFieldName = stringUtil.getFirstCharLowerCase(bcInOmmType.substring(bcInOmmType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length()));
 												
-												//OMM Field
+												//OMM Field ( BC가 사용하는 DAO 또는 BC의 입력 OMM을 입력 필드로 삼는다. )
 												bcInOmmField = new OmmFieldDTO();
 												bcInOmmField.setType(bcInOmmType);
-												bcInOmmField.setName(bcInOmmFieldName);
+												bcInOmmField.setName(lowerInTypeSimpleName);
 												bcInOmmField.setLength("0");
 												bcInOmmField.setDescription(parseOmm.getOmmDesc());
 												bcInOmmDTO.addOmmFields(bcInOmmField);
-												
-												logger.debug("In OMM Type: {}", bcInOmmField.getType());
 												
 												/*
 												if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
@@ -564,6 +592,22 @@ public class BxmBeanGenerateUtil {
 													}
 												}
 												*/
+												
+												dsCelleeInputSetting.append(dsInputVariable);
+												dsCelleeInputSetting.append(".get");
+												dsCelleeInputSetting.append(stringUtil.getFirstCharUpperCase(lowerInTypeSimpleName));
+												dsCelleeInputSetting.append("();");
+												if(parameters.size() > 1) {
+													dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
+												}
+												// omm일 경우
+												/*
+												dsCelleeInputSetting.append("new ");
+												dsCelleeInputSetting.append(calleeInTypeSimpleName);
+												dsCelleeInputSetting.append("();");
+												*/
+												
+												logger.debug("In BC OMM Field : {}", bcInOmmField.toString());
 											}
 											else {
 												//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
@@ -573,9 +617,14 @@ public class BxmBeanGenerateUtil {
 												
 												dsCelleeInputSetting.append(typeUtil.getPrimitiveWrapperDefaultValue(inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length())));
 												dsCelleeInputSetting.append(";");
+												if(parameters.size() > 1) {
+													dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
+												}
 											}
 											
-											dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
+											
+											
+											//dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
 											
 											//메소드의 입력 표현식
 											if(StringUtil.isNotEmpty(methodInputExpr.toString())) {
@@ -590,7 +639,22 @@ public class BxmBeanGenerateUtil {
 										
 										String celleeOutFullType = calleeReturnType.toString();
 										String celleeOutType = null;
-										if(celleeOutFullType.contains(".")) {
+										if(celleeOutFullType.contains(List.class.getCanonicalName())) {
+											//List일경우 설정 ##############
+											String listParam = null;
+											if(celleeOutFullType.contains("<") && celleeOutFullType.contains(">")) {
+												listParam = celleeOutFullType.substring(celleeOutFullType.indexOf("<") + "<".length(), celleeOutFullType.lastIndexOf(">"));
+												if(!listParam.equals("?") && typeUtil.getPrimitiveConvertWrapper(listParam).equals(listParam)) {
+													listParam = listParam.substring(listParam.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+												}
+												else {
+													listParam = "?";
+												}
+											}
+											
+											celleeOutType = List.class.getSimpleName().concat("<").concat(listParam).concat(">"); 
+										}
+										else if(celleeOutFullType.contains(".")) {
 											celleeOutType = celleeOutFullType.substring(celleeOutFullType.lastIndexOf(".") + ".".length());
 										}
 										else {
@@ -639,19 +703,36 @@ public class BxmBeanGenerateUtil {
 										
 										
 										
+										logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 679 : {}", celleeOutFullType);
+										logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 680 : {}", celleeOutType);
+										logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 681 : {}", celleeOutVarName);
+										
 										//Callee의 Output Type이 OMM일경우 omm 분석 아닐경우 bc의out 필드로 셋팅
 										String ifOutOmmPath = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(celleeOutFullType.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).append(".omm").toString();
-										logger.debug("ifOutOmmPath: {}", ifOutOmmPath);
 										File ommFile = new File(ifOutOmmPath); 
 										if(ommFile.exists()) {
-											// Out OMM 파일이 존재하면 분석 실행
+											logger.debug("Exists OutOmmPath: {}", ifOutOmmPath);
 
-											// out omm 분석 실행
-											logger.debug("[Parse Out OMM Path]: {}", ifOutOmmPath);
-											
+											// Out OMM 파일이 존재하면 분석 실행
 											parseOmm = generateHelper.getOmmProperty(ommFile);
 											logger.debug("parseOutOmm: \n{}", parseOmm.toString());
 											
+											
+											bcOutOmmType = ifOutOmmPath.substring(0, ifOutOmmPath.lastIndexOf(IOperateCode.STR_DOT)).replace(getSourceRoot(), "").replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+											if(bcOutOmmType.startsWith(IOperateCode.STR_DOT)) {
+												bcOutOmmType = bcOutOmmType.substring(IOperateCode.STR_DOT.length());
+											}
+											//bcOutOmmFieldName = stringUtil.getFirstCharLowerCase(bcOutOmmType.substring(bcOutOmmType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length()));
+											
+											//OMM Field ( BC가 사용하는 DAO 또는 BC의 입력 OMM을 입력 필드로 삼는다. )
+											bcOutOmmField = new OmmFieldDTO();
+											bcOutOmmField.setType(bcOutOmmType);
+											bcOutOmmField.setName(celleeOutVarName);
+											bcOutOmmField.setLength("0");
+											bcOutOmmField.setDescription(parseOmm.getOmmDesc());
+											bcOutOmmDTO.addOmmFields(bcOutOmmField);
+
+											/*
 											if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
 												for(OmmFieldDTO calleeOutOmmField : parseOmm.getOmmFields()) {
 													dsCellerOutputSetting.append("		");
@@ -661,6 +742,12 @@ public class BxmBeanGenerateUtil {
 													bcOutOmmDTO.addOmmFields(calleeOutOmmField);
 												}
 											}
+											*/
+											
+											dsCellerOutputSetting.append("		");
+											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, bcOutOmmField, null, bcOutOmmField, ";"));
+											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+											
 										}
 										else {
 											//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
@@ -690,9 +777,9 @@ public class BxmBeanGenerateUtil {
 												}
 											}
 											
-											logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※※");
+											logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 749 : {}", celleeOutVarName);
 											OmmFieldDTO calleeOutOmmField = new OmmFieldDTO();
-											calleeOutOmmField.setType(celleeOutType);
+											calleeOutOmmField.setType(typeUtil.getPrimitiveConvertWrapper(celleeOutType));
 											calleeOutOmmField.setName(celleeOutVarName);
 											calleeOutOmmField.setLength(typeUtil.getPrimitiveWrapperDefaultLengthMap(celleeOutType));
 											calleeOutOmmField.setDescription(outFieldDesc);
@@ -729,14 +816,39 @@ public class BxmBeanGenerateUtil {
 						 * 메소드의 In/Out OMM 생성
 						 * save 메소드일경우 Out OMM은 생성하지 않음
 						 ***************************/
-						logger.debug("[Create bcInOmmDTO]\n{}", bcInOmmDTO.toString());
+						boolean inOmmCreated = generateHelper.createOmmFile(bcInOmmDTO, true);
+						logger.debug("[Create bcInOmmDTO] inOmmCreated: {}", inOmmCreated/*, bcInOmmDTO.toString()*/);
 						
-						logger.debug("[Create bcOutOmmDTO]\n{}", bcOutOmmDTO.toString());
+						boolean outOmmCreated = generateHelper.createOmmFile(bcOutOmmDTO, true);
+						logger.debug("[Create bcOutOmmDTO] outOmmCreated: {}", outOmmCreated/*, bcOutOmmDTO.toString()*/);
+						
+						String methodCode = bxmBeanMethodTemplate
+								.replace(rvMethodLogicalName, dsMethodLogicalName)
+								.replace(rvMethodDescription, dsMethodDescription)
+								.replace(rvBcModf, dsBcModf)
+								.replace(rvOutputType, dsOutputType)
+								.replace(rvMethodName, dsMethodName)
+								.replace(rvInputType, dsInputType)
+								.replace(rvInputVariable, dsInputVariable)
+								.replace(rvOutputVariable, dsOutputVariable)
+								.replace(rvCalleeInit, dsCalleeInit)
+								.replace(rvCelleeInputSetting, dsCelleeInputSetting)
+								.replace(rvBizCode, dsBizCode)
+								.replace(rvCellerOutputSetting, dsCellerOutputSetting)
+								;
+						
+						logger.debug(">>[methodCode]\n\n{}", methodCode);
+						
+						
+						dsBody.append(methodCode);
+						dsBody.append(SystemUtil.LINE_SEPARATOR);
+						dsBody.append(SystemUtil.LINE_SEPARATOR);
 					}
 					//END Method Loop ######################
 					
 					dsImports = new StringBuilder();
 					dsVariables = new StringBuilder();
+					
 					for(String imports : dsImportsSet) {
 						dsImports.append("import ").append(imports).append(";").append(SystemUtil.LINE_SEPARATOR);
 						String varTypeName = imports.substring(imports.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
@@ -744,9 +856,24 @@ public class BxmBeanGenerateUtil {
 					}
 					logger.debug("[dsImports]\n{}", dsImports.toString());
 					logger.debug("[dsVariables]\n{}", dsVariables.toString());
+					logger.debug("[dsBody]\n{}", dsBody.toString());
+					
+					String finalBxmBeanTemplate = bxmBeanTemplate
+							.replace(rvPackage, dsPackage)
+							.replace(rvImports, dsImports)
+							.replace(rvDate, dsDate)
+							.replace(rvLogicalName, dsLogicalName)
+							.replace(rvDescription, dsDescription)
+							.replace(rvClassName, dsClassName)
+							.replace(rvVariables, dsVariables)
+							.replace(rvBody, dsBody)
+							;
 					
 					logger.debug("★★★★★★★★★★★★★ [END Method Element Setup] ★★★★★★★★★★★★★★");
+				
+					logger.debug("#FinalSource: {}\n\n{}", dsClassName, finalBxmBeanTemplate);
 				}
+				
 				
 				logger.debug("★★★★★★★★★★★★★ [START Class Element Setup] ★★★★★★★★★★★★★★");
 				
@@ -755,7 +882,7 @@ public class BxmBeanGenerateUtil {
 				}
 				
 				designRow.setBcModf(StringUtil.NVL(designRow.getBcModf(), ""));
-				logger.debug("[READY] {} {} {}{} : {}", designRow.getBcNm(), designRow.getBcModf(), designRow.getBcMetdPref(), designRow.getBcMetdBody(), designRow.getBcMetdLogc());
+				logger.debug("[READY] {} {}", designRow.getBcModf(), designRow.getBcNm());
 				
 				// 생성 대상 클래스
 				compareClasStr = designRow.getBcNm();
@@ -798,10 +925,14 @@ public class BxmBeanGenerateUtil {
 				//variable init 
 				//dsImports = new StringBuilder();
 				dsImportsSet = new TreeSet<String>();
+				//methods code init
+				dsBody = new StringBuilder();
 				//import code
 				addImportCode(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
 				
 				logger.debug("fileName: {}, dsPackage: {}, dsDate: {}", fileName, dsPackage, dsDate);
+				
+				logger.debug("[Bean Method] {}.{}{}", compareClasStr, designRow.getBcMetdPref(), designRow.getBcMetdBody());
 			}
 			else if((StringUtil.isEmpty(designRow.getBcNm())
 					&& StringUtil.isNotEmpty(designRow.getBcMetdPref())
@@ -814,6 +945,9 @@ public class BxmBeanGenerateUtil {
 				//BC클래스의 두번째 부터 나오는 BC메소드 추출
 				bcMetdNm = designRow.getBcMetdPref().concat(designRow.getBcMetdBody());
 				currentDesign.addCalleeMap(bcMetdNm, new LinkedHashMap<String, Object>());
+				if(StringUtil.isEmpty(designRow.getBcNm())) {
+					designRow.setBcNm(compareClasStr);
+				}
 				currentDesign.addMethodDesignMap(bcMetdNm, designRow);
 				
 				//import code
@@ -833,10 +967,10 @@ public class BxmBeanGenerateUtil {
 				//import code
 				addImportCode(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
 								
-				logger.debug("[Bean use DBIO Method] {}.{}", designRow.getDbioNm(), designRow.getDbioMetdNm());
+				logger.debug("[Bean UseAs Callee Method] {}.{}", designRow.getDbioNm(), designRow.getDbioMetdNm());
 			}
 			else {
-				logger.debug("- this row({}) continue", i);
+				logger.debug("- this row({}) continue\n{}", i, designRow.toString());
 				continue;
 			}
 		}
