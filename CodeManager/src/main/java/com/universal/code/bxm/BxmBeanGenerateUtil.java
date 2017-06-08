@@ -653,6 +653,18 @@ public class BxmBeanGenerateUtil {
 											}
 											
 											celleeOutType = List.class.getSimpleName().concat("<").concat(listParam).concat(">"); 
+											
+											/*
+											OMM kait.hd.hdu.onl.bc.dto.BHDUCodeAccount01Out
+											<description="현장 다건조회 Out">
+											{
+												Integer outInsertHdAcmastE01<length=9 description="HD_ACMAST_E 등록 결과">;
+												kait.hd.hda.onl.dao.dto.DHdCodeAcnt01IO outDHdCodeAcnt01IO<length=0 description="HD_분양_전표_계정 ( HD_CODE_ACNT )">;
+												Integer outSelectCountHdCodeAgency01<length=9 description="HD_코드-대행사 전채건수조회 결과">;
+												Integer cnt<length=0 description="데이터건수">;
+												kait.hd.hdu.onl.bc.dto.BHDUCodeAccount02In dataList<length=0 description="데이터목록" arrayReference="cnt">;
+											}
+											*/
 										}
 										else if(celleeOutFullType.contains(".")) {
 											celleeOutType = celleeOutFullType.substring(celleeOutFullType.lastIndexOf(".") + ".".length());
