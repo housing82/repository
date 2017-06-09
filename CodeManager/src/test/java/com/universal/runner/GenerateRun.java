@@ -48,8 +48,8 @@ public class GenerateRun {
 		// 소스코드 생성대상 업무 DB접속정보
 		props.setProperty("jdbc.driverClassName", "oracle.jdbc.driver.OracleDriver");
 		props.setProperty("jdbc.url", "jdbc:oracle:thin:@localhost:1521:ora11g");
-		props.setProperty("jdbc.username", "DESIGN");
-		props.setProperty("jdbc.password", "DESIGN");
+		props.setProperty("jdbc.username", "KAIT_LOCAL");
+		props.setProperty("jdbc.password", "kait_local");
 		props.setProperty("jdbc.initialSize", "5");
 		props.setProperty("jdbc.maxActive", "100");
 		props.setProperty("jdbc.maxIdle", "20");
@@ -78,9 +78,7 @@ public class GenerateRun {
 		BASE_PACKAGE = "kait.hd.hda.onl";
 		
 		ANALYZED_MAP = new LinkedHashMap<String, List<Map<String, Object>>>();
-		ANALYZED_MAP.put(BASE_PACKAGE.concat(".sc"), null);
-		ANALYZED_MAP.put(BASE_PACKAGE.concat(".bc"), null);
-		ANALYZED_MAP.put(BASE_PACKAGE.concat(".dao"), null);
+		ANALYZED_MAP.put("kait.hd", null);
 	}
 	
 	@Test
@@ -125,7 +123,8 @@ public class GenerateRun {
 		
 		BxmDBIOmmGenerateUtil ommGen = new BxmDBIOmmGenerateUtil();
 		ommGen.setSourceRoot(SOURCE_ROOT);
-		ommGen.setJavaPackage(BASE_PACKAGE.concat(".dao.dto"));
+		ommGen.setBasePackage("kait.{L2}.{L3}.onl");
+		ommGen.setSubPackage("dao.dto");		
 		ommGen.setDatabaseConfig(props);
 		ommGen.setCreateFile(true);
 		ommGen.setFileNamePrefix("D");
@@ -145,7 +144,7 @@ public class GenerateRun {
 		
 		BxmDBIOGenerateUtil dbioGen = new BxmDBIOGenerateUtil();
 		dbioGen.setSourceRoot(SOURCE_ROOT);
-		dbioGen.setBasePackage(BASE_PACKAGE);
+		dbioGen.setBasePackage("kait.{L2}.{L3}.onl");
 		dbioGen.setSubPackage("dao");
 		dbioGen.setDatabaseConfig(props);
 		dbioGen.setCreateFile(true);

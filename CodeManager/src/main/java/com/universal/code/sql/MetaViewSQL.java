@@ -148,7 +148,7 @@ public class MetaViewSQL {
 		schemaSql.append("	ORDER BY").append(SystemUtil.LINE_SEPARATOR);
 		//schemaSql.append("		--C.OWNER,").append(SystemUtil.LINE_SEPARATOR);
 		schemaSql.append("  	C.TABLE_NAME,").append(SystemUtil.LINE_SEPARATOR);
-		schemaSql.append("  	C.COLUMN_ID;").append(SystemUtil.LINE_SEPARATOR);
+		schemaSql.append("  	C.COLUMN_ID").append(SystemUtil.LINE_SEPARATOR);
 		
 		return schemaSql.toString();
 	}

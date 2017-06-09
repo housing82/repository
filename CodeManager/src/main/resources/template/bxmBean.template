@@ -21,7 +21,7 @@ import bxm.dft.context.DefaultApplicationContext;
  * 버전          성명                   일자              변경내용
  * -------       ----------------       -----------       -----------------
  * 0.1           CodeSkeleton       			#{rvDate}          신규작성
- * <pre>
+ * </pre>
  * 
  * @since #{rvDate}
  * @version 3.0.0

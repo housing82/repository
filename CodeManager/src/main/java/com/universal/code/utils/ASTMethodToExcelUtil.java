@@ -97,7 +97,10 @@ public class ASTMethodToExcelUtil {
 		for(File file : files){ 
 			javaPath = file.getCanonicalPath();
 			
-			if(javaPath.endsWith(IOperateCode.JAVA_EXTENSION)) {
+			if(file.isDirectory()) {
+				elements.addAll(parseJava(packageStr.concat(IOperateCode.STR_DOT).concat(file.getName())));
+			}
+			else if(file.isFile() && javaPath.endsWith(IOperateCode.JAVA_EXTENSION)) {
 				//logger.debug("javaPath: {}", javaPath);
 				for(Map<String, Object> node : visitor.execute(javaPath, ASTVisitor.VISIT_METHOD_NODE, false)) {
 					if(node.get("nodeType").equals("MethodDeclaration")) {
@@ -106,7 +109,7 @@ public class ASTMethodToExcelUtil {
 						logger.debug("-javaName: {}, descMap: {}", javaName, descMap);
 	    				
 						extractMap = new LinkedHashMap<String, Object>();
-						extractMap.put("JavaName", javaName);
+						extractMap.put("JavaName", packageStr.concat(IOperateCode.STR_DOT).concat(javaName));
 						extractMap.put("MethodName", descMap.get("name"));
 						extractMap.put("TypeParameters", descMap.get("typeParameters"));
 						extractMap.put("InputTypes", descMap.get("parameters"));

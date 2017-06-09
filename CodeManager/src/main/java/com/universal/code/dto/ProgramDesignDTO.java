@@ -25,8 +25,8 @@ public class ProgramDesignDTO extends CommonObject implements IDataTransferObjec
 	private String bcMetdPref;
 	private String bcMetdBody;
 	private String bcMetdLogc;
-	private String dbioNm;
-	private String dbioMetdNm;
+	private String calleeNm;
+	private String calleeMetdNm;
 	private long excelRow;
 	private Map<String, Map<String, Object>> calleeMap;
 	private Map<String, ProgramDesignDTO> methodDesignMap;
@@ -53,8 +53,8 @@ public class ProgramDesignDTO extends CommonObject implements IDataTransferObjec
 		bcMetdPref = "";
 		bcMetdBody = "";
 		bcMetdLogc = "";
-		dbioNm = "";
-		dbioMetdNm = "";
+		calleeNm = "";
+		calleeMetdNm = "";
 		excelRow = -1;
 		calleeMap = null;
 		methodDesignMap = null;
@@ -196,20 +196,20 @@ public class ProgramDesignDTO extends CommonObject implements IDataTransferObjec
 		this.bcMetdLogc = bcMetdLogc;
 	}
 
-	public String getDbioNm() {
-		return dbioNm;
+	public String getCalleeNm() {
+		return calleeNm;
 	}
 
-	public void setDbioNm(String dbioNm) {
-		this.dbioNm = dbioNm;
+	public void setCalleeNm(String calleeNm) {
+		this.calleeNm = calleeNm;
 	}
 
-	public String getDbioMetdNm() {
-		return dbioMetdNm;
+	public String getCalleeMetdNm() {
+		return calleeMetdNm;
 	}
 
-	public void setDbioMetdNm(String dbioMetdNm) {
-		this.dbioMetdNm = dbioMetdNm;
+	public void setCalleeMetdNm(String calleeMetdNm) {
+		this.calleeMetdNm = calleeMetdNm;
 	}
 
 	public Map<String, Map<String, Object>> getCalleeMap() {

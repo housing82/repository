@@ -246,12 +246,19 @@ public class StringUtil {
     }
 
 	public String getFirstCharUpperCase(String strWord) {
+		return getCharUpperCase(strWord, 1);
+	}
+	
+	public String getCharUpperCase(String strWord, int upperCaseCount) {
 		
 		String out = null;
+		if(upperCaseCount < 1) {
+			upperCaseCount = 1;
+		}
 		
 		String word = NVL(strWord, "").trim();
-		if(word.length() > 1) {
-			out = word.substring(0,1).toUpperCase() + word.substring(1);
+		if(word.length() > upperCaseCount) {
+			out = word.substring(0,upperCaseCount).toUpperCase() + word.substring(upperCaseCount);
 		}
 		else {
 			out = word.toUpperCase();

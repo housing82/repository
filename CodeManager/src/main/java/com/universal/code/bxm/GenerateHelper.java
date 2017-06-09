@@ -1,6 +1,7 @@
 package com.universal.code.bxm;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -352,6 +353,72 @@ public class GenerateHelper {
 					false, true);
 		
 		return out;
+	}
+	
+	/**
+	 * 주어진 rootPath 아래로 바인드된 fileName의 전채(일반)경로를 찾는다.
+	 * 가장 먼저 검색된 fileName의 경로를 리턴한다.
+	 * @param rootPath
+	 * @param fileName
+	 * @return
+	 */
+	public String findFilePath(String rootPath, String fileName, String fileExt) {
+		String path = null;
+		String resourceName = null;
+		
+		File root = new File(rootPath);
+		if(!root.exists()) {
+			throw new ApplicationException("루트 패스에 해당하는 디렉토리파일이 존재하지 않습니다. 루트: {}", rootPath);
+		}
+		if(!root.isDirectory()) {
+			throw new ApplicationException("루트 패스는 디렉토리여야만 합니다. 루트패스파일: {}", rootPath);
+		}
+		if(StringUtil.isEmpty(fileName)) {
+			throw new ApplicationException("파일명이 존재하지 않습니다. 파일명: {}", fileName);
+		}
+//		logger.debug("★rootPath: {}", rootPath);
+//		logger.debug("★fileName: {}", fileName);
+//		logger.debug("★fileExt: {}", fileExt);
+		
+		resourceName = fileName.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH).concat(IOperateCode.STR_DOT).concat(fileExt);
+//		logger.debug("★resourceName: {}", resourceName);
+		if(resourceName.contains(IOperateCode.STR_SLASH)) {
+			path = rootPath.concat(IOperateCode.STR_SLASH).concat(resourceName);
+			if(!new File(path).exists()) {
+				throw new ApplicationException("루트 경로로 부터 설정된 패키지 + 파일명에 해당하는 파일이 존재하지 않습니다. 파일: {}", path);
+			}
+		}
+		else {
+			File[] fileList = root.listFiles();
+			try {
+				boolean findFile = false;
+				for(File file : fileList) {
+					if(file.isFile()) {
+//						logger.debug("fileName: {}, file.getName: {}", fileName, file.getName());
+						if(fileName.concat(IOperateCode.STR_DOT).concat(fileExt).equals(file.getName())) {
+							path = file.getCanonicalPath();
+							findFile = true;
+							break;
+						}
+					}
+				}
+				if(!findFile) {
+					for(File file : fileList) {
+						if(file.isDirectory()) {
+//							logger.debug("file.getCanonicalPath: {}, fileName: {}", file.getCanonicalPath(), fileName);
+							path = findFilePath(file.getCanonicalPath(), fileName, fileExt);
+							if(StringUtil.isNotEmpty(path)) {
+								break;
+							}
+						}
+					}
+				}
+			} catch (IOException e) {
+				throw new ApplicationException(e);
+			}
+		}
+		
+		return path;
 	}
 	
 }

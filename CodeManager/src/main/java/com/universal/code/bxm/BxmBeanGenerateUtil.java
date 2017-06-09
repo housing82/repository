@@ -176,11 +176,14 @@ public class BxmBeanGenerateUtil {
 						//logger.debug("{}:{} value: {}", cell.getRowIndex(), cell.getCellIndex(), cell.getCellValue());
 						
 						if(cell.getCellIndex() == 0) {
+							
+							cell.setCellValue(StringUtil.NVL(cell.getCellValue()));
+							
 							if(programDesignDTO != null) {
 								//logger.debug("programDesign[{}]: {}", i, programDesignDTO.toString());
 								programDesignList.add(programDesignDTO);
 							}
-							
+														
 							if(cell.getCellValue().equalsIgnoreCase(EXCEL_END_FIRST_CELL)) {
 								logger.debug("*endRow: {}", cell.getRowIndex());
 								break;
@@ -383,7 +386,7 @@ public class BxmBeanGenerateUtil {
 						bcOmmName = bcMetdDesign.getBcNm().concat(getMethodSeq(bcMetdDesign.getBcNm()));
 
 						logger.debug(">bcMethodName: {}.{}", bcMetdDesign.getBcNm(), bcMethodName);
-						
+						logger.debug(">calleeMap: {}", calleeMap);
 						// BC 메소드 내용
 						dsMethodLogicalName = new StringBuilder().append(bcMetdDesign.getBcMetdLogc()).append(" ").append(GenerateHelper.getMethodVerb(bcMetdDesign.getBcMetdPref())).toString();
 						dsMethodDescription = dsMethodLogicalName;
@@ -479,7 +482,9 @@ public class BxmBeanGenerateUtil {
 							logger.debug("---- calleeTypeFullName: {}", calleeTypeFullName);
 							logger.debug("  ----- calleeTypeName: {}", calleeTypeName);
 							
-							javaPath = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(calleeTypeName.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).append(".java").toString();
+							//javaPath = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(calleeTypeName.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).append(".java").toString();
+							javaPath = generateHelper.findFilePath(getSourceRoot(), calleeTypeName, "java");
+							
 							logger.debug(" + + parse javaPath: {}", javaPath);
 							//피호출 자바파일 분석
 							List<Map<String, Object>> ast = visitor.execute(javaPath, ASTVisitor.VISIT_METHOD_NODE, false);
@@ -940,7 +945,7 @@ public class BxmBeanGenerateUtil {
 				//methods code init
 				dsBody = new StringBuilder();
 				//import code
-				addImportCode(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
+				addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
 				
 				logger.debug("fileName: {}, dsPackage: {}, dsDate: {}", fileName, dsPackage, dsDate);
 				
@@ -956,6 +961,9 @@ public class BxmBeanGenerateUtil {
 				
 				//BC클래스의 두번째 부터 나오는 BC메소드 추출
 				bcMetdNm = designRow.getBcMetdPref().concat(designRow.getBcMetdBody());
+				//logger.debug("currentDesign: {}", currentDesign);
+				//logger.debug("designRow: {}", designRow);
+				
 				currentDesign.addCalleeMap(bcMetdNm, new LinkedHashMap<String, Object>());
 				if(StringUtil.isEmpty(designRow.getBcNm())) {
 					designRow.setBcNm(compareClasStr);
@@ -963,7 +971,7 @@ public class BxmBeanGenerateUtil {
 				currentDesign.addMethodDesignMap(bcMetdNm, designRow);
 				
 				//import code
-				addImportCode(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
+				addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
 								
 				logger.debug("[Bean Method] {}.{}{}", compareClasStr, designRow.getBcMetdPref(), designRow.getBcMetdBody());
 			}
@@ -977,9 +985,9 @@ public class BxmBeanGenerateUtil {
 				logger.debug("BC메소드 내부에서 사용하는 callee");
 	
 				//import code
-				addImportCode(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
+				addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(bcMetdNm), designRow, dsImportsSet, currentBasePackage);
 								
-				logger.debug("[Bean UseAs Callee Method] {}.{}", designRow.getDbioNm(), designRow.getDbioMetdNm());
+				logger.debug("[Bean UseAs Callee Method] {}.{}", designRow.getCalleeNm(), designRow.getCalleeMetdNm());
 			}
 			else {
 				logger.debug("- this row({}) continue\n{}", i, designRow.toString());
@@ -992,42 +1000,67 @@ public class BxmBeanGenerateUtil {
 	}
 	
 	
-	private void addImportCode(Map<String, Object> bcCalleeMap, ProgramDesignDTO designRow, Set<String> dsImportsSet, String currentBasePackage) {
+	private void addImportCodeAndCalleeMapSetting(Map<String, Object> bcCalleeMap, ProgramDesignDTO designRow, Set<String> dsImportsSet, String currentBasePackage) {
+		logger.debug("#bcCalleeMap: {}", bcCalleeMap);
+		logger.debug("##designRow: {}", designRow);
+		
 		//import code
-		if(StringUtil.isNotEmpty(designRow.getDbioNm())) {
+		if(StringUtil.isNotEmpty(designRow.getCalleeNm())) {
 			
-			if(designRow.getDbioNm().contains(IOperateCode.STR_DOT)) {
+			if(designRow.getCalleeNm().contains(IOperateCode.STR_DOT)) {
 				
-				dsImportsSet.add(designRow.getDbioNm());
-				
-				bcCalleeMap.put(new StringBuilder()
-					.append(designRow.getDbioNm())
+				dsImportsSet.add(designRow.getCalleeNm());
+				/*
+				logger.debug("#check: {}", new StringBuilder()
+					.append(designRow.getCalleeNm())
 					.append(IOperateCode.STR_DOT)
-					.append(designRow.getDbioMetdNm())
+					.append(designRow.getCalleeMetdNm())
+					.toString());
+				*/
+				bcCalleeMap.put(new StringBuilder()
+					.append(designRow.getCalleeNm())
+					.append(IOperateCode.STR_DOT)
+					.append(designRow.getCalleeMetdNm())
 					.toString()
 				, null);
-					
+
 			}
 			else {
-				String classPrefix = designRow.getDbioNm().substring(0, 1);
+				String classPrefix = designRow.getCalleeNm().substring(0, 1);
 				
-				dsImportsSet.add(new StringBuilder().append(currentBasePackage)
-						.append(IOperateCode.STR_DOT)
-						.append(GenerateHelper.JAVA_PREFIX.get(classPrefix))
-						.append(IOperateCode.STR_DOT)
-						.append(designRow.getDbioNm()).toString());
+//				logger.debug("#designRow.getCalleeNm(): {}", designRow.getCalleeNm());
+				String calleePath = generateHelper.findFilePath(getSourceRoot(), designRow.getCalleeNm(), "java");
+//				logger.debug("#calleePath: {}", calleePath);
+				calleePath = calleePath.substring(getSourceRoot().length() + File.separator.length());
+//				logger.debug("#calleePath: {}", calleePath);
+				
+				String calleePackage = null;
+				if(calleePath.contains(File.separator)) {
+					calleePackage = calleePath.replace(File.separator, IOperateCode.STR_DOT);
+				}
+				else if(calleePath.contains(IOperateCode.STR_SLASH)) {
+					calleePackage = calleePath.replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+				}
+				else {
+					calleePackage = calleePath;
+				}
+//				logger.debug("calleePackage: {}", calleePackage);
+				
+				if(calleePackage.endsWith(".java")) {
+					calleePackage = calleePackage.substring(0, calleePackage.length() - ".java".length());
+				}
+				
+				dsImportsSet.add(new StringBuilder().append(calleePackage).toString());
 				
 				bcCalleeMap.put(new StringBuilder()
-						.append(currentBasePackage)
+						.append(calleePackage)
 						.append(IOperateCode.STR_DOT)
-						.append(GenerateHelper.JAVA_PREFIX.get(classPrefix))
-						.append(IOperateCode.STR_DOT)
-						.append(designRow.getDbioNm())
-						.append(IOperateCode.STR_DOT)
-						.append(designRow.getDbioMetdNm())
+						.append(designRow.getCalleeMetdNm())
 						.toString()
 					, null);
 			}
+			
+//			logger.debug(">bcCalleeMap: {}", bcCalleeMap);
 		}
 	}
 	

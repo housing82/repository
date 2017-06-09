@@ -28,6 +28,7 @@ import com.universal.code.exception.ApplicationException;
 import com.universal.code.sql.MetaViewSQL;
 import com.universal.code.utils.DateUtil;
 import com.universal.code.utils.FileUtil;
+import com.universal.code.utils.RegexUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 
@@ -62,6 +63,7 @@ public class BxmDBIOGenerateUtil {
 	private ResultSet results;
 	private StringUtil stringUtil;
 	private FileUtil fileUtil;
+	private RegexUtil regexUtil;
 	private GenerateHelper generateHelper;
 	
 	private final String javaCrudTemplateDbio;
@@ -163,6 +165,7 @@ public class BxmDBIOGenerateUtil {
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();
 		generateHelper = new GenerateHelper();
+		regexUtil = new RegexUtil();
 		
 		// source template
 		javaCrudTemplateDbio = fileUtil.getTextFileContent(templatePath.concat("bxmDbio.java.crud.template"));
@@ -238,7 +241,7 @@ public class BxmDBIOGenerateUtil {
 				currentTableName = table.getTableName();
 
 				// dbio 파일명 명명규칙: ‘D’ + 테이블명 + 일련번호(2자리) -> DAO동사 + 약어명 + “01” ~ “99”
-				fileName = getFileNamePrefix().concat(stringUtil.getFirstCharUpperCase(stringUtil.getCamelCaseString(currentTableName)));
+				fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString(currentTableName), 2));
 				fileName = fileName.concat(generateHelper.getJavaSeq(fileName));
 				
 				// currentTableName테이블의 컬럼목록
@@ -249,9 +252,9 @@ public class BxmDBIOGenerateUtil {
 				 */
 				// 메소드 주석에 사용할 테이블 코멘트
 				dsDescription = StringUtil.NVL(table.getTableComments(), currentTableName);
-				dsPackage = getJavaPackage();
+				dsPackage = getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR));
 				dsDate = DateUtil.getFastDate(DateUtil.DEF_DATE_FORMAT);
-				dsMapper = new StringBuilder().append(getJavaPackage().replace(".", "/")).append(fileName.concat(".dbio")).toString();
+				dsMapper = new StringBuilder().append(getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).replace(".", "/")).append(fileName.concat(".dbio")).toString();
 				dsDatasource = getDatasourceName();
 				dsLogicalName = dsDescription;
 				dsClassName = fileName;
@@ -266,7 +269,7 @@ public class BxmDBIOGenerateUtil {
 						.replace(rvDescription, dsDescription)
 						.replace(rvClassName, dsClassName);
 						
-				dsNamespace = getJavaPackage().concat(".").concat(fileName);
+				dsNamespace = getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).concat(".").concat(fileName);
 				
 				//마이바티스 인터페이스 메퍼XML 메인템플릿
 				xmlFinal = xmlTemplateDbio
@@ -301,8 +304,8 @@ public class BxmDBIOGenerateUtil {
 					
 					dsMethodDescription = dsDescription.concat(" ").concat(entry.getValue());
 					dsLogicalName = dsMethodDescription; 
-					dsOutputType = getJavaPackage().concat(".dto.").concat(fileName).concat("IO");
-					dsInputType = getJavaPackage().concat(".dto.").concat(fileName).concat("IO");
+					dsOutputType = getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).concat(".dto.").concat(fileName).concat("IO");
+					dsInputType = getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).concat(".dto.").concat(fileName).concat("IO");
 					dsInputVariable = stringUtil.getFirstCharLowerCase(fileName.concat("IO"));
 					
 					if(entry.getKey().equals("selectList" )) {
@@ -430,7 +433,7 @@ public class BxmDBIOGenerateUtil {
 				if(isCreateFile()) {
 					
 					fileUtil.mkfile(
-							new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage().replace(".", "/")).toString()
+							new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).replace(".", "/")).toString()
 							, fileName.concat(".java")
 							, javaFinal
 							, IOperateCode.DEFAULT_ENCODING
@@ -438,7 +441,7 @@ public class BxmDBIOGenerateUtil {
 							, true); 
 					
 					fileUtil.mkfile(
-							new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage().replace(".", "/")).toString()
+							new StringBuilder().append(sourceRoot).append("/").append(getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).replace(".", "/")).toString()
 							, fileName.concat(".dbio")
 							, xmlFinal
 							, IOperateCode.DEFAULT_ENCODING
@@ -1309,6 +1312,27 @@ public class BxmDBIOGenerateUtil {
 		this.sourceRoot = sourceRoot;
 	}
 
+	public String getJavaPackage(String[] levelNames) {
+		String out = getJavaPackage();
+
+		List<String> levelPositions = regexUtil.findPatternToList(out, "\\{([a-zA-Z0-9_]+)\\}");
+
+		logger.debug("levelNames.length: {}, levelPositions.size(): {}", levelNames.length, levelPositions.size());
+		
+		if(levelNames.length < levelPositions.size()) {
+			throw new ApplicationException("패키지 래벨설정과 바인드된 레벨 파라메터 배열 개수가 일치하지 않습니다.");
+		}
+		
+		String item = null;
+		String levelName = null;
+		for(int i = 0; i < levelPositions.size(); i++) {
+			item = levelPositions.get(i);
+			levelName = levelNames[i];
+			out = out.replace(item, levelName.toLowerCase());
+		}
+		return out;
+	}
+	
 	public String getJavaPackage() {
 		if(basePackage == null) {
 			throw new ApplicationException("베이스 패키지가 설정되지 않았습니다.");
