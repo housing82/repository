@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import com.universal.code.bxm.BxmBeanGenerateUtil;
 import com.universal.code.bxm.BxmDBIOGenerateUtil;
 import com.universal.code.bxm.BxmDBIOmmGenerateUtil;
+import com.universal.code.bxm.BxmServiceGenerateUtil;
 import com.universal.code.bxm.GenerateHelper;
 import com.universal.code.coder.URLCoder;
 import com.universal.code.utils.ASTMethodToExcelUtil;
@@ -84,9 +85,9 @@ public class GenerateRun {
 	@Test
 	public void doGenerate() throws Exception{
 		
-		//dbioOmmGenerate(); 
+		dbioOmmGenerate(); 
 		
-		//dbioGenerate();
+		dbioGenerate();
 
 		bxmBeanGenerate(); 
 		
@@ -170,6 +171,23 @@ public class GenerateRun {
 		// create bean with program design excel
 		beanGen.execute();
 		logger.debug("[END] bxmBeanGenerate");
+	}
+
+	
+	private void bxmServiceGenerate() {
+		logger.debug("[START] bxmServiceGenerate");
+		
+		BxmServiceGenerateUtil serviceGen = new BxmServiceGenerateUtil();
+		serviceGen.setSourceRoot(SOURCE_ROOT);
+		serviceGen.setBasePackage(BASE_PACKAGE);
+		serviceGen.setSubPackage("sc");
+		serviceGen.setCreateFile(true);
+		serviceGen.setFileNamePrefix("S");
+		serviceGen.setExcelPath(EXCEL_PATH.concat("/").concat(READ_EXCEL_NAME));
+		
+		// create bean with program design excel
+		serviceGen.execute();
+		logger.debug("[END] bxmServiceGenerate");
 	}
 	
 }

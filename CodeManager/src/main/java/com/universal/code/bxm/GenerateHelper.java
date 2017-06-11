@@ -49,7 +49,14 @@ public class GenerateHelper {
 	
 	final static String OMM_EXT;
 	
+	final static String EXCEL_START_FIRST_CELL;
+	final static String EXCEL_END_FIRST_CELL;
+
+	
 	static {
+		EXCEL_START_FIRST_CELL = "[[START]]";
+		EXCEL_END_FIRST_CELL = "[[END]]";
+		
 		JAVA_PREFIX = new HashMap<String, String>();
 		
 		JAVA_PREFIX.put("S", "sc");
