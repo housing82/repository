@@ -1,6 +1,7 @@
 package com.universal.code.bxm;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,11 +47,17 @@ public class BxmServiceGenerateUtil {
 	
 	private static String templatePath;
 	private static Map<Long, String> indexFieldMap;
+	private static Map<String, Integer> METHOD_SEQ_MAP;
 	
+	public static String SC_SIGNATURE_IN;
+	public static String SC_SIGNATURE_OUT;
 	
 	static {
+		SC_SIGNATURE_IN = "In";
+		SC_SIGNATURE_OUT = "Out";
 		
 		indexFieldMap = new LinkedHashMap<Long, String>();
+		METHOD_SEQ_MAP = new HashMap<String, Integer>();
 		
 		templatePath = URLCoder.getInstance().getURLDecode(BxmDBIOGenerateUtil.class.getResource(IOperateCode.STR_SLASH).getPath().concat("template").concat(IOperateCode.STR_SLASH), "");
 		if(templatePath.contains("test-classes")) {
@@ -71,6 +78,21 @@ public class BxmServiceGenerateUtil {
 		bxmSvcMethodTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmService.method.template"));
 		bxmSvcSaveMethodTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmService.saveMethod.template"));
 		bxmSvcTemplate = fileUtil.getTextFileContent(templatePath.concat("bxmService.template"));
+	}
+	
+
+	String getMethodSeq(String key) {
+		Integer seq = METHOD_SEQ_MAP.get(key);
+		if(seq == null) {
+			seq = 1;
+			METHOD_SEQ_MAP.put(key, 1);
+		}
+		else {
+			seq = seq + 1;
+			METHOD_SEQ_MAP.put(key, seq);
+		}
+		
+		return stringUtil.leftPad(Integer.toString(seq), 2, "0");
 	}
 	
 	public void execute() {

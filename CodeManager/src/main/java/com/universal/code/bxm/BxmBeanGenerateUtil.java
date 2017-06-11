@@ -48,7 +48,6 @@ public class BxmBeanGenerateUtil {
 	private TypeUtil typeUtil;
 
 	//엑셀에서 참고하는 시트 이름
-//	private final static List<String> EXTRACT_SHEET_NAMES;
 	private static String templatePath;
 	
 	private String sourceRoot;
@@ -74,10 +73,6 @@ public class BxmBeanGenerateUtil {
 
 		BC_SIGNATURE_IN = "In";
 		BC_SIGNATURE_OUT = "Out";
-		
-//		EXTRACT_SHEET_NAMES = new ArrayList<String>();
-//		EXTRACT_SHEET_NAMES.add("2) DB테이블 DBIO");
-//		EXTRACT_SHEET_NAMES.add("3) SC,BC 메소드설계");
 		
 		indexFieldMap = new LinkedHashMap<Long, String>();
 		METHOD_SEQ_MAP = new HashMap<String, Integer>();
