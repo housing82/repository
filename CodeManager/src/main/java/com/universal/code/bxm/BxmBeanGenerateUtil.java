@@ -46,12 +46,8 @@ public class BxmBeanGenerateUtil {
 	private GenerateHelper generateHelper;
 	private ASTVisitor visitor;
 	private TypeUtil typeUtil;
-	
-	private final static String EXCEL_START_FIRST_CELL;
-	private final static String EXCEL_END_FIRST_CELL;
 
 	//엑셀에서 참고하는 시트 이름
-//	private final static List<String> EXTRACT_SHEET_NAMES;
 	private static String templatePath;
 	
 	private String sourceRoot;
@@ -74,15 +70,9 @@ public class BxmBeanGenerateUtil {
 	public static String BC_SIGNATURE_OUT;
 	
 	static {
-		EXCEL_START_FIRST_CELL = "[[START]]";
-		EXCEL_END_FIRST_CELL = "[[END]]";
 
 		BC_SIGNATURE_IN = "In";
 		BC_SIGNATURE_OUT = "Out";
-		
-//		EXTRACT_SHEET_NAMES = new ArrayList<String>();
-//		EXTRACT_SHEET_NAMES.add("2) DB테이블 DBIO");
-//		EXTRACT_SHEET_NAMES.add("3) SC,BC 메소드설계");
 		
 		indexFieldMap = new LinkedHashMap<Long, String>();
 		METHOD_SEQ_MAP = new HashMap<String, Integer>();
@@ -184,7 +174,7 @@ public class BxmBeanGenerateUtil {
 								programDesignList.add(programDesignDTO);
 							}
 														
-							if(cell.getCellValue().equalsIgnoreCase(EXCEL_END_FIRST_CELL)) {
+							if(cell.getCellValue().equalsIgnoreCase(GenerateHelper.EXCEL_END_FIRST_CELL)) {
 								logger.debug("*endRow: {}", cell.getRowIndex());
 								break;
 							}
@@ -219,7 +209,7 @@ public class BxmBeanGenerateUtil {
 					
 					if(cell.getCellIndex() == 0) {
 
-						if(cell.getCellValue().equalsIgnoreCase(EXCEL_START_FIRST_CELL)) {
+						if(cell.getCellValue().equalsIgnoreCase(GenerateHelper.EXCEL_START_FIRST_CELL)) {
 							
 							extractField(designDataList, (currentRow - 1));
 							logger.debug("EXCEL_START_FIRST_CELL: {}", cell.getRowIndex());
@@ -1030,7 +1020,7 @@ public class BxmBeanGenerateUtil {
 				
 //				logger.debug("#designRow.getCalleeNm(): {}", designRow.getCalleeNm());
 				String calleePath = generateHelper.findFilePath(getSourceRoot(), designRow.getCalleeNm(), "java");
-//				logger.debug("#calleePath: {}", calleePath);
+				logger.debug("#calleePath: {}", calleePath);
 				calleePath = calleePath.substring(getSourceRoot().length() + File.separator.length());
 //				logger.debug("#calleePath: {}", calleePath);
 				

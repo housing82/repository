@@ -15,9 +15,11 @@ import com.universal.code.constants.IOperateCode;
 import com.universal.code.constants.JavaReservedWordConstants;
 import com.universal.code.dto.OmmDTO;
 import com.universal.code.dto.OmmFieldDTO;
+import com.universal.code.dto.ProgramDesignDTO;
 import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.FileUtil;
+import com.universal.code.utils.PropertyUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 
@@ -49,7 +51,14 @@ public class GenerateHelper {
 	
 	final static String OMM_EXT;
 	
+	final static String EXCEL_START_FIRST_CELL;
+	final static String EXCEL_END_FIRST_CELL;
+
+	
 	static {
+		EXCEL_START_FIRST_CELL = "[[START]]";
+		EXCEL_END_FIRST_CELL = "[[END]]";
+		
 		JAVA_PREFIX = new HashMap<String, String>();
 		
 		JAVA_PREFIX.put("S", "sc");
@@ -420,5 +429,5 @@ public class GenerateHelper {
 		
 		return path;
 	}
-	
+
 }
