@@ -1,53 +1,58 @@
-	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
-	#{rvBcModf} Integer #{rvMethodName}(List<#{rvInputType}> delete#{rvInputVariableFirstUpper}, List<#{rvInputType}> update#{rvInputVariableFirstUpper}, List<#{rvInputType}> insert#{rvInputVariableFirstUpper}) throws KaitApplicationException {
-		logger.debug("[START] #{rvMethodName}", #{rvInputVariableFirstUpper});
-		logger.debug("- delete#{rvInputVariableFirstUpper}: {}", (delete#{rvInputVariableFirstUpper} != null ? delete#{rvInputVariableFirstUpper}.size() : 0));
-		logger.debug("- update#{rvInputVariableFirstUpper}: {}", (update#{rvInputVariableFirstUpper} != null ? update#{rvInputVariableFirstUpper}.size() : 0));
-		logger.debug("- insert#{rvInputVariableFirstUpper}: {}", (insert#{rvInputVariableFirstUpper} != null ? insert#{rvInputVariableFirstUpper}.size() : 0));
-		
-		// 미완 
-		
+	@BxmCategory(logicalName = "#{rvMethodLogicalName}", description = "#{rvMethodDescription}")
+	#{rvBcModf} #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
+		logger.debug("[START] #{rvMethodName}");
+
+		if(#{rvInputVariable} == null) {
+			//메시지코드 결정후 일괄치환
+			throw new KaitApplicationException("", new Object[]{"#{rvInputVariable}", "Input parameter is null"});
+		}
+		logger.debug("- #{rvDeleteInFieldVar}: {}", (#{rvInputVariable}.get#{rvDeleteInFieldVar}() != null ? #{rvInputVariable}.get#{rvDeleteInFieldVar}().size() : 0));
+		logger.debug("- #{rvUpdateInFieldVar}: {}", (#{rvInputVariable}.get#{rvUpdateInFieldVar}() != null ? #{rvInputVariable}.get#{rvUpdateInFieldVar}().size() : 0));
+		logger.debug("- #{rvInsertInFieldVar}: {}", (#{rvInputVariable}.get#{rvInsertInFieldVar}() != null ? #{rvInputVariable}.get#{rvInsertInFieldVar}().size() : 0));
+
 		/** ### Output Variable ### */
-		Integer out = 0;
+		#{rvOutputType} #{rvOutputVariable} = null;
+		Integer cudCount = 0;
 		Integer deleteCount = 0;
 		Integer updateCount = 0;
 		Integer insertCount = 0;
-		
+
 		/** ### Callee Initialize ### */
-		#{rvCalleeInit}
-		
+#{rvCalleeInit}
+
 		/** ### Execute Callee ### */
 		// delete
-		if(delete#{rvInputVariableFirstUpper} != null) {
-			for(#{rvInputType} item : delete#{rvInputVariableFirstUpper}) {
+		if(#{rvInputVariable}.get#{rvDeleteInFieldVar}() != null) {
+			for(#{rvInputType} item : #{rvInputVariable}.get#{rvDeleteInFieldVar}()) {
 				/** ### Execute Delete ### */
-				#{rvDeleteExecuteCode}
-				deleteCount++;
+				deleteCount = deleteCount + #{rvDeleteExecuteCode}
 			}
 		}
 		logger.debug("- #{rvMethodName} delete count: {}", deleteCount);
-		
+
 		// update
-		if(update#{rvInputVariableFirstUpper} != null) {
-			for(#{rvInputType} item : update#{rvInputVariableFirstUpper}) {
+		if(#{rvInputVariable}.get#{rvUpdateInFieldVar}() != null) {
+			for(#{rvInputType} item : #{rvInputVariable}.get#{rvUpdateInFieldVar}()) {
 				/** ### Execute Update ### */
-				#{rvUpdateExecuteCode}
-				updateCount++;
+				updateCount = updateCount + #{rvUpdateExecuteCode}
 			}
 		}
 		logger.debug("- #{rvMethodName} update count: {}", updateCount);
-		
+
 		// insert
-		if(insert#{rvInputVariableFirstUpper} != null) {
-			for(#{rvInputType} item : insert#{rvInputVariableFirstUpper}) {
+		if(#{rvInputVariable}.get#{rvInsertInFieldVar}() != null) {
+			for(#{rvInputType} item : #{rvInputVariable}.get#{rvInsertInFieldVar}()) {
 				/** ### Execute Insert ### */
-				#{rvInsertExecuteCode}
-				insertCount++;
+				insertCount = insertCount + #{rvInsertExecuteCode}
 			}
 		}
 		logger.debug("- #{rvMethodName} insert count: {}", insertCount);
+
+#{rvBizCode}
+		/** ### Caller Output Setting ### */
+#{rvCellerOutputSetting}
 		
-		out = deleteCount + updateCount + insertCount;
-		logger.debug("[END] #{rvMethodName}: {}", out);
-		return out;
+		cudCount = deleteCount + updateCount + insertCount;
+		logger.debug("[END] #{rvMethodName} cru-transactionCount: {}", cudCount);
+		return #{rvOutputVariable};
 	}

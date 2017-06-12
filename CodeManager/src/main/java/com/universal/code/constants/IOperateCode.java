@@ -78,6 +78,12 @@ public interface IOperateCode extends IServiceCode {
 	public final static String ELEMENT_ROW = "rows";
 	public final static String ELEMENT_IN = "in";
 	public final static String ELEMENT_OUT = "out";
+	
+	public final static String METHOD_PREF_SAVE = "save";
+	public final static String METHOD_PREF_INSERT = "insert";
+	public final static String METHOD_PREF_UPDATE = "update";
+	public final static String METHOD_PREF_DELETE = "delete";
+	
 	public final static Object[] JSON_EXPAND_ELEMENTS = {"value","cols","rows"};
 	public final static String DEF_KEY_FILE_NAME = "file";
 	

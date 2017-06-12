@@ -85,11 +85,13 @@ public class GenerateRun {
 	@Test
 	public void doGenerate() throws Exception{
 		
-		dbioOmmGenerate(); 
-		
-		dbioGenerate();
+		//dbioOmmGenerate(); 
+
+		//dbioGenerate();
 
 		bxmBeanGenerate(); 
+		
+		//bxmServiceGenerate();
 		
 		//parseJavaMethodToExcel();
 		

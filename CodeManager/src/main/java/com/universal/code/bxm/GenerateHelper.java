@@ -15,11 +15,9 @@ import com.universal.code.constants.IOperateCode;
 import com.universal.code.constants.JavaReservedWordConstants;
 import com.universal.code.dto.OmmDTO;
 import com.universal.code.dto.OmmFieldDTO;
-import com.universal.code.dto.ProgramDesignDTO;
 import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.FileUtil;
-import com.universal.code.utils.PropertyUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 
@@ -71,6 +69,7 @@ public class GenerateHelper {
 		METHOD_VERB.put("save", "저장");
 		METHOD_VERB.put("modify", "수정");
 		METHOD_VERB.put("remove", "삭제");
+		METHOD_VERB.put("delete", "완전삭제");
 		
 		OMM_EXT = ".omm";
 		
@@ -430,4 +429,42 @@ public class GenerateHelper {
 		return path;
 	}
 
+	
+	public String getLowerInTypeSimpleName(Map<String, Integer> methodVarMap, String inputVarString, String calleeInTypeSimpleName) {
+		
+		String lowerInTypeSimpleName = null;
+		//중복 체크
+		if(inputVarString.equalsIgnoreCase("in")) {
+			lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
+		}
+		else {
+			lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
+		}
+		
+		Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
+		if(varCnt != null) {
+			// plus
+			varCnt = varCnt + 1;
+			// make
+			// 중복되는 메소드 지역변수 명은 시퀀스를 01 부터 붙인다. 
+			lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt - 1), 2, "0"));
+			
+			methodVarMap.put(lowerInTypeSimpleName, varCnt);
+		}
+		else {
+			// init
+			varCnt = 1;
+			// set
+			methodVarMap.put(lowerInTypeSimpleName, varCnt);
+			// make
+			// lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0"));
+			// 첫번째 메소드 지역변수 명은 시퀀스를 붙이지 않는다. 
+		}
+		
+		return lowerInTypeSimpleName;
+	}
+	
+	
+	
+	
 }

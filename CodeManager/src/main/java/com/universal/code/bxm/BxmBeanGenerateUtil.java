@@ -257,9 +257,14 @@ public class BxmBeanGenerateUtil {
 		String rvCelleeInputSetting = "#{rvCelleeInputSetting}";
 		String rvCellerOutputSetting = "#{rvCellerOutputSetting}";
 		
+		// bxmBeanSaveMethodTemplate
 		String rvDeleteExecuteCode = "#{rvDeleteExecuteCode}";
 		String rvUpdateExecuteCode = "#{rvUpdateExecuteCode}";
 		String rvInsertExecuteCode = "#{rvInsertExecuteCode}";
+
+		String rvDeleteInFieldVar = "#{rvDeleteInFieldVar}";
+		String rvUpdateInFieldVar = "#{rvUpdateInFieldVar}";
+		String rvInsertInFieldVar = "#{rvInsertInFieldVar}";
 		
 		
 		String rvBcModf = "#{rvBcModf}";
@@ -299,6 +304,10 @@ public class BxmBeanGenerateUtil {
 		StringBuilder dsDeleteExecuteCode = null;
 		StringBuilder dsUpdateExecuteCode = null;
 		StringBuilder dsInsertExecuteCode = null;
+
+		String dsDeleteInFieldVar = null;
+		String dsUpdateInFieldVar = null;
+		String dsInsertInFieldVar = null;
 		
 		StringBuilder inOmmPropertySetGetter = null;
 		StringBuilder dsCellerOutputSetting = null;
@@ -339,6 +348,9 @@ public class BxmBeanGenerateUtil {
 		
 		//1개의 메소드 안에서 In/Out 변수 중복제거 및 시퀀스 증가를 위한 맵
 		Map<String, Integer> methodVarMap = null;
+		
+		Map<String, Integer> calleeInitMap = null;
+		
 		
 		for(int i = 0; i < programDesignList.size(); i++) {
 			designRow = programDesignList.get(i); 
@@ -388,7 +400,6 @@ public class BxmBeanGenerateUtil {
 						dsImportsSet.add(outputOmmPullType); // -> dsImportsSet.add
 						dsOutputVariable = IOperateCode.ELEMENT_OUT;
 						logger.debug("[OUTPUT] BC Output Name: {} > return: {}, variable: {}", bcOmmName, outputOmmPullType, dsOutputVariable);
-						
 
 						
 						//Output Type OMM은 생성대상 OMM임 ####################################
@@ -418,6 +429,10 @@ public class BxmBeanGenerateUtil {
 						//caller method output field
 						dsCellerOutputSetting = new StringBuilder();
 						
+						dsDeleteExecuteCode = new StringBuilder();
+						dsUpdateExecuteCode = new StringBuilder();
+						dsInsertExecuteCode = new StringBuilder();
+						
 						//output omm init
 						dsCellerOutputSetting.append("		");
 						dsCellerOutputSetting.append(dsOutputVariable);
@@ -445,6 +460,9 @@ public class BxmBeanGenerateUtil {
 						
 						//1개의 메소드 안에서 In/Out 변수 중복제거 및 시퀀스 증가를 위한 맵
 						methodVarMap = new HashMap<String, Integer>();
+						//동일한 callee가 여러번 셋팅되었을 경우 채크
+						calleeInitMap = new HashMap<String, Integer>();
+						
 						for(Entry<String, Object> callee : calleeMap.entrySet()) {
 							
 							String calleeTypeFullName = callee.getKey();
@@ -457,18 +475,26 @@ public class BxmBeanGenerateUtil {
 							//caller to callee inner getter/setter
 							inOmmPropertySetGetter = new StringBuilder();
 							
-							
-							//caller method input field
-							dsCalleeInit
-								.append("		")
-								.append(calleeVarName)
-								.append(" = DefaultApplicationContext.getBean(")
-								.append(calleeVarName)
-								.append(", ")
-								.append(calleeSimpleName)
-								.append(".class);")
-								.append(SystemUtil.LINE_SEPARATOR);
-							
+							if(calleeInitMap.get(calleeVarName) == null) {
+
+								//caller method input field
+								dsCalleeInit
+									.append("		")
+									.append(calleeVarName)
+									.append(" = DefaultApplicationContext.getBean(")
+									.append(calleeVarName)
+									.append(", ")
+									.append(calleeSimpleName)
+									.append(".class);")
+									.append(SystemUtil.LINE_SEPARATOR);
+								
+								calleeInitMap.put(calleeVarName, 1);
+							}
+							else {
+								Integer calleeInitCnt = calleeInitMap.get(calleeVarName); 
+								calleeInitMap.put(calleeVarName, (calleeInitCnt + 1));
+							}
+
 							logger.debug("---- calleeTypeFullName: {}", calleeTypeFullName);
 							logger.debug("  ----- calleeTypeName: {}", calleeTypeName);
 							
@@ -479,7 +505,6 @@ public class BxmBeanGenerateUtil {
 							//피호출 자바파일 분석
 							List<Map<String, Object>> ast = visitor.execute(javaPath, ASTVisitor.VISIT_METHOD_NODE, false);
 							boolean findMethod = false;
-							
 							
 							for(Map<String, Object> method : ast) {
 								if(method.get("nodeType").equals("MethodDeclaration")) {
@@ -495,6 +520,7 @@ public class BxmBeanGenerateUtil {
 										StringBuilder methodInputExpr = new StringBuilder();
 										OmmDTO parseOmm = null;
 										
+										List<String> saveInTypeSimpleName = new ArrayList<String>();
 										
 										for(Parameter parameter : parameters) {
 											String inputTypeString = parameter.getType().toString();
@@ -521,31 +547,57 @@ public class BxmBeanGenerateUtil {
 											dsCelleeInputSetting.append(" ");
 											
 											String lowerInTypeSimpleName = null;
-											//중복 체크
-											if(inputVarString.equalsIgnoreCase("in")) {
-												lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
+											
+											if(bcMetdDesign.getBcMetdPref().toLowerCase().equals(IOperateCode.METHOD_PREF_SAVE)) {
+												// dsDeleteExecuteCode
+												if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_DELETE)) {
+													// METHOD_PREF_DELETE
+													if(inputVarString.equalsIgnoreCase(IOperateCode.ELEMENT_IN)) {
+														inputVarString = stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName);
+													}
+													inputVarString = IOperateCode.METHOD_PREF_DELETE.concat(stringUtil.getFirstCharUpperCase(inputVarString));
+													
+													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
+													
+													saveInTypeSimpleName.add(lowerInTypeSimpleName);
+												}
+												// dsUpdateExecuteCode
+												else if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_UPDATE)) {
+													// METHOD_PREF_UPDATE
+													if(inputVarString.equalsIgnoreCase(IOperateCode.ELEMENT_IN)) {
+														inputVarString = stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName);
+													}
+													inputVarString = IOperateCode.METHOD_PREF_UPDATE.concat(stringUtil.getFirstCharUpperCase(inputVarString));
+													
+													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
+													
+													saveInTypeSimpleName.add(lowerInTypeSimpleName);
+												}
+												// dsInsertExecuteCode
+												else if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_INSERT)) {
+													// METHOD_PREF_INSERT
+													if(inputVarString.equalsIgnoreCase(IOperateCode.ELEMENT_IN)) {
+														inputVarString = stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName);
+													}
+													inputVarString = IOperateCode.METHOD_PREF_INSERT.concat(stringUtil.getFirstCharUpperCase(inputVarString));
+													
+													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
+													
+													saveInTypeSimpleName.add(lowerInTypeSimpleName);
+												}
+												// not in (delete, update, insert)
+												else {
+													
+													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
+												}
+												
+												
 											}
 											else {
-												lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
+												
+												lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
 											}
 											
-											Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
-											if(varCnt != null) {
-												// plus
-												varCnt = varCnt + 1;
-												// make
-												// 중복되는 메소드 지역변수 명은 시퀀스를 01 부터 붙인다. 
-												lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt - 1), 2, "0")); 
-											}
-											else {
-												// init
-												varCnt = 1;
-												// set
-												methodVarMap.put(lowerInTypeSimpleName, varCnt);
-												// make
-												// lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0"));
-												// 첫번째 메소드 지역변수 명은 시퀀스를 붙이지 않는다. 
-											}
 											
 											//method inner variable name  
 											dsCelleeInputSetting.append(lowerInTypeSimpleName);
@@ -694,21 +746,99 @@ public class BxmBeanGenerateUtil {
 										}
 										
 										findMethod = true;
-										dsBizCode
-											.append("		")
-											.append(celleeOutType)
-											.append(" ")
-											.append(celleeOutVarName)
-											.append(" = ")
-											.append(calleeVarName)
-											.append(IOperateCode.STR_DOT)
-											.append(calleeMethodName)
-											.append("(")
-											.append(methodInputExpr.toString())
-											.append(");")
-											.append(SystemUtil.LINE_SEPARATOR);
 										
-										
+										if(bcMetdDesign.getBcMetdPref().toLowerCase().equals(IOperateCode.METHOD_PREF_SAVE)) {
+											// dsDeleteExecuteCode
+											if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_DELETE)) {
+												
+												// celleeOutVarName
+												dsDeleteInFieldVar = stringUtil.getFirstCharUpperCase(saveInTypeSimpleName.get(0));
+												celleeOutVarName = "deleteCount";
+												
+												if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_SAVE)) {
+													throw new ApplicationException("BXM Code생성기는 저장(SAVE) bean메소드에서 다른 save메소드를 callee로 갖는것을 지원하지 않습니다.");
+												}
+												
+												dsDeleteExecuteCode
+													.append(calleeVarName)
+													.append(IOperateCode.STR_DOT)
+													.append(calleeMethodName)
+													.append("(item);");
+											}
+											// dsUpdateExecuteCode
+											else if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_UPDATE)) {
+												
+												dsUpdateInFieldVar = stringUtil.getFirstCharUpperCase(saveInTypeSimpleName.get(0));
+												celleeOutVarName = "updateCount";
+												
+												if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_SAVE)) {
+													throw new ApplicationException("BXM Code생성기는 저장(SAVE) bean메소드에서 다른 save메소드를 callee로 갖는것을 지원하지 않습니다.");
+												}
+												
+												dsUpdateExecuteCode
+													.append(calleeVarName)
+													.append(IOperateCode.STR_DOT)
+													.append(calleeMethodName)
+													.append("(item);");
+											}
+											// dsInsertExecuteCode
+											else if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_INSERT)) {
+												
+												dsInsertInFieldVar = stringUtil.getFirstCharUpperCase(saveInTypeSimpleName.get(0));
+												celleeOutVarName = "insertCount";
+												
+												if(calleeMethodName.startsWith(IOperateCode.METHOD_PREF_SAVE)) {
+													throw new ApplicationException("BXM Code생성기는 저장(SAVE) bean메소드에서 다른 save메소드를 callee로 갖는것을 지원하지 않습니다.");
+												}
+												
+												dsInsertExecuteCode
+													.append(calleeVarName)
+													.append(IOperateCode.STR_DOT)
+													.append(calleeMethodName)
+													.append("(item);");
+											}
+											// delete, update, insert
+											else {
+
+												// /** ### Execute Callee ### */
+												if(dsBizCode.toString().length() == 0) {
+													dsBizCode
+														.append("		/** ### Execute Callee ### */")
+														.append(SystemUtil.LINE_SEPARATOR);
+												}
+												
+												dsBizCode
+													.append("		")
+													.append(celleeOutType)
+													.append(" ")
+													.append(celleeOutVarName)
+													.append(" = ")
+													.append(calleeVarName)
+													.append(IOperateCode.STR_DOT)
+													.append(calleeMethodName)
+													.append("(")
+													.append(methodInputExpr.toString())
+													.append(");")
+													.append(SystemUtil.LINE_SEPARATOR);
+											}
+											
+										}
+										else {
+											
+											dsBizCode
+												.append("		")
+												.append(celleeOutType)
+												.append(" ")
+												.append(celleeOutVarName)
+												.append(" = ")
+												.append(calleeVarName)
+												.append(IOperateCode.STR_DOT)
+												.append(calleeMethodName)
+												.append("(")
+												.append(methodInputExpr.toString())
+												.append(");")
+												.append(SystemUtil.LINE_SEPARATOR);
+										}
 										
 										logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 679 : {}", celleeOutFullType);
 										logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 680 : {}", celleeOutType);
@@ -829,20 +959,59 @@ public class BxmBeanGenerateUtil {
 						boolean outOmmCreated = generateHelper.createOmmFile(bcOutOmmDTO, true);
 						logger.debug("[Create bcOutOmmDTO] outOmmCreated: {}", outOmmCreated/*, bcOutOmmDTO.toString()*/);
 						
-						String methodCode = bxmBeanMethodTemplate
-								.replace(rvMethodLogicalName, dsMethodLogicalName)
-								.replace(rvMethodDescription, dsMethodDescription)
-								.replace(rvBcModf, dsBcModf)
-								.replace(rvOutputType, dsOutputType)
-								.replace(rvMethodName, dsMethodName)
-								.replace(rvInputType, dsInputType)
-								.replace(rvInputVariable, dsInputVariable)
-								.replace(rvOutputVariable, dsOutputVariable)
-								.replace(rvCalleeInit, dsCalleeInit)
-								.replace(rvCelleeInputSetting, dsCelleeInputSetting)
-								.replace(rvBizCode, dsBizCode)
-								.replace(rvCellerOutputSetting, dsCellerOutputSetting)
-								;
+						String methodCode = null;
+						
+						if(bcMetdDesign.getBcMetdPref().toLowerCase().equals(IOperateCode.METHOD_PREF_SAVE)) {
+							
+							// stringUtil.getFirstCharUpperCase(dsInputVariable)
+							
+							if(dsDeleteInFieldVar == null) {
+								throw new ApplicationException("프로그램설계서의 저장(SAVE)메소드의 callee 삭제메소드 설정이 존재하지 앖습니다.");
+							}
+							if(dsUpdateInFieldVar == null) {
+								throw new ApplicationException("프로그램설계서의 저장(SAVE)메소드의 callee 수정메소드 설정이 존재하지 앖습니다.");
+							}
+							if(dsInsertInFieldVar == null) {
+								throw new ApplicationException("프로그램설계서의 저장(SAVE)메소드의 callee 입력메소드 설정이 존재하지 앖습니다.");
+							}
+
+							methodCode = bxmBeanSaveMethodTemplate
+									.replace(rvMethodLogicalName, dsMethodLogicalName)
+									.replace(rvMethodDescription, dsMethodDescription)
+									.replace(rvBcModf, dsBcModf)
+									.replace(rvOutputType, dsOutputType)
+									.replace(rvMethodName, dsMethodName)
+									.replace(rvInputType, dsInputType)
+									.replace(rvInputVariable, dsInputVariable)
+									.replace(rvOutputVariable, dsOutputVariable)
+									.replace(rvCalleeInit, dsCalleeInit)
+									.replace(rvCelleeInputSetting, dsCelleeInputSetting)
+									.replace(rvBizCode, dsBizCode)
+									.replace(rvCellerOutputSetting, dsCellerOutputSetting)
+									.replace(rvDeleteExecuteCode, dsDeleteExecuteCode)
+									.replace(rvUpdateExecuteCode, dsUpdateExecuteCode)
+									.replace(rvInsertExecuteCode, dsInsertExecuteCode)
+									.replace(rvDeleteInFieldVar, dsDeleteInFieldVar)
+									.replace(rvUpdateInFieldVar, dsUpdateInFieldVar)
+									.replace(rvInsertInFieldVar, dsInsertInFieldVar)
+									;
+						}
+						else {
+							
+							methodCode = bxmBeanMethodTemplate
+									.replace(rvMethodLogicalName, dsMethodLogicalName)
+									.replace(rvMethodDescription, dsMethodDescription)
+									.replace(rvBcModf, dsBcModf)
+									.replace(rvOutputType, dsOutputType)
+									.replace(rvMethodName, dsMethodName)
+									.replace(rvInputType, dsInputType)
+									.replace(rvInputVariable, dsInputVariable)
+									.replace(rvOutputVariable, dsOutputVariable)
+									.replace(rvCalleeInit, dsCalleeInit)
+									.replace(rvCelleeInputSetting, dsCelleeInputSetting)
+									.replace(rvBizCode, dsBizCode)
+									.replace(rvCellerOutputSetting, dsCellerOutputSetting);
+						}
 						
 						logger.debug(">>[methodCode]\n\n{}", methodCode);
 						
