@@ -60,7 +60,7 @@ public class GenerateRun {
 		props.setProperty("jdbc.validationQuery", "SELECT 1 FROM DUAL");
 		
 		// 소스 코드 생성 루트 경로
-		SOURCE_ROOT = "C:/Developer/BXMWorkspace/HD-onl/src";
+		SOURCE_ROOT = "D:/Developer/BXMWorkspace/HD-onl/src";
 
 		// 프로그램 설계 엑셀 파일경로
 		//EXCEL_PATH = "N:/03.프로잭트/11.뱅크웨어/01.한국자산신탁/06.프로그램설계";
