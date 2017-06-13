@@ -7,18 +7,16 @@
 			throw new KaitApplicationException("", new Object[]{"Input OMM Parameter is null"});
 		}
 
+		/** ### Callee Initialize ### */
+#{rvCalleeInit}
 		/** ### Output Variable ### */
 		#{rvOutputType} #{rvOutputVariable} = null;
 		Integer delCnt = 0;
 		Integer updCnt = 0;
 		Integer insCnt = 0;
 
-		/** ### Callee Initialize ### */
-#{rvCalleeInit}
-
 		/** ### Callee Input Setting ### */
 #{rvCelleeInputSetting}
-
 		/** ### Execute Save Callee ### */
 		// delete
 		if(#{rvDeleteInListFieldVar} != null) {

@@ -7,18 +7,15 @@
 			throw new KaitApplicationException("", new Object[]{"Input OMM Parameter is null"});
 		}
 
+		/** ### Callee Initialize ### */
+#{rvCalleeInit}
 		/** ### Output Variable ### */
 		#{rvOutputType} #{rvOutputVariable} = null;
 
-		/** ### Callee Initialize ### */
-#{rvCalleeInit}
-
 		/** ### Callee Input Setting ### */
 #{rvCelleeInputSetting}
-
 		/** ### Execute Callee ### */
 #{rvBizCode}
-
 		/** ### Caller Output Setting ### */
 #{rvCellerOutputSetting}
 
