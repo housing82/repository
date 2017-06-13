@@ -342,6 +342,8 @@ public class BxmBeanGenerateUtil {
 		OmmFieldDTO bcInOmmField = null;
 		OmmFieldDTO bcOutOmmField = null;
 		
+		String finalBxmBeanTemplate = null;
+		
 		// copyTarget
 		List<String> copyTarget = new ArrayList<String>();
 		copyTarget.add("logc");
@@ -643,8 +645,8 @@ public class BxmBeanGenerateUtil {
 													
 													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
 													
-													inArrayReferenceVar = lowerInTypeSimpleName.concat("Cnt");
-													inArrayReferenceType = "Integer";
+													inArrayReferenceVar = lowerInTypeSimpleName.concat(IOperateCode.CALLEE_VAR_POST_COUNT);
+													inArrayReferenceType = IOperateCode.WRAPPER_TYPE_INTEGER;
 													
 													lowerInTypeSimpleName = lowerInTypeSimpleName.concat(IOperateCode.CALLEE_VAR_POST_LIST);
 													
@@ -664,8 +666,8 @@ public class BxmBeanGenerateUtil {
 													
 													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
 													
-													inArrayReferenceVar = lowerInTypeSimpleName.concat("Cnt");
-													inArrayReferenceType = "Integer";
+													inArrayReferenceVar = lowerInTypeSimpleName.concat(IOperateCode.CALLEE_VAR_POST_COUNT);
+													inArrayReferenceType = IOperateCode.WRAPPER_TYPE_INTEGER;
 													
 													lowerInTypeSimpleName = lowerInTypeSimpleName.concat(IOperateCode.CALLEE_VAR_POST_LIST);
 													
@@ -685,8 +687,8 @@ public class BxmBeanGenerateUtil {
 													
 													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
 													
-													inArrayReferenceVar = lowerInTypeSimpleName.concat("Cnt");
-													inArrayReferenceType = "Integer";
+													inArrayReferenceVar = lowerInTypeSimpleName.concat(IOperateCode.CALLEE_VAR_POST_COUNT);
+													inArrayReferenceType = IOperateCode.WRAPPER_TYPE_INTEGER;
 													
 													lowerInTypeSimpleName = lowerInTypeSimpleName.concat(IOperateCode.CALLEE_VAR_POST_LIST);
 													
@@ -738,6 +740,7 @@ public class BxmBeanGenerateUtil {
 												bcInOmmField.setDescription(parseOmm.getOmmDesc());
 												bcInOmmField.setArrayReference(inArrayReferenceVar);
 												bcInOmmField.setArrayReferenceType(inArrayReferenceType);
+												bcInOmmField.setSourceRoot(getSourceRoot());
 												bcInOmmDTO.addOmmFields(bcInOmmField);
 												
 												/*
@@ -797,7 +800,11 @@ public class BxmBeanGenerateUtil {
 										//logger.debug("calleeReturnType: {}", calleeReturnType.toString());
 										
 										String celleeOutFullType = calleeReturnType.toString();
+										boolean isOutListType = false;
+										String outArrayReferenceVar = null;
+										String outArrayReferenceType = null;
 										String celleeOutType = null;
+										
 										if(celleeOutFullType.contains(List.class.getCanonicalName())) {
 											//List일경우 설정 ##############
 											String listParam = null;
@@ -812,7 +819,7 @@ public class BxmBeanGenerateUtil {
 											}
 											
 											celleeOutType = List.class.getSimpleName().concat("<").concat(listParam).concat(">"); 
-											
+											isOutListType = true;
 											/*
 											OMM kait.hd.hdu.onl.bc.dto.BHDUCodeAccount01Out
 											<description="현장 다건조회 Out">
@@ -858,6 +865,13 @@ public class BxmBeanGenerateUtil {
 										}
 										
 										findMethod = true;
+										
+										if(isOutListType) {
+											//타입이 List일경우 변수명 뒤에 List를 붙여줌
+											outArrayReferenceVar = celleeOutVarName.concat(IOperateCode.CALLEE_VAR_POST_COUNT);
+											outArrayReferenceType = IOperateCode.WRAPPER_TYPE_INTEGER;
+											celleeOutVarName = celleeOutVarName.concat(IOperateCode.CALLEE_VAR_POST_LIST);
+										}
 										
 										if(bcMetdDesign.getBcMetdPref().toLowerCase().equals(IOperateCode.METHOD_PREF_SAVE)) {
 											// dsDeleteExecuteCode
@@ -984,7 +998,10 @@ public class BxmBeanGenerateUtil {
 											bcOutOmmField.setType(bcOutOmmType);
 											bcOutOmmField.setName(celleeOutVarName);
 											bcOutOmmField.setLength("0");
+											bcOutOmmField.setArrayReference(outArrayReferenceVar);
+											bcOutOmmField.setArrayReferenceType(outArrayReferenceType);
 											bcOutOmmField.setDescription(parseOmm.getOmmDesc());
+											bcOutOmmField.setSourceRoot(getSourceRoot());
 											bcOutOmmDTO.addOmmFields(bcOutOmmField);
 
 											/*
@@ -1038,6 +1055,9 @@ public class BxmBeanGenerateUtil {
 											calleeOutOmmField.setName(celleeOutVarName);
 											calleeOutOmmField.setLength(typeUtil.getPrimitiveWrapperDefaultLengthMap(celleeOutType));
 											calleeOutOmmField.setDescription(outFieldDesc);
+											calleeOutOmmField.setArrayReference(outArrayReferenceVar);
+											calleeOutOmmField.setArrayReferenceType(outArrayReferenceType);
+											calleeOutOmmField.setSourceRoot(getSourceRoot());
 											
 											dsCellerOutputSetting.append("		");
 											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, calleeOutOmmField, null, calleeOutOmmField, ";"));
@@ -1158,16 +1178,21 @@ public class BxmBeanGenerateUtil {
 					dsImports = new StringBuilder();
 					dsVariables = new StringBuilder();
 					
+					String varTypeName = null;
 					for(String imports : dsImportsSet) {
 						dsImports.append("import ").append(imports).append(";").append(SystemUtil.LINE_SEPARATOR);
-						String varTypeName = imports.substring(imports.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
-						dsVariables.append("	private ").append(varTypeName).append(" ").append(stringUtil.getFirstCharLowerCase(varTypeName)).append(";").append(SystemUtil.LINE_SEPARATOR);
+						
+						if(!imports.contains(".dto.")) {
+							varTypeName = imports.substring(imports.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+							dsVariables.append("	private ").append(varTypeName).append(" ").append(stringUtil.getFirstCharLowerCase(varTypeName)).append(";").append(SystemUtil.LINE_SEPARATOR);
+						}
 					}
 					logger.debug("[dsImports]\n{}", dsImports.toString());
 					logger.debug("[dsVariables]\n{}", dsVariables.toString());
 					logger.debug("[dsBody]\n{}", dsBody.toString());
 					
-					String finalBxmBeanTemplate = bxmBeanTemplate
+					//설계서의 가장 마지막 라인 소스는 생성되지 않음으로 ( 가장 마지막라인 [[END]]이전 라인에는 임의의 정보를 입력하도록함 ) 추후 변경
+					finalBxmBeanTemplate = bxmBeanTemplate
 							.replace(rvPackage, dsPackage)
 							.replace(rvImports, dsImports)
 							.replace(rvDate, dsDate)
@@ -1179,8 +1204,22 @@ public class BxmBeanGenerateUtil {
 							;
 					
 					logger.debug("★★★★★★★★★★★★★ [END Method Element Setup] ★★★★★★★★★★★★★★");
-				
+
+					String finalSourceDir = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(dsPackage.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).toString();
+					String finalSourceFile = new StringBuilder().append(dsClassName).append(".java").toString();
+					
+					logger.debug("#FinalSource: BC 자바 생성 ");
+					logger.debug("#FinalSourcePath: {}/{}", finalSourceDir, finalSourceFile);
 					logger.debug("#FinalSource: {}\n\n{}", dsClassName, finalBxmBeanTemplate);
+					
+					fileUtil.mkfile(
+							new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(dsPackage.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).toString()
+							, finalSourceFile
+							, finalBxmBeanTemplate
+							, IOperateCode.DEFAULT_ENCODING
+							, false
+							, true);
+ 
 				}
 				
 				
@@ -1287,6 +1326,8 @@ public class BxmBeanGenerateUtil {
 			}
 		}
 
+		logger.debug("#FinalSource: 설계서의 가장 마지막 라인 소스는 생성되지 않음으로 ( 가장 마지막라인 [[END]]이전 라인에는 임의의 정보를 입력하도록함 ) 추후 변경");
+		
 		logger.debug("[END] createCode");
 		return out;
 	}

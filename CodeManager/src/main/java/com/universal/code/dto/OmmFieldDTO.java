@@ -14,6 +14,8 @@ public class OmmFieldDTO extends CommonObject implements IDataTransferObject, Se
 	private String description;
 	private String arrayReference;
 	private String arrayReferenceType;
+	private String arrayReferenceLength;
+	private String sourceRoot;
 	
 	public OmmFieldDTO() {
 		this.reset();
@@ -27,6 +29,8 @@ public class OmmFieldDTO extends CommonObject implements IDataTransferObject, Se
 		description = null;
 		arrayReference = null;
 		arrayReferenceType = null;
+		arrayReferenceLength = null;
+		sourceRoot = null;
 	}
 
 	public String getType() {
@@ -75,6 +79,22 @@ public class OmmFieldDTO extends CommonObject implements IDataTransferObject, Se
 
 	public void setArrayReferenceType(String arrayReferenceType) {
 		this.arrayReferenceType = arrayReferenceType;
+	}
+
+	public String getSourceRoot() {
+		return sourceRoot;
+	}
+
+	public void setSourceRoot(String sourceRoot) {
+		this.sourceRoot = sourceRoot;
+	}
+
+	public String getArrayReferenceLength() {
+		return arrayReferenceLength;
+	}
+
+	public void setArrayReferenceLength(String arrayReferenceLength) {
+		this.arrayReferenceLength = arrayReferenceLength;
 	}
 
 	

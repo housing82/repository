@@ -1,6 +1,7 @@
 package com.universal.code.constants;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public interface IOperateCode extends IServiceCode {
 
@@ -88,7 +89,10 @@ public interface IOperateCode extends IServiceCode {
 	public final static String CALLE_OUT_VAR_UPDATE_COUNT = "updCnt";
 	public final static String CALLE_OUT_VAR_DELETE_COUNT = "delCnt";
 	
-	public final static String CALLEE_VAR_POST_LIST = "List";	
+	public final static String CALLEE_VAR_POST_LIST = List.class.getSimpleName();	
+	public final static String CALLEE_VAR_POST_COUNT = "Cnt";
+	
+	public final static String WRAPPER_TYPE_INTEGER = Integer.class.getSimpleName();	
 	
 	public final static Object[] JSON_EXPAND_ELEMENTS = {"value","cols","rows"};
 	public final static String DEF_KEY_FILE_NAME = "file";
