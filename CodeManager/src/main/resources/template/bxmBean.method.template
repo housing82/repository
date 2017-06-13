@@ -1,10 +1,10 @@
 	@BxmCategory(logicalName = "#{rvMethodLogicalName}", description = "#{rvMethodDescription}")
 	#{rvBcModf} #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
-		logger.debug("[START] #{rvMethodName}: {}", #{rvInputVariable});
+		logger.debug("[START-BC] #{rvMethodName} input:\n{}", #{rvInputVariable});
 
 		if(#{rvInputVariable} == null) {
 			//메시지코드 결정후 일괄치환
-			throw new KaitApplicationException("", new Object[]{"#{rvInputVariable}", "Input parameter is null"});
+			throw new KaitApplicationException("", new Object[]{"Input OMM Parameter is null"});
 		}
 
 		/** ### Output Variable ### */
@@ -22,6 +22,6 @@
 		/** ### Caller Output Setting ### */
 #{rvCellerOutputSetting}
 
-		logger.debug("[END] #{rvMethodName}: {}", #{rvOutputVariable});
+		logger.debug("[END-BC] #{rvMethodName} output:\n{}", #{rvOutputVariable});
 		return #{rvOutputVariable};
 	}

@@ -1,58 +1,56 @@
 	@BxmCategory(logicalName = "#{rvMethodLogicalName}", description = "#{rvMethodDescription}")
 	#{rvBcModf} #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
-		logger.debug("[START] #{rvMethodName}");
+		logger.debug("[START-BC] #{rvMethodName} input:\n{}", #{rvInputVariable});
 
 		if(#{rvInputVariable} == null) {
 			//메시지코드 결정후 일괄치환
-			throw new KaitApplicationException("", new Object[]{"#{rvInputVariable}", "Input parameter is null"});
+			throw new KaitApplicationException("", new Object[]{"Input OMM Parameter is null"});
 		}
-		logger.debug("- #{rvDeleteInFieldVar}: {}", (#{rvInputVariable}.get#{rvDeleteInFieldVar}() != null ? #{rvInputVariable}.get#{rvDeleteInFieldVar}().size() : 0));
-		logger.debug("- #{rvUpdateInFieldVar}: {}", (#{rvInputVariable}.get#{rvUpdateInFieldVar}() != null ? #{rvInputVariable}.get#{rvUpdateInFieldVar}().size() : 0));
-		logger.debug("- #{rvInsertInFieldVar}: {}", (#{rvInputVariable}.get#{rvInsertInFieldVar}() != null ? #{rvInputVariable}.get#{rvInsertInFieldVar}().size() : 0));
 
 		/** ### Output Variable ### */
 		#{rvOutputType} #{rvOutputVariable} = null;
-		Integer cudCount = 0;
-		Integer deleteCount = 0;
-		Integer updateCount = 0;
-		Integer insertCount = 0;
+		Integer delCnt = 0;
+		Integer updCnt = 0;
+		Integer insCnt = 0;
 
 		/** ### Callee Initialize ### */
 #{rvCalleeInit}
 
-		/** ### Execute Callee ### */
+		/** ### Callee Input Setting ### */
+#{rvCelleeInputSetting}
+
+		/** ### Execute Save Callee ### */
 		// delete
-		if(#{rvInputVariable}.get#{rvDeleteInFieldVar}() != null) {
-			for(#{rvInputType} item : #{rvInputVariable}.get#{rvDeleteInFieldVar}()) {
+		if(#{rvDeleteInListFieldVar} != null) {
+			for(#{rvDeleteInListFieldType} item : #{rvDeleteInListFieldVar}) {
 				/** ### Execute Delete ### */
-				deleteCount = deleteCount + #{rvDeleteExecuteCode}
+				delCnt = delCnt + #{rvDeleteExecuteCode}
 			}
 		}
-		logger.debug("- #{rvMethodName} delete count: {}", deleteCount);
+		logger.debug("- #{rvMethodName} delete count: {}", delCnt);
 
 		// update
-		if(#{rvInputVariable}.get#{rvUpdateInFieldVar}() != null) {
-			for(#{rvInputType} item : #{rvInputVariable}.get#{rvUpdateInFieldVar}()) {
+		if(#{rvUpdateInListFieldVar} != null) {
+			for(#{rvUpdateInListFieldType} item : #{rvUpdateInListFieldVar}) {
 				/** ### Execute Update ### */
-				updateCount = updateCount + #{rvUpdateExecuteCode}
+				updCnt = updCnt + #{rvUpdateExecuteCode}
 			}
 		}
-		logger.debug("- #{rvMethodName} update count: {}", updateCount);
+		logger.debug("- #{rvMethodName} update count: {}", updCnt);
 
 		// insert
-		if(#{rvInputVariable}.get#{rvInsertInFieldVar}() != null) {
-			for(#{rvInputType} item : #{rvInputVariable}.get#{rvInsertInFieldVar}()) {
+		if(#{rvInsertInListFieldVar} != null) {
+			for(#{rvInsertInListFieldType} item : #{rvInsertInListFieldVar}) {
 				/** ### Execute Insert ### */
-				insertCount = insertCount + #{rvInsertExecuteCode}
+				insCnt = insCnt + #{rvInsertExecuteCode}
 			}
 		}
-		logger.debug("- #{rvMethodName} insert count: {}", insertCount);
+		logger.debug("- #{rvMethodName} insert count: {}", insCnt);
 
 #{rvBizCode}
 		/** ### Caller Output Setting ### */
 #{rvCellerOutputSetting}
 		
-		cudCount = deleteCount + updateCount + insertCount;
-		logger.debug("[END] #{rvMethodName} cru-transactionCount: {}", cudCount);
-		return #{rvOutputVariable};
+		logger.debug("[END-BC] #{rvMethodName} trxCount: {}, output:\n{}", (delCnt + updCnt + insCnt), #{rvOutputVariable});
+		return #{rvOutputVariable};		
 	}
