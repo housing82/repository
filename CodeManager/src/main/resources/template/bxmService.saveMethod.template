@@ -1,16 +1,14 @@
 	@BxmServiceOperation("#{rvTrxCode}")
-	@BxmCategory(logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
+	@BxmCategory(logicalName = "#{rvMethodLogicalName}", description = "#{rvMethodDescription}")
 	public #{rvOutputType} #{rvMethodName}(#{rvInputType} #{rvInputVariable}) throws KaitApplicationException {
-		logger.debug("[START] #{rvMethodName}");
+		logger.debug("[START-SC] #{rvMethodName} input:\n{}", #{rvInputVariable});
 		
 		/** ### Validate Parameter ### */
-		#{rvValidate}
-		
+#{rvValidate}
+		/** ### Bean Initialize ### */
+		#{rvCalleeInit}
 		/** ### Output Variable ### */
 		#{rvOutputType} #{rvOutputVariable} = null;
-		
-		/** ### Bean Initialize ### */
-		#{rvBeanInit}
 		
 		/** ### Set Input Value  ### */
 		#{rvSetInputValue}
@@ -25,6 +23,6 @@
 		//TODO 알맞은 메시지 코드 넣어야 합니다.
 		CommonHdrUtils.setOkResultMessage("");
 		
-		logger.debug("[END] #{rvMethodName}");
+		logger.debug("[END-SC] #{rvMethodName} output:\n{}", #{rvOutputVariable});
 		return #{rvOutputVariable};
 	}

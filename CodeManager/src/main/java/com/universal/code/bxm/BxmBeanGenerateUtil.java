@@ -55,7 +55,6 @@ public class BxmBeanGenerateUtil {
 	private String fileNamePrefix;
 	private String excelPath;
 	
-	private String javaPackage;
 	private String basePackage;
 	private String subPackage;
 	private String bxmBeanMethodTemplate;

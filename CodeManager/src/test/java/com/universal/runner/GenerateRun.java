@@ -89,9 +89,9 @@ public class GenerateRun {
 
 		//dbioGenerate();
 
-		bxmBeanGenerate(); 
+		//bxmBeanGenerate(); 
 		
-		//bxmServiceGenerate();
+		bxmServiceGenerate();
 		
 		//parseJavaMethodToExcel();
 		

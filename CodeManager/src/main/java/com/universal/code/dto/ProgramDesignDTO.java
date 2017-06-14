@@ -263,6 +263,10 @@ public class ProgramDesignDTO extends CommonObject implements IDataTransferObjec
 		return new StringBuilder().append(getBcNm()).append(getBcMetdPref()).append(getBcMetdBody()).toString();
 	}
 
+	public String getScMetdMergeStr() {
+		return new StringBuilder().append(getScNm()).append(getScMetdPref()).append(getScMetdBody()).toString();
+	}
+	
 	public long getExcelRow() {
 		return excelRow;
 	}

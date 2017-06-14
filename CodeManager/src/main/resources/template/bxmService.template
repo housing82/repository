@@ -1,6 +1,5 @@
-package kait.sm.sms.onl.sc;
+package #{rvPackage};
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -35,6 +34,8 @@ import bxm.kait.util.CommonHdrUtils;
 @BxmCategory(type = "SC", logicalName = "#{rvLogicalName}", description = "#{rvDescription}")
 public class #{rvClassName} {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
+#{rvVariables}
+
 #{rvBody}
 }	
