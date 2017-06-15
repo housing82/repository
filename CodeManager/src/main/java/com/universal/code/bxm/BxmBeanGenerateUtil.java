@@ -362,6 +362,7 @@ public class BxmBeanGenerateUtil {
 		String bcOmmName = null;
 		String javaPath = null;
 		String compareClasStr = "";
+		String compareClasLogcStr = "";
 		String compareMetdStr = "";
 		String bcMetdNm = "";
 		
@@ -1233,6 +1234,12 @@ public class BxmBeanGenerateUtil {
 				
 				// 생성 대상 클래스
 				compareClasStr = designRow.getBcNm();
+				
+				// 생성 대상 클래스 설명
+				if(StringUtil.isNotEmpty(designRow.getLogc())) {
+					compareClasLogcStr = designRow.getLogc();	
+				}
+				
 				// 생성 대상 클래스+메소드
 				compareMetdStr = designRow.getBcMetdMergeStr();
 				
@@ -1242,8 +1249,14 @@ public class BxmBeanGenerateUtil {
 				currentDesign.setBasePack(currentBasePackage);
 				
 				dsDate = DateUtil.getFastDate(DateUtil.DEF_DATE_FORMAT);
-				dsLogicalName = designRow.getLogc();
-				dsDescription = designRow.getLogc();
+				
+				if(StringUtil.isNotEmpty(designRow.getLogc())) {
+					dsLogicalName = designRow.getLogc();
+				}
+				if(StringUtil.isNotEmpty(designRow.getLogc())) {
+					dsDescription = designRow.getLogc();
+				}
+				
 				dsClassName = designRow.getBcNm();
 				fileName = dsClassName.concat(".java");
 				dsBcModf = StringUtil.NVL(designRow.getBcModf()).toLowerCase();
@@ -1298,6 +1311,7 @@ public class BxmBeanGenerateUtil {
 				if(StringUtil.isEmpty(designRow.getBcNm())) {
 					designRow.setBcNm(compareClasStr);
 				}
+				
 				currentDesign.addMethodDesignMap(bcMetdNm, designRow);
 				
 				//import code

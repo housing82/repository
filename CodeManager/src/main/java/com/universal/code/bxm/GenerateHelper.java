@@ -511,6 +511,7 @@ public class GenerateHelper {
 
 	
 	public String getLowerInTypeSimpleName(Map<String, Integer> methodVarMap, String inputVarString, String calleeInTypeSimpleName) {
+		logger.debug("[IN-getLowerInTypeSimpleName] inputVarString: {}, calleeInTypeSimpleName: {}\n[methodVarMap]:\n{}", inputVarString, calleeInTypeSimpleName, methodVarMap);
 		
 		String lowerInTypeSimpleName = null;
 		//중복 체크
@@ -520,16 +521,16 @@ public class GenerateHelper {
 		else {
 			lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
 		}
-		
+		logger.debug("[MD-getLowerInTypeSimpleName] : {}", lowerInTypeSimpleName);
 		Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
 		if(varCnt != null) {
 			// plus
 			varCnt = varCnt + 1;
+			
+			methodVarMap.put(lowerInTypeSimpleName, varCnt);
 			// make
 			// 중복되는 메소드 지역변수 명은 시퀀스를 01 부터 붙인다. 
 			lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt - 1), 2, "0"));
-			
-			methodVarMap.put(lowerInTypeSimpleName, varCnt);
 		}
 		else {
 			// init
@@ -540,7 +541,7 @@ public class GenerateHelper {
 			// lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0"));
 			// 첫번째 메소드 지역변수 명은 시퀀스를 붙이지 않는다. 
 		}
-		
+		logger.debug("[OUT-getLowerInTypeSimpleName] : {}\nmethodVarMap:\n{}", lowerInTypeSimpleName, methodVarMap);
 		return lowerInTypeSimpleName;
 	}
 	

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.universal.code.extend.CommonObject;
 import com.universal.code.extend.IDataTransferObject;
+import com.universal.code.utils.StringUtil;
 
 public class ProgramDesignDTO extends CommonObject implements IDataTransferObject {
 
@@ -188,6 +189,14 @@ public class ProgramDesignDTO extends CommonObject implements IDataTransferObjec
 		this.bcMetdBody = bcMetdBody;
 	}
 
+	public String getBcMetdNm() {
+		String bcMetdNm = null;
+		if(StringUtil.isNotEmpty(bcMetdPref) && StringUtil.isNotEmpty(bcMetdBody)) {
+			bcMetdNm = bcMetdPref.concat(new StringUtil().getFirstCharUpperCase(bcMetdBody));
+		}
+		return bcMetdNm;
+	}
+	
 	public String getBcMetdLogc() {
 		return bcMetdLogc;
 	}

@@ -5,7 +5,6 @@
 		
 		/** ### Validate Parameter ### */
 #{rvValidate}
-		
 		/** ### Bean Initialize ### */
 #{rvCalleeInit}
 		/** ### Output Variable ### */
@@ -17,7 +16,6 @@
 #{rvBizCode}
 		/** ### Set Output Value  ### */
 #{rvCellerOutputSetting}
-		
 		/** ### Set OkResultMessage Code ### */
 		//TODO 알맞은 메시지 코드 넣어야 합니다.
 		CommonHdrUtils.setOkResultMessage("");

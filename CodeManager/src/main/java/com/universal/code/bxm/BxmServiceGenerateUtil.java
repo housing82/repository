@@ -12,9 +12,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -381,6 +381,10 @@ public class BxmServiceGenerateUtil {
 		
 		for(int i = 0; i < programDesignList.size(); i++) {
 			designRow = programDesignList.get(i); 
+			if(StringUtil.isEmpty(designRow.getDataKind()) && StringUtil.isEmpty(designRow.getBcMetdNm())) {
+				continue;
+			}
+			
 			logger.debug(designRow.toString());
 			if(designRow.getDataKind().equalsIgnoreCase("N")) {
 				logger.debug("Not used data row: {}", designRow.getExcelRow());
@@ -489,14 +493,14 @@ public class BxmServiceGenerateUtil {
 						
 						
 						//1개의 메소드 안에서 In/Out 변수 중복제거 및 시퀀스 증가를 위한 맵
-						methodVarMap = new HashMap<String, Integer>();
+						methodVarMap = new LinkedHashMap<String, Integer>();
 						//동일한 callee가 여러번 셋팅되었을 경우 채크
-						calleeInitMap = new HashMap<String, Integer>();
+						calleeInitMap = new LinkedHashMap<String, Integer>();
 						
 
-						calleeOutTypeCheck = new HashMap<String, Boolean>();
-						calleeOutVarCheck = new HashMap<String, Boolean>();
-						calleeOutCallCheck = new HashMap<String, Boolean>();	
+						calleeOutTypeCheck = new LinkedHashMap<String, Boolean>();
+						calleeOutVarCheck = new LinkedHashMap<String, Boolean>();
+						calleeOutCallCheck = new LinkedHashMap<String, Boolean>();	
 						
 						dsDeleteInListFieldVar = null;
 						dsUpdateInListFieldVar = null;
@@ -554,9 +558,7 @@ public class BxmServiceGenerateUtil {
 									descMap = (Map<String, Object>) method.get("nodeDesc");
 									if(descMap.get("name").equals(calleeMethodName)) {
 										logger.debug("method descMap: {}", descMap);
-										
-
-										
+																				
 										List<Parameter> parameters = (List<Parameter>) descMap.get("parameters");
 										Type calleeReturnType = (Type) descMap.get("returnType");
 										List<AnnotationExpr> calleeAnnotations = (List<AnnotationExpr>) descMap.get("annotations");
@@ -719,6 +721,8 @@ public class BxmServiceGenerateUtil {
 											
 											
 											//method inner variable name  
+											
+											//dsCelleeInputSetting.append("\n/*" + methodVarMap+"*/\n");
 											dsCelleeInputSetting.append(lowerInTypeSimpleName);
 											dsCelleeInputSetting.append(" = ");
 											
@@ -750,7 +754,6 @@ public class BxmServiceGenerateUtil {
 												scInOmmField.setSourceRoot(getSourceRoot());
 												scInOmmDTO.addOmmFields(scInOmmField);
 												
-												/*
 												if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
 													for(OmmFieldDTO calleeInOmmField : parseOmm.getOmmFields()) {
 														inOmmPropertySetGetter.append("		");
@@ -760,8 +763,8 @@ public class BxmServiceGenerateUtil {
 														scInOmmDTO.addOmmFields(calleeInOmmField);
 													}
 												}
-												*/
 												
+												/*
 												dsCelleeInputSetting.append(dsInputVariable);
 												dsCelleeInputSetting.append(".get");
 												dsCelleeInputSetting.append(stringUtil.getFirstCharUpperCase(lowerInTypeSimpleName));
@@ -769,12 +772,12 @@ public class BxmServiceGenerateUtil {
 												if(parameters.size() > 1) {
 													dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
 												}
+												*/
 												// omm일 경우
-												/*
 												dsCelleeInputSetting.append("new ");
 												dsCelleeInputSetting.append(calleeInTypeSimpleName);
 												dsCelleeInputSetting.append("();");
-												*/
+												dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
 												
 												logger.debug("In SC OMM Field : {}", scInOmmField.toString());
 											}
@@ -1011,7 +1014,6 @@ public class BxmServiceGenerateUtil {
 											scOutOmmField.setSourceRoot(getSourceRoot());
 											scOutOmmDTO.addOmmFields(scOutOmmField);
 
-											/*
 											if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
 												for(OmmFieldDTO calleeOutOmmField : parseOmm.getOmmFields()) {
 													dsCellerOutputSetting.append("		");
@@ -1021,12 +1023,12 @@ public class BxmServiceGenerateUtil {
 													scOutOmmDTO.addOmmFields(calleeOutOmmField);
 												}
 											}
-											*/
 											
+											/*
 											dsCellerOutputSetting.append("		");
 											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, scOutOmmField, null, scOutOmmField, ";"));
 											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											
+											*/
 										}
 										else {
 											//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
@@ -1077,6 +1079,7 @@ public class BxmServiceGenerateUtil {
 							}
 							
 							if(!findMethod) {
+								logger.error("[ERROR] 설계서에 작성된 피호출자 메소드를 찾을수 없습니다. 자바: {}, 메소드: {}", calleeTypeName, calleeMethodName);
 								throw new ApplicationException("설계서에 작성된 피호출자 메소드를 찾을수 없습니다. 자바: {}, 메소드: {}", calleeTypeName, calleeMethodName);
 							}
 							
@@ -1279,19 +1282,20 @@ public class BxmServiceGenerateUtil {
 				
 				
 				logger.debug("★★★★★★★★★★★★★ [END Class Element Setup] ★★★★★★★★★★★★★★");
-				
-				//첫번째 SC메소드
-				scMetdNm = designRow.getScMetdPref().concat(designRow.getScMetdBody());
-				currentDesign.addCalleeMap(scMetdNm, new LinkedHashMap<String, Object>());
-				currentDesign.addMethodDesignMap(scMetdNm, designRow);
-				
-				//variable init 
-				//dsImports = new StringBuilder();
-				dsImportsSet = new TreeSet<String>();
-				//methods code init
-				dsBody = new StringBuilder();
-				//import code
-				addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(scMetdNm), designRow, dsImportsSet, currentBasePackage);
+				if(StringUtil.isNotEmpty(designRow.getBcMetdNm())) {
+					//첫번째 SC메소드
+					scMetdNm = designRow.getScMetdPref().concat(designRow.getScMetdBody());
+					currentDesign.addCalleeMap(scMetdNm, new LinkedHashMap<String, Object>());
+					currentDesign.addMethodDesignMap(scMetdNm, designRow);
+					
+					//variable init 
+					//dsImports = new StringBuilder();
+					dsImportsSet = new TreeSet<String>();
+					//methods code init
+					dsBody = new StringBuilder();
+					//import code
+					addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(scMetdNm), designRow, dsImportsSet, currentBasePackage);
+				}
 				
 				logger.debug("fileName: {}, dsPackage: {}, dsDate: {}", fileName, dsPackage, dsDate);
 				
@@ -1301,25 +1305,29 @@ public class BxmServiceGenerateUtil {
 					&& StringUtil.isNotEmpty(designRow.getScMetdPref())
 					&& StringUtil.isNotEmpty(designRow.getScMetdBody())
 					) || compareClasStr.equals(designRow.getScNm())) {
-				// SC 메소드 부분이 빈 로우일경우 DBIO존재하면 해당 SC메소드가 사용하는 DBIO메소드임.
-				// compareMetdStr 담긴 생성대상 SC메소드와 동일할경우 설정된 DBIO가 존재하면 해당 SC메소드가 사용하는 DBIO이다.
-				logger.debug("SC클래스의 두번째 부터 나오는 SC메소드 추출");
 				
-				//SC클래스의 두번째 부터 나오는 SC메소드 추출
-				scMetdNm = designRow.getScMetdPref().concat(designRow.getScMetdBody());
-				//logger.debug("currentDesign: {}", currentDesign);
-				//logger.debug("designRow: {}", designRow);
-				
-				currentDesign.addCalleeMap(scMetdNm, new LinkedHashMap<String, Object>());
-				if(StringUtil.isEmpty(designRow.getScNm())) {
-					designRow.setScNm(compareClasStr);
+				if(StringUtil.isNotEmpty(designRow.getBcMetdNm())) {
+					
+					// SC 메소드 부분이 빈 로우일경우 DBIO존재하면 해당 SC메소드가 사용하는 DBIO메소드임.
+					// compareMetdStr 담긴 생성대상 SC메소드와 동일할경우 설정된 DBIO가 존재하면 해당 SC메소드가 사용하는 DBIO이다.
+					logger.debug("SC클래스의 두번째 부터 나오는 SC메소드 추출");
+					
+					//SC클래스의 두번째 부터 나오는 SC메소드 추출
+					scMetdNm = designRow.getScMetdPref().concat(designRow.getScMetdBody());
+					//logger.debug("currentDesign: {}", currentDesign);
+					//logger.debug("designRow: {}", designRow);
+					
+					currentDesign.addCalleeMap(scMetdNm, new LinkedHashMap<String, Object>());
+					if(StringUtil.isEmpty(designRow.getScNm())) {
+						designRow.setScNm(compareClasStr);
+					}
+					currentDesign.addMethodDesignMap(scMetdNm, designRow);
+					
+					//import code
+					addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(scMetdNm), designRow, dsImportsSet, currentBasePackage);
+					
+					logger.debug("[Service Method] {}.{}{}", compareClasStr, designRow.getScMetdPref(), designRow.getScMetdBody());
 				}
-				currentDesign.addMethodDesignMap(scMetdNm, designRow);
-				
-				//import code
-				addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(scMetdNm), designRow, dsImportsSet, currentBasePackage);
-								
-				logger.debug("[Service Method] {}.{}{}", compareClasStr, designRow.getScMetdPref(), designRow.getScMetdBody());
 			}
 			else if((StringUtil.isEmpty(designRow.getScNm())
 					&& StringUtil.isEmpty(designRow.getScMetdPref())
@@ -1328,10 +1336,12 @@ public class BxmServiceGenerateUtil {
 				// SC 메소드 부분이 빈 로우일경우 DBIO존재하면 해당 SC메소드가 사용하는 DBIO메소드임.
 				// compareMetdStr 담긴 생성대상 SC메소드와 동일할경우 설정된 DBIO가 존재하면 해당 SC메소드가 사용하는 DBIO이다.
 				
-				logger.debug("SC메소드 내부에서 사용하는 callee");
-	
-				//import code
-				addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(scMetdNm), designRow, dsImportsSet, currentBasePackage);
+				if(StringUtil.isNotEmpty(designRow.getBcMetdNm())) {
+					logger.debug("SC메소드 내부에서 사용하는 callee");
+				
+					//import code
+					addImportCodeAndCalleeMapSetting(currentDesign.getCalleeMap(scMetdNm), designRow, dsImportsSet, currentBasePackage);
+				}
 								
 				logger.debug("[Service UseAs Callee Method] {}.{}", designRow.getCalleeNm(), designRow.getCalleeMetdNm());
 			}
@@ -1352,33 +1362,37 @@ public class BxmServiceGenerateUtil {
 		logger.debug("#scCalleeMap: {}", scCalleeMap);
 		logger.debug("##designRow: {}", designRow);
 		
+		if(StringUtil.isEmpty(designRow.getBcMetdNm()) || designRow.getBcMetdNm().contains(" ")) {
+			return;
+		}
+		
 		//import code
-		if(StringUtil.isNotEmpty(designRow.getCalleeNm())) {
+		if(StringUtil.isNotEmpty(designRow.getBcNm())) {
 			
-			if(designRow.getCalleeNm().contains(IOperateCode.STR_DOT)) {
+			if(designRow.getBcNm().contains(IOperateCode.STR_DOT)) {
 				
-				dsImportsSet.add(designRow.getCalleeNm());
+				dsImportsSet.add(designRow.getBcNm());
 				/*
 				logger.debug("#check: {}", new StringBuilder()
-					.append(designRow.getCalleeNm())
+					.append(designRow.getBcNm())
 					.append(IOperateCode.STR_DOT)
 					.append(designRow.getCalleeMetdNm())
 					.toString());
 				*/
 				scCalleeMap.put(new StringBuilder()
-					.append(designRow.getCalleeNm())
+					.append(designRow.getBcNm())
 					.append(IOperateCode.STR_DOT)
-					.append(designRow.getCalleeMetdNm())
+					.append(designRow.getBcMetdNm())
 					.toString()
 				, null);
 
 			}
 			else {
-				String classPrefix = designRow.getCalleeNm().substring(0, 1);
+				String classPrefix = designRow.getBcNm().substring(0, 1);
 				
-//				logger.debug("#designRow.getCalleeNm(): {}", designRow.getCalleeNm());
-				String calleePath = generateHelper.findFilePath(getSourceRoot(), designRow.getCalleeNm(), "java");
-				logger.debug("#calleePath: {}", calleePath);
+				logger.debug("#designRow.getBcNm(): {}", designRow.getBcNm());
+				String calleePath = generateHelper.findFilePath(getSourceRoot(), designRow.getBcNm(), "java");
+//				logger.debug("#calleePath: {}", calleePath);
 				calleePath = calleePath.substring(getSourceRoot().length() + File.separator.length());
 //				logger.debug("#calleePath: {}", calleePath);
 				
@@ -1403,7 +1417,7 @@ public class BxmServiceGenerateUtil {
 				scCalleeMap.put(new StringBuilder()
 						.append(calleePackage)
 						.append(IOperateCode.STR_DOT)
-						.append(designRow.getCalleeMetdNm())
+						.append(designRow.getBcMetdNm())
 						.toString()
 					, null);
 			}

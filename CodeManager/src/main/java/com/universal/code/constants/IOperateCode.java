@@ -115,6 +115,10 @@ public interface IOperateCode extends IServiceCode {
 	public final static int META_OUTPUT_FIELD = 2;
 	public final static int META_INOUT_FIELD = 3;
 	
+	public final static String SERVICE_CODE_SC = "SC";
+	public final static String SERVICE_CODE_BC = "BC";
+	public final static String SERVICE_CODE_DC = "DC";
+	
 	
 	//DEFAULT SETTING VALUE FIELD
 	public final static boolean CONFIRM_SYSTEMUTIL_SYSOUT = true;
