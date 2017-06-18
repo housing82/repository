@@ -12,7 +12,7 @@
 		
 		/** ### Set Bean Input Value  ### */
 #{rvCelleeInputSetting}
-		/** ### Bussiness Code ### */
+		/** ### Execute Bean ### */
 #{rvBizCode}
 		/** ### Set Output Value  ### */
 #{rvCellerOutputSetting}

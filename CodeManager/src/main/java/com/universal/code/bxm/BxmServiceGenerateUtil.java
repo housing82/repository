@@ -372,12 +372,15 @@ public class BxmServiceGenerateUtil {
 		
 		//1개의 메소드 안에서 In/Out 변수 중복제거 및 시퀀스 증가를 위한 맵
 		Map<String, Integer> methodVarMap = null;
-		
+		Map<String, Integer> scSubOmmTypeMap = null;
 		Map<String, Integer> calleeInitMap = null;
 		
 		Map<String, Boolean> calleeOutTypeCheck = null;
 		Map<String, Boolean> calleeOutVarCheck = null;
 		Map<String, Boolean> calleeOutCallCheck = null;
+		
+		
+		
 		
 		for(int i = 0; i < programDesignList.size(); i++) {
 			designRow = programDesignList.get(i); 
@@ -496,11 +499,12 @@ public class BxmServiceGenerateUtil {
 						methodVarMap = new LinkedHashMap<String, Integer>();
 						//동일한 callee가 여러번 셋팅되었을 경우 채크
 						calleeInitMap = new LinkedHashMap<String, Integer>();
-						
+						scSubOmmTypeMap = new LinkedHashMap<String, Integer>();
 
 						calleeOutTypeCheck = new LinkedHashMap<String, Boolean>();
 						calleeOutVarCheck = new LinkedHashMap<String, Boolean>();
 						calleeOutCallCheck = new LinkedHashMap<String, Boolean>();	
+						
 						
 						dsDeleteInListFieldVar = null;
 						dsUpdateInListFieldVar = null;
@@ -762,10 +766,20 @@ public class BxmServiceGenerateUtil {
 												if(scInOmmType.startsWith(IOperateCode.STR_DOT)) {
 													scInOmmType = scInOmmType.substring(IOperateCode.STR_DOT.length());
 												}
+												 
 												scInOmmFieldName = stringUtil.getFirstCharLowerCase(scInOmmType.substring(scInOmmType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length()));
 												
-												//OMM Field ( SC가 사용하는 DAO 또는 SC의 입력 OMM을 입력 필드로 삼는다. )
+												
+												
+												//OMM Field ( SC가 사용하는 SC의 입력 OMM을 입력 필드로 삼는다. )
+												/*
 												scInOmmField = new OmmFieldDTO();
+												
+												if(scInOmmType.contains(".dto.")) {
+													//패키지를 현재 SC의 dto패키지로 변경하고 
+													scInOmmType = scInOmmDTO.getOmmType().concat("Sub");
+												}
+												
 												scInOmmField.setType(scInOmmType);
 												scInOmmField.setName(lowerInTypeSimpleName);
 												scInOmmField.setLength("0");
@@ -774,6 +788,8 @@ public class BxmServiceGenerateUtil {
 												scInOmmField.setArrayReferenceType(inArrayReferenceType);
 												scInOmmField.setSourceRoot(getSourceRoot());
 												scInOmmDTO.addOmmFields(scInOmmField);
+												logger.debug("In SC OMM Field : {}", scInOmmField.toString());
+												*/
 												
 												if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
 													for(OmmFieldDTO calleeInOmmField : parseOmm.getOmmFields()) {
@@ -781,6 +797,18 @@ public class BxmServiceGenerateUtil {
 														inOmmPropertySetGetter.append(generateHelper.getSetterString(lowerInTypeSimpleName, calleeInOmmField, dsInputVariable, calleeInOmmField, ";"));
 														inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 														
+														logger.debug("#InOmm Filed: {} / {} / {}", calleeInOmmField.getType(), calleeInOmmField.getName(), scInOmmDTO.getOmmType());
+														if(calleeInOmmField.getType().contains(".dto.")) {
+															//패키지를 현재 SC의 dto패키지로 변경하고
+															String newSubOmmType = null;
+															if(scInOmmDTO.getOmmType().endsWith("In") || scInOmmDTO.getOmmType().endsWith("IO")) {
+																newSubOmmType = scInOmmDTO.getOmmType().substring(0, scInOmmDTO.getOmmType().length() - 2); 
+															}
+															newSubOmmType = generateHelper.getOmmTypeName(scSubOmmTypeMap, newSubOmmType.concat("Sub"));
+															
+															calleeInOmmField.setType(newSubOmmType);
+														}
+															
 														scInOmmDTO.addOmmFields(calleeInOmmField);
 													}
 												}
@@ -794,13 +822,11 @@ public class BxmServiceGenerateUtil {
 													dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
 												}
 												*/
-												// omm일 경우
+												// omm일 경우 초기화
 												dsCelleeInputSetting.append("new ");
 												dsCelleeInputSetting.append(calleeInTypeSimpleName);
 												dsCelleeInputSetting.append("();");
 												dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
-												
-												logger.debug("In SC OMM Field : {}", scInOmmField.toString());
 											}
 											else {
 												//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
@@ -808,6 +834,7 @@ public class BxmServiceGenerateUtil {
 												logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※※");
 												logger.debug(inputTypeString);
 												
+												// omm이 아닐경우 초기화
 												dsCelleeInputSetting.append(typeUtil.getPrimitiveWrapperDefaultValue(inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length())));
 												dsCelleeInputSetting.append(";");
 												if(parameters.size() > 1) {

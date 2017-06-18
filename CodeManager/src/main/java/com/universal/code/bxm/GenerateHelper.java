@@ -546,6 +546,27 @@ public class GenerateHelper {
 	}
 	
 	
-	
+	public String getOmmTypeName(Map<String, Integer> methodVarMap, String typeCanonicalName) {
+		logger.debug("[IN-getOmmTypeName] typeCanonicalName: {}\n[methodVarMap]:\n{}", typeCanonicalName, methodVarMap);
+		
+		//중복 체크
+		logger.debug("[MD-getOmmTypeName] : {}", typeCanonicalName);
+		Integer varCnt = methodVarMap.get(typeCanonicalName);
+		if(varCnt != null) {
+			// plus
+			varCnt = varCnt + 1;
+		}
+		else {
+			// init
+			varCnt = 1;
+		}
+		// set
+		methodVarMap.put(typeCanonicalName, varCnt);
+		
+		typeCanonicalName = typeCanonicalName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0"));
+
+		logger.debug("[OUT-getOmmTypeName] : {}\nmethodVarMap:\n{}", typeCanonicalName, methodVarMap);
+		return typeCanonicalName;
+	}
 	
 }
