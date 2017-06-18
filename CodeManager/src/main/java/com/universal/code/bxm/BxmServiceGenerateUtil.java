@@ -833,7 +833,7 @@ public class BxmServiceGenerateUtil {
 															inOmmPropertySetGetter.append("();");
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
-															// SC in is null check
+															// S. SC sub inOmm is null check
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															inOmmPropertySetGetter.append("		");
 															inOmmPropertySetGetter.append("if( ");
@@ -854,6 +854,7 @@ public class BxmServiceGenerateUtil {
 																}
 															}
 															
+															// E. SC sub inOmm is null check
 															inOmmPropertySetGetter.append("		");
 															inOmmPropertySetGetter.append("}");
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
