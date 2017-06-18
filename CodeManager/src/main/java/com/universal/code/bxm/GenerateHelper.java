@@ -546,7 +546,7 @@ public class GenerateHelper {
 	}
 	
 	
-	public String getOmmTypeName(Map<String, Integer> methodVarMap, String typeCanonicalName) {
+	public String getTypeNameNumbering(Map<String, Integer> methodVarMap, String typeCanonicalName) {
 		logger.debug("[IN-getOmmTypeName] typeCanonicalName: {}\n[methodVarMap]:\n{}", typeCanonicalName, methodVarMap);
 		
 		//중복 체크

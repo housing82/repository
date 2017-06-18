@@ -801,7 +801,7 @@ public class BxmServiceGenerateUtil {
 															if(scInOmmDTO.getOmmType().endsWith("In") || scInOmmDTO.getOmmType().endsWith("IO")) {
 																newSubOmmType = scInOmmDTO.getOmmType().substring(0, scInOmmDTO.getOmmType().length() - 2); 
 															}
-															newSubOmmType = generateHelper.getOmmTypeName(scSubOmmTypeMap, newSubOmmType.concat("Sub"));
+															newSubOmmType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newSubOmmType.concat("Sub"));
 															
 															//add import target type 
 															dsImportsSet.add(calleeInOmmField.getType());
