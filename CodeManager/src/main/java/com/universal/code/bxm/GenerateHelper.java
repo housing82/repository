@@ -569,4 +569,25 @@ public class GenerateHelper {
 		return typeCanonicalName;
 	}
 	
+	public String getTypeSimpleName(String canonicalType) {
+		
+		String out = null;
+		
+		if(canonicalType.endsWith(".omm")) {
+			canonicalType = canonicalType.substring(0, canonicalType.length() - 4);
+		}
+		else if(canonicalType.endsWith(".java")) {
+			canonicalType = canonicalType.substring(0, canonicalType.length() - 5);
+		}
+		
+		if(canonicalType.contains(IOperateCode.STR_DOT)) {
+			out = canonicalType.substring(canonicalType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+		}
+		else {
+			out = canonicalType;
+		}
+		
+		return out;
+	}
+	
 }

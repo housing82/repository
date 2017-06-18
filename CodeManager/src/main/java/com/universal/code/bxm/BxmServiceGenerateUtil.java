@@ -449,7 +449,7 @@ public class BxmServiceGenerateUtil {
 						//input 
 						dsInputType = scOmmName.concat(SC_SIGNATURE_IN);
 						dsImportsSet.add(dsPackage.concat(".dto.").concat(dsInputType)); // -> dsImportsSet.add
-						dsInputVariable = stringUtil.getFirstCharLowerCase(dsInputType);
+						dsInputVariable = stringUtil.getCharLowerCase(dsInputType, 1);
 						String inputOmmPullType = dsPackage.concat(".dto.").concat(dsInputType);
 						logger.debug("[INPUT] SC Input Name: {} > parameter: {}, variable: {}", scOmmName, inputOmmPullType, dsInputVariable);
 						
@@ -803,9 +803,26 @@ public class BxmServiceGenerateUtil {
 															}
 															newSubOmmType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newSubOmmType.concat("Sub"));
 															
-															//add import target type 
+															//add import target type
+															dsImportsSet.add(newSubOmmType);
 															dsImportsSet.add(calleeInOmmField.getType());
-															String inBcFieldType = calleeInOmmField.getType().substring(calleeInOmmField.getType().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+															
+															//SC In Sub OMM
+															String inScFieldSimpleType = generateHelper.getTypeSimpleName(newSubOmmType);
+															String inScFieldVarName = "sc".concat(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName()));
+															inOmmPropertySetGetter.append("		");
+															inOmmPropertySetGetter.append(inScFieldSimpleType);
+															inOmmPropertySetGetter.append(" ");
+															inOmmPropertySetGetter.append(inScFieldVarName); 
+															inOmmPropertySetGetter.append(" = ");
+															inOmmPropertySetGetter.append(dsInputVariable);
+															inOmmPropertySetGetter.append(".get");
+															inOmmPropertySetGetter.append(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName()));
+															inOmmPropertySetGetter.append("();");
+															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+															
+															//BC In Sub OMM
+															String inBcFieldType = calleeInOmmField.getType().substring(calleeInOmmField.getType().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());															
 															inOmmPropertySetGetter.append("		");
 															inOmmPropertySetGetter.append(inBcFieldType);
 															inOmmPropertySetGetter.append(" ");
@@ -816,13 +833,33 @@ public class BxmServiceGenerateUtil {
 															inOmmPropertySetGetter.append("();");
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
+															// SC in is null check
+															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+															inOmmPropertySetGetter.append("		");
+															inOmmPropertySetGetter.append("if( ");
+															inOmmPropertySetGetter.append(inScFieldVarName);
+															inOmmPropertySetGetter.append(" != null ) {");
+															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+															
+															//parse bc sub omm 
+															File subOmmFile = new File(getSourceRoot().concat(IOperateCode.STR_SLASH).concat(calleeInOmmField.getType().replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).concat(".omm"));
+															OmmDTO parseSubOmm = generateHelper.getOmmProperty(subOmmFile);
+															
+															// display real setter/getter 
+															if(parseSubOmm != null && parseSubOmm.getOmmFields() != null && parseSubOmm.getOmmFields().size() > 0) {
+																for(OmmFieldDTO calleeInSubOmmField : parseSubOmm.getOmmFields()) {
+																	inOmmPropertySetGetter.append("			");
+																	inOmmPropertySetGetter.append(generateHelper.getSetterString(calleeInOmmField.getName(), calleeInSubOmmField, inScFieldVarName, calleeInSubOmmField, ";"));
+																	inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+																}
+															}
+															
+															inOmmPropertySetGetter.append("		");
+															inOmmPropertySetGetter.append("}");
+															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
 															//new sc omm fieldTypeName
 															calleeInOmmField.setType(newSubOmmType);
-															
-															// display real setter/getter 
-															inOmmPropertySetGetter.append("		// input setter/getter ");
-															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 														}
 														
 														//in omm setter/getter

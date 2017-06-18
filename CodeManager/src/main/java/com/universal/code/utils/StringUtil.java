@@ -282,6 +282,24 @@ public class StringUtil {
 		return out;
 	}
 	
+	public String getCharLowerCase(String strWord, int lowerCaseCount) {
+		
+		String out = null;
+		if(lowerCaseCount < 1) {
+			lowerCaseCount = 1;
+		}
+		
+		String word = NVL(strWord, "").trim();
+		if(word.length() > lowerCaseCount) {
+			out = word.substring(0,lowerCaseCount).toLowerCase() + word.substring(lowerCaseCount);
+		}
+		else {
+			out = word.toLowerCase();
+		}
+		
+		return out;
+	}
+	
 	public String getCamelCaseString(String str){
 		
 		StringBuffer out = new StringBuffer();
