@@ -573,10 +573,31 @@ public class BxmServiceGenerateUtil {
 											String inputTypeString = parameter.getType().toString();
 											String inputVarString = parameter.getId().toString();
 											
+											//일반 타입일경우
 											if(typeUtil.getPrimitiveConvertWrapper(inputTypeString).equals(inputTypeString)) {
+												logger.debug("## inputType typeUtil.getPrimitiveConvertWrapper");
+												
+												if(!inputTypeString.contains(IOperateCode.STR_DOT)) {
+													// 패키지가 존재하지 않는경우 패키지를 포함한 타입을 찾음
+													String path = generateHelper.findFilePath(getSourceRoot(), inputTypeString, "omm");
+													
+													if(path != null) {
+														path = path.replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH).replace(getSourceRoot(), "");
+														path = path.substring(0, path.lastIndexOf(IOperateCode.STR_DOT));
+														path = path.replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+														if(path.startsWith(IOperateCode.STR_DOT)) {
+															path = path.substring(IOperateCode.STR_DOT.length());
+														}
+														
+														inputTypeString = path;
+													}
+												}
+												
 												dsImportsSet.add(inputTypeString); // -> dsImportsSet.add	
 											}
-											else if(inputTypeString.contains(List.class.getCanonicalName())) {
+											//List일 경우
+											else if(inputTypeString.contains(List.class.getCanonicalName()) || inputTypeString.startsWith(List.class.getSimpleName())) {
+												logger.debug("## inputType List");
 												dsImportsSet.add(List.class.getCanonicalName());
 												if(inputTypeString.contains("<") && inputTypeString.contains(">")) {
 													String listParam = inputTypeString.substring(inputTypeString.indexOf("<") + "<".length(), inputTypeString.lastIndexOf(">"));
@@ -586,7 +607,7 @@ public class BxmServiceGenerateUtil {
 												}
 											}
 											
-											logger.debug("parameter -> {}: {}", inputTypeString, inputVarString);
+											logger.debug("parameter -> {}: {}\n{}", inputTypeString, inputVarString, dsImportsSet);
 											
 											String calleeInTypeSimpleName = null;
 											calleeInTypeSimpleName = inputTypeString.substring(inputTypeString.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());

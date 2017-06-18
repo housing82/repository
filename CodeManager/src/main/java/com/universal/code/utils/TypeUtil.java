@@ -117,9 +117,6 @@ public class TypeUtil  {
 	
 	
 	static {
-		
-		
-		
 		primitiveWrapperDefaultLengthMap = new HashMap<String, String>();
 		primitiveWrapperDefaultLengthMap.put(java.math.BigDecimal.class.getSimpleName(), "22");
 		primitiveWrapperDefaultLengthMap.put(java.math.BigInteger.class.getSimpleName(), "22");

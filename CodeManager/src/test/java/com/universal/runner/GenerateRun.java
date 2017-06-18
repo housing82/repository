@@ -99,12 +99,7 @@ public class GenerateRun {
 		
 	}
 	
-	private void testOmmParser() throws Exception {
-		
-		File ommFile = new File("C:/Developer/BXMWorkspace/HD-onl/src/kait/hd/hda/onl/dao/dto/DHdCodeSihang01IO.omm");
-		new GenerateHelper().getOmmProperty(ommFile);
-	}
-	
+
 	private void parseJavaMethodToExcel() throws Exception {
 		logger.debug("[START] parseJavaMethodToExcel");
 		
@@ -190,6 +185,12 @@ public class GenerateRun {
 		// create bean with program design excel
 		serviceGen.execute();
 		logger.debug("[END] bxmServiceGenerate");
+	}
+	
+	private void testOmmParser() throws Exception {
+		
+		File ommFile = new File("C:/Developer/BXMWorkspace/HD-onl/src/kait/hd/hda/onl/dao/dto/DHdCodeSihang01IO.omm");
+		new GenerateHelper().getOmmProperty(ommFile);
 	}
 	
 }
