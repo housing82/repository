@@ -808,16 +808,16 @@ public class BxmServiceGenerateUtil {
 															dsImportsSet.add(calleeInOmmField.getType());
 															
 															//SC In Sub OMM
-															String inScFieldSimpleType = generateHelper.getTypeSimpleName(newSubOmmType);
+															String inScFieldSimpleType = generateHelper.getTypeSimpleName(newSubOmmType); //newSubOmmType: sc field omm 타입명
 															String inScFieldVarName = "sc".concat(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName()));
 															inOmmPropertySetGetter.append("		");
-															inOmmPropertySetGetter.append(inScFieldSimpleType);
+															inOmmPropertySetGetter.append(inScFieldSimpleType); 
 															inOmmPropertySetGetter.append(" ");
-															inOmmPropertySetGetter.append(inScFieldVarName); 
+															inOmmPropertySetGetter.append(inScFieldVarName);  
 															inOmmPropertySetGetter.append(" = ");
 															inOmmPropertySetGetter.append(dsInputVariable);
 															inOmmPropertySetGetter.append(".get");
-															inOmmPropertySetGetter.append(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName()));
+															inOmmPropertySetGetter.append(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName())); //calleeInOmmField.getName(): sc field 변수명
 															inOmmPropertySetGetter.append("();");
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
