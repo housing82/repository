@@ -430,7 +430,7 @@ public class BxmServiceGenerateUtil {
 						
 						//output
 						dsOutputType = scOmmName.concat(SC_SIGNATURE_OUT);
-						String outputOmmPullType = dsPackage.concat(".dto.").concat(dsOutputType);
+						String outputOmmPullType = dsPackage.concat(GenerateHelper.STR_PACKAGE_DOT_DTO).concat(dsOutputType);
 						dsImportsSet.add(outputOmmPullType); // -> dsImportsSet.add
 						dsOutputVariable = IOperateCode.ELEMENT_OUT;
 						logger.debug("[OUTPUT] SC Output Name: {} > return: {}, variable: {}", scOmmName, outputOmmPullType, dsOutputVariable);
@@ -448,9 +448,9 @@ public class BxmServiceGenerateUtil {
 						 
 						//input 
 						dsInputType = scOmmName.concat(SC_SIGNATURE_IN);
-						dsImportsSet.add(dsPackage.concat(".dto.").concat(dsInputType)); // -> dsImportsSet.add
+						dsImportsSet.add(dsPackage.concat(GenerateHelper.STR_PACKAGE_DOT_DTO).concat(dsInputType)); // -> dsImportsSet.add
 						dsInputVariable = stringUtil.getCharLowerCase(dsInputType, 1);
-						String inputOmmPullType = dsPackage.concat(".dto.").concat(dsInputType);
+						String inputOmmPullType = dsPackage.concat(GenerateHelper.STR_PACKAGE_DOT_DTO).concat(dsInputType);
 						logger.debug("[INPUT] SC Input Name: {} > parameter: {}, variable: {}", scOmmName, inputOmmPullType, dsInputVariable);
 						
 						//Input Type OMM은 생성대상 OMM임 ####################################
@@ -775,7 +775,7 @@ public class BxmServiceGenerateUtil {
 												/*
 												scInOmmField = new OmmFieldDTO();
 												
-												if(scInOmmType.contains(".dto.")) {
+												if(scInOmmType.contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
 													//패키지를 현재 SC의 dto패키지로 변경하고 
 													scInOmmType = scInOmmDTO.getOmmType().concat("Sub");
 												}
@@ -794,22 +794,26 @@ public class BxmServiceGenerateUtil {
 												if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
 													for(OmmFieldDTO calleeInOmmField : parseOmm.getOmmFields()) {
 														
+														String inBcFieldType = null;
+														String inBcFieldVarName = null;
+														
 														logger.debug("#InOmm Filed: {} / {} / {}", calleeInOmmField.getType(), calleeInOmmField.getName(), scInOmmDTO.getOmmType());
-														if(calleeInOmmField.getType().contains(".dto.")) {
+														if(calleeInOmmField.getType().contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
 															//패키지를 현재 SC의 dto패키지로 변경하고
-															String newSubOmmType = null;
+															String newScOmmSubType = null;
 															if(scInOmmDTO.getOmmType().endsWith("In") || scInOmmDTO.getOmmType().endsWith("IO")) {
-																newSubOmmType = scInOmmDTO.getOmmType().substring(0, scInOmmDTO.getOmmType().length() - 2); 
+																newScOmmSubType = scInOmmDTO.getOmmType().substring(0, scInOmmDTO.getOmmType().length() - 2); 
 															}
-															newSubOmmType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newSubOmmType.concat("Sub"));
+															newScOmmSubType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat("Sub"));
 															
 															//add import target type
-															dsImportsSet.add(newSubOmmType);
-															dsImportsSet.add(calleeInOmmField.getType());
+															dsImportsSet.add(newScOmmSubType); // sc input sub omm type 
+															dsImportsSet.add(calleeInOmmField.getType()); // bc input sub omm type
 															
 															//SC In Sub OMM
-															String inScFieldSimpleType = generateHelper.getTypeSimpleName(newSubOmmType); //newSubOmmType: sc field omm 타입명
-															String inScFieldVarName = "sc".concat(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName()));
+															String inScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
+															String inScFieldVarName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inScFieldSimpleType)); // service method 내부 변수명
+														
 															inOmmPropertySetGetter.append("		");
 															inOmmPropertySetGetter.append(inScFieldSimpleType); 
 															inOmmPropertySetGetter.append(" ");
@@ -817,16 +821,18 @@ public class BxmServiceGenerateUtil {
 															inOmmPropertySetGetter.append(" = ");
 															inOmmPropertySetGetter.append(dsInputVariable);
 															inOmmPropertySetGetter.append(".get");
-															inOmmPropertySetGetter.append(stringUtil.getFirstCharUpperCase(calleeInOmmField.getName())); //calleeInOmmField.getName(): sc field 변수명
+															inOmmPropertySetGetter.append(stringUtil.getFirstCharUpperCase(inScFieldVarName)); //calleeInOmmField.getName(): sc field 변수명
 															inOmmPropertySetGetter.append("();");
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
 															//BC In Sub OMM
-															String inBcFieldType = calleeInOmmField.getType().substring(calleeInOmmField.getType().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());															
+															inBcFieldType = calleeInOmmField.getType().substring(calleeInOmmField.getType().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+															inBcFieldVarName = generateHelper.getLowerInTypeSimpleName(methodVarMap, calleeInOmmField.getName(), calleeInOmmField.getType());
+														
 															inOmmPropertySetGetter.append("		");
 															inOmmPropertySetGetter.append(inBcFieldType);
 															inOmmPropertySetGetter.append(" ");
-															inOmmPropertySetGetter.append(calleeInOmmField.getName());
+															inOmmPropertySetGetter.append(inBcFieldVarName);
 															inOmmPropertySetGetter.append(" = ");
 															inOmmPropertySetGetter.append("new ");
 															inOmmPropertySetGetter.append(inBcFieldType);
@@ -836,9 +842,7 @@ public class BxmServiceGenerateUtil {
 															// S. SC sub inOmm is null check
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															inOmmPropertySetGetter.append("		");
-															inOmmPropertySetGetter.append("if( ");
-															inOmmPropertySetGetter.append(inScFieldVarName);
-															inOmmPropertySetGetter.append(" != null ) {");
+															inOmmPropertySetGetter.append("if( ").append(inScFieldVarName).append(" != null ) {");
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
 															//parse bc sub omm 
@@ -849,7 +853,7 @@ public class BxmServiceGenerateUtil {
 															if(parseSubOmm != null && parseSubOmm.getOmmFields() != null && parseSubOmm.getOmmFields().size() > 0) {
 																for(OmmFieldDTO calleeInSubOmmField : parseSubOmm.getOmmFields()) {
 																	inOmmPropertySetGetter.append("			");
-																	inOmmPropertySetGetter.append(generateHelper.getSetterString(calleeInOmmField.getName(), calleeInSubOmmField, inScFieldVarName, calleeInSubOmmField, ";"));
+																	inOmmPropertySetGetter.append(generateHelper.getSetterString(inBcFieldVarName, calleeInSubOmmField, inScFieldVarName, calleeInSubOmmField, ";"));
 																	inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 																}
 															}
@@ -860,11 +864,11 @@ public class BxmServiceGenerateUtil {
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															
 															//new sc omm fieldTypeName
-															calleeInOmmField.setType(newSubOmmType);
+															calleeInOmmField.setType(newScOmmSubType);
 														}
 														
 														//in omm setter/getter
-														inOmmPropertySetGetter.append("		");
+														inOmmPropertySetGetter.append("		#");
 														inOmmPropertySetGetter.append(generateHelper.getSetterString(lowerInTypeSimpleName, calleeInOmmField, null, calleeInOmmField, ";"));
 														inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 														inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
@@ -1308,7 +1312,7 @@ public class BxmServiceGenerateUtil {
 					for(String imports : dsImportsSet) {
 						dsImports.append("import ").append(imports).append(";").append(SystemUtil.LINE_SEPARATOR);
 						
-						if(!imports.contains(".dto.")) {
+						if(!imports.contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
 							varTypeName = imports.substring(imports.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 							dsVariables.append("	private ").append(varTypeName).append(" ").append(stringUtil.getFirstCharLowerCase(varTypeName)).append(";").append(SystemUtil.LINE_SEPARATOR);
 						}

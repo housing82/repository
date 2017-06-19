@@ -55,10 +55,13 @@ public class GenerateHelper {
 	final static String EXCEL_START_FIRST_CELL;
 	final static String EXCEL_END_FIRST_CELL;
 
+	final static String STR_PACKAGE_DOT_DTO;
 	
 	static {
 		EXCEL_START_FIRST_CELL = "[[START]]";
 		EXCEL_END_FIRST_CELL = "[[END]]";
+		
+		STR_PACKAGE_DOT_DTO = ".dto.";	// GenerateHelper.STR_PACKAGE_DTO
 		
 		JAVA_PREFIX = new HashMap<String, String>();
 		
@@ -286,7 +289,7 @@ public class GenerateHelper {
 		StringBuilder out = new StringBuilder();
 		
 		out.append(setOmmVarName);
-		out.append(".");
+		out.append(IOperateCode.STR_DOT);
 		out.append("set");
 		out.append(stringUtil.getFirstCharUpperCase(setOmmFieldDTO.getName()));
 		out.append("(");
@@ -306,7 +309,7 @@ public class GenerateHelper {
 		}
 		else {
 			out.append(ommVarName);
-			out.append(".");
+			out.append(IOperateCode.STR_DOT);
 			out.append("get");
 			out.append(stringUtil.getFirstCharUpperCase(ommFieldDTO.getName()));
 			out.append("()");	
@@ -360,7 +363,7 @@ public class GenerateHelper {
 				if(ommField.getType().contains("<") && ommField.getType().contains(">")) {
 					fieldType = fieldType.substring(fieldType.indexOf("<") + "<".length(), fieldType.lastIndexOf(">"));
 					
-					if(fieldType.contains(".")) {
+					if(fieldType.contains(IOperateCode.STR_DOT)) {
 						fieldType = fieldType.substring(fieldType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 					}
 					
@@ -515,11 +518,19 @@ public class GenerateHelper {
 		
 		String lowerInTypeSimpleName = null;
 		//중복 체크
-		if(inputVarString.equalsIgnoreCase("in")) {
+		if(inputVarString.equalsIgnoreCase(IOperateCode.ELEMENT_IN)) {
+			if(calleeInTypeSimpleName.contains(IOperateCode.STR_DOT)) {
+				calleeInTypeSimpleName = calleeInTypeSimpleName.substring(calleeInTypeSimpleName.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+			}
 			lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
 		}
 		else {
-			lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
+			if(!inputVarString.startsWith(IOperateCode.ELEMENT_IN)) {
+				lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
+			}
+			else {
+				lowerInTypeSimpleName = inputVarString;
+			}
 		}
 		logger.debug("[MD-getLowerInTypeSimpleName] : {}", lowerInTypeSimpleName);
 		Integer varCnt = methodVarMap.get(lowerInTypeSimpleName);
