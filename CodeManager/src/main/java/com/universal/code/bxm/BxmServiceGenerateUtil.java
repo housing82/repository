@@ -336,9 +336,14 @@ public class BxmServiceGenerateUtil {
 		// bxmServiceSaveMethodTemplate
 		String dsInputVariableFirstUpper = null;
 		
+		
+		List<OmmDTO> scInOmmDTOList = null;
 		OmmDTO scInOmmDTO = null;
+		OmmDTO scInSubOmmDTO = null;
+		List<OmmDTO> scOutOmmDTOList = null;
 		OmmDTO scOutOmmDTO = null;
-
+		OmmDTO scOutSubOmmDTO = null;
+		
 		String scInOmmType = null;
 		String scInOmmFieldName = null;
 		String scOutOmmType = null;
@@ -494,6 +499,9 @@ public class BxmServiceGenerateUtil {
 						logger.debug("-- dsMethodLogicalName: {}", dsMethodLogicalName);
 						logger.debug("-- scMethodName: {}", scMethodName);
 						
+						
+						scInOmmDTOList = new ArrayList<OmmDTO>();
+						scOutOmmDTOList = new ArrayList<OmmDTO>();
 						
 						//1개의 메소드 안에서 In/Out 변수 중복제거 및 시퀀스 증가를 위한 맵
 						methodVarMap = new LinkedHashMap<String, Integer>();
@@ -797,7 +805,7 @@ public class BxmServiceGenerateUtil {
 														String inBcFieldType = null;
 														String inBcFieldVarName = null;
 														
-														logger.debug("#InOmm Filed: {} / {} / {}", calleeInOmmField.getType(), calleeInOmmField.getName(), scInOmmDTO.getOmmType());
+														//logger.debug("#InOmm Filed: {} / {} / {}", calleeInOmmField.getType(), calleeInOmmField.getName(), scInOmmDTO.getOmmType());
 														if(calleeInOmmField.getType().contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
 															//패키지를 현재 SC의 dto패키지로 변경하고
 															String newScOmmSubType = null;
@@ -806,7 +814,14 @@ public class BxmServiceGenerateUtil {
 															}
 															newScOmmSubType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat("Sub"));
 															
-															//add import target type
+															
+															//new sc in subOmm
+															scInSubOmmDTO = new OmmDTO();
+															scInSubOmmDTO.setSourceRoot(getSourceRoot());
+															scInSubOmmDTO.setOmmType(newScOmmSubType);
+															scInSubOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(SC_SIGNATURE_IN).concat(" Sub"));
+															
+															//add import target sub omm type
 															dsImportsSet.add(newScOmmSubType); // sc input sub omm type 
 															dsImportsSet.add(calleeInOmmField.getType()); // bc input sub omm type
 															
@@ -828,7 +843,11 @@ public class BxmServiceGenerateUtil {
 															//BC In Sub OMM
 															inBcFieldType = calleeInOmmField.getType().substring(calleeInOmmField.getType().lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 															inBcFieldVarName = generateHelper.getLowerInTypeSimpleName(methodVarMap, calleeInOmmField.getName(), calleeInOmmField.getType());
-														
+
+															//test
+															//inOmmPropertySetGetter.append("// ( "+ calleeInOmmField.getName() +" )" + methodVarMap);
+															//inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+															
 															inOmmPropertySetGetter.append("		");
 															inOmmPropertySetGetter.append(inBcFieldType);
 															inOmmPropertySetGetter.append(" ");
@@ -855,6 +874,8 @@ public class BxmServiceGenerateUtil {
 																	inOmmPropertySetGetter.append("			");
 																	inOmmPropertySetGetter.append(generateHelper.getSetterString(inBcFieldVarName, calleeInSubOmmField, inScFieldVarName, calleeInSubOmmField, ";"));
 																	inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+																	
+																	scInSubOmmDTO.addOmmFields(calleeInSubOmmField);	
 																}
 															}
 															
@@ -865,11 +886,14 @@ public class BxmServiceGenerateUtil {
 															
 															//new sc omm fieldTypeName
 															calleeInOmmField.setType(newScOmmSubType);
+															
+															//input signature omm
+															scInOmmDTOList.add(scInSubOmmDTO);
 														}
 														
 														//in omm setter/getter
-														inOmmPropertySetGetter.append("		#");
-														inOmmPropertySetGetter.append(generateHelper.getSetterString(lowerInTypeSimpleName, calleeInOmmField, null, calleeInOmmField, ";"));
+														inOmmPropertySetGetter.append("		");
+														inOmmPropertySetGetter.append(generateHelper.getSetterString(lowerInTypeSimpleName, calleeInOmmField, inBcFieldVarName, ";"));
 														inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 														inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 														
@@ -906,8 +930,6 @@ public class BxmServiceGenerateUtil {
 												}
 											}
 											
-											
-											
 											//dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
 											
 											//메소드의 입력 표현식
@@ -926,6 +948,25 @@ public class BxmServiceGenerateUtil {
 										String outArrayReferenceVar = null;
 										String outArrayReferenceType = null;
 										String celleeOutType = null;
+										
+										
+										// 존재하는 omm인지 채크
+										String checkOutType = null;
+										if(celleeOutFullType.contains(IOperateCode.STR_DOT)) {
+											checkOutType = celleeOutFullType.substring(celleeOutFullType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+										}
+										else {
+											checkOutType = celleeOutFullType;
+										}
+										String outTypeFullPath = generateHelper.findFilePath(getSourceRoot(), checkOutType, "omm");
+										if(outTypeFullPath != null) {
+											logger.debug("-outTypeFullPath: {}", outTypeFullPath);
+											celleeOutFullType = generateHelper.getExtractPathToJavaType(getSourceRoot(), outTypeFullPath);
+											// omm 이면 import setting
+											dsImportsSet.add(celleeOutFullType);
+										}
+										
+										logger.debug("#celleeOutFullType: {}", celleeOutFullType);
 										
 										if(celleeOutFullType.contains(List.class.getCanonicalName())) {
 											//List일경우 설정 ##############
@@ -1199,6 +1240,12 @@ public class BxmServiceGenerateUtil {
 							
 							dsCelleeInputSetting.append(inOmmPropertySetGetter.toString());
 							dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
+							
+							
+							//input signature omm
+							scInOmmDTOList.add(scInOmmDTO);
+							//output signature omm
+							scOutOmmDTOList.add(scOutOmmDTO);
 						}
 						
 						logger.debug("[dsCalleeInit]\n{}", dsCalleeInit.toString()); // ok
@@ -1213,11 +1260,17 @@ public class BxmServiceGenerateUtil {
 						 * 메소드의 In/Out OMM 생성
 						 * save 메소드일경우 Out OMM은 생성하지 않음
 						 ***************************/
-						boolean inOmmCreated = generateHelper.createOmmFile(scInOmmDTO, true);
-						logger.debug("[Create scInOmmDTO] inOmmCreated: {}", inOmmCreated/*, scInOmmDTO.toString()*/);
+						for(OmmDTO inOmmDTO : scInOmmDTOList) {
+							
+							boolean inOmmCreated = generateHelper.createOmmFile(inOmmDTO, true);
+							logger.debug("[Create scInOmmDTO] inOmmCreated: {}", inOmmCreated/*, scInOmmDTO.toString()*/);
+						}
 						
-						boolean outOmmCreated = generateHelper.createOmmFile(scOutOmmDTO, true);
-						logger.debug("[Create scOutOmmDTO] outOmmCreated: {}", outOmmCreated/*, scOutOmmDTO.toString()*/);
+						for(OmmDTO outOmmDTO : scOutOmmDTOList) {
+							
+							boolean outOmmCreated = generateHelper.createOmmFile(outOmmDTO, true);
+							logger.debug("[Create scOutOmmDTO] outOmmCreated: {}", outOmmCreated/*, scOutOmmDTO.toString()*/);
+						}
 						
 						String methodCode = null;
 						

@@ -18,6 +18,7 @@ import com.universal.code.dto.OmmFieldDTO;
 import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.FileUtil;
+import com.universal.code.utils.PropertyUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 import com.universal.code.utils.TypeUtil;
@@ -31,6 +32,8 @@ public class GenerateHelper {
 	private FileUtil fileUtil;
 	
 	private TypeUtil typeUtil;
+	
+	private PropertyUtil propertyUtil;
 	
 	private static GenerateHelper INSTANCE;
 	
@@ -101,6 +104,7 @@ public class GenerateHelper {
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();
 		typeUtil = new TypeUtil();
+		propertyUtil = new PropertyUtil();
 	}
 	
 	public static void setExcelData(String excelPath, Map<String, List<ExcelDTO>> sheetData) {
@@ -283,6 +287,14 @@ public class GenerateHelper {
 		}
 		
 		return out;
+	}
+	
+	String getSetterString(String setOmmVarName, OmmFieldDTO setOmmFieldDTO, String setObjectVarName, String closeCode) {
+		OmmFieldDTO ommFieldDTO = new OmmFieldDTO();
+		propertyUtil.copySameProperty(setOmmFieldDTO, ommFieldDTO);
+		ommFieldDTO.setName(setObjectVarName);
+		
+		return getSetterString(setOmmVarName, setOmmFieldDTO, null, ommFieldDTO, closeCode);
 	}
 	
 	String getSetterString(String setOmmVarName, OmmFieldDTO setOmmFieldDTO, String getOmmVarName, OmmFieldDTO getOmmFieldDTO, String closeCode) {
@@ -513,6 +525,29 @@ public class GenerateHelper {
 	}
 
 	
+	public String getExtractPathToJavaType(String rootPath, String filePath) {
+		String javaType = null;
+		if(filePath != null && rootPath != null) {
+			rootPath = rootPath.replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
+			filePath = filePath.replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
+			if(!rootPath.endsWith(IOperateCode.STR_SLASH)) {
+				rootPath = rootPath.concat(IOperateCode.STR_SLASH);
+			}
+			filePath = filePath.replaceFirst(rootPath, "");
+			
+			if(filePath.contains(IOperateCode.STR_DOT)) {
+				filePath = filePath.substring(0, filePath.lastIndexOf(IOperateCode.STR_DOT));
+			}
+			
+			javaType = filePath.replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+		}
+		
+		
+		
+		return javaType;
+	}
+		
+	
 	public String getLowerInTypeSimpleName(Map<String, Integer> methodVarMap, String inputVarString, String calleeInTypeSimpleName) {
 		logger.debug("[IN-getLowerInTypeSimpleName] inputVarString: {}, calleeInTypeSimpleName: {}\n[methodVarMap]:\n{}", inputVarString, calleeInTypeSimpleName, methodVarMap);
 		
@@ -541,11 +576,26 @@ public class GenerateHelper {
 			methodVarMap.put(lowerInTypeSimpleName, varCnt);
 			// make
 			// 중복되는 메소드 지역변수 명은 시퀀스를 01 부터 붙인다. 
-			lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt - 1), 2, "0"));
+			lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(varCnt), 2, "0"));
+			
+			Integer innerVarCnt = methodVarMap.get(lowerInTypeSimpleName);
+			if(innerVarCnt != null) {
+				innerVarCnt = innerVarCnt + 1;
+				
+				methodVarMap.put(lowerInTypeSimpleName, innerVarCnt);	
+				
+				lowerInTypeSimpleName = lowerInTypeSimpleName.concat(stringUtil.leftPad(Integer.toString(innerVarCnt), 2, "0"));
+			}
+			else {
+				// init
+				innerVarCnt = 0;
+				// set
+				methodVarMap.put(lowerInTypeSimpleName, innerVarCnt);
+			}
 		}
 		else {
 			// init
-			varCnt = 1;
+			varCnt = 0;
 			// set
 			methodVarMap.put(lowerInTypeSimpleName, varCnt);
 			// make
