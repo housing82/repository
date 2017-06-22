@@ -16,8 +16,7 @@
 #{rvBizCode}
 		/** ### Set Output Value  ### */
 #{rvCellerOutputSetting}
-		/** ### Set OkResultMessage Code ### */
-		//TODO 알맞은 메시지 코드 넣어야 합니다.
+		/** ### Set [#{rvMetdPref}] OkResultMessage Code ### */
 		CommonHdrUtils.setOkResultMessage("");
 		
 		logger.debug("[END-SC] #{rvMethodName} output:\n{}", #{rvOutputVariable});

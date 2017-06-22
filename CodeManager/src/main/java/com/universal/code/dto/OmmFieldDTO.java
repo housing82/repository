@@ -10,6 +10,9 @@ public class OmmFieldDTO extends CommonObject implements IDataTransferObject, Se
 
 	private String type;
 	private String name;
+	private String changeName;
+	private String changeSetterName;
+	private String changeGetterName;
 	private String length;
 	private String description;
 	private String arrayReference;
@@ -25,6 +28,9 @@ public class OmmFieldDTO extends CommonObject implements IDataTransferObject, Se
 		
 		type = null;
 		name = null;
+		changeName = null;
+		changeSetterName = null;
+		changeGetterName = null;
 		length = "0";
 		description = null;
 		arrayReference = null;
@@ -47,6 +53,30 @@ public class OmmFieldDTO extends CommonObject implements IDataTransferObject, Se
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getChangeName() {
+		return changeName;
+	}
+
+	public void setChangeName(String changeName) {
+		this.changeName = changeName;
+	}
+
+	public String getChangeSetterName() {
+		return changeSetterName;
+	}
+
+	public void setChangeSetterName(String changeSetterName) {
+		this.changeSetterName = changeSetterName;
+	}
+
+	public String getChangeGetterName() {
+		return changeGetterName;
+	}
+
+	public void setChangeGetterName(String changeGetterName) {
+		this.changeGetterName = changeGetterName;
 	}
 
 	public String getLength() {

@@ -1,5 +1,9 @@
 package com.universal.code.bxm;
 
+import japa.parser.ast.Node;
+import japa.parser.ast.expr.AnnotationExpr;
+import japa.parser.ast.expr.MemberValuePair;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,11 +64,22 @@ public class GenerateHelper {
 
 	final static String STR_PACKAGE_DOT_DTO;
 	
+	final static String SC_SIGNATURE_IN;
+	final static String SC_SIGNATURE_OUT;
+	final static String DC_SIGNATURE_IO;
+	
+	final static String OMM_SUB_POSTFIX;
+	
 	static {
 		EXCEL_START_FIRST_CELL = "[[START]]";
 		EXCEL_END_FIRST_CELL = "[[END]]";
 		
+		OMM_SUB_POSTFIX = "Sub";		// GenerateHelper.OMM_SUB_POSTFIX
 		STR_PACKAGE_DOT_DTO = ".dto.";	// GenerateHelper.STR_PACKAGE_DTO
+		SC_SIGNATURE_IN = "In";
+		SC_SIGNATURE_OUT = "Out";
+		DC_SIGNATURE_IO = "IO";	
+		
 		
 		JAVA_PREFIX = new HashMap<String, String>();
 		
@@ -261,13 +276,13 @@ public class GenerateHelper {
 					
 					description = info.substring(info.indexOf("description=\"") + "description=\"".length());
 					//logger.debug("#description(1): {}", description);
-					description = description.substring(0, description.indexOf("\"")).trim();
+					description = description.substring(0, description.indexOf(IOperateCode.STR_DOUBLE_QUOTATION)).trim();
 					//logger.debug("#description(2): {}", description);
 				}
 				else if(info.contains("arrayReference=\"")) {
 					
 					arrayReference = info.substring(info.indexOf("arrayReference=\"") + "arrayReference=\"".length());
-					arrayReference = arrayReference.substring(0, arrayReference.indexOf("\"")).trim();
+					arrayReference = arrayReference.substring(0, arrayReference.indexOf(IOperateCode.STR_DOUBLE_QUOTATION)).trim();
 				}
 				else {
 					length = info.substring(info.indexOf("length=") + "length=".length());
@@ -303,7 +318,12 @@ public class GenerateHelper {
 		out.append(setOmmVarName);
 		out.append(IOperateCode.STR_DOT);
 		out.append("set");
-		out.append(stringUtil.getFirstCharUpperCase(setOmmFieldDTO.getName()));
+		if(setOmmFieldDTO.getChangeSetterName() != null) {
+			out.append(stringUtil.getFirstCharUpperCase(setOmmFieldDTO.getChangeSetterName()));			
+		}
+		else {
+			out.append(stringUtil.getFirstCharUpperCase(setOmmFieldDTO.getName()));	
+		}
 		out.append("(");
 		out.append(getGetterString(getOmmVarName, getOmmFieldDTO, ""));
 		out.append(")");
@@ -323,7 +343,12 @@ public class GenerateHelper {
 			out.append(ommVarName);
 			out.append(IOperateCode.STR_DOT);
 			out.append("get");
-			out.append(stringUtil.getFirstCharUpperCase(ommFieldDTO.getName()));
+			if(ommFieldDTO.getChangeGetterName() != null) {
+				out.append(stringUtil.getFirstCharUpperCase(ommFieldDTO.getChangeGetterName()));
+			}
+			else {
+				out.append(stringUtil.getFirstCharUpperCase(ommFieldDTO.getName()));
+			}
 			out.append("()");	
 		}
 		out.append(closeCode);
@@ -431,7 +456,7 @@ public class GenerateHelper {
 			strbd.append("	");
 			strbd.append(fieldType);
 			strbd.append(" ");
-			strbd.append(ommField.getName());
+			strbd.append(StringUtil.NVL(ommField.getChangeName(), ommField.getName()));
 			strbd.append("<");
 			strbd.append("length=");
 			strbd.append(StringUtil.NVL(ommField.getLength(), "0"));
@@ -439,12 +464,12 @@ public class GenerateHelper {
 			if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
 				strbd.append(" arrayReference=\"");
 				strbd.append(ommField.getArrayReference());
-				strbd.append("\"");
+				strbd.append(IOperateCode.STR_DOUBLE_QUOTATION);
 			}
 			
 			strbd.append(" description=\"");
 			strbd.append(ommField.getDescription());
-			strbd.append("\"");
+			strbd.append(IOperateCode.STR_DOUBLE_QUOTATION);
 			strbd.append("  >;");
 			strbd.append(SystemUtil.LINE_SEPARATOR);
 		}
@@ -646,6 +671,37 @@ public class GenerateHelper {
 		}
 		else {
 			out = canonicalType;
+		}
+		
+		return out;
+	}
+	
+	public String getAstMethodAnnoValue(List<AnnotationExpr> calleeAnnotations, String annoName,  String annoFieldName) {
+		
+		String out = null;
+		for(AnnotationExpr annoExpr : calleeAnnotations) {
+			logger.debug("annoExpr.getName(): {}", annoExpr.getName().toString());
+			if(annoExpr.getName().toString().equals(annoName)) {
+
+				for(Node node : annoExpr.getChildrenNodes()) {
+					logger.debug("-Class: {}", node.getClass());
+					if(MemberValuePair.class.isAssignableFrom(node.getClass())) {
+						MemberValuePair item = (MemberValuePair) node;
+						logger.debug("Anno Name: {}, Value: {}", item.getName(), item.getValue());
+						if(item.getName().equals(annoFieldName)) {
+							out = item.getValue().toString();
+							if(out != null && !out.isEmpty()) {
+								if(out.startsWith(IOperateCode.STR_DOUBLE_QUOTATION) && out.endsWith(IOperateCode.STR_DOUBLE_QUOTATION)) {
+									out = out.substring(IOperateCode.STR_DOUBLE_QUOTATION.length(), out.length() - IOperateCode.STR_DOUBLE_QUOTATION.length());	
+								}
+							}
+							break;
+						}
+					}
+				}
+				
+				break;
+			}
 		}
 		
 		return out;
