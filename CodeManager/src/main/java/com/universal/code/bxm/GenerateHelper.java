@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.universal.code.constants.IOperateCode;
+import com.universal.code.constants.IUniversalPattern;
 import com.universal.code.constants.JavaReservedWordConstants;
 import com.universal.code.dto.OmmDTO;
 import com.universal.code.dto.OmmFieldDTO;
@@ -23,6 +24,7 @@ import com.universal.code.excel.dto.ExcelDTO;
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.utils.FileUtil;
 import com.universal.code.utils.PropertyUtil;
+import com.universal.code.utils.RegexUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 import com.universal.code.utils.TypeUtil;
@@ -36,6 +38,8 @@ public class GenerateHelper {
 	private FileUtil fileUtil;
 	
 	private TypeUtil typeUtil;
+	
+	private RegexUtil regexUtil;
 	
 	private PropertyUtil propertyUtil;
 	
@@ -64,9 +68,9 @@ public class GenerateHelper {
 
 	final static String STR_PACKAGE_DOT_DTO;
 	
-	final static String SC_SIGNATURE_IN;
-	final static String SC_SIGNATURE_OUT;
-	final static String DC_SIGNATURE_IO;
+	final static String SIGNATURE_IN;
+	final static String SIGNATURE_OUT;
+	final static String SIGNATURE_IO;
 	
 	final static String OMM_SUB_POSTFIX;
 	
@@ -76,9 +80,9 @@ public class GenerateHelper {
 		
 		OMM_SUB_POSTFIX = "Sub";		// GenerateHelper.OMM_SUB_POSTFIX
 		STR_PACKAGE_DOT_DTO = ".dto.";	// GenerateHelper.STR_PACKAGE_DTO
-		SC_SIGNATURE_IN = "In";
-		SC_SIGNATURE_OUT = "Out";
-		DC_SIGNATURE_IO = "IO";	
+		SIGNATURE_IN = "In";
+		SIGNATURE_OUT = "Out";
+		SIGNATURE_IO = "IO";	
 		
 		
 		JAVA_PREFIX = new HashMap<String, String>();
@@ -116,6 +120,7 @@ public class GenerateHelper {
 	}
 	
 	public GenerateHelper() {
+		regexUtil = new RegexUtil();
 		stringUtil = new StringUtil();
 		fileUtil = new FileUtil();
 		typeUtil = new TypeUtil();
@@ -219,7 +224,7 @@ public class GenerateHelper {
 		String sihangAddr1Org<length=100 description=""  >;
 		String sihangAddr2Org<length=100 description=""  >;
 		String sihangAddrTag<length=1 description=""  >;
-	}
+	} 
 	*/
 	public OmmDTO getOmmProperty(File ommFile) {
 		OmmDTO out = null;
@@ -233,10 +238,12 @@ public class GenerateHelper {
 		FileUtil fileUtil = new FileUtil();
 		
 		String ommContents = fileUtil.getTextFileContent(ommFile); 
+		String PTN_INNER_STRING = IUniversalPattern.PTN_WHITE_SPACE.concat(IUniversalPattern.STRING_SPECIAL_CHAR.concat(IUniversalPattern.STRING_CHAR_KR_JP_CH).replace("\"", ""));
 		
 		StringTokenizer lines = new StringTokenizer(ommContents, SystemUtil.LINE_SEPARATOR);
 		String line = null;
 		
+		List<String> findList = null;
 		String ommType = null;
 		String ommDesc = null;
 		OmmFieldDTO ommFieldDTO = null;
@@ -258,7 +265,7 @@ public class GenerateHelper {
 				continue;
 			}
 			else {
-				//logger.debug("\n\nline field: {}", line);
+				logger.debug("\n\nline field: {}", line);
 				ommFieldDTO = new OmmFieldDTO();
 			
 				String type = line.substring(0, line.indexOf(" ")).trim();
@@ -271,22 +278,39 @@ public class GenerateHelper {
 				String description = null;
 				String arrayReference = null;
 				if(info.indexOf("description=\"") > -1) {
-					length = info.substring(info.indexOf("length=") + "length=".length(), info.indexOf(" ") + " ".length());
-					//logger.debug("#length: {}", length);
 					
-					description = info.substring(info.indexOf("description=\"") + "description=\"".length());
-					//logger.debug("#description(1): {}", description);
-					description = description.substring(0, description.indexOf(IOperateCode.STR_DOUBLE_QUOTATION)).trim();
+					findList = regexUtil.findPatternToList(info, "description=\"([".concat(PTN_INNER_STRING).concat("]+)\""));
+					if(findList.size() > 0) {
+						description = findList.get(0).replaceFirst("^description=\"", "").replaceAll("\"$", "").trim();
+					}
+					logger.debug("#description: {}", description);
+					description = StringUtil.NVL(description, name);
+					
+					//description = info.substring(info.indexOf("description=\"") + "description=\"".length());
+					//description = description.substring(0, description.indexOf(IOperateCode.STR_DOUBLE_QUOTATION)).trim();
 					//logger.debug("#description(2): {}", description);
 				}
-				else if(info.contains("arrayReference=\"")) {
+				
+				if(info.contains("arrayReference=\"")) {
 					
-					arrayReference = info.substring(info.indexOf("arrayReference=\"") + "arrayReference=\"".length());
-					arrayReference = arrayReference.substring(0, arrayReference.indexOf(IOperateCode.STR_DOUBLE_QUOTATION)).trim();
+					findList = regexUtil.findPatternToList(info, "arrayReference=\"([a-zA-Z0-9$_]+)\"");
+					if(findList.size() > 0) {
+						arrayReference = findList.get(0).replaceFirst("^arrayReference=\"", "").replaceAll("\"$", "").trim();
+					}
+					
+					arrayReference = StringUtil.NVL(arrayReference);
+					logger.debug("#arrayReference: {}", arrayReference);
 				}
-				else {
-					length = info.substring(info.indexOf("length=") + "length=".length());
-					//logger.debug("#length: {}", length);
+				
+				if(info.contains("length=")) {
+					
+					findList = regexUtil.findPatternToList(info, "length=([0-9]+)");
+					if(findList.size() > 0) {
+						length = findList.get(0).replaceFirst("^length=", "").trim();
+					}
+					
+					length = StringUtil.NVL(length, "0");
+					logger.debug("#length: {}", length);
 				}
 				
 				ommFieldDTO.setType(type);
@@ -358,127 +382,138 @@ public class GenerateHelper {
 
 	boolean createOmmFile(OmmDTO ommDTO, boolean makeFile) {
 		boolean out = false;
-		logger.debug("[createOmmFile]\n{}", ommDTO);
-		if(ommDTO.getOmmFields() == null || ommDTO.getOmmFields().size() == 0) {
-			//throw new ApplicationException("OMM 필드가 설정되지 않았습니다.");
-			return out;
-		}
 		
-		String fileName = null;
-		String ommPath = ommDTO.getSourceRoot().replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
-		if(!ommPath.endsWith(IOperateCode.STR_SLASH)) {
-			ommPath = ommPath.concat(IOperateCode.STR_SLASH);
-		}
-		ommPath = ommPath.concat(ommDTO.getOmmType().replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH));
-		fileName = ommPath.substring(ommPath.lastIndexOf(IOperateCode.STR_SLASH) + IOperateCode.STR_SLASH.length());
-		ommPath = ommPath.substring(0, ommPath.length() - (fileName.length() + IOperateCode.STR_SLASH.length()));
-
-		logger.debug("ommPath: {}, fileName: {}", ommPath, fileName);
-		
-		StringBuilder strbd = new StringBuilder();
-		
-		strbd = new StringBuilder();
-		strbd.append("OMM ");
-		strbd.append(ommDTO.getOmmType());
-		strbd.append(SystemUtil.LINE_SEPARATOR);
-		strbd.append(SystemUtil.LINE_SEPARATOR);
-		
-		strbd.append("<description=\"");
-		strbd.append(ommDTO.getOmmDesc());
-		strbd.append("\">");
-		strbd.append(SystemUtil.LINE_SEPARATOR);
-		strbd.append("{");
-		strbd.append(SystemUtil.LINE_SEPARATOR);
-		
-		String fieldType = null;
-		String ommFilePath = null;
-		for(OmmFieldDTO ommField : ommDTO.getOmmFields()) {
+		try {
 			
-			fieldType = ommField.getType(); 
-			if((ommField.getType().startsWith(List.class.getSimpleName()) || ommField.getType().startsWith(List.class.getCanonicalName())) && StringUtil.isNotEmpty(ommField.getArrayReference())) {
-				
-				if(ommField.getType().contains("<") && ommField.getType().contains(">")) {
-					fieldType = fieldType.substring(fieldType.indexOf("<") + "<".length(), fieldType.lastIndexOf(">"));
-					
-					if(fieldType.contains(IOperateCode.STR_DOT)) {
-						fieldType = fieldType.substring(fieldType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
-					}
-					
-					// omm일경우
-					ommFilePath = findFilePath(ommField.getSourceRoot(), fieldType, "omm");
-					if(ommFilePath != null) {
-						logger.debug("#createPath: {}", ommFilePath);
-						// omm파일 						
-						ommFilePath = ommFilePath.replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
-						ommFilePath = ommFilePath.replace(ommField.getSourceRoot(), "");
-						ommFilePath = ommFilePath.substring(0, ommFilePath.length() - ".omm".length());
-						ommFilePath = ommFilePath.replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
-						if(ommFilePath.startsWith(IOperateCode.STR_DOT)) {
-							ommFilePath = ommFilePath.substring(IOperateCode.STR_DOT.length());
-						}
-						fieldType = ommFilePath;
-					}
-					else {
-						// omm이 아님
-						fieldType = typeUtil.getPrimitiveConvertWrapper(fieldType);
-					}
-				}
-				else {
-					throw new ApplicationException("OMM 리스트필드의 ParameterizedType이 존재하지 않습니다.");
-				}
+			logger.debug("[createOmmFile]\n{}", ommDTO);
+			if(ommDTO.getOmmFields() == null || ommDTO.getOmmFields().size() == 0) {
+				//throw new ApplicationException("OMM 필드가 설정되지 않았습니다.");
+				return out;
 			}
 			
-			if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
+			String fileName = null;
+			String ommPath = ommDTO.getSourceRoot().replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
+			if(!ommPath.endsWith(IOperateCode.STR_SLASH)) {
+				ommPath = ommPath.concat(IOperateCode.STR_SLASH);
+			}
+			ommPath = ommPath.concat(ommDTO.getOmmType().replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH));
+			fileName = ommPath.substring(ommPath.lastIndexOf(IOperateCode.STR_SLASH) + IOperateCode.STR_SLASH.length());
+			ommPath = ommPath.substring(0, ommPath.length() - (fileName.length() + IOperateCode.STR_SLASH.length()));
+
+			logger.debug("ommPath: {}, fileName: {}", ommPath, fileName);
+			
+			StringBuilder strbd = new StringBuilder();
+			
+			strbd = new StringBuilder();
+			strbd.append("OMM ");
+			strbd.append(ommDTO.getOmmType());
+			strbd.append(SystemUtil.LINE_SEPARATOR);
+			strbd.append(SystemUtil.LINE_SEPARATOR);
+			
+			strbd.append("<description=\"");
+			strbd.append(ommDTO.getOmmDesc());
+			strbd.append("\">");
+			strbd.append(SystemUtil.LINE_SEPARATOR);
+			strbd.append("{");
+			strbd.append(SystemUtil.LINE_SEPARATOR);
+			
+			String fieldType = null;
+			String ommFilePath = null;
+			for(OmmFieldDTO ommField : ommDTO.getOmmFields()) {
+				
+				fieldType = ommField.getType(); 
+				if((ommField.getType().startsWith(List.class.getSimpleName()) || ommField.getType().startsWith(List.class.getCanonicalName())) && StringUtil.isNotEmpty(ommField.getArrayReference())) {
+					
+					if(ommField.getType().contains("<") && ommField.getType().contains(">")) {
+						fieldType = fieldType.substring(fieldType.indexOf("<") + "<".length(), fieldType.lastIndexOf(">"));
+						
+						if(fieldType.contains(IOperateCode.STR_DOT)) {
+							fieldType = fieldType.substring(fieldType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
+						}
+						
+						// omm일경우
+						ommFilePath = findFilePath(ommField.getSourceRoot(), fieldType, "omm");
+						if(ommFilePath != null) {
+							logger.debug("#createPath: {}", ommFilePath);
+							// omm파일 						
+							ommFilePath = ommFilePath.replace(IOperateCode.STR_BACK_SLASH, IOperateCode.STR_SLASH);
+							ommFilePath = ommFilePath.replace(ommField.getSourceRoot(), "");
+							ommFilePath = ommFilePath.substring(0, ommFilePath.length() - ".omm".length());
+							ommFilePath = ommFilePath.replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+							if(ommFilePath.startsWith(IOperateCode.STR_DOT)) {
+								ommFilePath = ommFilePath.substring(IOperateCode.STR_DOT.length());
+							}
+							fieldType = ommFilePath;
+						}
+						else {
+							// omm이 아님
+							fieldType = typeUtil.getPrimitiveConvertWrapper(fieldType);
+						}
+					}
+					else {
+						throw new ApplicationException("OMM 리스트필드의 ParameterizedType이 존재하지 않습니다.");
+					}
+				}
+				
+				if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
+					
+					strbd.append("	");
+					strbd.append(ommField.getArrayReferenceType());
+					strbd.append(" ");
+					strbd.append(ommField.getArrayReference());
+					strbd.append("<");
+					strbd.append("length=");
+					logger.debug("#ArrayReference: {}, ArrayReferenceType: {}", ommField.getArrayReference(), ommField.getArrayReferenceType());
+					if(ommField.getArrayReferenceType().equalsIgnoreCase(Integer.class.getSimpleName())) {
+						strbd.append(9);
+					}
+					else {
+						strbd.append(StringUtil.NVL(ommField.getArrayReferenceLength(), "0"));
+					}
+					
+					strbd.append(" description=\"");
+					strbd.append(ommField.getDescription());
+					strbd.append(" 건수\"");
+					strbd.append("  ");
+					strbd.append("  >;");
+					strbd.append(SystemUtil.LINE_SEPARATOR);
+				}
+				
+				
 				
 				strbd.append("	");
-				strbd.append(ommField.getArrayReferenceType());
+				strbd.append(fieldType);
 				strbd.append(" ");
-				strbd.append(ommField.getArrayReference());
+				strbd.append(StringUtil.NVL(ommField.getChangeName(), ommField.getName()));
 				strbd.append("<");
 				strbd.append("length=");
-				if(ommField.getArrayReferenceType().equalsIgnoreCase(Integer.class.getSimpleName())) {
-					strbd.append(9);
-				}
-				else {
-					strbd.append(StringUtil.NVL(ommField.getArrayReferenceLength(), "0"));
+				strbd.append(StringUtil.NVL(ommField.getLength(), "0"));
+				
+				if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
+					strbd.append(" arrayReference=\"");
+					strbd.append(ommField.getArrayReference());
+					strbd.append(IOperateCode.STR_DOUBLE_QUOTATION);
 				}
 				
 				strbd.append(" description=\"");
 				strbd.append(ommField.getDescription());
-				strbd.append(" 건수\"");
-				strbd.append("  ");
+				strbd.append(IOperateCode.STR_DOUBLE_QUOTATION);
 				strbd.append("  >;");
 				strbd.append(SystemUtil.LINE_SEPARATOR);
 			}
+			strbd.append("}");
 			
+			if(makeFile)
+				fileUtil.mkfile(ommPath, fileName.concat(OMM_EXT),
+						strbd.toString(), IOperateCode.DEFAULT_ENCODING, 
+						false, true);
 			
-			
-			strbd.append("	");
-			strbd.append(fieldType);
-			strbd.append(" ");
-			strbd.append(StringUtil.NVL(ommField.getChangeName(), ommField.getName()));
-			strbd.append("<");
-			strbd.append("length=");
-			strbd.append(StringUtil.NVL(ommField.getLength(), "0"));
-			
-			if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
-				strbd.append(" arrayReference=\"");
-				strbd.append(ommField.getArrayReference());
-				strbd.append(IOperateCode.STR_DOUBLE_QUOTATION);
-			}
-			
-			strbd.append(" description=\"");
-			strbd.append(ommField.getDescription());
-			strbd.append(IOperateCode.STR_DOUBLE_QUOTATION);
-			strbd.append("  >;");
-			strbd.append(SystemUtil.LINE_SEPARATOR);
 		}
-		strbd.append("}");
-		
-		if(makeFile)
-			fileUtil.mkfile(ommPath, fileName.concat(OMM_EXT),
-					strbd.toString(), IOperateCode.DEFAULT_ENCODING, 
-					false, true);
+		catch(Exception e) {
+			logger.error("Creation error: {}", ommDTO.getOmmType());
+			e.printStackTrace();
+			throw new ApplicationException("Creation error: {}", ommDTO.getOmmType(), e);
+		}
 		
 		return out;
 	}
@@ -655,6 +690,17 @@ public class GenerateHelper {
 		return typeCanonicalName;
 	}
 	
+	public String getPathToTypeName(String sourceRoot, String filePath) {
+		
+		String out = filePath.substring(0, filePath.lastIndexOf(IOperateCode.STR_DOT)).replaceFirst(sourceRoot, "").replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+		if(out.startsWith(IOperateCode.STR_DOT)) {
+			out = out.substring(IOperateCode.STR_DOT.length());
+		}
+		
+		return out;
+	} 
+	
+	
 	public String getTypeSimpleName(String canonicalType) {
 		
 		String out = null;
@@ -705,6 +751,20 @@ public class GenerateHelper {
 		}
 		
 		return out;
+	}
+	
+	public String getNewOutSubOmmTypeName(OmmDTO scOutOmmDTO, Map<String, Integer> scSubOmmTypeMap) {
+		
+		String newScOmmSubType = null;
+		if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_OUT)) {
+			newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_OUT.length()); 
+		}
+		else if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IO)) {
+			newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_IO.length()); 
+		}
+		newScOmmSubType = getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat(GenerateHelper.OMM_SUB_POSTFIX));
+		
+		return newScOmmSubType;
 	}
 	
 }

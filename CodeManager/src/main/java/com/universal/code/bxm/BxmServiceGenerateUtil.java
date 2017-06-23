@@ -1,14 +1,13 @@
 package com.universal.code.bxm;
 
-import japa.parser.ast.Node;
 import japa.parser.ast.body.Parameter;
 import japa.parser.ast.expr.AnnotationExpr;
-import japa.parser.ast.expr.MemberValuePair;
 import japa.parser.ast.type.Type;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -376,13 +375,11 @@ public class BxmServiceGenerateUtil {
 		Map<String, Integer> methodVarMap = null;
 		Map<String, Integer> scSubOmmTypeMap = null;
 		Map<String, Integer> calleeInitMap = null;
+		Map<String, Map<String, Object>> outputSubMap = null;
 		
 		Map<String, Boolean> calleeOutTypeCheck = null;
 		Map<String, Boolean> calleeOutVarCheck = null;
 		Map<String, Boolean> calleeOutCallCheck = null;
-		
-		
-		
 		
 		for(int i = 0; i < programDesignList.size(); i++) {
 			designRow = programDesignList.get(i); 
@@ -431,7 +428,7 @@ public class BxmServiceGenerateUtil {
 						dsScModf = scMetdDesign.getScModf();
 						
 						//output
-						dsOutputType = scOmmName.concat(GenerateHelper.SC_SIGNATURE_OUT);
+						dsOutputType = scOmmName.concat(GenerateHelper.SIGNATURE_OUT);
 						String outputOmmPullType = dsPackage.concat(GenerateHelper.STR_PACKAGE_DOT_DTO).concat(dsOutputType);
 						dsImportsSet.add(outputOmmPullType); // -> dsImportsSet.add
 						dsOutputVariable = IOperateCode.ELEMENT_OUT;
@@ -450,7 +447,7 @@ public class BxmServiceGenerateUtil {
 						dsMetdPref = scMetdDesign.getScMetdPref();
 						
 						//input 
-						dsInputType = scOmmName.concat(GenerateHelper.SC_SIGNATURE_IN);
+						dsInputType = scOmmName.concat(GenerateHelper.SIGNATURE_IN);
 						dsImportsSet.add(dsPackage.concat(GenerateHelper.STR_PACKAGE_DOT_DTO).concat(dsInputType)); // -> dsImportsSet.add
 						dsInputVariable = stringUtil.getCharLowerCase(dsInputType, 1);
 						String inputOmmPullType = dsPackage.concat(GenerateHelper.STR_PACKAGE_DOT_DTO).concat(dsInputType);
@@ -473,7 +470,7 @@ public class BxmServiceGenerateUtil {
 						dsUpdateExecuteCode = new StringBuilder();
 						dsInsertExecuteCode = new StringBuilder();
 						
-						//output omm init
+						//output omm init SC 결과 초기화
 						dsCellerOutputSetting.append("		");
 						dsCellerOutputSetting.append(dsOutputVariable);
 						dsCellerOutputSetting.append(" = ");
@@ -482,17 +479,17 @@ public class BxmServiceGenerateUtil {
 						dsCellerOutputSetting.append("();");
 						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
 						
-						//new sc in omm
+						//new sc in omm SC 입력 생성
 						scInOmmDTO = new OmmDTO();
 						scInOmmDTO.setSourceRoot(getSourceRoot());
 						scInOmmDTO.setOmmType(inputOmmPullType);
-						scInOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(GenerateHelper.SC_SIGNATURE_IN));
+						scInOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(GenerateHelper.SIGNATURE_IN));
 						
 						//new sc out omm
 						scOutOmmDTO = new OmmDTO();
 						scOutOmmDTO.setSourceRoot(getSourceRoot());
 						scOutOmmDTO.setOmmType(outputOmmPullType);
-						scOutOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(GenerateHelper.SC_SIGNATURE_OUT));
+						scOutOmmDTO.setOmmDesc(dsMethodLogicalName.concat(" ").concat(GenerateHelper.SIGNATURE_OUT));
 						
 						logger.debug("-- dsMethodLogicalName: {}", dsMethodLogicalName);
 						logger.debug("-- scMethodName: {}", scMethodName);
@@ -503,6 +500,8 @@ public class BxmServiceGenerateUtil {
 						
 						//1개의 메소드 안에서 In/Out 변수 중복제거 및 시퀀스 증가를 위한 맵
 						methodVarMap = new LinkedHashMap<String, Integer>();
+						outputSubMap = new LinkedHashMap<String, Map<String, Object>>();
+						
 						//동일한 callee가 여러번 셋팅되었을 경우 채크
 						calleeInitMap = new LinkedHashMap<String, Integer>();
 						scSubOmmTypeMap = new LinkedHashMap<String, Integer>();
@@ -510,7 +509,6 @@ public class BxmServiceGenerateUtil {
 						calleeOutTypeCheck = new LinkedHashMap<String, Boolean>();
 						calleeOutVarCheck = new LinkedHashMap<String, Boolean>();
 						calleeOutCallCheck = new LinkedHashMap<String, Boolean>();	
-						
 						
 						dsDeleteInListFieldVar = null;
 						dsUpdateInListFieldVar = null;
@@ -777,7 +775,7 @@ public class BxmServiceGenerateUtil {
 												
 												
 												
-												//OMM Field ( SC가 사용하는 SC의 입력 OMM을 입력 필드로 삼는다. )
+												//OMM Field ( SC가 사용하는 BC의 입력 OMM을 입력 필드로 삼는다. )
 												/*
 												scInOmmField = new OmmFieldDTO();
 												
@@ -807,7 +805,7 @@ public class BxmServiceGenerateUtil {
 														if(calleeInOmmField.getType().contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
 															//패키지를 현재 SC의 dto패키지로 변경하고
 															String newScOmmSubType = null;
-															if(scInOmmDTO.getOmmType().endsWith("In") || scInOmmDTO.getOmmType().endsWith(GenerateHelper.DC_SIGNATURE_IO)) {
+															if(scInOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IN) || scInOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IO)) {
 																newScOmmSubType = scInOmmDTO.getOmmType().substring(0, scInOmmDTO.getOmmType().length() - 2); 
 															}
 															newScOmmSubType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat(GenerateHelper.OMM_SUB_POSTFIX));
@@ -1003,7 +1001,7 @@ public class BxmServiceGenerateUtil {
 										
 										//Callee 결과 변수 중복 체크
 										String celleeOutVarName = IOperateCode.ELEMENT_OUT.concat(stringUtil.getFirstCharUpperCase(celleeOutType));
-										if(!celleeOutVarName.endsWith("In") && !celleeOutVarName.endsWith(GenerateHelper.SC_SIGNATURE_OUT) && !celleeOutVarName.endsWith(GenerateHelper.DC_SIGNATURE_IO)) {
+										if(!celleeOutVarName.endsWith(GenerateHelper.SIGNATURE_IN) && !celleeOutVarName.endsWith(GenerateHelper.SIGNATURE_OUT) && !celleeOutVarName.endsWith(GenerateHelper.SIGNATURE_IO)) {
 											celleeOutVarName = IOperateCode.ELEMENT_OUT.concat(stringUtil.getFirstCharUpperCase(calleeMethodName));
 										}
 										Integer varCnt = methodVarMap.get(celleeOutVarName);
@@ -1143,149 +1141,163 @@ public class BxmServiceGenerateUtil {
 										//String ifOutOmmPath = new StringBuilder().append(getSourceRoot()).append(IOperateCode.STR_SLASH).append(celleeOutFullType.replace(IOperateCode.STR_DOT, IOperateCode.STR_SLASH)).append(".omm").toString();
 										 
 										if(ifOutOmmPath != null) {
-											logger.debug("Exists OutOmmPath: {}", ifOutOmmPath);
-											File ommFile = new File(ifOutOmmPath);
-											// Out OMM 파일이 존재하면 분석 실행
-											parseOmm = generateHelper.getOmmProperty(ommFile);
-											logger.debug("parseOutOmm: \n{}", parseOmm.toString());
-											
-											scOutOmmType = ifOutOmmPath.substring(0, ifOutOmmPath.lastIndexOf(IOperateCode.STR_DOT)).replace(getSourceRoot(), "").replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
-											if(scOutOmmType.startsWith(IOperateCode.STR_DOT)) {
-												scOutOmmType = scOutOmmType.substring(IOperateCode.STR_DOT.length());
-											}
-											//scOutOmmFieldName = stringUtil.getFirstCharLowerCase(scOutOmmType.substring(scOutOmmType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length()));
-
-											//OMM Field ( SC가 사용하는 BC의 결과 OMM을 결과 필드로 삼는다. )
-											
-											// output omm sub field omm
-											String newScOmmSubType = null;
-											if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SC_SIGNATURE_OUT)) {
-												newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SC_SIGNATURE_OUT.length()); 
-											}
-											else if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.DC_SIGNATURE_IO)) {
-												newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.DC_SIGNATURE_IO.length());
-											}
-											
-											newScOmmSubType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat(GenerateHelper.OMM_SUB_POSTFIX));
-											logger.debug("#outsub omm: {}", newScOmmSubType);
-											//new sc output subOmm  
-											scOutSubOmmDTO = new OmmDTO();
-											scOutSubOmmDTO.setSourceRoot(getSourceRoot());
-											scOutSubOmmDTO.setOmmType(newScOmmSubType);
-											scOutSubOmmDTO.setOmmDesc(parseOmm.getOmmDesc());
-
-											//add import target sub omm type
-											dsImportsSet.add(newScOmmSubType); // sc input sub omm type 
-											
-											//SC Out Sub OMM
-											String outScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
-											String outScFieldVarName = IOperateCode.ELEMENT_OUT.concat(stringUtil.getFirstCharUpperCase(outScFieldSimpleType)); // service method 내부 변수명
-										
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											dsCellerOutputSetting.append("		");
-											dsCellerOutputSetting.append(outScFieldSimpleType);
-											dsCellerOutputSetting.append(" ");
-											dsCellerOutputSetting.append(outScFieldVarName);
-											dsCellerOutputSetting.append(" = ");
-											dsCellerOutputSetting.append("new ");
-											dsCellerOutputSetting.append(outScFieldSimpleType);
-											dsCellerOutputSetting.append("();");
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											
-											//scOutOmmDTO.addOmmFields(calleeOutOmmField);
-											
-											// output omm의 1차(1뎁스) 필드 ( subOmm output 필드 )
-											/*
-											scOutOmmField = new OmmFieldDTO();
-											scOutOmmField.setType(scOutOmmType);
-											scOutOmmField.setName(celleeOutVarName);
-											scOutOmmField.setLength("0");
-											scOutOmmField.setArrayReference(outArrayReferenceVar);
-											scOutOmmField.setArrayReferenceType(outArrayReferenceType);
-											scOutOmmField.setDescription(parseOmm.getOmmDesc());
-											scOutOmmField.setSourceRoot(getSourceRoot());
-											scOutOmmDTO.addOmmFields(scOutOmmField);
-											
-											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, scOutOmmField, dsInputVariable, scOutOmmField, ";"));
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											*/
-											
-											if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
-												for(OmmFieldDTO calleeOutOmmField : parseOmm.getOmmFields()) {
-													
-													//test
-//													dsCellerOutputSetting.append("		/*[1] Out Field Info");
-//													dsCellerOutputSetting.append(calleeOutOmmField.toString());
+											Map<String, Object> outVarData = new HashMap<String, Object>();
+											outVarData.put("kind", "omm");
+											outVarData.put("type", ifOutOmmPath);
+											outVarData.put("calleeAnnotations", calleeAnnotations);
+											outputSubMap.put(celleeOutVarName, outVarData);
+//											
+//											logger.debug("Exists OutOmmPath: {}", ifOutOmmPath);
+//											File ommFile = new File(ifOutOmmPath);
+//											// Out OMM 파일이 존재하면 분석 실행
+//											parseOmm = generateHelper.getOmmProperty(ommFile);
+//											logger.debug("parseOutOmm: \n{}", parseOmm.toString());
+//											
+//											scOutOmmType = ifOutOmmPath.substring(0, ifOutOmmPath.lastIndexOf(IOperateCode.STR_DOT)).replace(getSourceRoot(), "").replace(IOperateCode.STR_SLASH, IOperateCode.STR_DOT);
+//											if(scOutOmmType.startsWith(IOperateCode.STR_DOT)) {
+//												scOutOmmType = scOutOmmType.substring(IOperateCode.STR_DOT.length());
+//											}
+//											//scOutOmmFieldName = stringUtil.getFirstCharLowerCase(scOutOmmType.substring(scOutOmmType.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length()));
+//
+//											//OMM Field ( SC가 사용하는 BC의 결과 OMM을 결과 필드로 삼는다. )
+//											
+//											// output omm sub field omm
+//											String newScOmmSubType = null;
+//											if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_OUT)) {
+//												newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_OUT.length()); 
+//											}
+//											else if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IO)) {
+//												newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_IO.length());
+//											}
+//											
+//											newScOmmSubType = generateHelper.getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat(GenerateHelper.OMM_SUB_POSTFIX));
+//											logger.debug("#outsub omm: {}", newScOmmSubType);
+//											//new sc output subOmm  
+//											scOutSubOmmDTO = new OmmDTO();
+//											scOutSubOmmDTO.setSourceRoot(getSourceRoot());
+//											scOutSubOmmDTO.setOmmType(newScOmmSubType);
+//											scOutSubOmmDTO.setOmmDesc(parseOmm.getOmmDesc());
+//
+//											//add import target sub omm type
+//											dsImportsSet.add(newScOmmSubType); // sc input sub omm type 
+//											
+//											//SC Out Sub OMM
+//											String outScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
+//											String outScFieldVarName = IOperateCode.ELEMENT_OUT.concat(stringUtil.getFirstCharUpperCase(outScFieldSimpleType)); // service method 내부 변수명
+//										
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											dsCellerOutputSetting.append("		");
+//											dsCellerOutputSetting.append(outScFieldSimpleType);
+//											dsCellerOutputSetting.append(" ");
+//											dsCellerOutputSetting.append(outScFieldVarName);
+//											dsCellerOutputSetting.append(" = ");
+//											dsCellerOutputSetting.append("new ");
+//											dsCellerOutputSetting.append(outScFieldSimpleType);
+//											dsCellerOutputSetting.append("();");
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											
+//											//scOutOmmDTO.addOmmFields(calleeOutOmmField);
+//											
+//											// output omm의 1차(1뎁스) 필드 ( subOmm output 필드 )
+//											/*
+//											scOutOmmField = new OmmFieldDTO();
+//											scOutOmmField.setType(scOutOmmType);
+//											scOutOmmField.setName(celleeOutVarName);
+//											scOutOmmField.setLength("0");
+//											scOutOmmField.setArrayReference(outArrayReferenceVar);
+//											scOutOmmField.setArrayReferenceType(outArrayReferenceType);
+//											scOutOmmField.setDescription(parseOmm.getOmmDesc());
+//											scOutOmmField.setSourceRoot(getSourceRoot());
+//											scOutOmmDTO.addOmmFields(scOutOmmField);
+//											
+//											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, scOutOmmField, dsInputVariable, scOutOmmField, ";"));
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											*/
+//											
+//											if(parseOmm.getOmmFields() != null && parseOmm.getOmmFields().size() > 0) {
+//												for(OmmFieldDTO calleeOutOmmField : parseOmm.getOmmFields()) {
+//													
+//													//test
+////													dsCellerOutputSetting.append("		/*[1] Out Field Info");
+////													dsCellerOutputSetting.append(calleeOutOmmField.toString());
+////													dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+////													dsCellerOutputSetting.append("		*/");
+////													dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//													
+//													dsCellerOutputSetting.append("		");
+//													dsCellerOutputSetting.append(generateHelper.getSetterString(outScFieldVarName, calleeOutOmmField, celleeOutVarName, calleeOutOmmField, ";"));
 //													dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-//													dsCellerOutputSetting.append("		*/");
-//													dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-													
-													dsCellerOutputSetting.append("		");
-													dsCellerOutputSetting.append(generateHelper.getSetterString(outScFieldVarName, calleeOutOmmField, celleeOutVarName, calleeOutOmmField, ";"));
-													dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-													
-													scOutSubOmmDTO.addOmmFields(calleeOutOmmField);
-												}
-											}
-											
-											/*
-											dsCellerOutputSetting.append("		");
-											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, scOutOmmField, null, scOutOmmField, ";"));
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											*/
-											String outFieldDesc = null;
-											String logicalName = generateHelper.getAstMethodAnnoValue(calleeAnnotations, "BxmCategory",  "logicalName");
-											if(StringUtil.isNotEmpty(logicalName)) {
-												outFieldDesc = logicalName;
-											}
-											else {
-												outFieldDesc = celleeOutType.concat(" 결과");
-											}
-											
-											// output omm의 1차(1뎁스) 필드 ( subOmm output 필드 )
-											scOutOmmField = new OmmFieldDTO();
-											scOutOmmField.setType(newScOmmSubType);
-											scOutOmmField.setName(outScFieldVarName);
-											scOutOmmField.setLength("0");
-											scOutOmmField.setArrayReference(outArrayReferenceVar);
-											scOutOmmField.setArrayReferenceType(outArrayReferenceType);
-											scOutOmmField.setDescription(outFieldDesc);
-											scOutOmmField.setSourceRoot(getSourceRoot());
-											scOutOmmDTO.addOmmFields(scOutOmmField);
+//													
+//													scOutSubOmmDTO.addOmmFields(calleeOutOmmField);
+//												}
+//											}
+//											
+//											/*
+//											dsCellerOutputSetting.append("		");
+//											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, scOutOmmField, null, scOutOmmField, ";"));
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											*/
+//											String outFieldDesc = null;
+//											String logicalName = generateHelper.getAstMethodAnnoValue(calleeAnnotations, "BxmCategory",  "logicalName");
+//											if(StringUtil.isNotEmpty(logicalName)) {
+//												outFieldDesc = logicalName;
+//											}
+//											else {
+//												outFieldDesc = celleeOutType.concat(" 결과");
+//											}
+//											
+//											// output omm의 1차(1뎁스) 필드 ( subOmm output 필드 )
+//											scOutOmmField = new OmmFieldDTO();
+//											scOutOmmField.setType(newScOmmSubType);
+//											scOutOmmField.setName(outScFieldVarName);
+//											scOutOmmField.setLength("0");
+//											scOutOmmField.setArrayReference(outArrayReferenceVar);
+//											scOutOmmField.setArrayReferenceType(outArrayReferenceType);
+//											scOutOmmField.setDescription(outFieldDesc);
+//											scOutOmmField.setSourceRoot(getSourceRoot());
+//											
+//											scOutOmmDTO.addOmmFields(scOutOmmField);
 										}
 										else {
 											//패키지가 존재하지 않는 타입이거나 primitive 타입일경우
 											
-											String outFieldDesc = null;
-											String logicalName = generateHelper.getAstMethodAnnoValue(calleeAnnotations, "BxmCategory",  "logicalName");
-											if(StringUtil.isNotEmpty(logicalName)) {
-												outFieldDesc = logicalName;
-											}
-											else {
-												outFieldDesc = celleeOutType.concat(" 결과");
-											}
+											Map<String, Object> outVarData = new HashMap<String, Object>();
+											outVarData.put("kind", "general");
+											outVarData.put("type", typeUtil.getPrimitiveConvertWrapper(celleeOutType));
+											outVarData.put("calleeAnnotations", calleeAnnotations);
+											outputSubMap.put(celleeOutVarName, outVarData);
 											
-											logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 749 : {}", celleeOutVarName);
-											OmmFieldDTO calleeOutOmmField = new OmmFieldDTO();
-											calleeOutOmmField.setType(typeUtil.getPrimitiveConvertWrapper(celleeOutType));
-											calleeOutOmmField.setName(celleeOutVarName);
-											calleeOutOmmField.setLength(typeUtil.getPrimitiveWrapperDefaultLengthMap(celleeOutType));
-											calleeOutOmmField.setDescription(outFieldDesc);
-											calleeOutOmmField.setArrayReference(outArrayReferenceVar);
-											calleeOutOmmField.setArrayReferenceType(outArrayReferenceType);
-											calleeOutOmmField.setSourceRoot(getSourceRoot());
 											
-											//test
-											dsCellerOutputSetting.append("		/*[2] Out Field Info");
-											dsCellerOutputSetting.append(calleeOutOmmField.toString());
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											dsCellerOutputSetting.append("		*/");
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											
-											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, calleeOutOmmField, null, calleeOutOmmField, ";"));
-											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
-											
-											scOutOmmDTO.addOmmFields(calleeOutOmmField);
+//											String outFieldDesc = null;
+//											String logicalName = generateHelper.getAstMethodAnnoValue(calleeAnnotations, "BxmCategory",  "logicalName");
+//											if(StringUtil.isNotEmpty(logicalName)) {
+//												outFieldDesc = logicalName;
+//											}
+//											else {
+//												outFieldDesc = celleeOutType.concat(" 결과");
+//											}
+//											
+//											logger.debug("※※※※※※※※※※※※※※※※※※※※※※※※※# 749 : {}", celleeOutVarName);
+//											OmmFieldDTO calleeOutOmmField = new OmmFieldDTO();
+//											calleeOutOmmField.setType(typeUtil.getPrimitiveConvertWrapper(celleeOutType));
+//											calleeOutOmmField.setName(celleeOutVarName);
+//											calleeOutOmmField.setLength(typeUtil.getPrimitiveWrapperDefaultLengthMap(celleeOutType));
+//											calleeOutOmmField.setDescription(outFieldDesc);
+//											calleeOutOmmField.setArrayReference(outArrayReferenceVar);
+//											calleeOutOmmField.setArrayReferenceType(outArrayReferenceType);
+//											calleeOutOmmField.setSourceRoot(getSourceRoot());
+//											
+//											//test
+//											dsCellerOutputSetting.append("		/*[2] Out Field Info");
+//											dsCellerOutputSetting.append(calleeOutOmmField.toString());
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											dsCellerOutputSetting.append("		*/");
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											
+//											dsCellerOutputSetting.append(generateHelper.getSetterString(dsOutputVariable, calleeOutOmmField, null, calleeOutOmmField, ";"));
+//											dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+//											
+//											scOutOmmDTO.addOmmFields(calleeOutOmmField);
 										}
 									}
 								}
@@ -1301,11 +1313,206 @@ public class BxmServiceGenerateUtil {
 							dsCelleeInputSetting.append(inOmmPropertySetGetter.toString());
 							dsCelleeInputSetting.append(SystemUtil.LINE_SEPARATOR);
 							
+							// 생성할 메인 입력  OMM정보를 담는다.
 							//input signature omm ( sc method input )
 							scInOmmDTOList.add(scInOmmDTO);
-							//output signature omm ( sc method output )
-							scOutOmmDTOList.add(scOutOmmDTO);
 						}
+						
+						//## OUTPUT OMM START
+						
+						/*************************************
+						 * 메소드 아웃풋 서브타입을 취합하여 SC의 Output OMM의 서브필드 및 서브 OMM을 정의한다.
+						 * outputSubMap
+						 * 
+						 * CODE: dsCellerOutputSetting 
+						 * 
+						 * 메인아웃풋: scOutOmmDTO
+						 * 메인아웃풋OMM의 서브 필드: scOutSubOmmDTO 
+						 * 
+						 * [add import target sub omm type]
+						 * dsImportsSet.add(newScOmmSubType);
+						 */
+						
+						dsCellerOutputSetting.append("	// [OUT-FIELD] size: " + outputSubMap.size());
+						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+						dsCellerOutputSetting.append("/**");
+						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+						
+						//Set<String> arrayReferenceFilter = null;
+						List<OmmFieldDTO> generalCalleeOutOmmFields = new ArrayList<OmmFieldDTO>();
+						//List<OmmFieldDTO> generalOmmFields = null;
+						for(Entry<String, Map<String, Object>> subField : outputSubMap.entrySet()) {
+							Map<String, Object> rowMap = subField.getValue();
+							logger.debug("[OUT-FIELD] {}: {}", subField.getKey(), rowMap);
+							
+							dsCellerOutputSetting.append(" [OUT-FIELD] ");
+							dsCellerOutputSetting.append(subField.getKey());
+							dsCellerOutputSetting.append(": ");
+							dsCellerOutputSetting.append(subField.getValue());
+							dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+							
+							if(((String) rowMap.get("kind")).equalsIgnoreCase("omm")) {
+								String ommPath = (String) rowMap.get("type");
+								File ommFile = new File(ommPath);
+								OmmDTO parseOmm = generateHelper.getOmmProperty(ommFile);
+								String calleeOutputType = generateHelper.getPathToTypeName(getSourceRoot(), ommPath);
+							
+								dsCellerOutputSetting.append("calleeOutputType : ");
+								dsCellerOutputSetting.append(calleeOutputType);
+								dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+								
+								//arrayReferenceFilter = new HashSet<String>();
+								//generalOmmFields = new ArrayList<OmmFieldDTO>();
+								
+								// OMM 필드와 List<ParameterizedType> 필드만 골라낸다.
+								for(OmmFieldDTO ommField : parseOmm.getOmmFields()) {
+								
+									if(ommField == null) continue;
+
+									dsCellerOutputSetting.append("Type: ");
+									dsCellerOutputSetting.append(ommField.getType());
+									dsCellerOutputSetting.append(", ");
+									dsCellerOutputSetting.append("Name: ");
+									dsCellerOutputSetting.append(ommField.getName());
+									dsCellerOutputSetting.append(", ");
+									dsCellerOutputSetting.append("Length: ");
+									dsCellerOutputSetting.append(ommField.getLength());
+									dsCellerOutputSetting.append(", ");
+									dsCellerOutputSetting.append("Description: ");
+									dsCellerOutputSetting.append(ommField.getDescription());
+									dsCellerOutputSetting.append(", ");
+									dsCellerOutputSetting.append("ArrayReference: ");
+									dsCellerOutputSetting.append(ommField.getArrayReference());
+									dsCellerOutputSetting.append(", ");
+									dsCellerOutputSetting.append("ArrayReferenceType: ");
+									dsCellerOutputSetting.append(ommField.getArrayReferenceType());
+									dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+									
+									if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
+										/**
+										 * 배열 일경우 메인 OUT OMM의 필드로 삼음 (XENA Dataset Marshalling 문제로 인함)
+										 */ 
+										scOutOmmField = new OmmFieldDTO();
+										scOutOmmField.setType(ommField.getType()); //타입 신규생성해야함
+										scOutOmmField.setName(ommField.getName()); //신규 타입 네이밍해야함
+										scOutOmmField.setLength("0");
+										scOutOmmField.setArrayReference(ommField.getArrayReference());
+										scOutOmmField.setDescription(ommField.getDescription());
+										scOutOmmField.setSourceRoot(getSourceRoot());
+										
+										for(OmmFieldDTO _ommField : parseOmm.getOmmFields()) {
+											
+											if(_ommField.getName().equals(ommField.getArrayReference())) {
+												
+												//arrayReferenceFilter.add(_ommField.getName());
+												scOutOmmField.setArrayReferenceType(_ommField.getType());
+												scOutOmmField.setArrayReferenceLength(_ommField.getLength());
+												
+												_ommField = null;
+												break;
+											}
+										}
+
+										scOutOmmDTO.addOmmFields(scOutOmmField);
+										
+										ommField = null;
+									}
+									else if(ommField.getType().contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
+										
+										/**
+										 * 일반 OMM일 경우 해당 타입을 메인 OUT OMM의 필드로 삼음 (XENA Dataset Marshalling 문제로 인함)
+										 */
+										String newScOmmSubType = generateHelper.getNewOutSubOmmTypeName(scOutOmmDTO, scSubOmmTypeMap);
+										
+										logger.debug("#newScOmmSubType: {}", newScOmmSubType);
+										scOutOmmField = new OmmFieldDTO();
+										scOutOmmField.setType(ommField.getType()); //타입 신규생성해야함 seq
+										scOutOmmField.setName(ommField.getName()); //신규 타입 네이밍해야함
+										scOutOmmField.setLength("0");
+										scOutOmmField.setArrayReference(ommField.getArrayReference());
+										scOutOmmField.setDescription(ommField.getDescription());
+										scOutOmmField.setSourceRoot(getSourceRoot());
+
+										scOutOmmDTO.addOmmFields(scOutOmmField);
+										
+										ommField = null;
+									}
+								}
+								
+								// List 또는 OMM 타입을 제외한 나머지 필드만 남은 서브필드OMM
+								scOutOmmField = new OmmFieldDTO();
+								scOutOmmField.setType(parseOmm.getOmmType().replace(".bc.", ".sc.")); //타입 신규생성해야함 (seq 여기서시작)
+								scOutOmmField.setName(stringUtil.getFirstCharLowerCase(generateHelper.getTypeSimpleName(parseOmm.getOmmType()))); //신규 타입 네이밍해야함
+								scOutOmmField.setLength("0");
+								scOutOmmField.setArrayReference(null);
+								scOutOmmField.setDescription(parseOmm.getOmmDesc());
+								scOutOmmField.setSourceRoot(getSourceRoot());
+								
+								//new sc output subOmm  
+								scOutSubOmmDTO = new OmmDTO();
+								scOutSubOmmDTO.setSourceRoot(getSourceRoot());
+								scOutSubOmmDTO.setOmmType(scOutOmmField.getType()); //타입 신규생성해야함 seq ( scOutOmmField.setType 에서 시작 )
+								scOutSubOmmDTO.setOmmDesc(scOutOmmField.getDescription());
+
+								int subFieldCnt = 0;
+								for(OmmFieldDTO ommField : parseOmm.getOmmFields()) {
+									
+									if(ommField == null) continue;
+									
+									scOutSubOmmDTO.addOmmFields(ommField);
+									subFieldCnt++;
+								}
+								
+								if(subFieldCnt > 0) {
+									//메인 아웃 OMM의 필드로 등록
+									scOutOmmDTO.addOmmFields(scOutOmmField);
+									//임포트
+									dsImportsSet.add(scOutSubOmmDTO.getOmmType());
+									//결과 서브 OMM 생성 등록
+									scOutOmmDTOList.add(scOutSubOmmDTO);
+								}
+							}
+							else {
+								// general
+								
+								scOutOmmField = new OmmFieldDTO();
+								scOutOmmField.setType((String) rowMap.get("type"));  
+								scOutOmmField.setName((String) rowMap.get("name")); 
+								scOutOmmField.setLength("0");
+								scOutOmmField.setArrayReference(null);
+								scOutOmmField.setDescription(generateHelper.getAstMethodAnnoValue((List<AnnotationExpr>) rowMap.get("calleeAnnotations"), "BxmCategory",  "logicalName"));
+								scOutOmmField.setSourceRoot(getSourceRoot());
+								
+								generalCalleeOutOmmFields.add(scOutOmmField);
+							}
+							
+							dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+						}
+						
+						if(generalCalleeOutOmmFields.size() > 0) {
+							
+							//new sc output subOmm  
+							scOutSubOmmDTO = new OmmDTO();
+							scOutSubOmmDTO.setSourceRoot(getSourceRoot());
+							scOutSubOmmDTO.setOmmType(scOutOmmField.getType()); //타입 신규생성해야함 seq
+							scOutSubOmmDTO.setOmmDesc(scOutOmmField.getDescription());
+							
+							for(OmmFieldDTO ommField : generalCalleeOutOmmFields) {
+								
+								scOutSubOmmDTO.addOmmFields(ommField);
+							}
+							
+							scOutOmmDTOList.add(scOutSubOmmDTO);
+						}
+						
+						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+						dsCellerOutputSetting.append("*/");
+						
+						// 생성할 메인 결과 OMM정보를 담는다.
+						//output signature omm ( sc method output )
+						scOutOmmDTOList.add(scOutOmmDTO);
+						
+						//## OUTPUT OMM END
 						
 						logger.debug("[dsCalleeInit]\n{}", dsCalleeInit.toString()); // ok
 						
