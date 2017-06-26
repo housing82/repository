@@ -1318,7 +1318,11 @@ public class BxmServiceGenerateUtil {
 							scInOmmDTOList.add(scInOmmDTO);
 						}
 						
-						//## OUTPUT OMM START
+						/*******************************************************
+						 * 
+						 * ## OUTPUT OMM START 
+						 * 
+						 *******************************************************/
 						
 						/*************************************
 						 * 메소드 아웃풋 서브타입을 취합하여 SC의 Output OMM의 서브필드 및 서브 OMM을 정의한다.
@@ -1512,7 +1516,11 @@ public class BxmServiceGenerateUtil {
 						//output signature omm ( sc method output )
 						scOutOmmDTOList.add(scOutOmmDTO);
 						
-						//## OUTPUT OMM END
+						/*******************************************************
+						 * 
+						 * ## OUTPUT OMM END 
+						 * 
+						 *******************************************************/
 						
 						logger.debug("[dsCalleeInit]\n{}", dsCalleeInit.toString()); // ok
 						
@@ -1524,7 +1532,6 @@ public class BxmServiceGenerateUtil {
 						
 						/***************************
 						 * 메소드의 In/Out OMM 생성
-						 * save 메소드일경우 Out OMM은 생성하지 않음
 						 ***************************/
 						for(OmmDTO inOmmDTO : scInOmmDTOList) {
 							
