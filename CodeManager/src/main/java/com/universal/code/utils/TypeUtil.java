@@ -1,8 +1,6 @@
 package com.universal.code.utils;
 
 import java.lang.reflect.Type;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,6 +13,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -199,6 +198,11 @@ public class TypeUtil  {
 		return value;
 	}
 	
+	@Test
+	public void main() {
+		String test = getPrimitiveConvertWrapper("test.dto.Integer");
+		logger.debug("test: {}", test);
+	}
 	
 	public String getPrimitiveConvertWrapper(String primitiveType) {
 		//logger.debug("primitiveConvertWrapper: {} > {}",primitiveType, primitiveConvertWrapper);

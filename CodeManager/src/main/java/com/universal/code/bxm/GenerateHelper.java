@@ -420,7 +420,7 @@ public class GenerateHelper {
 			String fieldType = null;
 			String ommFilePath = null;
 			for(OmmFieldDTO ommField : ommDTO.getOmmFields()) {
-				
+				logger.debug("#createField: {}", ommField.toString());
 				fieldType = ommField.getType(); 
 				if((ommField.getType().startsWith(List.class.getSimpleName()) || ommField.getType().startsWith(List.class.getCanonicalName())) && StringUtil.isNotEmpty(ommField.getArrayReference())) {
 					
@@ -753,18 +753,127 @@ public class GenerateHelper {
 		return out;
 	}
 	
-	public String getNewOutSubOmmTypeName(OmmDTO scOutOmmDTO, Map<String, Integer> scSubOmmTypeMap) {
+
+	public OmmFieldDTO findOmmField(List<OmmFieldDTO> ommFieldList, String fieldName, boolean findAndSetNull) {
+		OmmFieldDTO out = null;
 		
-		String newScOmmSubType = null;
-		if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_OUT)) {
-			newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_OUT.length()); 
+		if(ommFieldList != null) {
+			for(OmmFieldDTO ommField : ommFieldList) {
+				if(ommField.getName().equals(fieldName) || StringUtil.NVL(ommField.getChangeName()).equals(fieldName)) {
+					out = new OmmFieldDTO();
+					propertyUtil.copySameProperty(ommField, out);
+					if(findAndSetNull) {
+						ommField = null;
+						break;
+					}
+					else {
+						return ommField;
+					}
+				}
+			}
 		}
-		else if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IO)) {
-			newScOmmSubType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_IO.length()); 
-		}
-		newScOmmSubType = getTypeNameNumbering(scSubOmmTypeMap, newScOmmSubType.concat(GenerateHelper.OMM_SUB_POSTFIX));
 		
-		return newScOmmSubType;
+		return out;
 	}
 	
+	public String getSubOmmType(Map<String, Integer> filterMap, OmmDTO scOutOmmDTO) {
+		String subOmmType = null;
+		
+		if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_OUT)) {
+			subOmmType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_OUT.length()); 
+		}
+		else if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IO)) {
+			subOmmType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_IO.length()); 
+		}
+		else if(scOutOmmDTO.getOmmType().endsWith(GenerateHelper.SIGNATURE_IN)) {
+			subOmmType = scOutOmmDTO.getOmmType().substring(0, scOutOmmDTO.getOmmType().length() - GenerateHelper.SIGNATURE_IN.length()); 
+		}
+		
+		String out = getTypeNameNumbering(filterMap, subOmmType.concat(GenerateHelper.OMM_SUB_POSTFIX));
+		logger.debug("getSubOmmType: {}", out);
+		return out;
+	}
+	
+	public boolean isArrayReference(List<OmmFieldDTO> ommFields, String fieldName) {
+		boolean out = false;
+		for(OmmFieldDTO ommField : ommFields) {
+			if(StringUtil.NVL(ommField.getArrayReference()).equals(fieldName)) {
+				out = true;
+				break;
+			}
+		}
+		return out;
+	}
+	
+	public String getListFieldName(String fieldName) {
+		String out = null;
+		
+		if(!fieldName.endsWith(IOperateCode.CALLEE_VAR_POST_LIST)) {
+			out = fieldName.concat(IOperateCode.CALLEE_VAR_POST_LIST);
+		}
+		else {
+			out = fieldName;
+		}
+		
+		return out;
+	}
+	
+	public String removeEndsWithList(String fieldName) {
+		String out = null;
+		
+		if(fieldName.endsWith(IOperateCode.CALLEE_VAR_POST_LIST)) {
+			out = fieldName.substring(0, fieldName.length() - IOperateCode.CALLEE_VAR_POST_LIST.length());
+		}
+		else {
+			out = fieldName;
+		}
+		
+		return out;
+	}
+	
+	public String getCountFieldName(String fieldName) {
+		String out = null;
+		
+		if(!fieldName.endsWith(IOperateCode.CALLEE_VAR_POST_COUNT)) {
+			out = fieldName.concat(IOperateCode.CALLEE_VAR_POST_COUNT);
+		}
+		else {
+			out = fieldName;
+		}
+		
+		return out;
+	}
+	
+	
+
+	public OmmDTO getNewOmmProperty(String sourceRoot, OmmFieldDTO toOmmField, OmmFieldDTO fromOmmField ) {
+		 
+		//new sc output subOmm  
+		OmmDTO newOmmDTO = new OmmDTO();
+		newOmmDTO.setSourceRoot(sourceRoot); 
+		newOmmDTO.setOmmType(toOmmField.getType()); 
+		newOmmDTO.setOmmDesc(toOmmField.getDescription());
+		
+		//callee omm 분석
+		String calleeOmmPath = findFilePath(sourceRoot, fromOmmField.getType(), "omm");
+		File calleeOmmFile = new File(calleeOmmPath);
+		OmmDTO parseCalleeOmm = getOmmProperty(calleeOmmFile);
+
+		//분석한 callee omm의 필드를 셋팅
+		for(OmmFieldDTO caleOmmField : parseCalleeOmm.getOmmFields()) {
+			newOmmDTO.addOmmFields(caleOmmField);
+		}
+
+		return newOmmDTO; 
+	}
+
+	public String getTypeStringParameterizedType(String typeString) {
+		String out = null;
+		
+		if(typeString.contains("<") && typeString.contains(">")) {
+			out = typeString.substring(typeString.indexOf("<") + "<".length(), typeString.lastIndexOf(">"));
+		}
+		
+		return out;
+	}
 }
