@@ -61,8 +61,8 @@ public class ExecuteJavascriptSqlParser {
 	//당용한자(간지) : 亜-穏下-懇左-損丼-他濃-那把-盆問-麻冶-翼拉-論和-腕
 	// \r \n \t 공백 : \\s 
 	static {
-		PBL_ROOT_PATH = "C:/Developer/AS-IS/KAIT_ERP/asisProject/kait-src";
-		PBL_PROJECT_PATH = "/hd";
+		PBL_ROOT_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-src";
+		PBL_PROJECT_PATH = "/";
 		
 		NETJS_RESOURCE_PATH = PBL_ROOT_PATH.concat(PBL_PROJECT_PATH);
 		TARGET_EXT = ".js";
@@ -407,7 +407,8 @@ public class ExecuteJavascriptSqlParser {
 					logger.debug("vSql checkCnt: {}, sqlList.size(): {}", checkCnt, sqlList.size());
 					if(checkCnt > sqlList.size()) {
 						
-						throw new ApplicationException("checkCnt: {}, sqlList.size(): {}", checkCnt, sqlList.size());
+						// kait pbl sql 분석용 임시 주석
+						// throw new ApplicationException("checkCnt: {}, sqlList.size(): {}", checkCnt, sqlList.size());
 					}
 					logger.debug("###################################################");
 				}

@@ -43,8 +43,38 @@ public class ExecutePowerbuilderSrdSqlParser {
 	//당용한자(간지) : 亜-穏下-懇左-損丼-他濃-那把-盆問-麻冶-翼拉-論和-腕
 	
 	static {
-		PBL_ROOT_PATH = "C:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
-		PBL_PROJECT_PATH = "/hd";
+		PBL_ROOT_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
+		PBL_PROJECT_PATH = "/tm";
+		
+		/**
+		 *  am
+		 *  bs
+		 *  fm
+		 *  fs
+		 *  hd
+		 *  hr
+		 *  mm
+		 *  sm
+		 *  tm
+		 * 
+		 * 
+		 * pbl을 srd로 덤프하여 두었던 srd의 sql 추출 및 분석 결과를 
+		 * 파일서버  \\192.168.8.77\kaitfolder\80.AS-IS\parsePblSql에 올려두었습니다.
+		 * 분석한 sql정보는 srd와 마찬가지로 대상 pbl이 존재하는 디렉토리아래 대상 pbl이름으로 된 폴더에 {pbl이름}.extract.sql로 존재하며
+		 * 예) pbl/hr/etcx/HRrEtcxMaster/HRrEtcxMaster.extract.sql
+		 * 각 as-is프로젝트 별 분석된 sql의 모든정보를 담고있는 파일은 각 업무 폴더 아래 all_sql_extract.sql 이름으로 존재합니다. 
+		 * 예) pbl/hr/all_sql_extract.sql
+		 * 파일내용에는 sql이 존재하는 출처 srd 파일의 qualifiedName이  ★ Sql From : xxxx 로 존재하고
+		 * 추출한 sql이 있으며
+		 * sql에서 사용되는 테이블목록은 TABLE : 테이블명
+		 * sql에서 사용된 입력목록은 INPUT Parameter: {입력정보}
+		 * sql에서 사용된 결과목록은 OUTPUT ColumnInfo: {결과정보} 
+		 * 으로 존재합니다.
+		 * as-is소스의 sql문법에 이상이 있거나 잘못 추출된 정보의 결과는 Syntax Error로 표시됩니다.
+		 * 각 sql 분석결과 간의 구분은  ■■■■■■■■■■■ < SEPARATOR > ■■■■■■■■■■■ 으로 구분됩니다.
+		 * 
+		 *  
+		 */
 		
 		PBL_RESOURCE_PATH = PBL_ROOT_PATH.concat(PBL_PROJECT_PATH);
 		TARGET_EXT = ".srd";
@@ -145,11 +175,18 @@ public class ExecutePowerbuilderSrdSqlParser {
 						logger.debug("■[START SQL]■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						logger.debug("-sql:\n{}", sql);
 						
-						reseut = jsqlParser.parseSQL(sql);
+						reseut = jsqlParser.parseSQL(sql);	
 						
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						
-						if( reseut.get(JSQLParser.STATEMENT) != null ) {
+						// S. kait pbl sql 분석용 임시 코딩 if(reseut == null)절
+						if(reseut == null) {
+							//sqlStb.append("#SQL Statement type: ");
+							sqlStb.append("Syntax Error");
+							sqlStb.append(SystemUtil.LINE_SEPARATOR);
+						}
+						// E. kait pbl sql 분석용 임시 코딩 if(reseut == null)절
+						else if( reseut.get(JSQLParser.STATEMENT) != null ) {
 							logger.debug("SQL Statement type: {}", reseut.get(JSQLParser.STATEMENT));
 							
 							sqlStb.append("#SQL Statement type: ");
@@ -159,8 +196,8 @@ public class ExecutePowerbuilderSrdSqlParser {
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-						
-						if( reseut.get(JSQLParser.TABLE_KEY) != null ) {
+						// kait pbl sql 분석용 임시 코딩 ( 조건: reseut != null && )
+						if( reseut != null && reseut.get(JSQLParser.TABLE_KEY) != null ) {
 							for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.TABLE_KEY) ){
 								logger.debug("TABLE : {}", item);
 								
@@ -176,8 +213,8 @@ public class ExecutePowerbuilderSrdSqlParser {
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
-						
-						if( reseut.get(JSQLParser.INPUT_KEY) != null ) {
+						// kait pbl sql 분석용 임시 코딩 ( 조건: reseut != null && )
+						if( reseut != null && reseut.get(JSQLParser.INPUT_KEY) != null ) {
 							for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.INPUT_KEY) ){
 								logger.debug("INPUT Parameter: {}", item);
 								
@@ -193,8 +230,8 @@ public class ExecutePowerbuilderSrdSqlParser {
 						sqlStb.append(SystemUtil.LINE_SEPARATOR);
 						logger.debug("■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■");
 						
-						
-						if( reseut.get(JSQLParser.OUTPUT_KEY) != null ) {
+						// kait pbl sql 분석용 임시 코딩 ( 조건: reseut != null && )
+						if( reseut != null && reseut.get(JSQLParser.OUTPUT_KEY) != null ) {
 							for(Map<String, Object> item : (List<Map<String, Object>>) reseut.get(JSQLParser.OUTPUT_KEY) ){
 								logger.debug("OUTPUT ColumnInfo: {}", item);
 								

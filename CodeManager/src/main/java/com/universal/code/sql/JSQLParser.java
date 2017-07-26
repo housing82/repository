@@ -18,6 +18,7 @@ import net.sf.jsqlparser.expression.Function;
 import net.sf.jsqlparser.expression.JdbcParameter;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.parser.TokenMgrError;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
 import net.sf.jsqlparser.statement.Statement;
@@ -174,7 +175,9 @@ public class JSQLParser {
 			if(StringUtil.isEmpty(sql)) {
 				return out;
 			}
-			
+			else if(sql.trim().startsWith("PBSELECT")) {
+				return out;
+			}
 			/**
 			 * ";"으로 구분된 sql여러개 분석시 사용 
 			Statements stmt = CCJSqlParserUtil.parseStatements(sql.replaceAll(PTN_NAMED_PARAMETER, "?"));
@@ -190,10 +193,16 @@ public class JSQLParser {
 			Statement stmt = CCJSqlParserUtil.parse(sql); // .replaceAll(PTN_NAMED_PARAMETER, "?")
 			out = parseSQL(stmt, sql);
 			
-		} catch (JSQLParserException e) {
+		} catch(TokenMgrError e) {
 			e.printStackTrace();
-			throw new ApplicationException(e);
-		}
+			//throw new ApplicationException(e); // kait pbl sql 분석용 임시 주석
+		} catch(JSQLParserException e) {
+			e.printStackTrace();
+			//throw new ApplicationException(e); // kait pbl sql 분석용 임시 주석
+		} catch (Exception e) {
+			e.printStackTrace();
+			//throw new ApplicationException(e); // kait pbl sql 분석용 임시 주석
+		} 
 		if(logger.isDebugEnabled()) {
 			logger.debug("[END] parseSQL " + SystemUtil.durationMillisecond(startTime));
 		}
@@ -1233,6 +1242,9 @@ public class JSQLParser {
 					
 					clearMap(readCol);
 					clearList(readCols);
+					
+					// kait pbl sql 분석용 임시 주석
+					/*
 					throw new ApplicationException(new StringBuilder()
 						.append("오퍼레이션 항목과 컬럼간의 데이터 맵핑을 위하여 조회 컬럼정의는 필수 사항입니다.")
 						.append(SystemUtil.LINE_SEPARATOR)
@@ -1242,7 +1254,7 @@ public class JSQLParser {
 						.append(SystemUtil.LINE_SEPARATOR)
 						.append("[*]의 사용은 조인된 테이블에 따라 같은 컬럼명이 존재할수 있음으로 허용하지 않습니다.")
 						.toString());
-					
+					*/
 				}
 				else if(AllColumns.class.isAssignableFrom(selectItem.getClass())) {
 					allColumnExpr = (AllColumns) selectItem;
