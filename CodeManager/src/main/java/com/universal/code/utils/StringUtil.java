@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.pretty.MessageHelper;
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -299,6 +300,8 @@ public class StringUtil {
 		
 		return out;
 	}
+	
+
 	
 	public String getCamelCaseString(String str){
 		
