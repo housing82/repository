@@ -1,5 +1,7 @@
 package com.universal.code.utils.thread;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,7 +16,7 @@ public class Local {
 	
 	private static final Logger logger = LoggerFactory.getLogger(Local.class);
 	
-	
+	private static boolean initlocal = false;
 	
 	/**
 	 * Thread local variable containing each thread's CommonHeader
@@ -45,18 +47,32 @@ public class Local {
 	            	);
             	}
             	
+            	Local.initlocal = true;
                 return header;
         } 
     }; 
     
-    /**
+    
+    
+    public static boolean isInitlocal() {
+		return initlocal;
+	}
+
+	/**
      * Local.commonHeader()
      * @return
      */
     public static CommonHeader commonHeader() {
-        return threadLocalHeader.get();
+    	CommonHeader header = threadLocalHeader.get();
+    	header.initSearchParam();
+        return header;
     }
     
+    public static CommonHeader commonHeader(HttpServletRequest request) {
+    	CommonHeader header = threadLocalHeader.get();
+    	header.initSearchParam(request);
+        return header;
+    }
     /**
      * Local.searchParam()
      * @return
@@ -121,6 +137,7 @@ public class Local {
     	}
 
     	threadLocalHeader.remove();
+    	Local.initlocal = false;
     }
     
 }

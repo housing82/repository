@@ -217,6 +217,27 @@
 		    <version>1.2_01</version>
 		</dependency>
 		
+		<!-- XML Converter -->
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<!-- JSON:json-lib -->
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<classifier>jdk15</classifier>
+			<version>2.4</version>
+		</dependency>
+		
+			<!-- JSON:json-lib dependency json to xml , xml to json -->
+			<dependency>
+				<groupId>xom</groupId>
+				<artifactId>xom</artifactId>
+				<version>1.2.5</version>
+			</dependency>
 	</dependencies>	
 	
 

@@ -404,6 +404,10 @@ public class CommonHeader extends CommonObject implements IDataTransferObject, S
 		return searchParam;
 	}
 
+	public void initSearchParam() {
+		searchParam = new SearchParam();
+	}
+	
 	public void initSearchParam(HttpServletRequest request) {
 		searchParam = new SearchParam(request);
 	}

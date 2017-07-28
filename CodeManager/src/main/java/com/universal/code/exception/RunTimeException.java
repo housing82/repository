@@ -46,7 +46,9 @@ public class RunTimeException extends RuntimeException {
 	}
 
 	public void setResultCode(int resultCode) {
-		Local.commonHeader().setResultCode(resultCode);
+		if(Local.isInitlocal()) {
+			Local.commonHeader().setResultCode(resultCode);
+		}
 		this.resultCode = resultCode;
 		
 	}

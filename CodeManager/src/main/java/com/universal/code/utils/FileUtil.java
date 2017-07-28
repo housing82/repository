@@ -1539,17 +1539,34 @@ public class FileUtil implements ApplicationContextAware, IOperateCode {
 		return out;
 	}
 	
-	public void addFileList(List<File> fileList, File file, String targetExt) {
+	public List<File> getChildFileList(List<File> fileList, File rootDirectory) {
+		return getChildFileList(fileList, rootDirectory, null);
+	}
+	
+	public List<File> getChildFileList(List<File> fileList, File rootDirectory, String targetExt) {
+
+		if(!rootDirectory.exists()) {
+			throw new ApplicationException("시작 경로가 존재하지 않습니다.");
+		}
+		if(!rootDirectory.isDirectory()) {
+			throw new ApplicationException("시작 경로는 디렉토리만 설정할 수 있습니다.");
+		}
 		
-		File[] files = file.listFiles();
+		File[] files = rootDirectory.listFiles();
+		if(targetExt != null && !targetExt.startsWith(IOperateCode.STR_DOT)) {
+			targetExt = IOperateCode.STR_DOT.concat(targetExt);
+		}
 		
 		for(File item : files) {
-			if(item.isFile() && (item.getPath().endsWith(targetExt) || item.getPath().endsWith(targetExt.toUpperCase()))) {
+			if(item.isFile() && (targetExt != null && (item.getPath().endsWith(targetExt) || item.getPath().endsWith(targetExt.toUpperCase())))) {
 				fileList.add(item);
 			}
 			else if(item.isDirectory()) {
-				addFileList(fileList, item, targetExt);
+				getChildFileList(fileList, item, targetExt);
 			}
 		}
+		
+		return fileList;
 	}
+	
 }

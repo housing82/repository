@@ -117,7 +117,7 @@ public class ExecutePowerbuilderSrdSqlParser {
 			
 			List<File> fileList = new ArrayList<File>();
 			
-			fileUtil.addFileList(fileList, basePath, TARGET_EXT);
+			fileUtil.getChildFileList(fileList, basePath, TARGET_EXT);
 			
 			sqlList = new ArrayList<String>(); 
 			String fileContents = null;

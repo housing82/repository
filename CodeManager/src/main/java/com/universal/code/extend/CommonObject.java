@@ -1,6 +1,7 @@
 package com.universal.code.extend;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,13 @@ import com.universal.code.utils.SystemUtil;
 public abstract class CommonObject {
 
 	protected final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static List<String> PASS_FIELD_NAMES;
+	static {
+		
+		PASS_FIELD_NAMES = new ArrayList<String>();
+		PASS_FIELD_NAMES.add("serialVersionUID");
+		PASS_FIELD_NAMES.add("logger");
+	}
 	
 	@Override
 	public String toString() {
@@ -37,7 +45,10 @@ public abstract class CommonObject {
 				Object value = null;
 				for(Field field : fields) {
 					try {
-
+						
+						if(PASS_FIELD_NAMES.contains(field.getName())) {
+							continue;
+						}
 						value = PropertyUtils.getProperty(this, field.getName());
 						out.append("	");
 						out.append(field.getName());
