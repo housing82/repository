@@ -42,6 +42,8 @@ public class ParamValidate {
 	@Autowired
 	private StringUtil stringUtil;
 	
+	private boolean isValidateLog = false;
+	
 	private List<ParamValidateDTO> params;
 	
 	private final String VP_REQUIRED = "required";
@@ -133,8 +135,8 @@ public class ParamValidate {
 			int validateCnt = 1;
 			for(ParamValidateDTO validate : this.params) {
 				
-		    	if(logger.isDebugEnabled()) {
-		    		logger.debug(CommonUtil.addString("START Validate No.", validateCnt));
+		    	if(logger.isDebugEnabled() && isValidateLog) {
+		    		logger.debug(CommonUtil.addString("#START Validate No.", validateCnt));
 		    	}
 
 		    	validate = this.run(validate);
@@ -144,8 +146,8 @@ public class ParamValidate {
 	    			break;
 	    		}
 	    		else {
-	    			if(logger.isDebugEnabled()) {
-	    	    		logger.debug(CommonUtil.addString("PASS Validate No.", validateCnt, " END"));
+	    			if(logger.isDebugEnabled() && isValidateLog) {
+	    	    		logger.debug(CommonUtil.addString("#PASS Validate No.", validateCnt, " END"));
 	    	    	}	
 	    		}
 	    		validateCnt++;
@@ -172,7 +174,7 @@ public class ParamValidate {
 	 */
     public ParamValidateDTO run(ParamValidateDTO paramValidate){
     	
-    	if( logger.isDebugEnabled() ) {
+    	if( logger.isDebugEnabled() && isValidateLog ) {
 	    	logger.debug(CommonUtil.addString(SystemUtil.LINE_SEPARATOR, " * 유효성검증 필드 정보", SystemUtil.LINE_SEPARATOR, new PropertyUtil().out(paramValidate)));
 	    }
     	

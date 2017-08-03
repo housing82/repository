@@ -58,9 +58,9 @@ public class MessageHelper {
 	}
 	
 	public static String message(String messageCodeParam){
-		logger.debug("#Local.searchParam() : {}", Local.searchParam());
-		logger.debug("#Local.searchParam().getLocale() : {}", Local.searchParam().getLocale());
-		logger.debug("#messageCodeParam : {}", messageCodeParam);
+		//logger.debug("#Local.searchParam() : {}", Local.searchParam());
+		//logger.debug("#Local.searchParam().getLocale() : {}", Local.searchParam().getLocale());
+		//logger.debug("#messageCodeParam : {}", messageCodeParam);
 		return resourceMessage(null, Local.searchParam().getLocale(), messageCodeParam, new Object[0]);
 	}
 	

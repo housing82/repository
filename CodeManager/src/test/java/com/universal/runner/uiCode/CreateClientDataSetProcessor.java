@@ -18,10 +18,10 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import com.universal.code.constants.IOperateCode;
-import com.universal.code.dto.CommonHeader;
 import com.universal.code.exception.ApplicationException;
 import com.universal.code.marshaller.XMLConverter;
 import com.universal.code.utils.FileUtil;
+import com.universal.code.utils.RegexUtil;
 import com.universal.code.utils.StringUtil;
 import com.universal.code.utils.SystemUtil;
 import com.universal.code.utils.thread.Local;
@@ -36,6 +36,8 @@ public class CreateClientDataSetProcessor {
 	StringUtil stringUtil = new StringUtil();
 
 	FileUtil fileUtil = new FileUtil();
+	
+	RegexUtil regexUtil = new RegexUtil();
 	
 	DocumentFactory documentFactory = new DocumentFactory();
 	
@@ -108,7 +110,10 @@ public class CreateClientDataSetProcessor {
 		EXTRACT_ORDER.add(TEXT_RCASE);
 		EXTRACT_ORDER.add(COLUMN_RCASE);
 		
-		BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl/hd";
+		//create xena and realGrid dataSet target srd root directory 
+		//srd 정상 및 오류코드 복원 및 xml정상 변환 완료 : hd, am, fm, fs, blank, bs, hr, kait
+		//잔여  : , , reitsis, sm, swdc, tm
+		BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl/mm";
 	}
 	
 	public final static String SPECIAL_CHARACTER;
@@ -167,33 +172,79 @@ public class CreateClientDataSetProcessor {
 		catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		String testStr = "=\"에서 정한 중도금을 ~\"갑~\"이 \" text=\"에서 정한 중도금을 ~\"갑~\"이 \"";
+		logger.debug("testStr[1]: {}", testStr);
+		logger.debug("testStr[2]: {}", testStr.replaceAll("([a-zA-Z0-9$_\\.])=\"([~a-zA-Z가-힣ㄱ-ㅎ \"]+)\"", "$1").replace("\"","'"));
 		if(true) return;
 		*/
 		
-		for(int i = 0; i < fileList.size(); i++) {
-			file = fileList.get(i);
+		String tempXml = null;
+		List<String> findPattern = null;
+		try {
 			
-			logger.debug("{}: {}", i, file);
-			srdXml = getSrdDataDefinition(file.getPath(), srdEncoding);
-			if(srdXml != null ) {
+			for(int i = 0; i < fileList.size(); i++) {
+				file = fileList.get(i);
 				
-				logger.debug("#########################################");
-				logger.debug("#	클라이언트 데이터 셋 생성을 시작합니다.	#");
-				logger.debug("# 파일: {} #", file.getPath());
-				logger.debug("#########################################");
-				logger.debug(srdXml);
-				
-				
-				srdXml = srdXml.replace("=\"0\",", "='0',");
-				srdXml = srdXml.replace("~\" or", "~' or");
-				srdXml = srdXml.replace("~\")", "~')");
-				srdXml = srdXml.replaceAll("~\"([0-9a-zA-Z,@\\.~\\)])", "~'$1");
-				srdXml = srdXml.replaceAll("(?i)([a-zA-Z0-9$_\\.]+)=([a-zA-Z0-9_\\(\\)\\.]+)", "$1=\"$2\"");
-				srdXml = srdXml.replaceAll("\"([a-zA-Z0-9$_\\.])", "\" $1");
+				logger.debug("{}: {}", i, file);
+				srdXml = getSrdDataDefinition(file.getPath(), srdEncoding);
+				if(srdXml != null ) {
+					tempXml = srdXml;
+					logger.debug("#########################################");
+					logger.debug("#	클라이언트 데이터 셋 생성을 시작합니다.	#");
+					logger.debug("# 파일: {} #", file.getPath());
+					logger.debug("#########################################");
+					
+					//srd 원본 코드 구성이 잘못된 부분에 대한 예외 방어코드
+					//replace with string
+					srdXml = srdXml.replace("=\"work_num\"","='work_num'");
+					
+					//replaceAll with regex
+					srdXml = srdXml.replaceAll("~\"([0-9a-zA-Z,@\\.~\\)&#;])", "~'$1");  
+					findPattern = regexUtil.findPatternToList(srdXml, "=\"([~a-zA-Zㄱ-ㅎ가-힣0-9=?:!#&;@/*%\\_+'\\.\\s\\(\\)\\[\\]\\-\\,]+)\" ");
+					String itemExprNew = null;
+					for(String itemExpr : findPattern) {
+						if(itemExpr.substring("=".length()).contains("=")) {
+							logger.debug("itemExpr : {}", itemExpr);
+							itemExprNew = itemExpr.replace("=", "&#61;");
+							itemExprNew = "=".concat(itemExprNew.substring("&#61;".length()));
+							logger.debug("itemExprNew : {}", itemExprNew);
+							srdXml = srdXml.replace(itemExpr, itemExprNew);
+						}
+					}
+					srdXml = srdXml.replaceAll("(?i)([a-zA-Z0-9$_\\.]+)=([ㄱ-ㅎ가-힣a-zA-Z0-9&#;_\\(\\)\\.]+)", "$1=\"$2\""); // key=value를 key="value"로 치환
+					srdXml = srdXml.replaceAll("\"([a-zA-Z0-9$_\\.])", "\" $1");
+					//srdXml = srdXml.replaceAll("(?i)([a-zA-Zㄱ-ㅎ가-힣0-9~])=([a-zA-Zㄱ-ㅎ가-힣0-9~])", "$1  = $2");
 
-				xmlMap = xmlConverter.xmlToMap(srdXml, EXTRACT_ROOT_NAME);
-				logger.debug("#[xmlMap]\n{}", xmlMap);
+					//replace with string
+					// ( &#40; , ) &#41;
+					srdXml = srdXml.replace("~\"", "~'");
+					srdXml = srdXml.replace("=\" 0\",", "='0',");
+					srdXml = srdXml.replace("~\" or", "~' or");
+					srdXml = srdXml.replace("~\"&#41;", "~'&#41;");
+					srdXml = srdXml.replace("=\"~~' ", "=\"~~\" ");
+					srdXml = srdXml.replace("=\" A\"", "=' A'");
+					srdXml = srdXml.replace("&#40;", "(").replace("&#41;", ")");
+					srdXml = srdXml.replace("&", "&#38;");
+					srdXml = srdXml.replace("v_taxsum=\" 1\" and", "v_taxsum&#61;' 1' and");	// ?
+					srdXml = srdXml.replace("v_fundout=\" 1\",", "v_fundout&#61;' 1',");		// ?
+					
+					//asis 소스코드 오타 보완
+					srdXml = srdXml.replace("name=\" c_code_\"ㅅ visible=", "name=\" c_code_\" visible=");
+					
+					
+					//logger.debug("[FINAL CONVERT]\n{}", srdXml);
+					
+					xmlMap = xmlConverter.xmlToMap(srdXml, EXTRACT_ROOT_NAME);
+					logger.debug("#[xmlMap]\n{}", xmlMap);
+					logger.debug("\n\n♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤\n\n");
+				}
 			}
+		}
+		catch(Exception e) {
+			logger.error("오리지날: \n{}", tempXml);
+			logger.error("문제점치환: \n{}", srdXml);
+			throw new ApplicationException(e);
 		}
 	}
 	
@@ -264,7 +315,8 @@ public class CreateClientDataSetProcessor {
 			
 			boolean isUseVTextLineSeparator = false;
 			boolean isUseVColsLineSeparator = false;
-			String lastChar = null;
+			String last2Char = null;
+			String last3Char = null;
 			for(String keyword : EXTRACT_ORDER) {
 				currentKeyWord = keyword; 
 				isUseVTextLineSeparator = false;
@@ -276,8 +328,11 @@ public class CreateClientDataSetProcessor {
 					
 					if(keyword.equals(T_COLUMN_EQUALS) && line.startsWith(T_COLUMN_EQUALS) || keyword.equals(COLUMN_EQUALS) && line.startsWith(COLUMN_EQUALS)) {
 						data = line.substring(keyword.length());
+												
 						data = replaceSpecialCharacter(data);
 						data = data.replaceFirst("\\(", "<tableColumn ");
+						data = getChangeBracketChar(data);
+						
 						data = data.substring(0, data.lastIndexOf(")")).concat("/>");
 						mergeTableColumn.append(data).append(SystemUtil.LINE_SEPARATOR);
 						
@@ -289,9 +344,15 @@ public class CreateClientDataSetProcessor {
 							data = line.substring(COLUMN_RCASE.length());
 							data = replaceSpecialCharacter(data);
 							data = "<viewColumn ".concat(data);
+							data = getChangeBracketChar(data);
 							
-							lastChar = data.substring(data.length() - 2); 
-							if(( data.indexOf("color=\"") > -1 || data.indexOf("format=\"") > -1 || data.indexOf("pointer=\"") > -1 ) && !lastChar.equals(" )")) {
+							//ViewColumn    
+							last2Char = data.substring(data.length() - 2);
+							last3Char = data.substring(data.length() - 3);
+							//logger.debug("###{}: {}\nlast2Char: {}", keyword, data, last2Char);
+							//logger.debug(">>test: {}", (")".concat(last2Char)).equals(") )"));
+							if((( data.indexOf("color=\"") > -1 || data.indexOf("format=\"") > -1 || data.indexOf("pointer=\"") > -1 ) && !last2Char.equals(" )")) 
+									|| (data.indexOf("format=\"") > -1 && last3Char.equals(") )")) ) {
 								//개행 존재라인
 								isUseVColsLineSeparator = true;
 								mergeViewColumn.append(data).append(SystemUtil.STR_WHITE_SPACE);
@@ -306,7 +367,9 @@ public class CreateClientDataSetProcessor {
 						}
 						else if(isUseVColsLineSeparator) {
 							data = line;
+							data = getChangeBracketChar(data);
 							data = replaceSpecialCharacter(data);
+							
 							
 							logger.debug("#VCOLS 개행 후속라인 isUseVTextLineSeparator : {}, data : {}", isUseVColsLineSeparator, data);
 							
@@ -323,11 +386,15 @@ public class CreateClientDataSetProcessor {
 						
 						if(line.startsWith(TEXT_RCASE)) {
 							data = line.substring(TEXT_RCASE.length());
+								logger.debug("0: data: {}", data);
 							data = replaceSpecialCharacter(data);
 							data = "<viewText ".concat(data);
+								logger.debug("1: data: {}", data);
+							data = getChangeBracketChar(data);
 							
-							lastChar = data.substring(data.length() - 2); 
-							if(data.indexOf("text=\"") > -1 && !lastChar.equals(" )")) {
+							//ViewText
+							last2Char = data.substring(data.length() - 2); 
+							if((data.indexOf("text=\"") > -1 || data.indexOf("color=\"") > -1) && !last2Char.equals(" )") && !regexUtil.testPattern(data, "([a-zA-Z0-9\"])([ ])?\\)$")) {
 								//개행 존재라인
 								isUseVTextLineSeparator = true;
 								mergeViewText.append(data).append(SystemUtil.STR_WHITE_SPACE);
@@ -341,6 +408,7 @@ public class CreateClientDataSetProcessor {
 						}
 						else if(isUseVTextLineSeparator){
 							data = line;
+							data = getChangeBracketChar(data);
 							data = replaceSpecialCharacter(data);
 							logger.debug("#VTEXT 개행 후속라인 isUseVTextLineSeparator : {}, data : {}", isUseVTextLineSeparator, data);
 							
@@ -387,14 +455,51 @@ public class CreateClientDataSetProcessor {
 		mergeAsset.append(mergeViewText).append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeViewColumn).append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append("</mergeAsset>");
-		
 		//logger.debug("[mergeAsset]\n{}", mergeAsset.toString());
 		
-		return mergeAsset.toString();
+		//개발 확인용 라인 셋팅
+		StringBuilder finalAsset = new StringBuilder();
+		if(mergeAsset != null) {
+			int lineNo = 1;
+			for(String expr : mergeAsset.toString().split(SystemUtil.LINE_SEPARATOR)) {
+				finalAsset.append("<!-- ");
+				finalAsset.append(lineNo);
+				finalAsset.append(" --> ");
+				finalAsset.append(expr).append(SystemUtil.LINE_SEPARATOR);
+				lineNo++;
+			}
+			
+		}
+		
+		
+		mergeViewText = null;
+		mergeViewColumn = null;
+		mergeTableColumn = null;
+		mergeAsset = null;
+		
+		return finalAsset.toString();
 	}
 	
 
-	
+	String getChangeBracketChar(String data) {
+		String out = null;
+		String last1Char = data.substring(data.length() - ")".length()); //
+		if(regexUtil.testPattern(data, "\\) \\)$") 
+			|| regexUtil.testPattern(data, "\\(([0-9a-zA-Zㄱ-ㅎ가-힣]+)\\)$")
+			|| regexUtil.testPattern(data, "([ㄱ-ㅎ가-힣]+)\\)$")
+			|| regexUtil.testPattern(data, "' \\)$")) { // srd 코드의 개행 라인
+			
+			data = data.replace("(", "&#40;").replace(")", "&#41;");
+		}
+		else if(last1Char.equals(")")) {
+			data = data.substring(0, data.length() - ")".length());
+			data = data.replace("(", "&#40;").replace(")", "&#41;");
+			data = data.concat(")");
+		}
+		out = data;
+		logger.debug("out: {}", out);
+		return out;
+	}
 	
 	void readXPathTest(String docPath){
 		
