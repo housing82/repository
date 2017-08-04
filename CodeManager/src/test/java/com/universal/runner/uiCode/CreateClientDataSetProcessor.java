@@ -370,7 +370,7 @@ public class CreateClientDataSetProcessor {
 						if(isFindViewColumn) {
 							logger.debug("* Find tableColumn same name viewColumn: \n{}\n{}", tcAttribute, vcAttribute);
 							
-							// 
+							// 데이터셋 로직 구현 부분
 							
 							
 							
