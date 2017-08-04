@@ -109,8 +109,8 @@ public class CreateClientDataSetProcessor {
 		EXTRACT_ORDER.add(VIEW_COLUMN);
 		
 		//create xena and realGrid dataSet target srd root directory 
-		//srd 정상 및 오류코드 복원 및 xml정상 변환 완료 : hd, am, fm, fs, blank, bs, hr, kait
-		//잔여  : , , reitsis, sm, swdc, tm
+		//srd 정상 및 오류코드 복원 및 xml정상 변환 완료 : hd, am, fm, fs, blank, bs, hr, kait, reitsis, sm, swdc, tm
+
 		// 사무실
 		//BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
 		// 집
