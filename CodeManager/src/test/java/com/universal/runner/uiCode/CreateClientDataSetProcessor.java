@@ -111,7 +111,10 @@ public class CreateClientDataSetProcessor {
 		//create xena and realGrid dataSet target srd root directory 
 		//srd 정상 및 오류코드 복원 및 xml정상 변환 완료 : hd, am, fm, fs, blank, bs, hr, kait
 		//잔여  : , , reitsis, sm, swdc, tm
-		BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
+		// 사무실
+		//BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
+		// 집
+		BASE_PATH = "D:/KimSangWoo/한자신백업/20170728/asisProject/kait-pbl-dump/pbl/hd";
 		
 		MAKE_XML_FILE = false;
 	}
@@ -136,7 +139,7 @@ public class CreateClientDataSetProcessor {
 	@Test
 	public void run() throws UnsupportedEncodingException {
 		Local.commonHeader();
-		
+		/*
 		String[] convertStrings = new String[]{
 				 "HD_CODE_AGREE"
 				,"HD_REFER_RATE_DISCOUNT"
@@ -151,7 +154,8 @@ public class CreateClientDataSetProcessor {
 		for(String convertString : convertStrings) {
 			logger.debug("ds_{}", stringUtil.getCamelCaseString(convertString));
 		}
-
+		*/
+		
 		// asis pbl dump 루트 디렉토리에서 하위파일을 스켄하며 srd를 찾고 해당 파일을 input으로 createSrdDataSet을 실행한다. 
 		List<File> fileList = fileUtil.getChildFileList(new ArrayList<File>(), new File(BASE_PATH), "srd");
 
@@ -182,7 +186,7 @@ public class CreateClientDataSetProcessor {
 		String newFileName = null;
 		String dataSetXml = null;
 		try {
-			
+			int makeCnt = 0;
 			for(int i = 0; i < fileList.size(); i++) {
 				file = fileList.get(i);
 				
@@ -236,7 +240,7 @@ public class CreateClientDataSetProcessor {
 					
 					xmlMap = xmlConverter.xmlToMap(srdXml, EXTRACT_ROOT_NAME);
 
-					dataSetXml = doGenerateDataSet(xmlMap);
+					dataSetXml = doGenerateDataSet(xmlMap, FileUtil.getFileName(file.getPath()));
 					
 					logger.debug("\n\n♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤♠♤\n\n");
 					
@@ -244,15 +248,20 @@ public class CreateClientDataSetProcessor {
 						
 						// 1. file.getPath() 파일에서 확장자를  xml 로 변경하여 srd를 분석생성한 xml을 파일로 저장한다.
 						// 2. xml데이터를 분석하여 xena datatables를 생성하고 .dt.xml 로 저장한다.
-						newFileDir = FileUtil.getDirectory(file.getPath()).replace(File.separator.concat("kait-pbl-dump").concat(File.separator), File.separator.concat("kait-generate-srd-xml").concat(File.separator));
+						newFileDir = FileUtil.getDirectory(file.getPath()).replace(File.separator.concat("kait-pbl-dump").concat(File.separator), File.separator.concat("kait-srd-xml").concat(File.separator));
 						newFileName = FileUtil.getFileName(file.getPath());
 						// srd convert xml 
 						fileUtil.mkfile(newFileDir, newFileName.concat(".xml"), srdXml.toString(), "UTF-8", false);
 						// xena dataSet xml
 						fileUtil.mkfile(newFileDir, newFileName.concat(".dataSet").concat(".xml"), dataSetXml, "UTF-8", false);
 					}
+					
+					makeCnt++;
 				}
 			}
+			
+			logger.debug("SRD 변환 및 데이터셋 생성성공 XML 갯수 : {} 건", (makeCnt * 2));
+			
 		}
 		catch(Exception e) {
 			logger.error("오리지날: \n{}", tempXml);
@@ -261,14 +270,21 @@ public class CreateClientDataSetProcessor {
 		}
 	}
 	
-	String doGenerateDataSet(Map<String, Object> xmlMap) {
+	String doGenerateDataSet(Map<String, Object> xmlMap, String srdFileName) {
 		logger.debug("#[doGenerateDataSet]#\n{}", xmlMap);
 		String out = null;
+		
+		StringBuilder xgFinal = new StringBuilder();
+		StringBuilder xgDatatable = new StringBuilder();
+		StringBuilder xgRealGird = new StringBuilder();
 		
 		Map<String, Object> tableColumnMap = null; 
 		Map<String, Object> viewTextMap = null;
 		Map<String, Object> viewColumnMap = null;
-		
+		String srdComment = (String) xmlMap.get("comment");
+		if(srdComment != null) {
+			srdComment = srdComment.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "\\\"");
+		}
 		if(Map.class.isAssignableFrom(xmlMap.get("mergeTableColumn").getClass())) {
 			tableColumnMap = (Map<String, Object>) xmlMap.get("mergeTableColumn");
 		}
@@ -283,7 +299,7 @@ public class CreateClientDataSetProcessor {
 		logger.debug("#viewTextMap\n{}", viewTextMap);
 		logger.debug("#viewColumnMap\n{}", viewColumnMap);
 		
-		if(tableColumnMap != null && viewColumnMap != null) {
+		if(tableColumnMap != null) {
 
 			List<Map<String, Object>> tcAttributes = null;
 			List<Map<String, Object>> vcAttributes = null;
@@ -296,49 +312,79 @@ public class CreateClientDataSetProcessor {
 			String vtAttrValue = null;
 			String tcName = null; 
 			String tcType = null;
-			String vcName = null; 
+			String vcName = null;
+			String vtName = null;
+			String vtText = null;
 			String vcFormat = null;
 			boolean isFindViewColumn = false;
-			if(viewTextMap == null) {
-				//콤보박스 데이터 셋
-				
-				
-				
+			boolean isFindViewText = false;
+			
+			String dtSize = null;
+			String dtType = null;
+			String dtDesc = null;
+			String dtFormat = null;
+			
+			boolean isRealgrid = false;
+			String dataSetId = stringUtil.getCamelCaseString(srdFileName.substring(0, srdFileName.indexOf(".")));
+			
+			if(srdFileName.startsWith("dq_")) {
+				// dq_ 로시작하는 srd는 조회화면 srd
+				isRealgrid = true;
 			}
-			else {
-				//폼 또는 그리드 데이터 셋
+			
+			xgFinal.append("<datatable component=\"xg-datatable\" id=\""+dataSetId+"\" bind=\"true\" div=\""+dataSetId+"\" realgrid=\""+isRealgrid+"\" description=\""+srdComment+"\">");
+			xgFinal.append(SystemUtil.LINE_SEPARATOR);
+			
+			xgDatatable.append("	");
+			xgDatatable.append("<format>");
+			xgDatatable.append(SystemUtil.LINE_SEPARATOR);			
+			
+			if(isRealgrid) {
+				// 리얼그리드 데이터셋 생성 코드 라인
+				xgRealGird.append("	");
+				xgRealGird.append("<gridColumn>");
+				xgRealGird.append(SystemUtil.LINE_SEPARATOR);
+			}
+			
+
+			//폼 또는 그리드 데이터 셋
+			
+			for(Entry<String, Object> tcEntry : tableColumnMap.entrySet()) {
+				//logger.debug("entry: {}", entry.getValue());
+				if(Map.class.isAssignableFrom(tcEntry.getValue().getClass())) {
+					tcAttributes = new ArrayList<Map<String, Object>>();
+					tcAttributes.add((Map<String, Object>) tcEntry.getValue());
+				}
+				else {
+					tcAttributes = (List<Map<String, Object>>) tcEntry.getValue();	
+				}					
 				
-				for(Entry<String, Object> tcEntry : tableColumnMap.entrySet()) {
-					//logger.debug("entry: {}", entry.getValue());
-					if(Map.class.isAssignableFrom(tcEntry.getValue().getClass())) {
-						tcAttributes = new ArrayList<Map<String, Object>>();
-						tcAttributes.add((Map<String, Object>) tcEntry.getValue());
-					}
-					else {
-						tcAttributes = (List<Map<String, Object>>) tcEntry.getValue();	
-					}					
+				for(Map<String, Object> attrItem : tcAttributes) {
+					tcAttribute = (Map<String, Object>) attrItem.get("@attribute");
+					//logger.debug("attrItem: {}", attribute);
 					
-					for(Map<String, Object> attrItem : tcAttributes) {
-						tcAttribute = (Map<String, Object>) attrItem.get("@attribute");
-						//logger.debug("attrItem: {}", attribute);
-						
-						if(false) {
-							for(Entry<String, Object> attr : tcAttribute.entrySet()) {
-								// 타겟 데이터
-								tcAttrValue = ((String) attr.getValue()).trim();
-								logger.debug("tableColumn : {} : {}", attr.getKey(), tcAttrValue);
-							}
+					if(false) {
+						for(Entry<String, Object> attr : tcAttribute.entrySet()) {
+							// 타겟 데이터
+							tcAttrValue = ((String) attr.getValue()).trim();
+							logger.debug("tableColumn : {} : {}", attr.getKey(), tcAttrValue);
 						}
-						
-						tcName = ((String) tcAttribute.get("name")).trim();
-						tcType = ((String) tcAttribute.get("type")).trim();
-						
-						logger.debug("tcName : {}", tcName);
-						logger.debug("tcType : {}", tcType);
+					}
+					
+					tcName = ((String) tcAttribute.get("name")).trim();
+					tcType = ((String) tcAttribute.get("type")).trim();
+					
+					//logger.debug("tcName : {}", tcName);
+					//logger.debug("tcType : {}", tcType);
+					
+					/**************
+					 * ViewColumn
+					 **************/
+					if(viewColumnMap != null) {
 						
 						isFindViewColumn = false;
 						for(Entry<String, Object> vcEntry : viewColumnMap.entrySet()) {
-							logger.debug("--viewColumn class: {}", vcEntry.getValue().getClass());
+							//logger.debug("--viewColumn class: {}", vcEntry.getValue().getClass());
 							if(Map.class.isAssignableFrom(vcEntry.getValue().getClass())) {
 								vcAttributes = new ArrayList<Map<String, Object>>();
 								vcAttributes.add((Map<String, Object>) vcEntry.getValue());
@@ -351,10 +397,14 @@ public class CreateClientDataSetProcessor {
 								vcAttribute = (Map<String, Object>) vcAttrItem.get("@attribute");
 								//logger.debug("attrItem: {}", attribute);
 								vcName = ((String) vcAttribute.get("name")).trim();
-								//vcFormat = ((String) tcAttribute.get("format")).trim();
-							
+								
 								if(vcName.equals(tcName)) {
 									//logger.debug("* Find tableColumn same name viewColumn: \n{}\n{}", tcAttribute, vcAttribute);
+									vcFormat = (String) vcAttribute.get("format");
+									if(vcFormat != null) {
+										vcFormat = vcFormat.trim();
+									}
+									
 									isFindViewColumn = true;
 									break;
 								}
@@ -365,26 +415,135 @@ public class CreateClientDataSetProcessor {
 							}
 							
 						}
+					}
+					
+					
+					/**************
+					 * ViewText
+					 **************/
+					if(viewTextMap != null) {
 						
-						//isFindViewColumn
-						if(isFindViewColumn) {
-							logger.debug("* Find tableColumn same name viewColumn: \n{}\n{}", tcAttribute, vcAttribute);
+						isFindViewText = false;
+						for(Entry<String, Object> vtEntry : viewTextMap.entrySet()) {
+							//logger.debug("--ViewText class: {}", vtEntry.getValue().getClass());
+							if(Map.class.isAssignableFrom(vtEntry.getValue().getClass())) {
+								vtAttributes = new ArrayList<Map<String, Object>>();
+								vtAttributes.add((Map<String, Object>) vtEntry.getValue());
+							}
+							else {
+								vtAttributes = (List<Map<String, Object>>) vtEntry.getValue();	
+							}
 							
-							// 데이터셋 로직 구현 부분
+							for(Map<String, Object> vtAttrItem : vtAttributes) {
+								vtAttribute = (Map<String, Object>) vtAttrItem.get("@attribute");
+								//logger.debug("attrItem: {}", attribute);
+								vtName = ((String) vtAttribute.get("name")).trim();
+
+								//logger.debug("#.# {} : {}", vtName, tcName.concat("_t"));
+								if(vtName.equals(tcName.concat("_t"))) {
+									//logger.debug("* Find tableColumn same name ViewText: \n{}\n{}", tcAttribute, vtAttribute);
+									vtText = (String) vtAttribute.get("text");
+									if(vtText != null) {
+										vtText = vtText.trim();
+									}
+									isFindViewText = true;
+									break;
+								}
+							}
 							
-							
+							if(isFindViewText) {
+								break;
+							}
 							
 						}
 					}
+					//////////////////////////////////////////////////////////
 					
+					if(tcType.contains("(") && tcType.contains(")")) {
+						dtSize = tcType.substring(tcType.indexOf("(") + "(".length());
+						dtSize = dtSize.substring(0, dtSize.lastIndexOf(")"));
+					}
+					else {
+						dtSize = "0";
+					}
+					
+					if(tcType.contains("(")) {
+						dtType = tcType.substring(0, tcType.indexOf("("));
+					}
+					else {
+						dtType = tcType;
+					}
+					
+					dtDesc = null;
+					dtFormat = null;
+					
+					if(isFindViewColumn) {
+						//logger.debug("* Find tableColumn same name viewColumn: \n{}\n{}\n{}", tcAttribute, vcAttribute, vtAttribute);
+						// 데이터셋 로직 구현 부분
+
+						dtDesc = null;
+						dtFormat = vcFormat;
+						if(dtFormat != null && dtFormat.equals("[general]")) {
+							dtFormat = null;
+						}
+						else if(dtFormat != null) {
+							dtFormat = dtFormat.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "\\\"");
+						}
+						
+						if(isFindViewText && vtText != null) {
+							dtDesc = vtText;
+						}
+						else {
+							dtDesc = "";	
+						}
+					}
+					else {
+						// ViewColumn이 존재하지 않는 tableColumn
+						dtDesc = "";
+					}
+					
+					String columnLien = "<column id=\""+stringUtil.getCamelCaseString(tcName)+"\" size=\""+dtSize+"\" type=\""+CONVERT_DATATABLE_TYPE.get(dtType) +"\""+ (dtFormat != null ? " format=\""+dtFormat+"\"" : "") + (dtDesc != null ? " description=\""+dtDesc+"\"" : "") +" column=\""+tcName+"\"></column>"; 
+					//logger.debug(columnLien);
+					
+					xgDatatable.append("		");
+					xgDatatable.append(columnLien);
+					xgDatatable.append(SystemUtil.LINE_SEPARATOR);
 				}
-				
 			}
+
+			xgDatatable.append("	");
+			xgDatatable.append("</format>");
+			xgDatatable.append(SystemUtil.LINE_SEPARATOR);
+			
+			if(isRealgrid) {
+				// 리얼그리드 데이터셋 생성 코드 라인
+				xgRealGird.append("	");
+				xgRealGird.append("</gridColumn>");
+				xgRealGird.append(SystemUtil.LINE_SEPARATOR);
+			}
+			
+			xgFinal.append(xgDatatable);
+			xgFinal.append(xgRealGird);
+			
+			xgFinal.append("</datatable>");
+			xgFinal.append(SystemUtil.LINE_SEPARATOR);
+			
+			out = xgFinal.toString();
+
+			logger.debug("\n\n########### DATA SET ##############");
+			logger.debug(out);
+			
+			/*
+			if(isRealgrid) {
+				throw new ApplicationException("TEST");
+			}
+			*/
 		}
 		else{
-			throw new ApplicationException("srd에서 추출한 tableColumn 또는 viewColumn 데이터가 존재하지 않습니다.");
+			throw new ApplicationException("srd에서 추출한 tableColumn 데이터가 존재하지 않습니다.");
 		}
 		
+
 		return out;
 	}
 	
@@ -540,7 +699,7 @@ public class CreateClientDataSetProcessor {
 						
 						if(line.startsWith(VIEW_TEXT)) {
 							data = line.substring(VIEW_TEXT.length());
-							logger.debug("line data: {}", data);
+							//logger.debug("line data: {}", data);
 
 							data = replaceSpecialCharacter(data);
 							data = "<viewText ".concat(data);
@@ -606,6 +765,8 @@ public class CreateClientDataSetProcessor {
 		mergeViewColumn.append("</mergeViewColumn>");
 		
 		StringBuilder mergeAsset = new StringBuilder().append("<mergeAsset comment=\"").append(comments).append("\">").append(SystemUtil.LINE_SEPARATOR);
+		
+		mergeAsset.append("<comment>").append(comments).append("</comment>").append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeTableColumn).append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeViewText).append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeViewColumn).append(SystemUtil.LINE_SEPARATOR);
@@ -652,7 +813,7 @@ public class CreateClientDataSetProcessor {
 			data = data.concat(")");
 		}
 		out = data;
-		logger.debug("out: {}", out);
+		//logger.debug("out: {}", out);
 		return out;
 	}
 	
