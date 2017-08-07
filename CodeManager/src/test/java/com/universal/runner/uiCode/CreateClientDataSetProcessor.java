@@ -22,6 +22,7 @@ import com.universal.code.utils.SystemUtil;
 import com.universal.code.utils.thread.Local;
 import com.universal.code.xml.factory.DocumentFactory;
 import com.universal.code.xml.process.DocumentReader;
+import com.universal.runner.srd.ExecutePowerbuilderSrdSqlParser;
 
 public class CreateClientDataSetProcessor {
 
@@ -71,18 +72,34 @@ public class CreateClientDataSetProcessor {
 		 * array bit bool double int8 int16 int32 int64 pvoid string uint8 uint16 uint32 uint64 variant
 		 * 쉬프트소프트 정성환 사원이 현재 datatable 데이터 타입은 string 밖에 적용안된다고함
 		 */
+		/*		2017-08-07 version
+				string	string
+				integer	number
+				decimal	number
+				date	date
+				url	string
+				bigint	number
+		*/
+		/**
+		 * 마스킹(포멧)
+		 * # : 숫자만, 날짜
+		 * a : 숫자 영문자
+		 */
 		CONVERT_DATATABLE_TYPE = new LinkedHashMap<String, String>();
-		CONVERT_DATATABLE_TYPE.put("number", "string");
-		CONVERT_DATATABLE_TYPE.put("decimal", "string");
-		CONVERT_DATATABLE_TYPE.put("integer", "string");
-		CONVERT_DATATABLE_TYPE.put("float","string");
-		CONVERT_DATATABLE_TYPE.put("double","string");
+		CONVERT_DATATABLE_TYPE.put("number", "decimal");
+		CONVERT_DATATABLE_TYPE.put("decimal", "decimal");
+		CONVERT_DATATABLE_TYPE.put("integer", "decimal");
+		CONVERT_DATATABLE_TYPE.put("float","decimal");
+		CONVERT_DATATABLE_TYPE.put("double","decimal");
 		CONVERT_DATATABLE_TYPE.put("nvarchar2","string");
 		CONVERT_DATATABLE_TYPE.put("varchar2","string");
 		CONVERT_DATATABLE_TYPE.put("char","string");
-		CONVERT_DATATABLE_TYPE.put("long","string");
+		CONVERT_DATATABLE_TYPE.put("string","string");
+		CONVERT_DATATABLE_TYPE.put("long","decimal");
 		CONVERT_DATATABLE_TYPE.put("clob","string");
-		CONVERT_DATATABLE_TYPE.put("date","string");
+		CONVERT_DATATABLE_TYPE.put("date","date");
+		CONVERT_DATATABLE_TYPE.put("datetime","date");
+		CONVERT_DATATABLE_TYPE.put("ulong","bool");
 		
 		/**
 		 * 리얼그리드의 데이터 타입 
@@ -97,9 +114,12 @@ public class CreateClientDataSetProcessor {
 		CONVERT_REALGRID_TYPE.put("nvarchar2","text");
 		CONVERT_REALGRID_TYPE.put("varchar2","text");
 		CONVERT_REALGRID_TYPE.put("char","text");
-		CONVERT_REALGRID_TYPE.put("long","text");
+		CONVERT_REALGRID_TYPE.put("string","text");
+		CONVERT_REALGRID_TYPE.put("long","number");
 		CONVERT_REALGRID_TYPE.put("clob","text");
 		CONVERT_REALGRID_TYPE.put("date","datetime");
+		CONVERT_REALGRID_TYPE.put("datetime","datetime");
+		CONVERT_REALGRID_TYPE.put("ulong","boolean");
 		
 		EXTRACT_ORDER = new ArrayList<String>();  
 		EXTRACT_ORDER.add(EXPORT_COMMENTS);
@@ -112,11 +132,11 @@ public class CreateClientDataSetProcessor {
 		//srd 정상 및 오류코드 복원 및 xml정상 변환 완료 : hd, am, fm, fs, blank, bs, hr, kait, reitsis, sm, swdc, tm
 
 		// 사무실
-		//BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
+		BASE_PATH = "D:/Developer/AS-IS/KAIT_ERP/asisProject/kait-pbl-dump/pbl";
 		// 집
-		BASE_PATH = "D:/KimSangWoo/한자신백업/20170728/asisProject/kait-pbl-dump/pbl/hd";
+		//BASE_PATH = "D:/KimSangWoo/한자신백업/20170728/asisProject/kait-pbl-dump/pbl/hd";
 		
-		MAKE_XML_FILE = false;
+		MAKE_XML_FILE = true;
 	}
 	
 	public final static String SPECIAL_CHARACTER;
@@ -139,6 +159,7 @@ public class CreateClientDataSetProcessor {
 	@Test
 	public void run() throws UnsupportedEncodingException {
 		Local.commonHeader();
+		
 		/*
 		String[] convertStrings = new String[]{
 				 "HD_CODE_AGREE"
@@ -166,7 +187,7 @@ public class CreateClientDataSetProcessor {
 		Map<String, Object> xmlMap = null;
 		/*
 		try {
-			String xml = "<mergeAsset><viewColumn band=\"detail\" id=\"1\" alignment=\"2\" tabsequence=\"32766\" border=\"0\" color=\"0~tif (c01 = 'N', ntcolor, ytcolor)\" x=\"52\" y=\"80\" height=\"370\" width=\"793\" format=\"[general]\" html.valueishtml=\"0\"  name=\"h01\"  tag=\"No\" pointer=\"HyperLink!\" visible=\"1~tif (len(h01) &lt;&gt; 4, 0, 1)\" edit.limit=\"0\" edit.case=\"any\" edit.focusrectangle=\"no\" edit.autoselect=\"yes\" edit.autohscroll=\"yes\"  font.face=\"굴림체\" font.height=\"-9\" font.weight=\"400\"  font.family=\"2\" font.pitch=\"2\" font.charset=\"129\" font.underline=\"0~tif (c01 = 'N', 0, 1)\"  background.mode=\"0\" background.color=\"553648127~tif (c01 = 'N', nbcolor, ybcolor)\" /></mergeAsset>";
+			String xml = "<mergeAsset><viewColumn band=\"detail\" id=\"1\" alignment=\"2\" tabsequence=\"32766\" border=\"0\" color=\"0~tif (c01 = 'N', ntcolor, ytcolor)\" x=\"52\" y=\"80\" height=\"370\" width=\"793\" format=\"[general]\" html.valueishtml=\"0\"  name=\"h01\"  tag=\"No\" pointer=\"HyperLink!\" visible=\"1~tif (len(h01) &#60;&#62; 4, 0, 1)\" edit.limit=\"0\" edit.case=\"any\" edit.focusrectangle=\"no\" edit.autoselect=\"yes\" edit.autohscroll=\"yes\"  font.face=\"굴림체\" font.height=\"-9\" font.weight=\"400\"  font.family=\"2\" font.pitch=\"2\" font.charset=\"129\" font.underline=\"0~tif (c01 = 'N', 0, 1)\"  background.mode=\"0\" background.color=\"553648127~tif (c01 = 'N', nbcolor, ybcolor)\" /></mergeAsset>";
 			xmlMap = xmlConverter.xmlToMap(xml, EXTRACT_ROOT_NAME);
 			logger.debug("xmlMap: {}", xmlMap);
 		}
@@ -283,7 +304,7 @@ public class CreateClientDataSetProcessor {
 		Map<String, Object> viewColumnMap = null;
 		String srdComment = (String) xmlMap.get("comment");
 		if(srdComment != null) {
-			srdComment = srdComment.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "\\\"");
+			srdComment = srdComment.replace("<", "&#60;").replace(">", "&#62;").replace("\"", "\\\"");
 		}
 		if(Map.class.isAssignableFrom(xmlMap.get("mergeTableColumn").getClass())) {
 			tableColumnMap = (Map<String, Object>) xmlMap.get("mergeTableColumn");
@@ -323,6 +344,7 @@ public class CreateClientDataSetProcessor {
 			String dtType = null;
 			String dtDesc = null;
 			String dtFormat = null;
+			String dtOrgFormat = null;
 			
 			boolean isRealgrid = false;
 			String dataSetId = stringUtil.getCamelCaseString(srdFileName.substring(0, srdFileName.indexOf(".")));
@@ -332,19 +354,19 @@ public class CreateClientDataSetProcessor {
 				isRealgrid = true;
 			}
 			
-			xgFinal.append("<datatable component=\"xg-datatable\" id=\""+dataSetId+"\" bind=\"true\" div=\""+dataSetId+"\" realgrid=\""+isRealgrid+"\" description=\""+srdComment+"\">");
+			xgFinal.append("<datatable component=\"xg-datatable\" id=\"ds_"+dataSetId+"\" bind=\"false\" bindel=\""+dataSetId+"\" realgrid=\""+isRealgrid+"\" description=\""+srdComment+"\" resource=\""+srdFileName+"\">");
 			xgFinal.append(SystemUtil.LINE_SEPARATOR);
 			
-			xgDatatable.append("	");
+			xgDatatable.append(addTab(1));
 			xgDatatable.append("<format>");
 			xgDatatable.append(SystemUtil.LINE_SEPARATOR);			
 			
-			if(isRealgrid) {
-				// 리얼그리드 데이터셋 생성 코드 라인
-				xgRealGird.append("	");
-				xgRealGird.append("<gridColumn>");
-				xgRealGird.append(SystemUtil.LINE_SEPARATOR);
-			}
+			//if(isRealgrid) {
+			// 리얼그리드 데이터셋 생성 코드 라인
+			xgRealGird.append(addTab(1));
+			xgRealGird.append("<realGrid container=\"rg_"+dataSetId+"\" editable=\"true\" checkbar=\"true\" indicator=\"true\" statebar=\"true\" footer=\"true\">");
+			xgRealGird.append(SystemUtil.LINE_SEPARATOR);
+			//}
 			
 
 			//폼 또는 그리드 데이터 셋
@@ -483,11 +505,26 @@ public class CreateClientDataSetProcessor {
 
 						dtDesc = null;
 						dtFormat = vcFormat;
-						if(dtFormat != null && dtFormat.equals("[general]")) {
-							dtFormat = null;
+						if(dtFormat != null && dtFormat.contains("[general]")) {
+							dtFormat = dtFormat.replace("[general]","").trim();
+							if(StringUtil.isEmpty(dtFormat)) {
+								dtFormat = null;	
+							}
 						}
 						else if(dtFormat != null) {
-							dtFormat = dtFormat.replace("<", "&lt;").replace(">", "&gt;").replace("\"", "\\\"");
+							dtFormat = dtFormat.replace("<", "&#60;").replace(">", "&#62;").replace("\"", "\\\"");
+						}
+						
+						if(dtFormat != null) {
+							// 컬럼이 포함된 포멧 정보변경
+							dtFormat = dtFormat.replace(tcName, stringUtil.getCamelCaseString(tcName));
+							
+							if(dtFormat.startsWith("~t")) {
+								dtFormat = dtFormat.substring("~t".length());
+								dtFormat = "function() { ".concat(dtFormat).concat("; }");
+							}
+							
+							dtFormat = dtFormat.replace("@", "#");
 						}
 						
 						if(isFindViewText && vtText != null) {
@@ -502,25 +539,268 @@ public class CreateClientDataSetProcessor {
 						dtDesc = "";
 					}
 					
-					String columnLien = "<column id=\""+stringUtil.getCamelCaseString(tcName)+"\" size=\""+dtSize+"\" type=\""+CONVERT_DATATABLE_TYPE.get(dtType) +"\""+ (dtFormat != null ? " format=\""+dtFormat+"\"" : "") + (dtDesc != null ? " description=\""+dtDesc+"\"" : "") +" column=\""+tcName+"\"></column>"; 
-					//logger.debug(columnLien);
+					// xena dataset
+					String xgType = CONVERT_DATATABLE_TYPE.get(dtType);
+					// realGrid dataset
+					String rgType = CONVERT_REALGRID_TYPE.get(dtType);
+
+					if(xgType == null) {
+						throw new ApplicationException(" **datatable dataType is null ( {} )", dtType);
+					}
+					if(rgType == null) {
+						throw new ApplicationException(" realGrid dataType is null ( {} )", dtType);
+					}
 					
-					xgDatatable.append("		");
-					xgDatatable.append(columnLien);
+					dtOrgFormat = null;
+					// format is null
+					if(xgType.equals("date") || rgType.equals("datetime")) {
+						if(dtFormat == null) {
+							dtFormat = "yyyy-MM-dd";
+						}
+						
+						if(dtFormat.equalsIgnoreCase("[shortdate] [time]")) {
+							dtFormat = "yyyy/MM";
+						}
+						/*
+						yyyy-mm-dd
+						yyyy-mm-10
+						yyyy.mm.dd
+						
+						yyyy
+
+						mm/dd
+						yy.mm
+						mm월 dd일
+						
+						
+						hh:mm:ss
+						
+						[shortdate] [time]
+						*/		
+						dtOrgFormat = dtFormat; 
+						dtFormat = dtFormat.replaceAll("(?i)(yyyy)(\\-|:|\\.)?(mm)(\\-|:|\\.)?(dd)", "yyyy$2MM$4dd");
+						dtFormat = dtFormat.replaceAll("(?i)(yyyy)(\\-|:|\\.)?(mm)", "yyyy$2MM");
+						dtFormat = dtFormat.replaceAll("(?i)(mm)(\\-|:|\\.)?(dd)(\\-|:|\\.)?", "MM$2dd$4");
+						dtFormat = dtFormat.replaceAll("(?i)(mm)(월 )(dd)(일)", "MM/dd");
+						dtFormat = dtFormat.replaceAll("(?i)(hh)(\\-|:|\\.)?(mm)(\\-|:|\\.)?(ss)", "hh$2mm$4ss");
+					}
+					
+					String dtColumn = "<column id=\""+stringUtil.getCamelCaseString(tcName)+"\" size=\""+dtSize+"\" type=\""+ xgType +"\""+ (dtFormat != null ? " format=\""+dtFormat+"\"" : "") + (dtDesc != null ? " description=\""+dtDesc+"\"" : "") +" column=\""+tcName+"\"></column>"; 
+					//logger.debug(dtColumn);
+					
+					xgDatatable.append(addTab(2));
+					xgDatatable.append(dtColumn);
 					xgDatatable.append(SystemUtil.LINE_SEPARATOR);
+					
+					
+					String fieldDatetimeFormat = null;
+					String editDatetimeFormat = null;
+					String styleDatetimeFormat = null;
+					
+					//realGrid column setting / /xgRealGird
+					StringBuilder realColumn = new StringBuilder();
+					//start
+					realColumn.append(addTab(2));
+					realColumn.append("<column");
+					// attr name
+					realColumn.append(" name=\"");
+					realColumn.append(stringUtil.getCamelCaseString(tcName));
+					realColumn.append("\"");
+					// attr fieldName
+					realColumn.append(" fieldName=\"");
+					realColumn.append(stringUtil.getCamelCaseString(tcName));
+					realColumn.append("\"");
+					// attr width
+					realColumn.append(" width=\"100\"");
+					// attr dataType
+					realColumn.append(" dataType=\""+rgType+"\"");
+					
+					if(rgType.equals("datetime")) {
+						// attr datetimeFormat
+						realColumn.append(" datetimeFormat=\"");
+						if(StringUtil.isNotEmpty(dtFormat) && dtFormat.equals("####-##-##")) {
+							realColumn.append("yyyy-MM-dd");	
+						}
+						else {
+							realColumn.append(dtFormat);
+						}
+						realColumn.append("\"");
+					}
+					else if(rgType.equals("boolean")) {
+						// attr booleanFormat
+						realColumn.append(" booleanFormat=\"");
+						realColumn.append("False,N,0:True,Y,1:0");
+						realColumn.append("\"");
+					}
+					
+					// attr end
+					realColumn.append(">").append(SystemUtil.LINE_SEPARATOR);
+					
+					// header
+					realColumn.append(addTab(3));
+					realColumn.append("<header>").append(SystemUtil.LINE_SEPARATOR);
+					realColumn.append(addTab(4));
+					realColumn.append("<text>");
+					realColumn.append(((dtDesc != null && !dtDesc.isEmpty()) ? dtDesc : stringUtil.getCamelCaseString(tcName)));
+					realColumn.append("</text>").append(SystemUtil.LINE_SEPARATOR);
+					realColumn.append(addTab(3));					
+					realColumn.append("</header>").append(SystemUtil.LINE_SEPARATOR);
+					/*
+					var DataType = {
+						    TEXT: "text",
+						    NUMBER: "number",       // or "numeric"
+						    BOOLEAN: "boolean",     // or "bool"
+						    DATETIME: "datetime"
+						};*/
+					
+					// styles
+				
+				
+					realColumn.append(addTab(3));
+					realColumn.append("<styles>").append(SystemUtil.LINE_SEPARATOR);
+					if(rgType.equals("datetime")) {
+						//datetimeFormat
+						realColumn.append(addTab(4));
+						realColumn.append("<datetimeFormat>");
+						if(StringUtil.isNotEmpty(dtFormat) && dtFormat.equals("####-##-##")) {
+							realColumn.append("yyyy-MM-dd");	
+						}
+						else {
+							if(dtOrgFormat.contains("월") && dtOrgFormat.contains("일")) {
+								realColumn.append(dtOrgFormat.replaceAll("(?i)(mm)(월 )(dd)(일)", "M$2d$4"));
+							}
+							else {
+								realColumn.append(dtFormat);
+							}
+						}
+						realColumn.append("</datetimeFormat>").append(SystemUtil.LINE_SEPARATOR);
+					}
+					else if(rgType.equals("boolean")) {
+						//datetimeFormat
+						realColumn.append(addTab(4));
+						realColumn.append("<booleanFormat>");
+						realColumn.append("False:True");	
+						realColumn.append("</booleanFormat>").append(SystemUtil.LINE_SEPARATOR);
+					}
+					else if(StringUtil.isNotEmpty(dtFormat)){
+						if(rgType.equals("number")) {
+							realColumn.append(addTab(4));
+							realColumn.append("<textAlignment>far</textAlignment>").append(SystemUtil.LINE_SEPARATOR);
+							realColumn.append(addTab(4));
+							realColumn.append("<numberFormat>");
+							realColumn.append(dtFormat);	
+							realColumn.append("</numberFormat>").append(SystemUtil.LINE_SEPARATOR);	
+						}
+						else if(rgType.equals("datetime")) {
+							realColumn.append(addTab(4));
+							realColumn.append("<textAlignment>center</textAlignment>").append(SystemUtil.LINE_SEPARATOR);
+						}
+						else {
+							realColumn.append(addTab(4));
+							realColumn.append("<textAlignment>near</textAlignment>").append(SystemUtil.LINE_SEPARATOR);								
+						}
+					}
+					else {
+						if(rgType.equals("number")) {
+							realColumn.append(addTab(4));
+							realColumn.append("<textAlignment>far</textAlignment>").append(SystemUtil.LINE_SEPARATOR);								
+						}
+						else if(rgType.equals("datetime")) {
+							realColumn.append(addTab(4));
+							realColumn.append("<textAlignment>center</textAlignment>").append(SystemUtil.LINE_SEPARATOR);
+						}
+						else {
+							realColumn.append(addTab(4));
+							realColumn.append("<textAlignment>near</textAlignment>").append(SystemUtil.LINE_SEPARATOR);								
+						}
+					}
+					realColumn.append(addTab(3));					
+					realColumn.append("</styles>").append(SystemUtil.LINE_SEPARATOR);
+					
+					// editor
+					if(StringUtil.isNotEmpty(dtFormat)) {
+						realColumn.append(addTab(3));
+						realColumn.append("<editor>").append(SystemUtil.LINE_SEPARATOR);					
+						if(rgType.equals("datetime")) {
+							realColumn.append(addTab(4));
+							realColumn.append("<type>date</type>").append(SystemUtil.LINE_SEPARATOR);
+							realColumn.append(addTab(4));
+							realColumn.append("<mask>").append(SystemUtil.LINE_SEPARATOR);
+								//editMask
+								realColumn.append(addTab(5));
+								realColumn.append("<editMask>");
+								realColumn.append(dtFormat.replace("#", "9"));
+								realColumn.append("</editMask>").append(SystemUtil.LINE_SEPARATOR);
+								//placeHolder
+								realColumn.append(addTab(5));
+								realColumn.append("<placeHolder>");
+								realColumn.append(dtFormat.replace("#", "_"));
+								realColumn.append("</placeHolder>").append(SystemUtil.LINE_SEPARATOR);
+								
+								realColumn.append(addTab(5));
+								realColumn.append("<includedFormat>");
+								realColumn.append("true");
+								realColumn.append("</includedFormat>").append(SystemUtil.LINE_SEPARATOR);
+							realColumn.append(addTab(4));
+							realColumn.append("</mask>").append(SystemUtil.LINE_SEPARATOR);
+							realColumn.append(addTab(4));
+							realColumn.append("<datetimeFormat>");
+								if(StringUtil.isNotEmpty(dtFormat) && dtFormat.equals("####-##-##")) {
+									realColumn.append("yyyy-MM-dd");	
+								}
+								else {
+									realColumn.append(dtFormat);
+								}
+							realColumn.append("</datetimeFormat>").append(SystemUtil.LINE_SEPARATOR);
+						}
+						else if(rgType.equals("boolean")) {
+							realColumn.append("<booleanFormat>");
+							realColumn.append("False,f,false:True,t,true:0");	
+							realColumn.append("</booleanFormat>").append(SystemUtil.LINE_SEPARATOR);
+						}
+						else if(StringUtil.isNotEmpty(dtFormat)){
+							realColumn.append(addTab(4));
+							realColumn.append("<type>");
+							realColumn.append(rgType);
+							realColumn.append("</type>").append(SystemUtil.LINE_SEPARATOR);
+							
+							if(rgType.equals("number")) {
+								realColumn.append(addTab(4));
+								realColumn.append("<editFormat>");
+								realColumn.append(dtFormat);
+								realColumn.append("</editFormat>").append(SystemUtil.LINE_SEPARATOR);								
+							}
+							else {
+								realColumn.append(addTab(4));
+								realColumn.append("<mask>");
+								realColumn.append(dtFormat);
+								realColumn.append("</mask>").append(SystemUtil.LINE_SEPARATOR);
+							}
+						}
+						
+						realColumn.append(addTab(3));					
+						realColumn.append("</editor>").append(SystemUtil.LINE_SEPARATOR);
+					}
+					
+					//end
+					realColumn.append(addTab(2));
+					realColumn.append("</column>").append(SystemUtil.LINE_SEPARATOR);
+					
+					
+					xgRealGird.append(realColumn);
 				}
 			}
 
-			xgDatatable.append("	");
+			xgDatatable.append(addTab(1));
 			xgDatatable.append("</format>");
 			xgDatatable.append(SystemUtil.LINE_SEPARATOR);
 			
-			if(isRealgrid) {
-				// 리얼그리드 데이터셋 생성 코드 라인
-				xgRealGird.append("	");
-				xgRealGird.append("</gridColumn>");
-				xgRealGird.append(SystemUtil.LINE_SEPARATOR);
-			}
+			//if(isRealgrid) {
+			// 리얼그리드 데이터셋 생성 코드 라인
+			xgRealGird.append(addTab(1));
+			xgRealGird.append("</realGrid>");
+			xgRealGird.append(SystemUtil.LINE_SEPARATOR);
+			//}
 			
 			xgFinal.append(xgDatatable);
 			xgFinal.append(xgRealGird);
@@ -548,8 +828,16 @@ public class CreateClientDataSetProcessor {
 	}
 	
 	
+	String addTab(int count) {
+		String out = "";
+		for(int i = 0; i < count; i++) {
+			out = out.concat("	");
+		}
+		return out;
+	}
+	
 	String replaceSpecialCharacter(String expr) {
-		return expr.replace("<", "&lt;").replace(">", "&gt;");
+		return expr.replace("<", "&#60;").replace(">", "&#62;");
 	}
 	
 	/**
@@ -616,6 +904,8 @@ public class CreateClientDataSetProcessor {
 		StringBuilder mergeViewColumn = new StringBuilder().append("<mergeViewColumn>").append(SystemUtil.LINE_SEPARATOR);
 		String comments = null;
 		String data = null;
+		
+		List<String> sqlList = regexUtil.findPatternToList(contents, ExecutePowerbuilderSrdSqlParser.PATTERN_STRING);
 		
 		
 		String currentKeyWord = null;
@@ -766,10 +1056,30 @@ public class CreateClientDataSetProcessor {
 		
 		StringBuilder mergeAsset = new StringBuilder().append("<mergeAsset comment=\"").append(comments).append("\">").append(SystemUtil.LINE_SEPARATOR);
 		
+		
+		StringBuilder extractSql = new StringBuilder(); 
+		if(sqlList != null) {
+			extractSql.append("<sqlAsset>").append(SystemUtil.LINE_SEPARATOR);
+			int sqlCnt = 1;
+			for(String sql : sqlList) {
+				sql = sql.trim();
+				sql = sql.replaceFirst("retrieve=\"", "");
+				sql = sql.substring(0, sql.length() - "\"".length());
+				sql = "/* sqlNo: ".concat(Integer.toString(sqlCnt)).concat(" */").concat(SystemUtil.LINE_SEPARATOR).concat(sql);
+				extractSql.append(replaceSpecialCharacter(sql)).append(SystemUtil.LINE_SEPARATOR);
+				sqlCnt++;
+			}
+			extractSql.append("</sqlAsset>").append(SystemUtil.LINE_SEPARATOR);
+		}
+		
+		
 		mergeAsset.append("<comment>").append(comments).append("</comment>").append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeTableColumn).append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeViewText).append(SystemUtil.LINE_SEPARATOR);
 		mergeAsset.append(mergeViewColumn).append(SystemUtil.LINE_SEPARATOR);
+		if(StringUtil.isNotEmpty(extractSql.toString())) {
+			mergeAsset.append(extractSql);	
+		}
 		mergeAsset.append("</mergeAsset>");
 		//logger.debug("[mergeAsset]\n{}", mergeAsset.toString());
 		
