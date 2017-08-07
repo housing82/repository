@@ -99,7 +99,7 @@ public class CreateClientDataSetProcessor {
 		CONVERT_DATATABLE_TYPE.put("clob","string");
 		CONVERT_DATATABLE_TYPE.put("date","date");
 		CONVERT_DATATABLE_TYPE.put("datetime","date");
-		CONVERT_DATATABLE_TYPE.put("ulong","bool");
+		CONVERT_DATATABLE_TYPE.put("ulong","decimal");
 		
 		/**
 		 * 리얼그리드의 데이터 타입 
@@ -119,7 +119,7 @@ public class CreateClientDataSetProcessor {
 		CONVERT_REALGRID_TYPE.put("clob","text");
 		CONVERT_REALGRID_TYPE.put("date","datetime");
 		CONVERT_REALGRID_TYPE.put("datetime","datetime");
-		CONVERT_REALGRID_TYPE.put("ulong","boolean");
+		CONVERT_REALGRID_TYPE.put("ulong","decimal"); // ulong(unsigned long): 부호 없는 32비트 데이터, uint(unsigned int): 부호가 없는 16비트 데이터 0~65536
 		
 		EXTRACT_ORDER = new ArrayList<String>();  
 		EXTRACT_ORDER.add(EXPORT_COMMENTS);
