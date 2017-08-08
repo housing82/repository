@@ -354,6 +354,10 @@ public class CreateClientDataSetProcessor {
 			String dtOrgFormat = null;
 			String dtColumn = null;
 			
+			String rgMask = null;
+			String rgRegExp = null;
+			String rgReplace = null;
+			
 			boolean isRealgrid = false;
 			String dataSetId = stringUtil.getCamelCaseString(srdFileName.substring(0, srdFileName.indexOf(".")));
 			
@@ -550,6 +554,9 @@ public class CreateClientDataSetProcessor {
 					
 					dtDesc = null;
 					dtFormat = null;
+					rgMask = null;
+					rgRegExp = null;
+					rgReplace = null;
 					
 					if(isFindViewColumn) {
 						//logger.debug("* Find tableColumn same name viewColumn: \n{}\n{}\n{}", tcAttribute, vcAttribute, vtAttribute);
@@ -697,6 +704,30 @@ public class CreateClientDataSetProcessor {
 							#### 년 ##월 ##일
 							####년##월##일
 							*/
+							dtFormat = dtFormat.replace("#### 년", "####년");
+							dtFormat = dtFormat.replace("####년##월##일", "####년##월##일");
+							
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
+									.replace(".", "-").replace("/", "-")
+									.replace("년", "-").replace("월", "-").replace("일", "-")
+									.replace("시", ":").replace("분", ":").replace("초", ":");
+
+							//####-##-## ##:##:##
+							rgRegExp = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})([ ])?([0-9]{2})([-])?([0-9]{2})([-])?([0-9]{2})";
+							rgReplace = "$1-$3-$5 $7:$9:$11";
+							
+							//####-##-##
+							rgRegExp = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})";
+							rgReplace = "$1-$3-$5";
+							
+							//####-##
+							rgRegExp = "([0-9]{4})([-])?([0-9]{2})";
+							rgReplace = "$1-$3";
+							
+							//####
+							rgRegExp = "([0-9]{4})";
+							rgReplace = "$1";
+							
 						}
 						else if(lowerName.contains("yyyymm")) {
 							/*
@@ -704,12 +735,43 @@ public class CreateClientDataSetProcessor {
 							####-##
 							####
 							*/
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
+									.replace(".", "-").replace("/", "-")
+									.replace("년", "-").replace("월", "-").replace("일", "-")
+									.replace("시", ":").replace("분", ":").replace("초", ":");
+
+							//####-##
+							rgRegExp = "([0-9]{4})([-])?([0-9]{2})";
+							rgReplace = "";
+							
+							//####
+							rgRegExp = "([0-9]{4})";
+							rgReplace = "";
+							
 							
 							
 						}
 						else if(lowerName.contains("yymmdd")) {
 							// 연월일
 							// ####-##-##
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
+									.replace(".", "-").replace("/", "-")
+									.replace("년", "-").replace("월", "-").replace("일", "-")
+									.replace("시", ":").replace("분", ":").replace("초", ":");
+							
+							
+							//####-##-##
+							rgRegExp = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})";
+							rgReplace = "";
+							
+							//####-##
+							rgRegExp = "([0-9]{4})([-])?([0-9]{2})";
+							rgReplace = "";
+							
+							//####
+							rgRegExp = "([0-9]{4})";
+							rgReplace = "";							
+							
 						}
 
 						else if(lowerName.contains("yymm")) {
@@ -720,25 +782,38 @@ public class CreateClientDataSetProcessor {
 							####.##.##
 							####년 ##월 말
 							*/
-							
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("ym")) {
 							/* 년월
 							####년 ##월
 							*/
-							
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("rate")) {
 							// 이율
 							// ### %
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("code")) {
 							// 코드 
 							// ###-##-#####
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("yyyy")) {
 							// yyyy
 							// ####년
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("rrn") 
 							|| lowerName.contains("legalno")
@@ -747,36 +822,46 @@ public class CreateClientDataSetProcessor {
 							/*
 							######-#######
 							*/
-							
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}	
 						else if(lowerName.contains("zipcode") || lowerName.contains("zip")) {
 							// 우편번호
 							// ###-###
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("vendorno")) {
 							// 사업자번호
 							// ###-##-#####
 							// # # # - # # - # # # # #
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0").replace(" ", "");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("calcmethod")) {
 							// 계산방법
 							// #,###
-						
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("cardno")) {
 							// 카드번호
 							// ####-####-####-####
-						
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
 						else if(lowerName.contains("day")) {
 							// 사용일 apprDay
 							// ####.##.###########
-						
+							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
+							rgRegExp = "";
+							rgReplace = "";
 						}
-						
-						
-						
-						
 					}
 					
 					dtColumn = "<column id=\""+stringUtil.getCamelCaseString(tcName)+"\" size=\""+dtSize+"\" type=\""+ xgType +"\""+ (StringUtil.isNotEmpty(dtFormat) ? " format=\""+dtFormat+"\"" : "") + (dtDesc != null ? " description=\""+dtDesc+"\"" : "") +" column=\""+tcName+"\"></column>"; 
@@ -908,7 +993,8 @@ public class CreateClientDataSetProcessor {
 					// editor
 					if(StringUtil.isNotEmpty(dtFormat)) {
 						realColumn.append(addTab(3));
-						realColumn.append("<editor>").append(SystemUtil.LINE_SEPARATOR);					
+						realColumn.append("<editor>").append(SystemUtil.LINE_SEPARATOR);	
+						//datetime
 						if(rgType.equals("datetime")) {
 							realColumn.append(addTab(4));
 							realColumn.append("<type>date</type>").append(SystemUtil.LINE_SEPARATOR);
@@ -961,7 +1047,12 @@ public class CreateClientDataSetProcessor {
 							else {
 								realColumn.append(addTab(4));
 								realColumn.append("<mask>");
-								realColumn.append(dtFormat);
+								if(rgMask != null) {
+									realColumn.append(rgMask);
+								}
+								else {
+									realColumn.append(dtFormat);	
+								}
 								realColumn.append("</mask>").append(SystemUtil.LINE_SEPARATOR);
 							}
 						}
@@ -984,6 +1075,21 @@ public class CreateClientDataSetProcessor {
 						realColumn.append("</editor>").append(SystemUtil.LINE_SEPARATOR);
 					}
 					
+					// displayRegExp
+					if(rgRegExp != null) {
+						realColumn.append(addTab(3));					
+						realColumn.append("<displayRegExp>").append(SystemUtil.LINE_SEPARATOR);
+						realColumn.append(rgRegExp);
+						realColumn.append("</displayRegExp>").append(SystemUtil.LINE_SEPARATOR);
+					}
+
+					// displayReplace
+					if(rgReplace != null) {
+						realColumn.append(addTab(3));					
+						realColumn.append("<displayReplace>").append(SystemUtil.LINE_SEPARATOR);
+						realColumn.append(rgReplace);					
+						realColumn.append("</displayReplace>").append(SystemUtil.LINE_SEPARATOR);
+					}
 					// footer
 					// "footer":{"styles":{"textAlignment":"far","numberFormat":"#,##0"},"expression":"sum","groupExpression":"sum"}}
 					if(colCount == 0) {
