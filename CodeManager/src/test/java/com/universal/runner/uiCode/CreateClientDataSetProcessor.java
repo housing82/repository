@@ -579,24 +579,27 @@ public class CreateClientDataSetProcessor {
 						if(dtFormat != null) {
 							// 컬럼이 포함된 포멧 정보변경
 							dtFormat = dtFormat.replace(tcName, stringUtil.getCamelCaseString(tcName));
-							
-							
-							
-							if(dtFormat.startsWith("~t") || dtFormat.startsWith("####-##~t") || dtFormat.startsWith("###############~t")) {
-								if(dtFormat.startsWith("~t")) {
-									dtFormat = dtFormat.substring("~t".length());
-								}
-								else if(dtFormat.startsWith("####-##~t")) {
-									dtFormat = dtFormat.substring("####-##~t".length());
-								}
-								else if(dtFormat.startsWith("###############~t")) {
-									dtFormat = dtFormat.substring("###############~t".length());
-								}
-								
-								dtFormat = "function() { ".concat(dtFormat).concat("; }");
-							}
-							
 							dtFormat = dtFormat.replace("@", "#");
+							
+							
+							
+							if(dtFormat.startsWith("~t") 
+								|| dtFormat.startsWith("####-##~t") 
+								|| dtFormat.startsWith("###-##-#####~t")
+								|| dtFormat.startsWith("###############~t") 
+								|| dtFormat.startsWith("#############~t")
+								|| dtFormat.startsWith("######-#######~t")
+								|| dtFormat.startsWith("####-##-## ##:##:##~t")
+								
+							) {
+						
+								String target = dtFormat.substring(0, dtFormat.indexOf("~t") + "~t".length());
+								
+								dtFormat = dtFormat.substring(target.length());
+								dtFormat = "function() { ".concat(dtFormat).concat("; }");
+								
+								//throw new ApplicationException("변환 확인 익셉션 dtFormat: {}", dtFormat);
+							}
 						}
 						
 						if(isFindViewText && vtText != null) {
@@ -676,15 +679,73 @@ public class CreateClientDataSetProcessor {
 						}
 					}
 					
+					dtColumn = "<column id=\""+stringUtil.getCamelCaseString(tcName)+"\" size=\""+dtSize+"\" type=\""+ xgType +"\""+ (StringUtil.isNotEmpty(dtFormat) ? " format=\""+dtFormat+"\"" : "") + (dtDesc != null ? " description=\""+dtDesc+"\"" : "") +" column=\""+tcName+"\"></column>"; 
+					//logger.debug(dtColumn);
+					
+					
+					/**************************************************************************
+					 * 
+					 * #리얼그리드 데이터 셋 시작
+					 * 
+					 **************************************************************************/
+
 					/*
 					srd column 타입이 문자인데 날짜 format이 들어간것
 
 					srd column 타입이 문자인데 format이 들어간것
 
-					srd column format 있는데 이상한게 쓰여진것
+					rd column format 있는데 이상한게 쓰여진것
 
 					srd column format 에 function이 들어간것
 					*/					
+					
+					String yyyyMMddhhmmssExpr = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})([ ])?([0-9]{2})([-])?([0-9]{2})([-])?([0-9]{2})";;
+					String yyyyMMddhhmmssReplace = "$1-$3-$5 $7:$9:$11";
+					String yyyyMMddhhmmssAsis = "####-##-## ##:##:##";
+					
+					String yyyyMMddExpr = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})";
+					String yyyyMMddReplace = "$1-$3-$5";
+					String yyyyMMddAsis = "####-##-##";
+					
+					String yyyyMMExpr = "([0-9]{4})([-])?([0-9]{2})";
+					String yyyyMMReplace = "$1-$3";
+					String yyyyMMAsis = "####-##";
+					
+					String yyyyExpr = "([0-9]{4})";
+					String yyyyReplace ="$1";
+					String yyyyAsis = "####";
+					
+					String percentExpr = "([0-9]{3})";
+					String percentReplace ="$1.#0";
+					String percentAsis = "###";
+
+					String defaultCodeExpr = "([0-9]{3})([-])?([0-9]{2})([-])?([0-9]{5})";
+					String defaultCodeReplace ="$1-$3-$5";
+					String defaultCodeAsis = "###-##-#####";
+					
+					String regNoExpr = "([0-9]{6})([-])?([0-9]{7})";
+					String regNoReplace ="$1-$3";
+					String regNoAsis = "######-#######";
+
+					String zipcodeExpr = "([0-9]{3})([-])?([0-9]{3})";
+					String zipcodeReplace ="$1-$3";
+					String zipcodeAsis = "###-###";
+					
+					String corpRegNoExpr = "([0-9]{3})([-])?([0-9]{2})([-])?([0-9]{5})";
+					String corpRegNoReplace ="$1-$3-$5";
+					String corpRegNoAsis = "###-##-#####";
+										
+					String calcMethodExpr = "([0-9]{1})([,])?([0-9]{3})";
+					String calcMethodReplace ="$1,$3";
+					String calcMethodAsis = "#,###";
+					
+					String cardNoExpr = "([0-9]{4})([-])?([0-9]{4})([-])?([0-9]{4})([-])?([0-9]{4})";
+					String cardNoReplace ="$1-$3-$5-$7";
+					String cardNoAsis = "####-####-####-####";
+					
+					String dayExpr = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})([ ])?([0-9]{2})([:])?([0-9]{2})([:])?([0-9]{2})([\\.])?([0-9]{3})";
+					String dayReplace ="$1-$3-$5 $7:$8:$11.$13";
+					String dayAsis = "####.##.###########";
 					
 					if(StringUtil.isNotEmpty(dtFormat) && !dtFormat.startsWith("function()")) {
 						
@@ -707,26 +768,30 @@ public class CreateClientDataSetProcessor {
 							dtFormat = dtFormat.replace("#### 년", "####년");
 							dtFormat = dtFormat.replace("####년##월##일", "####년##월##일");
 							
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
-									.replace(".", "-").replace("/", "-")
-									.replace("년", "-").replace("월", "-").replace("일", "-")
-									.replace("시", ":").replace("분", ":").replace("초", ":");
+							rgMask = convertStandardFormat( dtFormat );
 
 							//####-##-## ##:##:##
-							rgRegExp = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})([ ])?([0-9]{2})([-])?([0-9]{2})([-])?([0-9]{2})";
-							rgReplace = "$1-$3-$5 $7:$9:$11";
-							
+							if(dtFormat.equals(yyyyMMddhhmmssAsis)) {
+								rgRegExp = yyyyMMddhhmmssExpr;
+								rgReplace = yyyyMMddhhmmssReplace;
+							}
 							//####-##-##
-							rgRegExp = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})";
-							rgReplace = "$1-$3-$5";
+							if(dtFormat.equals(yyyyMMddAsis)) {
+								rgRegExp = yyyyMMddExpr;
+								rgReplace = yyyyMMddReplace;
+							}
 							
 							//####-##
-							rgRegExp = "([0-9]{4})([-])?([0-9]{2})";
-							rgReplace = "$1-$3";
+							if(dtFormat.equals(yyyyMMAsis)) {
+								rgRegExp = yyyyMMExpr;
+								rgReplace = yyyyMMReplace;
+							}
 							
 							//####
-							rgRegExp = "([0-9]{4})";
-							rgReplace = "$1";
+							if(dtFormat.equals(yyyyAsis)) {
+								rgRegExp = yyyyExpr;
+								rgReplace = yyyyReplace;
+							}
 							
 						}
 						else if(lowerName.contains("yyyymm")) {
@@ -735,43 +800,42 @@ public class CreateClientDataSetProcessor {
 							####-##
 							####
 							*/
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
-									.replace(".", "-").replace("/", "-")
-									.replace("년", "-").replace("월", "-").replace("일", "-")
-									.replace("시", ":").replace("분", ":").replace("초", ":");
+							rgMask = convertStandardFormat( dtFormat );
 
 							//####-##
-							rgRegExp = "([0-9]{4})([-])?([0-9]{2})";
-							rgReplace = "";
+							if(dtFormat.equals(yyyyMMAsis)) {
+								rgRegExp = yyyyMMExpr;
+								rgReplace = yyyyMMReplace;
+							}
 							
 							//####
-							rgRegExp = "([0-9]{4})";
-							rgReplace = "";
-							
-							
-							
+							if(dtFormat.equals(yyyyAsis)) {
+								rgRegExp = yyyyExpr;
+								rgReplace = yyyyReplace;
+							}
 						}
 						else if(lowerName.contains("yymmdd")) {
 							// 연월일
 							// ####-##-##
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
-									.replace(".", "-").replace("/", "-")
-									.replace("년", "-").replace("월", "-").replace("일", "-")
-									.replace("시", ":").replace("분", ":").replace("초", ":");
-							
+							rgMask = convertStandardFormat( dtFormat );
 							
 							//####-##-##
-							rgRegExp = "([0-9]{4})([-])?([0-9]{2})([-])?([0-9]{2})";
-							rgReplace = "";
+							if(dtFormat.equals(yyyyMMddAsis)) {
+								rgRegExp = yyyyMMddExpr;
+								rgReplace = yyyyMMddReplace;
+							}
 							
 							//####-##
-							rgRegExp = "([0-9]{4})([-])?([0-9]{2})";
-							rgReplace = "";
+							if(dtFormat.equals(yyyyMMAsis)) {
+								rgRegExp = yyyyMMExpr;
+								rgReplace = yyyyMMReplace;
+							}
 							
 							//####
-							rgRegExp = "([0-9]{4})";
-							rgReplace = "";							
-							
+							if(dtFormat.equals(yyyyAsis)) {
+								rgRegExp = yyyyExpr;
+								rgReplace = yyyyReplace;
+							}						
 						}
 
 						else if(lowerName.contains("yymm")) {
@@ -782,38 +846,82 @@ public class CreateClientDataSetProcessor {
 							####.##.##
 							####년 ##월 말
 							*/
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							if(dtFormat.equals("####년 ##월 말")) {
+								dtFormat = "####-##-말";
+							}
+							rgMask = convertStandardFormat( dtFormat );
+							
+							//####-##-##
+							if(dtFormat.equals(yyyyMMddAsis)) {
+								rgRegExp = yyyyMMddExpr;
+								rgReplace = yyyyMMddReplace;
+							}
+							
+							//####-##-말
+							if(dtFormat.equals("####-##-말")) {
+								rgRegExp = yyyyMMExpr;
+								rgReplace = yyyyMMReplace.concat("-말");
+							}
+							
+							//####-##
+							if(dtFormat.equals(yyyyMMAsis)) {
+								rgRegExp = yyyyMMExpr;
+								rgReplace = yyyyMMReplace;
+							}
+							
+							//####
+							if(dtFormat.equals(yyyyAsis)) {
+								rgRegExp = yyyyExpr;
+								rgReplace = yyyyReplace;
+							}	
 						}
 						else if(lowerName.contains("ym")) {
 							/* 년월
 							####년 ##월
 							*/
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							rgMask = convertStandardFormat( dtFormat ).replace(" ", "");
+							
+							//####-##
+							rgRegExp = yyyyMMExpr;
+							rgReplace = yyyyMMReplace;
 						}
 						else if(lowerName.contains("rate")) {
 							// 이율
 							// ### %
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = percentExpr;
+							rgReplace = percentReplace;
+							
+						}
+						else if(lowerName.contains("zipcode") || lowerName.contains("zip")) {
+							// 우편번호
+							// ###-###
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = zipcodeExpr;
+							rgReplace = zipcodeReplace;
 						}
 						else if(lowerName.contains("code")) {
 							// 코드 
 							// ###-##-#####
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = defaultCodeExpr;
+							rgReplace = defaultCodeReplace;
 						}
 						else if(lowerName.contains("yyyy")) {
 							// yyyy
 							// ####년
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							if(dtFormat.equals("####년")) {
+								dtFormat = "####";
+							}
+							
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = yyyyExpr;
+							rgReplace = yyyyReplace;
 						}
 						else if(lowerName.contains("rrn") 
 							|| lowerName.contains("legalno")
@@ -822,53 +930,54 @@ public class CreateClientDataSetProcessor {
 							/*
 							######-#######
 							*/
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = regNoExpr;
+							rgReplace = regNoReplace;
 						}	
-						else if(lowerName.contains("zipcode") || lowerName.contains("zip")) {
-							// 우편번호
-							// ###-###
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
-						}
+						
 						else if(lowerName.contains("vendorno")) {
 							// 사업자번호
 							// ###-##-#####
 							// # # # - # # - # # # # #
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0").replace(" ", "");
-							rgRegExp = "";
-							rgReplace = "";
+							
+							rgMask = convertStandardFormat( dtFormat ).replace(" ", "");
+							
+							rgRegExp = corpRegNoExpr;
+							rgReplace = corpRegNoReplace;
 						}
 						else if(lowerName.contains("calcmethod")) {
 							// 계산방법
 							// #,###
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = calcMethodExpr;
+							rgReplace = calcMethodReplace;
 						}
 						else if(lowerName.contains("cardno")) {
 							// 카드번호
 							// ####-####-####-####
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							rgMask = convertStandardFormat( dtFormat );
+							
+							rgRegExp = cardNoExpr;
+							rgReplace = cardNoReplace;
 						}
 						else if(lowerName.contains("day")) {
 							// 사용일 apprDay
 							// ####.##.###########
-							rgMask = dtFormat.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0");
-							rgRegExp = "";
-							rgReplace = "";
+							if(dtFormat.equals("####.##.###########")) {
+								dtFormat = "####-##-## ##:##:##.###";
+							}
+							
+							rgMask = convertStandardFormat( dtFormat );
+						
+							rgRegExp = dayExpr;
+							rgReplace = dayReplace;
 						}
 					}
 					
-					dtColumn = "<column id=\""+stringUtil.getCamelCaseString(tcName)+"\" size=\""+dtSize+"\" type=\""+ xgType +"\""+ (StringUtil.isNotEmpty(dtFormat) ? " format=\""+dtFormat+"\"" : "") + (dtDesc != null ? " description=\""+dtDesc+"\"" : "") +" column=\""+tcName+"\"></column>"; 
-					//logger.debug(dtColumn);
-					
 					// function 으로시작하는 포멧은 리얼그리드에는 반영하지 않는다. (제나에서 파싱기능이 개발되어 적용 가능여부 판단후 생성)
-					if(dtFormat.startsWith("function()")) {
+					if(dtFormat != null && dtFormat.startsWith("function()")) {
 						dtFormat = null;
 					}
 					
@@ -1078,7 +1187,7 @@ public class CreateClientDataSetProcessor {
 					// displayRegExp
 					if(rgRegExp != null) {
 						realColumn.append(addTab(3));					
-						realColumn.append("<displayRegExp>").append(SystemUtil.LINE_SEPARATOR);
+						realColumn.append("<displayRegExp>"); 
 						realColumn.append(rgRegExp);
 						realColumn.append("</displayRegExp>").append(SystemUtil.LINE_SEPARATOR);
 					}
@@ -1086,7 +1195,7 @@ public class CreateClientDataSetProcessor {
 					// displayReplace
 					if(rgReplace != null) {
 						realColumn.append(addTab(3));					
-						realColumn.append("<displayReplace>").append(SystemUtil.LINE_SEPARATOR);
+						realColumn.append("<displayReplace>");
 						realColumn.append(rgReplace);					
 						realColumn.append("</displayReplace>").append(SystemUtil.LINE_SEPARATOR);
 					}
@@ -1202,6 +1311,18 @@ public class CreateClientDataSetProcessor {
 		return out;
 	}
 	
+	String convertStandardFormat(String mask) {
+		
+		String out = mask.replace("#", "0").replace("y", "0").replace("m", "0").replace("d", "0")
+				.replace(".", "-").replace("/", "-")
+				.replace("년", "-").replace("월", "-").replace("일", "-")
+				.replace("시", ":").replace("분", ":").replace("초", ":");
+		
+		// html 특수문자 코드 복원
+		out = out.replaceAll("&0([0-9]{2});", "&#$1;");
+		
+		return out;
+	}
 	
 	String addTab(int count) {
 		String out = "";
