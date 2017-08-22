@@ -42,6 +42,7 @@ public class BxmDBIOGenerateUtil {
 	private String javaPackage; 
 	private String basePackage; 
 	private String subPackage;
+	private String masterSyscd;
 	
 	// Database Connection infomation
 	private Properties databaseConfig;
@@ -226,6 +227,11 @@ public class BxmDBIOGenerateUtil {
 		String javaFinal = null;
 		String xmlFinal = null;
 		
+		//20170821
+		String appOrgCode = null;
+		String appCode = null;
+		String tableBodyName = null;
+		
 		try {
 			conn = jdbcManager.getConnection(getDatabaseConfig());
 			logger.debug("conn: {}", conn);
@@ -240,9 +246,27 @@ public class BxmDBIOGenerateUtil {
 
 				currentTableName = table.getTableName();
 
+				// 20170821 수정 (타업무 테이블 DBIO생성시 타업무 대분류코드를 순번앞에 붙임
+				appOrgCode = "";
+				appCode = table.getTableName().substring(0, table.getTableName().indexOf(IOperateCode.STR_UNDERBAR));
+				if(appCode == null) {
+					throw new ApplicationException("테이블의 대분류 업무코드를 추출할수 없는 테이블 명명입니다. 테이블명: {}", table.getTableName());	
+				}
+				tableBodyName = table.getTableName().substring(table.getTableName().indexOf(IOperateCode.STR_UNDERBAR));
+				
+				if(!appCode.equalsIgnoreCase(getMasterSyscd())) {
+					appOrgCode = appCode.toUpperCase();
+					appCode = getMasterSyscd(); // 분양임대의 경우 MasterSyscd는 HD 
+				}
+				
 				// dbio 파일명 명명규칙: ‘D’ + 테이블명 + 일련번호(2자리) -> DAO동사 + 약어명 + “01” ~ “99”
-				fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString(currentTableName), 2));
+				//fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString(currentTableName), 2));
+				fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString( appCode.concat(tableBodyName)  ), 2).concat(appOrgCode));
+				
+				// 일련번호 연결
 				fileName = fileName.concat(generateHelper.getJavaSeq(fileName));
+				
+				logger.debug("#TableName(): -{}, appOrgCode: {}, appCode: {}, fileName: {}, tableBodyName: {}", table.getTableName(), appOrgCode, appCode, fileName, tableBodyName);
 				
 				// currentTableName테이블의 컬럼목록
 				columnList = getColumnList(conn, currentTableName, false);
@@ -269,7 +293,7 @@ public class BxmDBIOGenerateUtil {
 						.replace(rvDescription, dsDescription)
 						.replace(rvClassName, dsClassName);
 						
-				dsNamespace = getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).concat(".").concat(fileName);
+				dsNamespace = getJavaPackage(table.getTableName().split(IOperateCode.STR_UNDERBAR)).concat(".").concat(dsClassName);
 				
 				//마이바티스 인터페이스 메퍼XML 메인템플릿
 				xmlFinal = xmlTemplateDbio
@@ -1328,6 +1352,9 @@ public class BxmDBIOGenerateUtil {
 		for(int i = 0; i < levelPositions.size(); i++) {
 			item = levelPositions.get(i);
 			levelName = levelNames[i];
+			if(i == 0 && getMasterSyscd() != null && !levelName.toLowerCase().equals(getMasterSyscd().toLowerCase())) {
+				levelName = getMasterSyscd();
+			}
 			out = out.replace(item, levelName.toLowerCase());
 		}
 		return out;
@@ -1398,6 +1425,14 @@ public class BxmDBIOGenerateUtil {
 
 	public void setBasePackage(String basePackage) {
 		this.basePackage = basePackage;
+	}
+
+	public String getMasterSyscd() {
+		return masterSyscd;
+	}
+
+	public void setMasterSyscd(String masterSyscd) {
+		this.masterSyscd = masterSyscd;
 	}
 	
 }

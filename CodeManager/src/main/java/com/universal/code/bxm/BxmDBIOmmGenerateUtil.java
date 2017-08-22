@@ -34,6 +34,7 @@ public class BxmDBIOmmGenerateUtil {
 	private String javaPackage;
 	private String basePackage; 
 	private String subPackage;
+	private String masterSyscd;
 	
 	// Database Connection infomation
 	private Properties databaseConfig;
@@ -73,6 +74,11 @@ public class BxmDBIOmmGenerateUtil {
 		String fieldName = null;
 		String description = null;
 		
+		//20170821
+		String appOrgCode = null;
+		String appCode = null;
+		String tableBodyName = null;
+		
 		try {
 			conn = jdbcManager.getConnection(getDatabaseConfig());
 			logger.debug("conn: {}", conn);
@@ -95,15 +101,32 @@ public class BxmDBIOmmGenerateUtil {
 					Default 생성 DTO명(Table당 생성)
 					- Default DTO의 순번은 ‘00’으로 함
 				*/
-				fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString(table.getTableName()), 2));
+				
+				// 20170821 수정 (타업무 테이블 DBIO생성시 타업무 대분류코드를 순번앞에 붙임
+				appOrgCode = "";
+				appCode = table.getTableName().substring(0, table.getTableName().indexOf(IOperateCode.STR_UNDERBAR));
+				if(appCode == null) {
+					throw new ApplicationException("테이블의 대분류 업무코드를 추출할수 없는 테이블 명명입니다. 테이블명: {}", table.getTableName());	
+				}
+				tableBodyName = table.getTableName().substring(table.getTableName().indexOf(IOperateCode.STR_UNDERBAR));
+				
+				if(!appCode.equalsIgnoreCase(getMasterSyscd())) {
+					appOrgCode = appCode.toUpperCase();
+					appCode = getMasterSyscd(); // 분양임대의 경우 MasterSyscd는 HD 
+				}
+				
+				//fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString(table.getTableName()), 2));
+				fileName = getFileNamePrefix().concat(stringUtil.getCharUpperCase(stringUtil.getCamelCaseString( appCode.concat(tableBodyName)  ), 2).concat(appOrgCode));
+
+				// 일련번호와 IO 연결
 				fileName = fileName.concat(generateHelper.getJavaSeq(fileName.concat(getFileNamePostfix()))).concat(getFileNamePostfix());
+
+				logger.debug("#TableName(): -{}, appOrgCode: {}, appCode: {}, fileName: {}, tableBodyName: {}", table.getTableName(), appOrgCode, appCode, fileName, tableBodyName);
 				
 				description = StringUtil.NVL(table.getTableComments(), table.getTableName());
 				if(!description.equals(table.getTableName())) {
 					description = description.concat(" ( ").concat(table.getTableName()).concat(" )");
 				}
-				
-				
 				
 				strbd = new StringBuilder();
 				strbd.append("OMM ");
@@ -197,9 +220,6 @@ public class BxmDBIOmmGenerateUtil {
 	}
 	
 	
-	
-
-
 	private List<TableDTO> getTableList(Connection conn, String inTables) {
 		List<TableDTO> schemaList = new ArrayList<TableDTO>();
 		TableDTO dataDto = null;
@@ -328,7 +348,7 @@ public class BxmDBIOmmGenerateUtil {
 
 		List<String> levelPositions = regexUtil.findPatternToList(out, "\\{([a-zA-Z0-9_]+)\\}");
 
-		logger.debug("levelNames.length: {}, levelPositions.size(): {}", levelNames.length, levelPositions.size());
+		logger.debug("levelNames.length: {}, levelPositions.size(): {}, levelNames: {}", levelNames.length, levelPositions.size(), levelNames);
 		
 		if(levelNames.length < levelPositions.size()) {
 			throw new ApplicationException("패키지 래벨설정과 바인드된 레벨 파라메터 배열 개수가 일치하지 않습니다.");
@@ -339,6 +359,9 @@ public class BxmDBIOmmGenerateUtil {
 		for(int i = 0; i < levelPositions.size(); i++) {
 			item = levelPositions.get(i);
 			levelName = levelNames[i];
+			if(i == 0 && getMasterSyscd() != null && !levelName.toLowerCase().equals(getMasterSyscd().toLowerCase())) {
+				levelName = getMasterSyscd();
+			}
 			out = out.replace(item, levelName.toLowerCase());
 		}
 		return out;
@@ -425,6 +448,14 @@ public class BxmDBIOmmGenerateUtil {
 
 	public void setSubPackage(String subPackage) {
 		this.subPackage = subPackage;
+	}
+
+	public String getMasterSyscd() {
+		return masterSyscd;
+	}
+
+	public void setMasterSyscd(String masterSyscd) {
+		this.masterSyscd = masterSyscd;
 	}
 	
 	
