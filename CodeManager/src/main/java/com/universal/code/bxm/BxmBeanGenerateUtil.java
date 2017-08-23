@@ -1374,11 +1374,14 @@ public class BxmBeanGenerateUtil {
 			else {
 				String classPrefix = designRow.getCalleeNm().substring(0, 1);
 				
-//				logger.debug("#designRow.getCalleeNm(): {}", designRow.getCalleeNm());
+				logger.debug("#designRow.getCalleeNm(): {}", designRow.getCalleeNm());
 				String calleePath = generateHelper.findFilePath(getSourceRoot(), designRow.getCalleeNm(), "java");
 				logger.debug("#calleePath: {}", calleePath);
+				if(calleePath == null) {
+					throw new ApplicationException("피호출 클래스 자바파일이 존재하지 않습니다. 피호출타입 : {}", designRow.getCalleeNm());
+				}
 				calleePath = calleePath.substring(getSourceRoot().length() + File.separator.length());
-//				logger.debug("#calleePath: {}", calleePath);
+				logger.debug("#calleePath: {}", calleePath);
 				
 				String calleePackage = null;
 				if(calleePath.contains(File.separator)) {

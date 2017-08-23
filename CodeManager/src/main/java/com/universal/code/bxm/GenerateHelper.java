@@ -84,7 +84,6 @@ public class GenerateHelper {
 		SIGNATURE_OUT = "Out";
 		SIGNATURE_IO = "IO";	
 		
-		
 		JAVA_PREFIX = new HashMap<String, String>();
 		
 		JAVA_PREFIX.put("S", "sc");
@@ -400,7 +399,7 @@ public class GenerateHelper {
 			fileName = ommPath.substring(ommPath.lastIndexOf(IOperateCode.STR_SLASH) + IOperateCode.STR_SLASH.length());
 			ommPath = ommPath.substring(0, ommPath.length() - (fileName.length() + IOperateCode.STR_SLASH.length()));
 
-			logger.debug("ommPath: {}, fileName: {}", ommPath, fileName);
+			logger.debug("@ommPath: {}, fileName: {}", ommPath, fileName);
 			
 			StringBuilder strbd = new StringBuilder();
 			
@@ -455,7 +454,7 @@ public class GenerateHelper {
 					}
 				}
 				
-				if(StringUtil.isNotEmpty(ommField.getArrayReference())) {
+				if(StringUtil.isNotEmpty(ommField.getArrayReference()) && !strbd.toString().contains(" ".concat(ommField.getArrayReference()).concat("<"))) {
 					
 					strbd.append("	");
 					strbd.append(ommField.getArrayReferenceType());

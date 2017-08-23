@@ -37,6 +37,8 @@ public class GenerateRun {
 	
 	private static String BASE_PACKAGE;
 	
+	private static String MASTER_SYSCD;
+	
 	private static Map<String, List<Map<String, Object>>> ANALYZED_MAP;
 
 	public GenerateRun() {
@@ -45,6 +47,8 @@ public class GenerateRun {
 	
 	static {
 		EXCEL_VERSION_DATE_FORMAT = "yyyyMMddHHmmsss";
+		
+		MASTER_SYSCD = "hd";
 		
 		// 소스코드 생성대상 업무 DB접속정보
 		/*
@@ -75,7 +79,7 @@ public class GenerateRun {
 		
 		
 		// 소스 코드 생성 루트 경로
-		SOURCE_ROOT = "D:/__Developer/BXMWorkspace/HD-onl/src";
+		SOURCE_ROOT = "D:/Developer/BXMWorkspace/HD-onl/src";
 
 		// 프로그램 설계 엑셀 파일경로
 		//EXCEL_PATH = "N:/03.프로잭트/11.뱅크웨어/01.한국자산신탁/06.프로그램설계";
@@ -100,13 +104,13 @@ public class GenerateRun {
 	@Test
 	public void doGenerate() throws Exception{
 		
-		dbioOmmGenerate(); 
+		//dbioOmmGenerate(); 
 
 		//dbioGenerate();
 
 		//bxmBeanGenerate(); 
 		
-		//bxmServiceGenerate();
+		bxmServiceGenerate();
 		
 		//parseJavaMethodToExcel();
 		
@@ -136,7 +140,7 @@ public class GenerateRun {
 		
 		BxmDBIOmmGenerateUtil ommGen = new BxmDBIOmmGenerateUtil();
 		ommGen.setSourceRoot(SOURCE_ROOT);
-		ommGen.setMasterSyscd("hd");
+		ommGen.setMasterSyscd(MASTER_SYSCD);
 		ommGen.setBasePackage("kait.{L2}.{L3}.onl");
 		ommGen.setSubPackage("dao.dto");		
 		ommGen.setDatabaseConfig(props);
@@ -158,7 +162,7 @@ public class GenerateRun {
 		
 		BxmDBIOGenerateUtil dbioGen = new BxmDBIOGenerateUtil();
 		dbioGen.setSourceRoot(SOURCE_ROOT);
-		dbioGen.setMasterSyscd("hd");
+		dbioGen.setMasterSyscd(MASTER_SYSCD);
 		dbioGen.setBasePackage("kait.{L2}.{L3}.onl");
 		dbioGen.setSubPackage("dao");
 		dbioGen.setDatabaseConfig(props);
@@ -173,7 +177,7 @@ public class GenerateRun {
 	}
 
 	private void bxmBeanGenerate() {
-		logger.debug("[START] bxmBeanGenerate");
+		logger.debug("[START] bxmBeanGenerate : {}", EXCEL_PATH.concat("/").concat(READ_EXCEL_NAME));
 		
 		BxmBeanGenerateUtil beanGen = new BxmBeanGenerateUtil();
 		beanGen.setSourceRoot(SOURCE_ROOT);
@@ -190,7 +194,7 @@ public class GenerateRun {
 
 	
 	private void bxmServiceGenerate() {
-		logger.debug("[START] bxmServiceGenerate");
+		logger.debug("[START] bxmServiceGenerate : {}", EXCEL_PATH.concat("/").concat(READ_EXCEL_NAME));
 		
 		BxmServiceGenerateUtil serviceGen = new BxmServiceGenerateUtil();
 		serviceGen.setSourceRoot(SOURCE_ROOT);
@@ -222,6 +226,7 @@ public class GenerateRun {
 		HD_TABLE_IN_EXPR.append(",'HD_CODE_COMM'");
 		HD_TABLE_IN_EXPR.append(",'HD_CODE_COMPAMT'");
 		HD_TABLE_IN_EXPR.append(",'HD_CODE_CUSTOMER_TXTUP'");
+		HD_TABLE_IN_EXPR.append(",'HD_CODE_CUSTOMER'");
 		HD_TABLE_IN_EXPR.append(",'HD_CODE_DEPOSIT'");
 		HD_TABLE_IN_EXPR.append(",'HD_CODE_DEPT'");
 		HD_TABLE_IN_EXPR.append(",'HD_CODE_DEPTMEMO'");
@@ -341,6 +346,7 @@ public class GenerateRun {
 		HD_TABLE_IN_EXPR.append(",'SM_TRANS_CMS'");
 		HD_TABLE_IN_EXPR.append(",'SM_TRANS_GIRO'");
 		HD_TABLE_IN_EXPR.append(",'SM_TRANS_VIRTURE_DEPOSIT'");
+		HD_TABLE_IN_EXPR.append(",'SM_CODE_ZIP_DATAIMP'");
 		HD_TABLE_IN_EXPR.append(",'TM_CODE_ACNT'");
 		HD_TABLE_IN_EXPR.append(",'TM_CODE_BANK'");
 		HD_TABLE_IN_EXPR.append(",'TM_CODE_CUST_ACNT'");

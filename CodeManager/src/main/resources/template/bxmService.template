@@ -20,9 +20,9 @@ import bxm.kait.util.CommonHdrUtils;
  * <b>History :</b>
  * <pre>
  * 
- * 버전          성명                   일자              변경내용
- * -------       ----------------       -----------       -----------------
- * 0.1           CodeSkeleton       			#{rvDate}          신규작성
+ * 버전          성명                   일자              		변경내용
+ * -------       ----------------       -------------------		-----------------
+ * 0.1           CodeSkeleton       	#{rvDate} 	신규작성 
  * </pre>
  * 
  * @since #{rvDate}

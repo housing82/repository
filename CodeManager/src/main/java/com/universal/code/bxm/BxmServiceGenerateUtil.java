@@ -594,6 +594,7 @@ public class BxmServiceGenerateUtil {
 							logger.debug("☆BCStart calleeMethodName: {}", calleeMethodName);
 							logger.debug("☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆☆");
 							
+							/** 초기화 했던 bc 인지 채크 아니면 초기화 코드생성 */
 							if(calleeInitMap.get(calleeVarName) == null) {
 
 								/********************************************
@@ -891,7 +892,7 @@ public class BxmServiceGenerateUtil {
 														 * if(scMetdDesign.getScMetdPref().toLowerCase().equals(IOperateCode.METHOD_PREF_SAVE)) {
 														 * 
 														 */
-														//logger.debug("#InOmm Filed: {} / {} / {}", calleeInOmmField.getType(), calleeInOmmField.getName(), scInOmmDTO.getOmmType());
+														logger.debug("#InOmm Filed: {} / {} / {}", calleeInOmmField.getType(), calleeInOmmField.getName(), scInOmmDTO.getOmmType());
 														/************************************
 														 * 배열일 경우 List
 														 ************************************/
@@ -995,12 +996,12 @@ public class BxmServiceGenerateUtil {
 																inOmmPropertySetGetter.append(listParameterizedTypeName);
 																inOmmPropertySetGetter.append(");");
 																inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
-																
-																
+																																
 																// E. for 
 																inOmmPropertySetGetter.append("			");
 																inOmmPropertySetGetter.append("}");
 																inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
+																
 																// E. SC sub inOmm is null check
 																inOmmPropertySetGetter.append("		");
 																inOmmPropertySetGetter.append("}");
@@ -1037,6 +1038,8 @@ public class BxmServiceGenerateUtil {
 															
 															//SC In Sub OMM
 															String inScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
+															
+															//In OMM의 필드이자 변수명
 															String inScFieldVarName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inScFieldSimpleType)); // service method 내부 변수명
 														
 															inOmmPropertySetGetter.append("		");
@@ -1098,6 +1101,9 @@ public class BxmServiceGenerateUtil {
 															calleeInOmmField.setType(newScOmmSubType);
 															//new sc method input omm getter fieldName Change 
 															calleeInOmmField.setChangeName(inScFieldVarName);
+															
+															
+															
 															//input signature omm
 															scInOmmDTOList.add(scInSubOmmDTO);
 														}
@@ -1108,6 +1114,23 @@ public class BxmServiceGenerateUtil {
 															inOmmPropertySetGetter.append(generateHelper.getSetterString(lowerInTypeSimpleName, calleeInOmmField, inBcFieldVarName, ";"));
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);
 															inOmmPropertySetGetter.append(SystemUtil.LINE_SEPARATOR);															
+														}
+														
+														//테스트용
+														if(StringUtil.isNotEmpty(calleeInOmmField.getArrayReference()) && calleeInOmmField.getChangeName().endsWith(IOperateCode.CALLEE_VAR_POST_LIST)) {
+															
+															for(OmmFieldDTO ommFieldFilter : scInOmmDTO.getOmmFields()) {
+																if(ommFieldFilter.getName().equals(calleeInOmmField.getArrayReference())) {
+																	// 이전 배열 참조필드 삭제
+																	scInOmmDTO.getOmmFields().remove(ommFieldFilter);
+																	break;
+																}
+															}
+															// 배열 참조필드 갱신
+															// ArrayReference, ArrayReferenceType, ArrayReferenceLength 를 갱신한다.
+															calleeInOmmField.setArrayReference(calleeInOmmField.getChangeName().substring(0, calleeInOmmField.getChangeName().length() - IOperateCode.CALLEE_VAR_POST_LIST.length()).concat(IOperateCode.CALLEE_VAR_POST_COUNT));
+															calleeInOmmField.setArrayReferenceType("Integer");
+															calleeInOmmField.setArrayReferenceLength("9");
 														}
 														
 														scInOmmDTO.addOmmFields(calleeInOmmField);
