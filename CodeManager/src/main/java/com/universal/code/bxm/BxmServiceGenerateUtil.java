@@ -1126,7 +1126,7 @@ public class BxmServiceGenerateUtil {
 																	break;
 																}
 															}
-															// 배열 참조필드 갱신
+															// 배열 참조필드 갱신 20180823
 															// ArrayReference, ArrayReferenceType, ArrayReferenceLength 를 갱신한다.
 															calleeInOmmField.setArrayReference(calleeInOmmField.getChangeName().substring(0, calleeInOmmField.getChangeName().length() - IOperateCode.CALLEE_VAR_POST_LIST.length()).concat(IOperateCode.CALLEE_VAR_POST_COUNT));
 															calleeInOmmField.setArrayReferenceType("Integer");

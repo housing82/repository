@@ -454,7 +454,8 @@ public class GenerateHelper {
 					}
 				}
 				
-				if(StringUtil.isNotEmpty(ommField.getArrayReference()) && !strbd.toString().contains(" ".concat(ommField.getArrayReference()).concat("<"))) {
+				// 20170823
+				if(StringUtil.isNotEmpty(ommField.getArrayReference()) /*&& !strbd.toString().contains(" ".concat(ommField.getArrayReference()).concat("<"))*/ ) {
 					
 					strbd.append("	");
 					strbd.append(ommField.getArrayReferenceType());
