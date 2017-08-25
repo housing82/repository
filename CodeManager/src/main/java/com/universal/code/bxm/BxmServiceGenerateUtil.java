@@ -329,6 +329,7 @@ public class BxmServiceGenerateUtil {
 		
 		StringBuilder inOmmPropertySetGetter = null;
 		StringBuilder dsCellerOutputSetting = null;
+		StringBuilder dsCellerOutputRealSetting = null;
 		// bxmServiceSaveMethodTemplate
 		String dsInputVariableFirstUpper = null;
 		String dsMetdPref = null;
@@ -499,6 +500,7 @@ public class BxmServiceGenerateUtil {
 						dsInsertExecuteCode = new StringBuilder();
 						//caller method output field
 						dsCellerOutputSetting = new StringBuilder();
+						dsCellerOutputRealSetting = new StringBuilder();
 						
 						//output omm init SC 결과 초기화
 						dsCellerOutputSetting.append("		");
@@ -1515,6 +1517,13 @@ public class BxmServiceGenerateUtil {
 											outScFieldVarName = ommField.getName();
 										}
 										
+										dsCellerOutputRealSetting.append("		// Bc Out List Field > ");
+										dsCellerOutputRealSetting.append(" fieldName: ");
+										dsCellerOutputRealSetting.append(generateHelper.getListFieldName(outScFieldVarName));
+										dsCellerOutputRealSetting.append(", field parameterizedType: ");
+										dsCellerOutputRealSetting.append(outScFieldSimpleType);
+										dsCellerOutputRealSetting.append(SystemUtil.LINE_SEPARATOR);
+										
 										//여기부터 
 										scOutOmmField.setType(newScOmmSubType); 
 										scOutOmmField.setName(generateHelper.getListFieldName(outScFieldVarName)); 
@@ -1559,6 +1568,13 @@ public class BxmServiceGenerateUtil {
 										String outScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
 										String outScFieldVarName = IOperateCode.ELEMENT_OUT.concat(stringUtil.getFirstCharUpperCase(outScFieldSimpleType)); // service method 내부 변수명
 									
+										dsCellerOutputRealSetting.append("		// Bc Out Omm Field > ");
+										dsCellerOutputRealSetting.append(" fieldName: ");
+										dsCellerOutputRealSetting.append(outScFieldVarName);
+										dsCellerOutputRealSetting.append(", fieldType: ");
+										dsCellerOutputRealSetting.append(outScFieldSimpleType);
+										dsCellerOutputRealSetting.append(SystemUtil.LINE_SEPARATOR);
+										
 										logger.debug("#newScOmmSubType: {}", newScOmmSubType);
 										scOutOmmField = new OmmFieldDTO();
 										scOutOmmField.setType(newScOmmSubType); 
@@ -1588,8 +1604,13 @@ public class BxmServiceGenerateUtil {
 										
 										ommField = null;
 										
+										
+										
 									}
 								}
+								
+								
+								
 								
 								/**************************************
 								 * 
@@ -1600,7 +1621,14 @@ public class BxmServiceGenerateUtil {
 								//SC In Sub OMM
 								String outScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
 								String outScFieldVarName = IOperateCode.ELEMENT_OUT.concat(stringUtil.getFirstCharUpperCase(outScFieldSimpleType)); // service method 내부 변수명
-															
+												
+								dsCellerOutputRealSetting.append("		// NormarlField Omm > ");
+								dsCellerOutputRealSetting.append(" fieldName: ");
+								dsCellerOutputRealSetting.append(outScFieldVarName);
+								dsCellerOutputRealSetting.append(", fieldType: ");
+								dsCellerOutputRealSetting.append(outScFieldSimpleType);
+								dsCellerOutputRealSetting.append(SystemUtil.LINE_SEPARATOR);
+								
 								scOutOmmField = new OmmFieldDTO();
 								scOutOmmField.setType(newScOmmSubType); 
 								scOutOmmField.setName(outScFieldVarName);
@@ -1692,6 +1720,9 @@ public class BxmServiceGenerateUtil {
 						
 						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
 						dsCellerOutputSetting.append("*/");
+						dsCellerOutputSetting.append(SystemUtil.LINE_SEPARATOR);
+						//실제 Getter/Setter
+						dsCellerOutputSetting.append(dsCellerOutputRealSetting);
 						
 						// 생성할 메인 결과 OMM정보를 담는다.
 						//output signature omm ( sc method output )
