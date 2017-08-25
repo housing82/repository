@@ -610,6 +610,7 @@ public class GenerateHelper {
 	
 	public String getLowerInTypeSimpleName(Map<String, Integer> methodVarMap, String inputVarString, String calleeInTypeSimpleName) {
 		logger.debug("[IN-getLowerInTypeSimpleName] inputVarString: {}, calleeInTypeSimpleName: {}\n[methodVarMap]:\n{}", inputVarString, calleeInTypeSimpleName, methodVarMap);
+		logger.debug("[Start with IN] {}", inputVarString.startsWith(IOperateCode.ELEMENT_IN));
 		
 		String lowerInTypeSimpleName = null;
 		//중복 체크
@@ -620,7 +621,11 @@ public class GenerateHelper {
 			lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(calleeInTypeSimpleName));
 		}
 		else {
-			if(!inputVarString.startsWith(IOperateCode.ELEMENT_IN)) {
+			
+			if(inputVarString.startsWith(IOperateCode.METHOD_PREF_INSERT)) {
+				lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));
+			}
+			else if(!inputVarString.startsWith(IOperateCode.ELEMENT_IN)) {
 				lowerInTypeSimpleName = IOperateCode.ELEMENT_IN.concat(stringUtil.getFirstCharUpperCase(inputVarString));	
 			}
 			else {

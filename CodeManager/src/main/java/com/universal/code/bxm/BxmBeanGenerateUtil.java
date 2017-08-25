@@ -655,6 +655,8 @@ public class BxmBeanGenerateUtil {
 													saveInTypeSimpleName.add(lowerInTypeSimpleName);
 													
 													calleeOutVarCheck.put(IOperateCode.METHOD_PREF_DELETE, true);
+													
+													logger.debug("#list delete calleeMethodName : {}, inputVarString : {}", lowerInTypeSimpleName, inputVarString);
 												}
 												// dsUpdateExecuteCode
 												else if(calleeOutVarCheck.get(IOperateCode.METHOD_PREF_UPDATE) == null && calleeMethodName.startsWith(IOperateCode.METHOD_PREF_UPDATE)) {
@@ -676,6 +678,8 @@ public class BxmBeanGenerateUtil {
 													saveInTypeSimpleName.add(lowerInTypeSimpleName);
 													
 													calleeOutVarCheck.put(IOperateCode.METHOD_PREF_UPDATE, true);
+													
+													logger.debug("#list update calleeMethodName : {}, inputVarString : {}", lowerInTypeSimpleName, inputVarString);
 												}
 												// dsInsertExecuteCode
 												else if(calleeOutVarCheck.get(IOperateCode.METHOD_PREF_INSERT) == null && calleeMethodName.startsWith(IOperateCode.METHOD_PREF_INSERT)) {
@@ -697,18 +701,28 @@ public class BxmBeanGenerateUtil {
 													saveInTypeSimpleName.add(lowerInTypeSimpleName);
 													
 													calleeOutVarCheck.put(IOperateCode.METHOD_PREF_INSERT, true);
+													
+													logger.debug("#list insert calleeMethodName : {}, inputVarString : {}", lowerInTypeSimpleName, inputVarString);
 												}
 												// not in (delete, update, insert)
 												else {
+													
 													lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
+													
+													logger.debug("#not in (delete, update, insert) calleeMethodName : {}, lowerInTypeSimpleName : {}", calleeMethodName, lowerInTypeSimpleName);
 												}
 											}
 											else {
+												
 												lowerInTypeSimpleName = generateHelper.getLowerInTypeSimpleName(methodVarMap, inputVarString, calleeInTypeSimpleName);
+												
+												logger.debug("#is not save method (delete, update, insert) calleeMethodName : {}, lowerInTypeSimpleName : {}", calleeMethodName, lowerInTypeSimpleName);
 											}
 											
 											
-											logger.debug("#saveCudCalleeCount: {}\nType: {}\nVar: {}", dsMethodName, calleeOutTypeCheck, calleeOutVarCheck);
+											logger.debug(
+													"#saveCudCalleeCount: {}\nlowerInTypeSimpleName: {}\nbcMetdDesign.getBcMetdPref(): {}, Type: {}\nVar: {}",
+													dsMethodName, lowerInTypeSimpleName, bcMetdDesign.getBcMetdPref(), calleeOutTypeCheck, calleeOutVarCheck);
 											
 											
 											//method inner variable name  

@@ -685,8 +685,10 @@ public class BxmServiceGenerateUtil {
 											else if(inputTypeString.contains(List.class.getCanonicalName()) || inputTypeString.startsWith(List.class.getSimpleName())) {
 												logger.debug("## inputType List");
 												
-												/** 입력 파라메터가 List 타입일경우 import대상 코드로 추가한다. */
+												/** 입력 파라메터가 List 타입일경우 import대상 코드로 추가한다. ArrayList포함 */
 												dsImportsSet.add(List.class.getCanonicalName()); 
+												dsImportsSet.add(ArrayList.class.getCanonicalName()); 
+												
 												/** List의 ParameterizedType이 존재하는지 체크한다. */
 												String listParamType = generateHelper.getTypeStringParameterizedType(inputTypeString);
 												if(StringUtil.isNotEmpty(listParamType)) {
@@ -911,6 +913,10 @@ public class BxmServiceGenerateUtil {
 																//add import target sub omm type
 																dsImportsSet.add(newScOmmSubType); // sc input sub omm type 
 																dsImportsSet.add(calleeInOmmField.getType()); // bc input sub omm type
+																
+																/** BC 입력 파라메터가 List 타입일경우 import대상 코드로 추가한다. ArrayList포함 */
+																dsImportsSet.add(List.class.getCanonicalName()); 
+																dsImportsSet.add(ArrayList.class.getCanonicalName()); 
 																
 																//SC In Sub OMM
 																String inScFieldSimpleType = generateHelper.getTypeSimpleName(newScOmmSubType); //newScOmmSubType: sc field omm 타입명
@@ -1817,7 +1823,7 @@ public class BxmServiceGenerateUtil {
 					for(String imports : dsImportsSet) {
 						dsImports.append("import ").append(imports).append(";").append(SystemUtil.LINE_SEPARATOR);
 						
-						if(!imports.contains(GenerateHelper.STR_PACKAGE_DOT_DTO)) {
+						if(!imports.contains(GenerateHelper.STR_PACKAGE_DOT_DTO) && !imports.contains("java.util.")) {
 							varTypeName = imports.substring(imports.lastIndexOf(IOperateCode.STR_DOT) + IOperateCode.STR_DOT.length());
 							dsVariables.append("	private ").append(varTypeName).append(" ").append(stringUtil.getFirstCharLowerCase(varTypeName)).append(";").append(SystemUtil.LINE_SEPARATOR);
 						}
